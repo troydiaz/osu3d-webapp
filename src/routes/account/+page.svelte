@@ -1,6 +1,6 @@
 <script lang="ts">
     import { enhance } from '$app/forms';
-	import type { PageData, ActionData } from "./$types";
+	import type { PageData, ActionData } from "./$types.js";
 
 
 
