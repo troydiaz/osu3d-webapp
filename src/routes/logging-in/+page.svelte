@@ -2,7 +2,7 @@
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
-    import type { PageData } from './$types';
+    import type { PageData } from './$types.js';
 
     export let data: PageData;
     $: {
@@ -10,7 +10,7 @@
 
         // check if user has been set in session store, then redirect
         if (browser && data.session) {
-            goto(redirectTo ?? '/account');
+            goto(redirectTo ?? '/dashboard');
         }
     }
 </script>
