@@ -26,7 +26,7 @@
 </script>
 
 <svelte:head>
-    <title>User management</title>
+    <title>Login</title>
 </svelte:head>
 
 <div class="flex flex-col justify-center my-auth h-full place-items-center">
