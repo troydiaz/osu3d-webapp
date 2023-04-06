@@ -9,6 +9,38 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      fault_log: {
+        Row: {
+          created_at: string
+          created_by_id: string
+          description: string
+          id: string
+          machine_id: string
+          resolved: boolean
+          resolved_at: string | null
+          resolved_by_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by_id: string
+          description?: string
+          id?: string
+          machine_id: string
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by_id?: string
+          description?: string
+          id?: string
+          machine_id?: string
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by_id?: string | null
+        }
+      }
       machine_defs: {
         Row: {
           created_at: string | null
@@ -54,25 +86,37 @@ export interface Database {
       }
       print_log: {
         Row: {
+          cancelled: boolean
+          cancelled_at: string | null
+          cancelled_by_id: string | null
           created_at: string
+          created_by_id: string
           done_at: string
+          filament: number
           id: string
           machine_id: string
-          owner_id: string
         }
         Insert: {
+          cancelled?: boolean
+          cancelled_at?: string | null
+          cancelled_by_id?: string | null
           created_at?: string
+          created_by_id: string
           done_at: string
+          filament?: number
           id?: string
           machine_id: string
-          owner_id: string
         }
         Update: {
+          cancelled?: boolean
+          cancelled_at?: string | null
+          cancelled_by_id?: string | null
           created_at?: string
+          created_by_id?: string
           done_at?: string
+          filament?: number
           id?: string
           machine_id?: string
-          owner_id?: string
         }
       }
       profiles: {
@@ -99,6 +143,20 @@ export interface Database {
           updated_at?: string | null
           username?: string | null
           website?: string | null
+        }
+      }
+      user_levels: {
+        Row: {
+          level: number
+          user_id: string
+        }
+        Insert: {
+          level?: number
+          user_id: string
+        }
+        Update: {
+          level?: number
+          user_id?: string
         }
       }
     }
