@@ -1,6 +1,4 @@
 <script lang="ts">
-	import type { Database } from "$lib/types/supabase.js";
-	import { onMount } from "svelte";
 	import type { LayoutData } from "../$types.js";
 
 
@@ -12,12 +10,10 @@
         const machines = await data.supabase.from('machines').select('*');
         loadedMachines = machines.data ?? [];
 
-        console.log(loadedMachines);
     }
 
     $: if (data.session) {
         loadMachines();
-        console.log(data);
     }
 
     let currentTab = 1;

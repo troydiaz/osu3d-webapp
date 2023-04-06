@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
-import type { Actions, PageServerLoad } from './$types.js';
+import type { Actions, PageServerLoad } from './$types';
 
-export const load = (async ({ locals: { supabase, getSession } }) => {
+export const load: PageServerLoad = (async ({ locals: { supabase, getSession } }) => {
 	const session = await getSession();
 
 	if (!session) {
@@ -28,12 +28,12 @@ export const actions = {
 		const session = await getSession();
 
 		const { error } = await supabase.from('profiles').upsert({
-			id: session?.user.id,
+			id: session!.user.id,
 			full_name: fullName,
 			username,
 			website,
 			avatar_url: avatarUrl,
-			updated_at: new Date()
+			updated_at: new Date().toISOString()
 		});
 
 		if (error) {

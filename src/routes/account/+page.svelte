@@ -11,10 +11,10 @@
 
     let profileForm: any;
     let loading = false;
-    let fullName: string | null = profile?.full_name;
-    let username: string | null = profile?.username;
-    let website: string | null = profile?.website;
-    let avatarUrl: string | null = profile?.avatar_url;
+    let fullName: string | null = profile?.full_name || null;
+    let username: string | null = profile?.username || null;
+    let website: string | null = profile?.website || null;
+    let avatarUrl: string | null = profile?.avatar_url || null;
 
     function handleSubmit() {
         loading = true;

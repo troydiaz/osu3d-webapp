@@ -2,6 +2,7 @@
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
+	import { onMount } from 'svelte';
     import type { PageData } from './$types.js';
 
     export let data: PageData;
@@ -12,7 +13,7 @@
         if (browser && data.session) {
             goto(redirectTo ?? '/dashboard');
         }
-    }
+    };
 </script>
 
 <section>

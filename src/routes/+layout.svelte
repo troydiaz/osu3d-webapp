@@ -3,7 +3,7 @@
     import { invalidate } from "$app/navigation";
     import { onMount } from "svelte";
     import type { LayoutData } from "./$types.js";
-	import { ChartBar, Cog6Tooth, Cube, RocketLaunch, Users, Wrench } from "svelte-heros-v2";
+	import { ArrowLeftOnRectangle, ChartBar, Cog6Tooth, Cube, RocketLaunch, Users, Wrench } from "svelte-heros-v2";
 
     export let data: LayoutData;
 
@@ -48,6 +48,7 @@
                 <!-- <div class="divider"></div> -->
                 <li><a href="/dashboard" class="flex-row justify-between"><span><RocketLaunch class="inline mr-2" />Dashboard</span><span class="badge">new</span></a></li>
                 <li><a href="/dashboard" class="flex-row justify-between"><span><Cog6Tooth class="inline mr-2" />My Account</span></a></li>
+                <li><a href="/logging-out" class="flex-row justify-between"><span><ArrowLeftOnRectangle class="inline mr-2" />Signout</span></a></li>
                 <div class="divider"></div>
                 <li class="menu-title"><span>Administrative</span></li>
                 <li><a href="/machines"><span><Wrench class="inline mr-2" />Machine Manager</span></a></li>
