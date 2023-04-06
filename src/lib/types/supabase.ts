@@ -33,23 +33,46 @@ export interface Database {
         Row: {
           created_at: string | null
           id: string
-          machine_def: string
+          machine_defs_id: string
           nickname: string
           tier: number
         }
         Insert: {
           created_at?: string | null
           id?: string
-          machine_def: string
+          machine_defs_id: string
           nickname?: string
           tier?: number
         }
         Update: {
           created_at?: string | null
           id?: string
-          machine_def?: string
+          machine_defs_id?: string
           nickname?: string
           tier?: number
+        }
+      }
+      print_log: {
+        Row: {
+          created_at: string
+          done_at: string
+          id: string
+          machine_id: string
+          owner_id: string
+        }
+        Insert: {
+          created_at?: string
+          done_at: string
+          id?: string
+          machine_id: string
+          owner_id: string
+        }
+        Update: {
+          created_at?: string
+          done_at?: string
+          id?: string
+          machine_id?: string
+          owner_id?: string
         }
       }
       profiles: {
