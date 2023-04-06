@@ -2,26 +2,24 @@
     import "../app.css";
     import { invalidate } from "$app/navigation";
     import { onMount } from "svelte";
-    import type { LayoutData } from "./$types.js";
-	import { ArrowLeftOnRectangle, ChartBar, Cog6Tooth, Cube, RocketLaunch, Users, Wrench } from "svelte-heros-v2";
+    import type { LayoutData } from "./$types";
+	import { ArrowLeftOnRectangle, Cog6Tooth, RocketLaunch, Users, Wrench } from "svelte-heros-v2";
 
     export let data: LayoutData;
 
-    $: ({ supabase } = data);
+    $: ({ supabase, userLevel } = data);
+
 
     onMount(() => {
         const { data } = supabase.auth.onAuthStateChange(() => {
             invalidate('supabase:auth')
         });
 
+        console.log(userLevel);
+
         return () => data.subscription.unsubscribe();
     });
 </script>
-
-<svelte:head>
-    <title>User management</title>
-</svelte:head>
-
 
 <main>
     {#if data.session}
@@ -30,14 +28,14 @@
         <div class="drawer-content flex flex-col items-start justify-start">
             <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
             <!-- Page content here -->
-            <div class="ml-16 mt-16">
+            <div class="p-16">
                 <slot />
             </div>
         </div> 
         <div class="drawer-side">
             <label for="my-drawer-2" class="drawer-overlay"></label>
             <ul class="menu px-4 w-80 bg-base-100 text-base-content">
-                <div class="max-w-full my-8 p-4 mx-auto aspect-square bg-base-300 shadow-md rounded-full">
+                <div class="max-w-full my-8 p-4 mx-auto aspect-square bg-emerald-300 shadow-md rounded-full">
                     <img src="osu3d.svg" class="w-24 m-auto">
                 </div>
                 <!-- Sidebar content here -->
@@ -49,10 +47,12 @@
                 <li><a href="/dashboard" class="flex-row justify-between"><span><RocketLaunch class="inline mr-2" />Dashboard</span><span class="badge">new</span></a></li>
                 <li><a href="/dashboard" class="flex-row justify-between"><span><Cog6Tooth class="inline mr-2" />My Account</span></a></li>
                 <li><a href="/logging-out" class="flex-row justify-between"><span><ArrowLeftOnRectangle class="inline mr-2" />Signout</span></a></li>
+                {#if userLevel?.level === -1}
                 <div class="divider"></div>
                 <li class="menu-title"><span>Administrative</span></li>
                 <li><a href="/machines"><span><Wrench class="inline mr-2" />Machine Manager</span></a></li>
-                <li><a href="/users" class="flex-row justify-between"><span><Users class="inline mr-2" />User Manager</span><span class="badge">37</span></a></li>
+                <li><a href="/users" class="flex-row justify-between"><span><Users class="inline mr-2" />User Manager</span><span class="badge">3</span></a></li>
+                {/if}
             </ul>
         </div>
     </div>
