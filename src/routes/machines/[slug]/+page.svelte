@@ -5,12 +5,12 @@
 	import { getMachineStatus, machineStatusToText } from '$lib/types/database';
 	import { getAverageJobDuration, getSuccessRate, getTotalHours } from '$lib/helpers';
 	import { ArrowLeft, ChevronDoubleRight, ChevronRight, Wrench } from 'svelte-heros-v2';
-	import { addAlert, alerts } from '$lib/stores/alerts';
+	import { AlertType, addAlert, alerts } from '$lib/stores/alerts';
 
     export let data: PageServerData;
     export let form: ActionData;
 
-    $: if (form && !form.success) addAlert('There was an issue updating the database...');
+    $: if (form) form.success ? addAlert(AlertType.INFO, 'Successfully commited all changes!') : addAlert(AlertType.ERROR, 'Error commiting changes to the database...');
 
     const { session, machine, slug } = data;
 </script>

@@ -16,6 +16,10 @@ export type Machine = Database['public']['Tables']['machines']['Row'] & {
     prints: Print[]
 }
 
+export type User = Database['public']['Tables']['profiles']['Row'] & {
+    perms: Database['public']['Tables']['user_levels']['Row']
+}
+
 export type UserLevel = Database['public']['Tables']['user_levels']['Row'];
 
 export enum MachineStatus {

@@ -10,9 +10,7 @@
 	import type { Machine } from "$lib/types/database";
 	import PrintHistoryModal from "$lib/components/modals/PrintHistoryModal.svelte";
 	import { ArrowLeft, ExclamationCircle, Wrench } from "svelte-heros-v2";
-	import { goto } from "$app/navigation";
 	import MachineTable from "$lib/components/tables/MachineTable.svelte";
-
 
     const [floatingRef, floatingContent] = createFloatingActions({
         strategy: 'absolute',
@@ -91,7 +89,7 @@
             </div>
             
         </div>
-        <img src="/safety-man.png" class="absolute right-0 top-0 blur-sm">
+        <img src="/safety-man.png" class="absolute right-0 -top-8 blur-sm">
     </div>
     <div class="divider"></div>
     {#if machines}

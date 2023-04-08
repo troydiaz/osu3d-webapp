@@ -1,13 +1,18 @@
 import { writable } from "svelte/store";
 
-export const alerts = writable<{id: string, message: string}[]>([]);
+export enum AlertType {
+    INFO,
+    ERROR
+}
+
+export const alerts = writable<{ id: string, message: string, type: AlertType }[]>([]);
 
 
-export const addAlert = (message: string) => {
+export const addAlert = (type: AlertType, message: string) => {
     const id = Date.now().toString();
     alerts.update(oldAlerts => {
         setTimeout(() => deleteAlertId(id), 3000);
-        return oldAlerts.concat({id, message });
+        return oldAlerts.concat({ id, message, type });
     });
 }
 

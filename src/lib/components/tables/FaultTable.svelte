@@ -41,8 +41,8 @@
         </thead>
         <tbody>
             {#each faults.slice(lowerIndex, upperIndex) as fault, i}
-                <tr class:cursor-pointer={!fault.resolved} class:text-error={!fault.resolved} class:table-row-selected={fault.checked} on:click={() => fault.resolved ? null : fault.checked = !fault.checked}>
-                    <td><input type="checkbox" class="checkbox checkbox-success disabled:bg-opacity-25" bind:checked={fault.checked} disabled={fault.resolved} /></td>
+                <tr class:cursor-pointer={!fault.resolved} class:table-row-selected={fault.checked} on:click={() => fault.resolved ? null : fault.checked = !fault.checked}>
+                    <td><input type="checkbox" class="checkbox checkbox-accent disabled:bg-opacity-25" bind:checked={fault.checked} disabled={fault.resolved} /></td>
                     <td>{getDateAndTime(fault.created_at)}</td>
                     <td>{fault.created_by.full_name}</td>
                     <td>
@@ -50,7 +50,7 @@
                             <span class="w-32 max-w-32 truncate inline-block text-start">{fault.description}</span>
                         </div>
                     </td>
-                    <td><code class="bg-base-200 p-1 rounded-lg">{fault.resolved}</code></td>
+                    <td><code class="bg-base-200 p-1 rounded-lg" class:bg-red-400={!fault.resolved}>{fault.resolved}</code></td>
                     <td>{fault.resolved_by?.full_name || '-'}</td>
                     <td>{getDateAndTime(fault.resolved_at)}</td>
                 </tr>

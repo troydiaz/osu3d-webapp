@@ -122,40 +122,58 @@ export interface Database {
       profiles: {
         Row: {
           avatar_url: string | null
+          created_at: string
+          email: string | null
           full_name: string | null
           id: string
-          updated_at: string | null
+          updated_at: string
           username: string | null
           website: string | null
         }
         Insert: {
           avatar_url?: string | null
+          created_at?: string
+          email?: string | null
           full_name?: string | null
           id: string
-          updated_at?: string | null
+          updated_at?: string
           username?: string | null
           website?: string | null
         }
         Update: {
           avatar_url?: string | null
+          created_at?: string
+          email?: string | null
           full_name?: string | null
           id?: string
-          updated_at?: string | null
+          updated_at?: string
           username?: string | null
           website?: string | null
         }
       }
       user_levels: {
         Row: {
+          created_at: string | null
+          email: string | null
+          full_name: string | null
           level: number
+          updated_at: string | null
           user_id: string
         }
         Insert: {
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
           level?: number
+          updated_at?: string | null
           user_id: string
         }
         Update: {
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
           level?: number
+          updated_at?: string | null
           user_id?: string
         }
       }

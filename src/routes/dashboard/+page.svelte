@@ -21,18 +21,6 @@
     let selectedTier2Machine: Machine | null = null;
     let selectedTier2Time: number = 0;
 
-    function selectTier1Machine(machine: Machine) {
-        selectedTier1Machine = machine;
-        selectedTier1Time = getActivePrintJobTimeRemaining(machine);
-    }
-
-    function selectTier2Machine(machine: Machine) {
-        selectedTier2Machine = machine;
-        selectedTier2Time = getActivePrintJobTimeRemaining(machine);
-    }
-
-    
-
     onMount(() => {
         tier1Machines.push(...machines?.filter(m => m.tier === 1) ?? []);
 
@@ -45,8 +33,6 @@
         if (tier2Machines.length > 0)
         selectedTier2Machine = tier2Machines[0];
         selectedTier2Time = getActivePrintJobTimeRemaining(selectedTier2Machine!);
-
-        console.log(session);
     });
 </script>
 
@@ -64,7 +50,7 @@
             </div>
             
         </div>
-        <img src="/safety-man.png" class="absolute right-0 top-0 blur-sm">
+        <img src="/safety-man.png" class="absolute right-0 -top-8 blur-sm">
     </div>
     <div class="divider"></div>
     <PrintLogTier machines={machines.filter(m => m.tier === 1)} tier={1} userLevel={userLevel} />

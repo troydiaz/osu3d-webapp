@@ -16,7 +16,7 @@
     <div class="flex flex-row justify-start items-center">
         <div class="prose"><h2>Tier {tier} Machines</h2></div>
         <div class="divider divider-horizontal"></div>
-        <div class="grow">{machines.length} Entries</div>
+        <div class="grow">{machines.length} Entries Total</div>
         <Paginate totalRows={machines.length} bind:lowerIndex bind:upperIndex />
     </div>
     
