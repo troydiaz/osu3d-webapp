@@ -50,7 +50,7 @@
             </div>
             
         </div>
-        <img src="/safety-man.png" class="absolute right-0 -top-8 blur-sm">
+        <img src="/safety-man.png" class="absolute right-0 -top-8 blur">
     </div>
     <div class="divider"></div>
     <PrintLogTier machines={machines.filter(m => m.tier === 1)} tier={1} userLevel={userLevel} />

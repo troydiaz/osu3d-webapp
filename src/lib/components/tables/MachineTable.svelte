@@ -26,7 +26,7 @@
                 <th>Status</th>
                 <th>Nickname</th>
                 <th>Type</th>
-                <th>Lastest Job</th>
+                <th>Latest Job</th>
             </tr>
         </thead>
         <tbody>

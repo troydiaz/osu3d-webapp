@@ -52,7 +52,7 @@ export function machineStatusToText(status: MachineStatus) {
         case MachineStatus.IDLE:
             return 'Idle';
         case MachineStatus.FAULT:
-            return 'Fault';
+            return 'Down';
         case MachineStatus.PRINTING:
             return 'Printing';
         case MachineStatus.UNKNOWN:

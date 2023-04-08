@@ -39,9 +39,9 @@
 </script>
 
 <div class="flex flex-row justify-start items-center">
-    <div class="prose"><h2>Tier {tier}</h2></div>
-    <div class="divider divider-horizontal"></div>
-    <span>{machines.filter(m => getMachineStatus(m) === MachineStatus.IDLE).length} ready of {machines.length} total</span>
+    <div class="prose"><h1>Tier {tier}</h1></div>
+    <!-- <div class="divider divider-horizontal"></div>
+    <span>{machines.filter(m => getMachineStatus(m) === MachineStatus.IDLE).length} ready of {machines.length} total</span> -->
 </div>
 <div>
     <div class="tabs border-none justify-between">
@@ -59,11 +59,11 @@
             <div class="flex flex-col justify-start space-y-2 z-10">
                 <span class="text-5xl font-bold">{selectedMachine.nickname}</span>
                 <span class="text-2xl grow">{selectedMachine.machine_def.make} {selectedMachine.machine_def.model}</span>
-                {#if userLevel.level === -1}
-                <button class="btn btn-ghost self-start"><Wrench size={'32px'} variation={'solid'} /></button>
-                {/if}
             </div>
-            <img src="{selectedMachine.machine_def.model}.png" class="w-1/2 absolute blur opacity-50 right-1/4">
+            {#if userLevel.level === -1}
+                <button class="btn btn-ghost justify-start items-center grow"><Wrench size={'32px'} variation={'solid'} /></button>
+            {/if}
+            <img src="{selectedMachine.machine_def.model}.png" class="w-1/2 absolute blur opacity-50 left-16">
             <div class="flex flex-col justify-start space-y-4 z-10 p-4 h-72 rounded-lg bg-base-100 bg-opacity-75 backdrop-blur">
                 <div class="stats shadow h-24 bg-base-200 bg-opacity-50 backdrop-blur">
                     <div class="stat" class:bg-error-content={getMachineStatus(selectedMachine) === MachineStatus.FAULT}>
