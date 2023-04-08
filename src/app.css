@@ -15,4 +15,16 @@ html, body {
         @apply rounded-lg !important;
         @apply px-2 !important;
     }
+
+    .table-row-error td {
+        @apply bg-red-300 !important;
+    }
+
+    .table-row-error:hover td {
+        @apply bg-red-500 !important;
+    }
+}
+
+svg:focus {
+    @apply outline-none !important;
 }

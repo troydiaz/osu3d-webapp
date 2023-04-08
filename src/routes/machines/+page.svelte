@@ -7,8 +7,11 @@
 	import { writable } from "svelte/store";
 	import FaultHistoryModal from "$lib/components/modals/FaultHistoryModal.svelte";
 	import { onMount } from "svelte";
-	import { machineStatusToText, type Machine, getMachineStatus } from "$lib/types/database";
+	import type { Machine } from "$lib/types/database";
 	import PrintHistoryModal from "$lib/components/modals/PrintHistoryModal.svelte";
+	import { ArrowLeft, ExclamationCircle, Wrench } from "svelte-heros-v2";
+	import { goto } from "$app/navigation";
+	import MachineTable from "$lib/components/tables/MachineTable.svelte";
 
 
     const [floatingRef, floatingContent] = createFloatingActions({
@@ -77,59 +80,38 @@
     <title>Machine Manager</title>
 </svelte:head>
 
-<div class="flex flex-col space-y-4 min-w-full">
-    <div class="flex-row flex justify-start">
-        <div class="prose">
-            <h1 class="inline">Machines</h1>
+<div class="flex flex-col space-y-8 lg:my-12 w-full">
+    <a href="/dashboard" class="uppercase text-xl w-fit"><ArrowLeft class="inline" /><span class="ml-4 align-middle">Dashboard</span></a>
+
+    <div class="relative overflow-hidden flex flex-row justify-between bg-base-100 rounded-lg p-12 shadow-lg">
+        <div class="flex flex-col justify-between items-start space-y-12">
+            <div class="flex flex-col space-y-2">
+                <span class="text-5xl font-bold">Machine Manager</span>
+                <span class="text-2xl italic">Go fix some stuff, or just look</span>
+            </div>
+            
         </div>
-        <div class="divider divider-horizontal"></div>
-        <button class="btn btn-primary" tabindex="-1">
-            New Machine
-            <!-- <Plus tabindex="-1" class="focus:outline-none" /> -->
-        </button>
+        <img src="/safety-man.png" class="absolute right-0 top-0 blur-sm">
     </div>
-    
-    <table class="table w-full">
-        <thead>
-            <tr>
-                <th>Machine ID</th>
-                <th>Type <span class="badge badge-info">F. Key</span></th>
-                <th>Tier</th>
-                <th>Nickname</th>
-                <th>Status</th>
-                <!-- <th>Actions</th> -->
-            </tr>
-        </thead>
-        <tbody>
-            {#each machines || [] as machine}
-            <tr class="hover cursor-pointer" on:click={(event) => machineRowClicked(event, machine)}>
-                <td><code class="bg-base-200 rounded px-1">{machine.id}</code></td>
-                <td>{machine.machine_def.make} {machine.machine_def.model}</td>
-                <td>{machine.tier}</td>
-                <td>{machine.nickname}</td>
-                <td>
-                    {machineStatusToText(getMachineStatus(machine))}
-                </td>
-                <!-- <td>
-                    <button class="btn btn-square btn-ghost focus:outline-none">
-                        <Bars3></Bars3>
-                    </button>
-                </td> -->
-            </tr>
-            {/each}
-        </tbody>
-    </table>
+    <div class="divider"></div>
+    {#if machines}
+    <MachineTable machines={machines.filter(m => m.tier === 1)} tier={1} />
+    <div class="divider"></div>
+    <MachineTable machines={machines.filter(m => m.tier === 2)} tier={2} />
+    {/if}
 </div>
+
 
 {#if contextVisible && contextMachine}
 <div use:floatingContent on:mouseleave={mouseLeaveContext} style="z-index: 99;" id="rightclickmenu">
     <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
     <ul class="menu shadow-lg bg-white rounded-box w-36">
         <li class="menu-title py-2 select-none"><span>{contextMachine.nickname}</span></li>
-        <li><a on:click={() => printHistoryModal.launchModal(contextMachine)}>Print History</a></li>
-        <li><a on:click={() => faultHistoryModal.launchModal(contextMachine)}>Fault History</a></li>
-        <li><a on:click={() => console.log('lel')}>Edit</a></li>
-        <li><a class="link-error" on:click={toggleDeleteModal}>Delete</a></li>
+        <li><a href="/machines/{contextMachine.id}">Open</a></li>
+        <!-- <li><a on:click={() => printHistoryModal.launchModal(contextMachine)}>Print History</a></li>
+        <li><a on:click={() => faultHistoryModal.launchModal(contextMachine)}>Fault History</a></li> -->
+        <!-- <li><a on:click={() => console.log('lel')}>Edit</a></li> -->
+        <!-- <li><a class="link-error" on:click={toggleDeleteModal}>Delete</a></li> -->
     </ul>
 </div>
 {/if}

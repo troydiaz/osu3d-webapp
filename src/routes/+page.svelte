@@ -2,7 +2,6 @@
     import { Auth } from '@supabase/auth-ui-svelte';
 	import type { Appearance } from '@supabase/auth-ui-svelte/dist/types';
     import type { PageData } from './$types';
-	import { onMount } from 'svelte';
 
     export let data: PageData;
 
@@ -25,10 +24,6 @@
             container: 'background-size: 5px 5px;'
         }
     } as Appearance
-
-    onMount(() => {
-        console.log(`${data.url}/logging-in?redirect=/dashboard`);
-    })
 </script>
 
 <svelte:head>

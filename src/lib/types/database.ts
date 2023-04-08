@@ -16,6 +16,8 @@ export type Machine = Database['public']['Tables']['machines']['Row'] & {
     prints: Print[]
 }
 
+export type UserLevel = Database['public']['Tables']['user_levels']['Row'];
+
 export enum MachineStatus {
     UNKNOWN,
     IDLE,
@@ -44,11 +46,11 @@ export function getMachineStatus(machine: Machine) {
 export function machineStatusToText(status: MachineStatus) {
     switch (status) {
         case MachineStatus.IDLE:
-            return 'idle';
+            return 'Idle';
         case MachineStatus.FAULT:
-            return 'fault';
+            return 'Fault';
         case MachineStatus.PRINTING:
-            return 'printing';
+            return 'Printing';
         case MachineStatus.UNKNOWN:
         default:
             return 'Unknown';
