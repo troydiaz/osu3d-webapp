@@ -27,7 +27,13 @@ export const load = (async ({ locals: { supabase, getSession } }) => {
         `)
         .returns<Machine[]>();
 
-	return { session, machines };
+    const { data: userLevel } = await supabase
+        .from('user_levels')
+        .select('*')
+        .eq('user_id', session?.user.id)
+        .single();
+
+	return { session, machines, userLevel };
 }) satisfies PageServerLoad;
 
 export const actions = {

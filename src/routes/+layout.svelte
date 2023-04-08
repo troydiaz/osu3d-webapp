@@ -44,14 +44,14 @@
 
                 <!-- <article class="prose mx-auto"><h1>osu 3d</h1></article> -->
                 <!-- <div class="divider"></div> -->
-                <li><a href="/dashboard" class="flex-row justify-between"><span><RocketLaunch class="inline mr-2" />Dashboard</span><span class="badge">new</span></a></li>
-                <li><a href="/dashboard" class="flex-row justify-between"><span><Cog6Tooth class="inline mr-2" />My Account</span></a></li>
+                <li><a href="/dashboard" class="flex-row justify-between"><span><RocketLaunch class="inline mr-2" />Dashboard</span></a></li>
+                <!-- <li><a href="/dashboard" class="flex-row justify-between"><span><Cog6Tooth class="inline mr-2" />My Account</span></a></li> -->
                 <li><a href="/logging-out" class="flex-row justify-between"><span><ArrowLeftOnRectangle class="inline mr-2" />Signout</span></a></li>
                 {#if userLevel?.level === -1}
                 <div class="divider"></div>
                 <li class="menu-title"><span>Administrative</span></li>
                 <li><a href="/machines"><span><Wrench class="inline mr-2" />Machine Manager</span></a></li>
-                <li><a class="flex-row justify-between opacity-25"><span><Users class="inline mr-2" />User Manager</span><span class="badge">3</span></a></li>
+                <!-- <li><a class="flex-row justify-between"><span><Users class="inline mr-2" />User Manager</span><span class="badge">3</span></a></li> -->
                 {/if}
             </ul>
         </div>

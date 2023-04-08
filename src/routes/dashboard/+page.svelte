@@ -10,7 +10,7 @@
 	import CancelPrintModal from "$lib/components/modals/CancelPrintModal.svelte";
 
     export let data: PageData;
-    const { session, machines } = data;
+    const { session, machines, userLevel } = data;
 
     let tier1Machines: Machine[] = [];
     let selectedTier1Machine: Machine | null = null;
@@ -41,6 +41,12 @@
         selectedTier2Time = getActivePrintJobTimeRemaining(machine);
     }
 
+    function isTierCertified(tier: number) {
+        if (!userLevel) return false;
+        if (userLevel.level === -1) return true;
+        return userLevel.level >= tier;
+    }
+
     onMount(() => {
         tier1Machines.push(...machines?.filter(m => m.tier === 1) ?? []);
 
@@ -59,7 +65,7 @@
 </script>
 
 <svelte:head>
-    <title>osu3d - dashboard</title>
+    <title>osu3d-webapp | dashboard</title>
 </svelte:head>
 
 {#if machines && selectedTier1Machine && selectedTier2Machine}
@@ -79,15 +85,15 @@
             {/each}
         </div>
         <div class="rounded-b-lg border border-base-300 border-t-0 bg-base-100 shadow">
-            <div class="flex flex-row justify-between items-center p-4">
+            <div class="flex flex-row justify-between p-4 pr-8">
                 <div class="w-64">
                     <img src="{selectedTier1Machine.machine_def.model}.png" class="h-64">
                 </div>
                 <div class="flex flex-1 flex-col space-y-4">
-                    <div class="stats shadow h-24">
+                    <div class="stats shadow h-24 mt-4">
                         <div class="stat bg-base-200" class:bg-error-content={getMachineStatus(selectedTier1Machine) === MachineStatus.FAULT}>
-                            <div class="stat-figure"><Bolt /></div>
-                            <div class="stat-title">Status</div>
+                            <!-- <div class="stat-figure"><Bolt /></div> -->
+                            <div class="stat-title w-24">Status</div>
                             <div class="stat-value font-mono text-2xl">{machineStatusToText(getMachineStatus(selectedTier1Machine))}</div>
                         </div>
                         <div class="stat bg-base-200" class:bg-error-content={getMachineStatus(selectedTier1Machine) === MachineStatus.FAULT}>
@@ -106,6 +112,7 @@
                             {/if}
                         </div>
                     </div>
+                    {#if isTierCertified(1)}
                     <div class="flex flex-row space-x-4">
                         <button 
                             class="btn btn-accent flex-1" 
@@ -125,10 +132,15 @@
                     <button 
                             class="btn btn-accent" 
                             on:click={() => newPrintModal.launchModal(selectedTier1Machine)} 
-                            disabled={getMachineStatus(selectedTier1Machine) === MachineStatus.PRINTING || getMachineStatus(selectedTier1Machine) === MachineStatus.FAULT}
+                            disabled={getMachineStatus(selectedTier1Machine) === MachineStatus.PRINTING || getMachineStatus(selectedTier1Machine) === MachineStatus.FAULT || !isTierCertified(1)}
                         >
                             Log Print
                     </button>
+                    {:else}
+                    <div class="flex flex-1">
+                        <p class="mx-auto italic uppercase">Tier 1 certification required</p>
+                    </div>
+                    {/if}
                 </div>
             </div>
         </div>
@@ -149,16 +161,18 @@
             {/each}
         </div>
         <div class="rounded-b-lg border border-base-300 border-t-0 bg-base-100 shadow">
-            <div class="flex flex-row justify-between items-center p-4">
+            <div class="flex flex-row justify-between p-4 pr-8">
                 <div class="w-64">
                     <img src="{selectedTier2Machine.machine_def.model}.png" class="h-64">
                 </div>
                 <div class="flex flex-1 flex-col space-y-4">
-                    <div class="stats shadow h-24">
+                    <div class="stats shadow mt-4">
                         <div class="stat bg-base-200" class:bg-error-content={getMachineStatus(selectedTier2Machine) === MachineStatus.FAULT}>
-                            <div class="stat-figure"><Bolt /></div>
-                            <div class="stat-title">Status</div>
-                            <div class="stat-value font-mono text-2xl">{machineStatusToText(getMachineStatus(selectedTier2Machine))}</div>
+                            <!-- <div class="stat-figure"><Bolt /></div> -->
+                            <div class="stat-title w-24">Status</div>
+                            <div class="stat-value">
+                                <span class="font-mono text-2xl">{machineStatusToText(getMachineStatus(selectedTier2Machine))}</span>
+                            </div>
                         </div>
                         <div class="stat bg-base-200" class:bg-error-content={getMachineStatus(selectedTier2Machine) === MachineStatus.FAULT}>
                             {#if getMachineStatus(selectedTier2Machine) === MachineStatus.PRINTING}
@@ -172,10 +186,13 @@
                             </div>
                             {:else}
                             <div class="stat-title">Previous Job Finished</div>
-                            <div class="stat-value font-mono text-2xl">{getLatestCompletePrintJob(selectedTier2Machine)}</div>
+                            <div class="stat-value">
+                                <span class="font-mono text-2xl">{getLatestCompletePrintJob(selectedTier2Machine)}</span>
+                            </div>
                             {/if}
                         </div>
                     </div>
+                    {#if isTierCertified(2)}
                     <div class="flex flex-row space-x-4">
                         <button 
                             class="btn btn-accent flex-1" 
@@ -198,7 +215,12 @@
                             disabled={getMachineStatus(selectedTier2Machine) === MachineStatus.PRINTING || getMachineStatus(selectedTier2Machine) === MachineStatus.FAULT}
                         >
                             Log Print
-                    </button>
+                    </button>  
+                    {:else}
+                    <div class="flex flex-1">
+                        <p class="mx-auto italic uppercase">Tier 2 certification required</p>
+                    </div>
+                    {/if}
                 </div>
             </div>
         </div>

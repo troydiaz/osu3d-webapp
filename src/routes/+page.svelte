@@ -32,7 +32,7 @@
 </script>
 
 <svelte:head>
-    <title>osu3d</title>
+    <title>osu3d-webapp</title>
 </svelte:head>
 
 

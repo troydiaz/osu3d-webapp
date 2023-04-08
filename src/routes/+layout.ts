@@ -24,7 +24,8 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
     const { data: userLevel } = await supabase
         .from('user_levels')
         .select('*')
-        .eq('user_id', session?.user.id);
+        .eq('user_id', session?.user.id)
+        .single();
 
-    return { supabase, session, userLevel: userLevel ? userLevel[0] : null };
+    return { supabase, session, userLevel: userLevel };
 };
