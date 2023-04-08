@@ -51,7 +51,7 @@
                 <div class="divider"></div>
                 <li class="menu-title"><span>Administrative</span></li>
                 <li><a href="/machines"><span><Wrench class="inline mr-2" />Machine Manager</span></a></li>
-                <li><a href="/users" class="flex-row justify-between"><span><Users class="inline mr-2" />User Manager</span><span class="badge">3</span></a></li>
+                <li><a class="flex-row justify-between opacity-25"><span><Users class="inline mr-2" />User Manager</span><span class="badge">3</span></a></li>
                 {/if}
             </ul>
         </div>

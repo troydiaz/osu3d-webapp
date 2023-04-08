@@ -59,7 +59,7 @@
 </script>
 
 <svelte:head>
-    <title>Dashboard</title>
+    <title>osu3d - dashboard</title>
 </svelte:head>
 
 {#if machines && selectedTier1Machine && selectedTier2Machine}
@@ -109,25 +109,25 @@
                     <div class="flex flex-row space-x-4">
                         <button 
                             class="btn btn-accent flex-1" 
-                            on:click={() => newPrintModal.launchModal(selectedTier1Machine)} 
-                            disabled={getMachineStatus(selectedTier1Machine) === MachineStatus.PRINTING || getMachineStatus(selectedTier1Machine) === MachineStatus.FAULT}
-                        >
-                            Log Print
-                        </button>
-                        <button 
-                            class="btn btn-accent flex-1" 
                             on:click={() => cancelPrintModal.launchModal(selectedTier1Machine)} 
                             disabled={getMachineStatus(selectedTier1Machine) !== MachineStatus.PRINTING || getMachineStatus(selectedTier1Machine) === MachineStatus.FAULT}
                         >
                             Cancel Print
                         </button>
+                        <button
+                            class="btn btn-error flex-1" 
+                            on:click={() => newIssueModal.launchModal(selectedTier1Machine)}
+                            disabled={getMachineStatus(selectedTier1Machine) === MachineStatus.FAULT}
+                        >
+                            Report Issue
+                        </button>
                     </div>
-                    <button
-                        class="btn btn-error" 
-                        on:click={() => newIssueModal.launchModal(selectedTier1Machine)}
-                        disabled={getMachineStatus(selectedTier1Machine) === MachineStatus.FAULT}
-                    >
-                        Report Issue
+                    <button 
+                            class="btn btn-accent" 
+                            on:click={() => newPrintModal.launchModal(selectedTier1Machine)} 
+                            disabled={getMachineStatus(selectedTier1Machine) === MachineStatus.PRINTING || getMachineStatus(selectedTier1Machine) === MachineStatus.FAULT}
+                        >
+                            Log Print
                     </button>
                 </div>
             </div>
@@ -177,10 +177,28 @@
                         </div>
                     </div>
                     <div class="flex flex-row space-x-4">
-                        <button class="btn btn-accent flex-1" on:click={() => newPrintModal.launchModal(selectedTier2Machine)} disabled={getMachineStatus(selectedTier2Machine) === MachineStatus.PRINTING}>Log Print</button>
-                        <button class="btn btn-accent flex-1" on:click={() => cancelPrintModal.launchModal(selectedTier2Machine)} disabled={getMachineStatus(selectedTier2Machine) !== MachineStatus.PRINTING}>Cancel Print</button>
+                        <button 
+                            class="btn btn-accent flex-1" 
+                            on:click={() => cancelPrintModal.launchModal(selectedTier2Machine)} 
+                            disabled={getMachineStatus(selectedTier2Machine) !== MachineStatus.PRINTING || getMachineStatus(selectedTier2Machine) === MachineStatus.FAULT}
+                        >
+                            Cancel Print
+                        </button>
+                        <button
+                            class="btn btn-error flex-1" 
+                            on:click={() => newIssueModal.launchModal(selectedTier2Machine)}
+                            disabled={getMachineStatus(selectedTier2Machine) === MachineStatus.FAULT}
+                        >
+                            Report Issue
+                        </button>
                     </div>
-                    <button class="btn btn-error"  on:click={() => newIssueModal.launchModal(selectedTier2Machine)}>Report Issue</button>
+                    <button 
+                            class="btn btn-accent" 
+                            on:click={() => newPrintModal.launchModal(selectedTier2Machine)} 
+                            disabled={getMachineStatus(selectedTier2Machine) === MachineStatus.PRINTING || getMachineStatus(selectedTier2Machine) === MachineStatus.FAULT}
+                        >
+                            Log Print
+                    </button>
                 </div>
             </div>
         </div>

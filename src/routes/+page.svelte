@@ -6,13 +6,19 @@
 
     export let data: PageData;
 
+    // @ts-ignore
+    const appName = __NAME__;
+
+    // @ts-ignore
+    const appVersion = __VERSION__;
+
     const customTheme = {
         extend: false,
         className: {
-            button: 'btn btn-primary rounded my-button',
+            button: 'btn btn-secondary auth-button',
             input: 'input',
             label: 'label',
-            container: 'p-4 bg-cover bg-top border-base-300 bg-base-300 rounded-box my-auth-container',
+            container: 'p-4 bg-cover bg-top border-base-300 bg-base-100 rounded-box',
             divider: 'py-4'
         },
         style: {
@@ -26,23 +32,23 @@
 </script>
 
 <svelte:head>
-    <title>Login</title>
+    <title>osu3d</title>
 </svelte:head>
 
-<div class="flex flex-col justify-center my-auth h-full place-items-center">
-        <Auth
-            providers={['google']}
-            supabaseClient={data.supabase}
-            redirectTo={`${data.url}/logging-in?redirect=/dashboard`}
-            showLinks={false}
-            theme="minimal"
-            appearance={customTheme}
-        />
-</div>
 
-<style>
-    .my-auth > .my-button {
-        /* background-image: radial-gradient(hsla(var(--bc)/.2) .5px,hsla(var(--b2)/1) .5px) */
-        border-radius: 10px !important;
-    }
-</style>
+<div class="flex flex-col items-center space-y-4">
+    <img src="osu3d.svg" class="w-64 h-64 my-8">
+    <Auth
+        providers={['google']}
+        supabaseClient={data.supabase}
+        redirectTo={`${data.url}/logging-in?redirect=/dashboard`}
+        showLinks={false}
+        theme="minimal"
+        appearance={customTheme}
+        onlyThirdPartyProviders={true}
+    />
+
+    <div class="text-sm">
+        {appName} {appVersion}
+    </div>
+</div>
