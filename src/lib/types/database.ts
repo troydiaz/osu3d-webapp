@@ -71,7 +71,7 @@ export function getLatestCompletePrintJob(machine: Machine) {
         else if (elapsedHours < 1)
             timeSince = '< 1 hr ago';
         else
-            timeSince = elapsedHours + ' hrs ago';
+            timeSince = elapsedHours.toFixed(1) + ' hrs ago';
     }
 
     return timeSince;
