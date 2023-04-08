@@ -6,6 +6,7 @@
     import type { PageData } from './$types.js';
 
     export let data: PageData;
+
     $: {
         const redirectTo = $page.url.searchParams.get('redirect');
 
@@ -16,8 +17,6 @@
     };
 </script>
 
-<section>
-	"Because as we know, there are known knowns; there are things we know we know. We also know there
-	are known unknowns; that is to say we know there are some things we do not know. But there are
-	also unknown unknowns—the ones we don't know we don't know" - Donald Rumsfeld
-</section>
+<div class="flex flex-col items-center space-y-4">
+    <img src="osu3d.svg" class="w-64 h-64 my-8">
+</div>
