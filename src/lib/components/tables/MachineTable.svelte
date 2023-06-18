@@ -20,7 +20,7 @@
         <Paginate totalRows={machines.length} bind:lowerIndex bind:upperIndex />
     </div>
     
-    <table class="table table-compact shadow-lg">
+    <table class="table shadow-lg bg-neutral overflow-hidden">
         <thead>
             <tr>
                 <th>Status</th>
@@ -31,7 +31,7 @@
         </thead>
         <tbody>
             {#each machines || [] as machine}
-            <tr class="hover cursor-pointer" on:click={() => goto(`/machines/${machine.id}`)} class:table-row-error={getMachineStatus(machine) === MachineStatus.FAULT}>
+            <tr class="hover cursor-pointer {getMachineStatus(machine) === MachineStatus.FAULT ? ' text-error' : ''}" on:click={() => goto(`/machines/${machine.id}`)} >
                 <td>
                     {#if getMachineStatus(machine) === MachineStatus.FAULT}
                     <ExclamationCircle />

@@ -32,7 +32,7 @@
         <div class="grow"></div>
         
     </div>
-    <table class="table table-compact min-w-full shadow-lg">
+    <table class="table table-compact min-w-full shadow-lg bg-neutral overflow-hidden">
         <thead>
             <tr>
                 <th>Full Name</th>
@@ -72,14 +72,14 @@
         <div>{userLevels.length} Entries Total</div> 
         <div class="divider divider-horizontal"></div>
         <div class="grow relative">
-            <input class="input input-sm input-bor w-full" type="text" placeholder="Filter by name or email..." bind:value={filterText} />
+            <input class="input input-sm input-bor w-full bg-neutral" type="text" placeholder="Filter by name or email..." bind:value={filterText} />
             <button class="btn btn-sm btn-ghost hover:bg-transparent absolute right-0 opacity-50" on:click={() => filterText = ''}>Clear</button>
         </div>
         <div class="divider divider-horizontal"></div>
         <Paginate totalRows={filteredUsers.length} bind:lowerIndex bind:upperIndex />
     </div>
     {#if lowerIndex !== undefined && upperIndex !== undefined}
-    <table class="table table-compact min-w-full shadow-lg">
+    <table class="table table-compact min-w-full shadow-lg bg-neutral overflow-hidden">
         <thead>
             <tr>
                 <th></th>
@@ -92,14 +92,14 @@
         </thead>
         <tbody>
             {#each filteredUsers.slice(lowerIndex, upperIndex) as user, index}
-            <tr class:table-row-selected={user.checked}>
-                <td><input type="checkbox" class="checkbox checkbox-accent disabled:bg-opacity-25" bind:checked={user.checked} disabled={user.level === -1} /></td>
+            <tr class="transition {user.checked ? 'bg-success text-success-content' : 'bg-neutral text-neutral-content'}">
+                <td><input type="checkbox" class="checkbox bg-base-100 align-middle disabled:bg-opacity-25" bind:checked={user.checked} disabled={user.level === -1} /></td>
                 <td>{user.full_name}</td>
                 <td>{user.email}</td>
                 <td>{getDateAndTime(user.created_at)}</td>
                 <td>{getDateAndTime(user.updated_at)}</td>
                 <td>
-                    <select bind:value={user.level} class="select select-sm select-bordered bg-white" disabled={user.level === -1}>
+                    <select bind:value={user.level} class="select select-sm text-neutral-content" disabled={user.level === -1}>
                         <option value={0}>No Permissions (0)</option>
                         <option value={1}>Tier 1 Certified (1)</option>
                         <option value={2}>Tier 2 Certified (2)</option>
@@ -127,10 +127,10 @@
         <div class="divider divider-horizontal"></div>
         <form id="change-perms-form" method="POST" action="?/changePermsMulti"></form>
         <input type="hidden" form="change-perms-form" name="permArray" value={JSON.stringify(selectedUsers.map(u => { return { id: u.user_id, newPermLevel: u.level } }))} />
-        <button class="btn btn-sm btn-error" form="change-perms-form" type="submit" disabled={selectedUsers.length === 0}>{resolveButtonText}</button>
+        <button class="btn btn-sm btn-success" form="change-perms-form" type="submit" disabled={selectedUsers.length === 0}>{resolveButtonText}</button>
         <div class="grow"></div>
     </div>
-    <table class="table table-compact min-w-full shadow-lg">
+    <table class="table table-compact min-w-full shadow-lg bg-neutral overflow-hidden">
         <thead>
             <tr>
                 <th>Full Name</th>
@@ -146,7 +146,7 @@
                 <td>{user.full_name}</td>
                 <td>{user.email}</td>
                 <td>
-                    <select value={user.previousLevel} class="select select-sm select-bordered bg-white" disabled>
+                    <select value={user.previousLevel} class="select select-sm" disabled>
                         <option value={0}>No Permissions (0)</option>
                         <option value={1}>Tier 1 Certified (1)</option>
                         <option value={2}>Tier 2 Certified (2)</option>
@@ -154,13 +154,13 @@
                     </select>
                 </td>
                 <td>
-                    <div class="flex flex-row items-center space-x-4">
-                        <span class="font-bold text-xl uppercase text-error">will be changed to</span>
-                        <ArrowLongRight size={'32px'} class="text-error" />
+                    <div>
+                        <!-- <span class="font-bold text-xl uppercase text-error">will be changed to</span> -->
+                        <ArrowLongRight size={'32px'} class="text-success" />
                     </div>
                 </td>
                 <td>
-                    <select value={user.level} class="select select-sm select-bordered bg-white" disabled>
+                    <select value={user.level} class="select select-sm" disabled>
                         <option value={0}>No Permissions (0)</option>
                         <option value={1}>Tier 1 Certified (1)</option>
                         <option value={2}>Tier 2 Certified (2)</option>
@@ -172,9 +172,3 @@
         </tbody>
     </table>
 </div>
-
-<style>
-    .table-row-selected td {
-        @apply bg-green-300;
-    }
-</style>

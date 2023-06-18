@@ -1,13 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import type { PageData } from "./$types";
-	import { fade, scale } from "svelte/transition";
-	import NewIssueModal from "$lib/components/modals/NewIssueModal.svelte";
-	import { machineStatusToText, type Fault, type Machine, getMachineStatus, getLatestCompletePrintJob, type HMS, getActivePrintJobTimeRemaining } from "$lib/types/database";
-	import NewPrintModal from "$lib/components/modals/NewPrintModal.svelte";
-	import { Bolt, Check } from "svelte-heros-v2";
-	import { MachineStatus } from "$lib/types/database";
-	import CancelPrintModal from "$lib/components/modals/CancelPrintModal.svelte";
+	import { type Machine, getActivePrintJobTimeRemaining } from "$lib/types/database";
 	import PrintLogTier from "$lib/components/PrintLogTier.svelte";
 
     export let data: PageData;
@@ -42,19 +36,19 @@
 
 {#if machines && userLevel }
 <div class="flex flex-col space-y-8 lg:my-16 w-full">
-    <div class="relative overflow-hidden flex flex-row justify-between bg-base-100 rounded-lg p-12 shadow-lg">
+    <div class="relative overflow-hidden flex flex-row justify-between bg-neutral rounded-2xl p-12 shadow-lg">
         <div class="flex flex-col justify-between items-start space-y-12">
             <div class="flex flex-col space-y-2">
                 <span class="text-5xl font-bold">Dashboard</span>
-                <span class="text-2xl italic">Start a print or report an issue</span>
+                <!-- <span class="text-2xl italic">Start a print or report an issue</span> -->
             </div>
             
         </div>
-        <img src="/safety-man.png" class="absolute right-0 -top-8 blur">
+        <!-- <img src="/safety-man.png" class="absolute right-0 -top-8 blur"> -->
     </div>
     <div class="divider"></div>
-    <PrintLogTier machines={machines.filter(m => m.tier === 1)} tier={1} userLevel={userLevel} />
+    <PrintLogTier machines={machines.filter(m => m.tier === 1)} tier={1} userLevel={userLevel[0]} />
     <div class="divider"></div>
-    <PrintLogTier machines={machines.filter(m => m.tier === 2)} tier={2} userLevel={userLevel} />
+    <PrintLogTier machines={machines.filter(m => m.tier === 2)} tier={2} userLevel={userLevel[0]} />
 </div>
 {/if}

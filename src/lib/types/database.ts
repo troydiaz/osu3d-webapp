@@ -47,6 +47,18 @@ export function getMachineStatus(machine: Machine) {
         return MachineStatus.IDLE;
 }
 
+export function getMachineStatusColor(machine: Machine) {
+    let activeFaults = machine.faults.filter(f => !f.resolved);
+    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.cancelled);
+
+    if (activeFaults.length > 0)
+        return 'text-warning'
+    else if (activePrints.length > 0)
+        return 'text-info';
+    else
+        return 'text-neutral-content';
+}
+
 export function machineStatusToText(status: MachineStatus) {
     switch (status) {
         case MachineStatus.IDLE:
@@ -89,6 +101,9 @@ export function getActivePrintJob(machine: Machine) {
 }
 
 export function getActivePrintJobTimeRemaining(machine: Machine) {
+    if (machine === null || machine.prints === null)
+        return 0;
+
     let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.cancelled);
 
     if (activePrints.length === 0)

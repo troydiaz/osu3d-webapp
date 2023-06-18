@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { getMachineStatus, type Fault, type Machine, machineStatusToText, MachineStatus, getLatestCompletePrintJob, getActivePrintJobTimeRemaining, type UserLevel } from "$lib/types/database";
+	import { getMachineStatus, type Fault, type Machine, machineStatusToText, MachineStatus, getLatestCompletePrintJob, getActivePrintJobTimeRemaining, type UserLevel, getMachineStatusColor } from "$lib/types/database";
 	import NewIssueModal from "./modals/NewIssueModal.svelte";
     import NewPrintModal from "./modals/NewPrintModal.svelte";
     import CancelPrintModal from "./modals/CancelPrintModal.svelte";
 	import { Wrench } from "svelte-heros-v2";
+	import { onMount } from "svelte";
 
     export let userLevel: UserLevel;
     export let machines: Machine[];
@@ -26,11 +27,9 @@
         selectedMachineTime = selectedMachineTime > 0 ? selectedMachineTime - 1 : 0;
     }
 
-    setInterval(decrementTimers, 1000);
+    $: selectMachineTab(machines[0]);
 
-    $: if (machines) {
-        selectedMachine = machines[0];
-    }
+    setInterval(decrementTimers, 1000);
 
     function selectMachineTab(machine: Machine) {
         selectedMachine = machine;
@@ -38,20 +37,25 @@
     }
 </script>
 
-<div class="flex flex-row justify-start items-center">
-    <div class="prose"><h1>Tier {tier}</h1></div>
-    <!-- <div class="divider divider-horizontal"></div>
-    <span>{machines.filter(m => getMachineStatus(m) === MachineStatus.IDLE).length} ready of {machines.length} total</span> -->
+<div class="flex flex-row justify-between items-center">
+    <div class="font-bold text-4xl">Tier {tier} Printers</div>
+    <!-- <div class="divider divider-horizontal"></div> -->
+    <div class="flex flex-row gap-2">
+        <div class="bg-neutral-content/75 text-neutral text-xs font-mono rounded uppercase px-2 py-1">Idle</div>
+        <div class="bg-info/75 text-info-content text-xs font-mono rounded uppercase px-2 py-1">Printing</div>
+        <div class="bg-warning/75 text-warning-content text-xs font-mono rounded uppercase px-2 py-1">Fault</div>
+    </div>
+    <!-- <span>{machines.filter(m => getMachineStatus(m) === MachineStatus.IDLE).length} ready of {machines.length} total</span> -->
 </div>
 <div>
     <div class="tabs border-none justify-between">
         {#each machines as machine}
-        <a class="tab tab-lifted my-tab-lifted tab-lg border-none grow" class:tab-active="{selectedMachine === machine}" on:click={() => selectMachineTab(machine)}>
+        <a class="rounded-t-2xl tab tab-lifted my-tab-lifted tab-lg border-none grow {selectedMachine === machine ? 'tab-active !bg-neutral' : ''} {getMachineStatusColor(machine)}" on:click={() => selectMachineTab(machine)}>
             {machine.nickname}
         </a>
         {/each}
     </div>
-    <div class="rounded-b-lg bg-base-100 shadow-lg p-12 relative overflow-hidden" 
+    <div class="rounded-b-2xl bg-neutral shadow-lg p-12 relative overflow-hidden" 
         class:rounded-tl-lg={machines.indexOf(selectedMachine) !== 0}
         class:rounded-tr-lg={machines.indexOf(selectedMachine) !== machines.length - 1}
     >
@@ -64,7 +68,7 @@
                 <button class="btn btn-ghost justify-start items-center grow"><Wrench size={'32px'} variation={'solid'} /></button>
             {/if}
             <img src="{selectedMachine.machine_def.model}.png" class="w-1/2 absolute blur opacity-50 left-16">
-            <div class="flex flex-col justify-start space-y-4 z-10 p-4 h-72 rounded-lg bg-base-100 bg-opacity-75 backdrop-blur">
+            <div class="flex flex-col justify-start space-y-4 z-10 p-4 h-72 rounded-2xl bg-base-100 bg-opacity-75 backdrop-blur">
                 <div class="stats shadow h-24 bg-base-200 bg-opacity-50 backdrop-blur">
                     <div class="stat" class:bg-error-content={getMachineStatus(selectedMachine) === MachineStatus.FAULT}>
                         <!-- <div class="stat-figure"><Bolt /></div> -->

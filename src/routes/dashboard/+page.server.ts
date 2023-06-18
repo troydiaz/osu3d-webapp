@@ -30,8 +30,7 @@ export const load = (async ({ locals: { supabase, getSession } }) => {
     const { data: userLevel } = await supabase
         .from('user_levels')
         .select('*')
-        .eq('user_id', session?.user.id)
-        .single();
+        .eq('user_id', session?.user.id);
 
 	return { session, machines, userLevel };
 }) satisfies PageServerLoad;

@@ -1,70 +1,90 @@
 <script lang="ts">
-    import { enhance } from '$app/forms';
+	import { enhance } from '$app/forms';
+	import { ArrowLeft, InformationCircle } from 'svelte-heros-v2';
 	import type { PageData, ActionData } from "./$types.js";
 
+	export let data: PageData;
+	export let form: ActionData;
 
+	let { session, profile } = data;
 
-    export let data: PageData;
-    export let form: ActionData;
+	let profileForm: any;
+	let loading = false;
 
-    let { session, profile } = data;
+	let full_name: string | null = profile?.full_name || null;
+	let discord: string | null = profile?.discord || null;
 
-    let profileForm: any;
-    let loading = false;
-    let fullName: string | null = profile?.full_name || null;
-    let username: string | null = profile?.username || null;
-    let website: string | null = profile?.website || null;
-    let avatarUrl: string | null = profile?.avatar_url || null;
-
-    function handleSubmit() {
-        loading = true;
-        return async() => {
-            loading = false;
-        }
-    }
+	function handleSubmit() {
+			loading = true;
+			return async() => {
+					loading = false;
+			}
+	}
 </script>
 
-<div class="form-widget">
-	<form
-		class="form-widget"
-		method="post"
-		action="?/update"
-		use:enhance={handleSubmit}
-		bind:this={profileForm}
-	>
-		<div>
-			<label for="email">Email</label>
-			<input id="email" type="text" value={session.user.email} disabled />
+<div class="flex flex-col space-y-8 lg:my-16 w-full">
+	<a href="/dashboard" class="uppercase text-xl w-fit"><ArrowLeft class="inline" /><span class="ml-4 align-middle">Dashboard</span></a>
+	<div class="relative overflow-hidden flex flex-row justify-between rounded-2xl p-12 shadow-lg bg-neutral">
+			<div class="flex flex-col justify-between items-start space-y-12">
+					<div class="flex flex-col space-y-2">
+							<span class="text-5xl font-bold">Account Settings</span>
+							<span class="text-2xl italic"></span>
+					</div>
+					
+			</div>
+			<img src="/safety-man.png" class="absolute right-0 -top-8 blur">
+	</div>
+	<div class="divider"></div>
+
+	
+
+	<!-- Account Settings -->
+	<div class="bg-neutral rounded-2xl p-8 w-full">
+		<div class="flex flex-row items-center gap-4 bg-info p-4 rounded-2xl">
+			<InformationCircle class="text-info-content inline" size={'36px'} />
+			<div class="inline text-info-content">
+				Updating your Discord username will allow you to receive pings about your prints.
+				Your server Role will also be updated accordingly.
+			</div>
 		</div>
 
-		<div>
-			<label for="fullName">Full Name</label>
-			<input id="fullName" name="fullName" type="text" value={form?.fullName ?? fullName} />
-		</div>
+		<div class="divider"></div>
 
-		<div>
-			<label for="username">Username</label>
-			<input id="username" name="username" type="text" value={form?.username ?? username} />
-		</div>
-
-		<div>
-			<label for="website">Website</label>
-			<input id="website" name="website" type="website" value={form?.website ?? website} />
-		</div>
-
-		<div>
-			<input
-				type="submit"
-				class="button block primary"
-				value={loading ? 'Loading...' : 'Update'}
-				disabled={loading}
-			/>
-		</div>
-	</form>
-
-	<form method="post" action="?/signout" use:enhance={handleSubmit}>
-		<div>
-			<button class="button block" disabled={loading}>Sign Out</button>
-		</div>
-	</form>
+		<form
+			method="post"
+			action="?/update"
+			use:enhance={handleSubmit}
+			bind:this={profileForm}
+			class="flex flex-col gap-4"
+		>
+			<div class="form-control w-full max-w-xs">
+				<label for="email" class="label">
+					<span class="label-text">Email</span>
+				</label>
+				<input id="email" type="text" class="input w-full max-w-xs" value={session.user.email} disabled />
+			</div>
+	
+			<div class="form-control w-full max-w-xs">
+				<label for="email" class="label">
+					<span class="label-text">Name</span>
+				</label>
+				<input id="full_name" name="full_name" type="text" class="input w-full max-w-xs" value={form?.full_name ?? full_name} />
+			</div>
+	
+			<div class="form-control w-full max-w-xs">
+				<label for="email" class="label">
+					<span class="label-text">Discord username</span>
+				</label>
+				<input id="discord" name="discord" type="text" class="input w-full max-w-xs" value={form?.discord ?? discord} />
+			</div>
+	
+			<div >
+				<button
+					type="submit"
+					class="btn"
+					disabled={loading}
+				>Save</button>
+			</div>
+		</form>
+	</div>
 </div>

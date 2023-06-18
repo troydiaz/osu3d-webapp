@@ -34,15 +34,14 @@ export const actions = {
                 .eq('user_id', permChange.id)
                 .single();
 
-            console.log('check', check)
-
             // Do not allow changes to an admin account
             // if (check.data?.level === -1 || permChange.newPermLevel === -1) continue;
 
             let change = await supabase
                 .from('user_levels')
                 .update({
-                    level: permChange.newPermLevel
+                    level: permChange.newPermLevel,
+                    updated_at: new Date().toISOString()
                 })
                 .eq('user_id', permChange.id)
                 .single()

@@ -81,15 +81,15 @@
 <div class="flex flex-col space-y-8 lg:my-12 w-full">
     <a href="/dashboard" class="uppercase text-xl w-fit"><ArrowLeft class="inline" /><span class="ml-4 align-middle">Dashboard</span></a>
 
-    <div class="relative overflow-hidden flex flex-row justify-between bg-base-100 rounded-lg p-12 shadow-lg">
+    <div class="relative overflow-hidden flex flex-row justify-between bg-neutral rounded-2xl p-12 shadow-lg">
         <div class="flex flex-col justify-between items-start space-y-12">
             <div class="flex flex-col space-y-2">
                 <span class="text-5xl font-bold">Machine Manager</span>
-                <span class="text-2xl italic">Go fix some stuff, or just look</span>
+                <!-- <span class="text-2xl italic">Go fix some stuff, or just look</span> -->
             </div>
             
         </div>
-        <img src="/safety-man.png" class="absolute right-0 -top-8 blur-sm">
+        <!-- <img src="/safety-man.png" class="absolute right-0 -top-8 blur"> -->
     </div>
     <div class="divider"></div>
     {#if machines}

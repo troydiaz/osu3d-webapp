@@ -17,15 +17,13 @@
             invalidate('supabase:auth')
         });
 
-        console.log('User level', userLevel);
-
         return () => data.subscription.unsubscribe();
     });
 </script>
 
 <main>
     {#if data.session}
-    <div class="drawer drawer-mobile">
+    <div class="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
             <div class="lg:hidden w-full bg-base-100 navbar flex-row justify-between space-x-4">
@@ -57,8 +55,8 @@
         </div> 
         <div class="drawer-side">
             <label for="my-drawer-2" class="drawer-overlay"></label>
-            <ul class="menu px-4 w-80 bg-base-100 text-base-content">
-                <div class="max-w-full my-8 p-4 mx-auto aspect-square bg-emerald-300 shadow-md rounded-full">
+            <ul class="menu h-full px-4 w-80 bg-base-100 text-base-content">
+                <div class="max-w-full my-8 p-4 mx-auto aspect-square bg-emerald-300/10 shadow-md rounded-full">
                     <img src="/osu3d.svg" class="w-24 m-auto">
                 </div>
                 <!-- Sidebar content here -->
@@ -68,6 +66,7 @@
                 <!-- <article class="prose mx-auto"><h1>osu 3d</h1></article> -->
                 <!-- <div class="divider"></div> -->
                 <li><a href="/dashboard" class="flex-row justify-between"><span><RocketLaunch class="inline mr-2" />Dashboard</span></a></li>
+                <li><a href="/account" class="flex-row justify-between"><span><Cog6Tooth class="inline mr-2" />Account Settings</span></a></li>
                 <!-- <li><a href="/dashboard" class="flex-row justify-between"><span><Cog6Tooth class="inline mr-2" />My Account</span></a></li> -->
                 <li><a href="/logging-out" class="flex-row justify-between"><span><ArrowLeftOnRectangle class="inline mr-2" />Signout</span></a></li>
                 {#if userLevel?.level === -1}
