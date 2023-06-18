@@ -3,6 +3,7 @@
 	import type { PageData } from "./$types";
 	import { type Machine, getActivePrintJobTimeRemaining } from "$lib/types/database";
 	import PrintLogTier from "$lib/components/PrintLogTier.svelte";
+	import { ArrowLeft } from "svelte-heros-v2";
 
     export let data: PageData;
     const { session, machines, userLevel } = data;
@@ -35,7 +36,8 @@
 </svelte:head>
 
 {#if machines && userLevel }
-<div class="flex flex-col space-y-8 lg:my-16 w-full">
+<div class="flex flex-col space-y-8 lg:my-12 w-full">
+    <div class="uppercase text-xl w-fit text-transparent"><ArrowLeft class="inline" /><span class="ml-4 align-middle">Dashboard</span></div>
     <div class="relative overflow-hidden flex flex-row justify-between bg-neutral rounded-2xl p-12 shadow-lg">
         <div class="flex flex-col justify-between items-start space-y-12">
             <div class="flex flex-col space-y-2">

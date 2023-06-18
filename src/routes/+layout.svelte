@@ -3,9 +3,11 @@
     import { invalidate } from "$app/navigation";
     import { onMount } from "svelte";
     import type { LayoutData } from "./$types";
-	import { ArrowLeftOnRectangle, Bars3, Cog6Tooth, RocketLaunch, Users, Wrench } from "svelte-heros-v2";
+	import { ArrowLeftOnRectangle, Bars3, Cog6Tooth, Cube, CubeTransparent, RocketLaunch, Users, Wrench } from "svelte-heros-v2";
     import { AlertType, alerts } from '$lib/stores/alerts';
-	import { fade, scale } from "svelte/transition";
+	import { scale } from "svelte/transition";
+	import { page } from "$app/stores";
+	import SidebarTooltip from "$lib/components/SidebarTooltip.svelte";
 
     export let data: LayoutData;
 
@@ -53,28 +55,75 @@
                 </div>
             </div>
         </div> 
-        <div class="drawer-side">
+        <div class="drawer-side overflow-visible">
             <label for="my-drawer-2" class="drawer-overlay"></label>
-            <ul class="menu h-full px-4 w-80 bg-base-100 text-base-content">
-                <div class="max-w-full my-8 p-4 mx-auto aspect-square bg-emerald-300/10 shadow-md rounded-full">
-                    <img src="/osu3d.svg" class="w-24 m-auto">
-                </div>
-                <!-- Sidebar content here -->
-                <!-- <Cube size="64px" class="mx-auto" /> -->
-                
+            <ul class="menu h-full px-4 bg-base-300">
+                <div class="h-full flex flex-col justify-start items-center gap-4 py-4">
+                    <div class="w-12">
+                        <img src="/osu3d.svg" class="m-auto opacity-75">
+                    </div>
+                    <div class="h-full flex flex-col justify-between">
+                        <div class="flex flex-col justify-start gap-2">
+                            <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/dashboard')}>
+                            <div slot="text" class="flex flex-col justify-center items-center h-full"><div class="">Dashboard</div></div>
+                            <li>
+                                    <a href="/dashboard" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/dashboard') ? 'bg-info text-info-content hover:!bg-info hover:text-info-content' : 'text-violet-400'}">
+                                        <RocketLaunch size="40px" />
+                                    </a>
+                            </li>
+                            </SidebarTooltip>
+                            <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/account')}>
+                            <div slot="text" class="flex flex-col justify-center items-center h-full"><div class="">Settings</div></div>
+                            <li>
+                                <a href="/account" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/account') ? 'bg-info text-info-content hover:!bg-info hover:text-info-content' : 'text-white-400'}">
+                                    <Cog6Tooth size="40px" />
+                                </a>
+                            </li>
+                            </SidebarTooltip>
+                    
+                            {#if userLevel?.level === -1}
+                            <div class="divider"></div>
+                            <!-- <li class="menu-title"><span>Administrative</span></li> -->
+                            <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/machines')}>
+                                <div slot="text" class="flex flex-col justify-center items-center h-full"><div class="">Machines</div></div>
+                                <li>
+                                    <a href="/machines" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/machines') ? 'bg-info text-info-content hover:!bg-info hover:text-info-content' : 'text-green-400'}">
+                                        <Wrench size="40px" />
+                                    </a>
+                                </li>
+                            </SidebarTooltip>
+                            <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/users')}>
+                                <div slot="text" class="flex flex-col justify-center items-center h-full"><div class="">Members</div></div>
+                                <li>
+                                    <a href="/users" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/users') ? 'bg-info text-info-content hover:!bg-info hover:text-info-content' : 'text-blue-400'}">
+                                        <Users size="40px" />
+                                    </a>
+                                </li>
+                            </SidebarTooltip>
 
-                <!-- <article class="prose mx-auto"><h1>osu 3d</h1></article> -->
-                <!-- <div class="divider"></div> -->
-                <li><a href="/dashboard" class="flex-row justify-between"><span><RocketLaunch class="inline mr-2" />Dashboard</span></a></li>
-                <li><a href="/account" class="flex-row justify-between"><span><Cog6Tooth class="inline mr-2" />Account Settings</span></a></li>
-                <!-- <li><a href="/dashboard" class="flex-row justify-between"><span><Cog6Tooth class="inline mr-2" />My Account</span></a></li> -->
-                <li><a href="/logging-out" class="flex-row justify-between"><span><ArrowLeftOnRectangle class="inline mr-2" />Signout</span></a></li>
-                {#if userLevel?.level === -1}
-                <div class="divider"></div>
-                <li class="menu-title"><span>Administrative</span></li>
-                <li><a href="/machines"><span><Wrench class="inline mr-2" />Machine Manager</span></a></li>
-                <li><a href="/users"><span><Users class="inline mr-2" />User Manager</span></a></li>
-                {/if}
+                            <!-- Inventory -->
+                            <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/inventory')}>
+                                <div slot="text" class="flex flex-col justify-center items-center h-full"><div class="">Inventory</div></div>
+                                <li>
+                                    <a href="/inventory" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/inventory') ? 'bg-info text-info-content hover:!bg-info hover:text-info-content' : 'text-teal-400'}">
+                                        <CubeTransparent size="40px" />
+                                    </a>
+                                </li>
+                            </SidebarTooltip>
+                            {/if}
+                        </div>
+
+                        <!-- Logout Button -->
+                        <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/logging-out')}>
+                            <div slot="text" class="flex flex-col justify-center items-center h-full justify-self-end"><div class="">Logout</div></div>
+                            <li>
+                                <a href="/logging-out" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/logging-out') ? 'bg-info text-info-content hover:!bg-info hover:text-info-content' : 'text-red-400'}">
+                                    <ArrowLeftOnRectangle size="40px" />
+                                </a>
+                            </li>
+                        </SidebarTooltip>
+                    </div>
+                </div>
             </ul>
         </div>
     </div>
