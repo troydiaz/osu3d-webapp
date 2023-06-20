@@ -14,7 +14,7 @@
 <!-- Machines table -->
 <div class="flex flex-col space-y-4">
     <div class="flex flex-row justify-start items-center">
-        <div class="prose"><h2>Tier {tier} Machines</h2></div>
+        <div class="font-thin text-3xl">Tier {tier} Machines</div>
         <div class="divider divider-horizontal"></div>
         <div class="grow">{machines.length} Entries Total</div>
         <Paginate totalRows={machines.length} bind:lowerIndex bind:upperIndex />

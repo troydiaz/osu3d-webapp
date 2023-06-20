@@ -3,7 +3,9 @@
 	import type { PageData } from "./$types";
 	import { type Machine, getActivePrintJobTimeRemaining } from "$lib/types/database";
 	import PrintLogTier from "$lib/components/PrintLogTier.svelte";
-	import { ArrowLeft } from "svelte-heros-v2";
+	import { InformationCircle, RocketLaunch } from "svelte-heros-v2";
+	import { AlertType, addAlert } from "$lib/stores/alerts";
+	import { size } from "svelte-floating-ui/core";
 
     export let data: PageData;
     const { session, machines, userLevel } = data;
@@ -28,29 +30,27 @@
         if (tier2Machines.length > 0)
         selectedTier2Machine = tier2Machines[0];
         selectedTier2Time = getActivePrintJobTimeRemaining(selectedTier2Machine!);
+
+        // addAlert(AlertType.URGENT, 'Discord Reminder!', 'Add your username to your account settings to get automated pings about your prints!')
     });
 </script>
 
 <svelte:head>
-    <title>osu3d-webapp | dashboard</title>
+    <title>Dashboard</title>
 </svelte:head>
 
 {#if machines && userLevel }
-<div class="flex flex-col space-y-8 lg:my-12 w-full">
-    <div class="uppercase text-xl w-fit text-transparent"><ArrowLeft class="inline" /><span class="ml-4 align-middle">Dashboard</span></div>
-    <div class="relative overflow-hidden flex flex-row justify-between bg-neutral rounded-2xl p-12 shadow-lg">
-        <div class="flex flex-col justify-between items-start space-y-12">
-            <div class="flex flex-col space-y-2">
-                <span class="text-5xl font-bold">Dashboard</span>
-                <!-- <span class="text-2xl italic">Start a print or report an issue</span> -->
-            </div>
-            
+<div class="flex flex-col gap-12 lg:my-12 w-full">
+    <div class="relative overflow-hidden flex flex-row justify-between items-center bg-neutral rounded-2xl p-8 shadow-lg">
+        <div class="flex flex-row gap-4 items-center">
+            <div class="text-3xl font-thin">Hello</div>
+            <div class="text-2xl font-mono bg-base-100 px-2 rounded-xl py-1">{session.user.email}</div>
         </div>
-        <!-- <img src="/safety-man.png" class="absolute right-0 -top-8 blur"> -->
+        <div class="grow"></div>
+        <div class="text-5xl font-thin pr-6">Dashboard</div>
+        <RocketLaunch size={'64px'} strokeWidth={'1px'} />
     </div>
-    <div class="divider"></div>
     <PrintLogTier machines={machines.filter(m => m.tier === 1)} tier={1} userLevel={userLevel[0]} />
-    <div class="divider"></div>
     <PrintLogTier machines={machines.filter(m => m.tier === 2)} tier={2} userLevel={userLevel[0]} />
 </div>
 {/if}

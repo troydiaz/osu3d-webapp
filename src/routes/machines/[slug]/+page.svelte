@@ -10,20 +10,26 @@
     export let data: PageServerData;
     export let form: ActionData;
 
-    $: if (form) form.success ? addAlert(AlertType.INFO, 'Successfully commited all changes!') : addAlert(AlertType.ERROR, 'Error commiting changes to the database...');
+    $: if (form) form.success ? addAlert(AlertType.INFO, 'Good news', 'Successfully commited all changes!') : addAlert(AlertType.ERROR, 'Uh oh...', 'Error commiting changes to the database...');
 
     const { session, machine, slug } = data;
 </script>
 
 {#if machine}
 
+
+
 <div class="flex flex-col space-y-8 lg:my-12 w-full">
-    <a href="/machines" class="uppercase text-xl w-fit"><ArrowLeft class="inline" /><span class="ml-4 align-middle">Machine Manager</span></a>
+    <div class="relative overflow-hidden flex flex-row justify-between items-center bg-neutral rounded-2xl p-12 shadow-lg">
+        <a href="/machines" class="btn btn-outline uppercase text-xl font-light"><ArrowLeft class="inline" strokeWidth={'2px'} /><span class="ml-4 align-middle">Machine Manager</span></a>
+        <span class="text-5xl font-thin">Single Machine View</span>
+    </div>
+    
     <!-- Title -->
     <div class="relative flex flex-row justify-between bg-neutral rounded-2xl overflow-hidden p-12 shadow-lg">
         <div class="flex flex-col justify-between items-start space-y-12 z-10">
             <div class="flex flex-col space-y-2">
-                <span class="text-5xl font-bold">{machine.nickname}</span>
+                <span class="text-5xl font-thin">{machine.nickname}</span>
                 <span class="text-2xl">{machine.machine_def.make} {machine.machine_def.model}</span>
             </div>
             <div class="stats bg-base-100 border-info/50 border backdrop-blur z-10">

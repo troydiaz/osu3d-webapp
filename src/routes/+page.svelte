@@ -14,10 +14,10 @@
     const customTheme = {
         extend: false,
         className: {
-            button: 'btn btn-secondary auth-button',
+            button: 'btn btn-primary bg-opacity-50 border-opacity-0 auth-button',
             input: 'input',
             label: 'label',
-            container: 'p-4 bg-cover bg-top border-base-300 bg-base-100 rounded-box',
+            container: '',
             divider: 'py-4'
         },
         style: {
@@ -27,23 +27,31 @@
 </script>
 
 <svelte:head>
-    <title>osu3d-webapp</title>
+    <title>3D Print Club</title>
 </svelte:head>
 
 
-<div class="flex flex-col items-center space-y-4">
-    <img src="osu3d.svg" class="w-64 h-64 my-8">
-    <Auth
-        providers={['google']}
-        supabaseClient={data.supabase}
-        redirectTo={`${data.url}/logging-in?redirect=/dashboard`}
-        showLinks={false}
-        theme="minimal"
-        appearance={customTheme}
-        onlyThirdPartyProviders={true}
-    />
-
-    <div class="text-sm">
-        {appName} {appVersion}
+<div class="h-screen w-screen">
+    <div class="flex flex-col justify-center items-center gap-8 md:gap-12 w-full md:max-w-screen-sm mx-auto">
+        <img src="osu3d.svg" class="w-32 h-32 mt-8">
+        <div>
+            <div class="font-thin text-xl md:text-3xl text-center">3D Printing and<br>Additive Manufacturing Club</div>
+            <div class="divider w-full max-w-sm mx-auto my-0"></div>
+            <div class="font-light text-xl md:text-3xl text-center">Oregon State University</div>
+        </div>
+        <Auth
+            providers={['google']}
+            supabaseClient={data.supabase}
+            redirectTo={`${data.url}/logging-in?redirect=/dashboard`}
+            showLinks={false}
+            theme="minimal"
+            appearance={customTheme}
+            onlyThirdPartyProviders={true}
+            additionalData={{}}
+        />
+    
+        <div class="text-sm">
+            {appName} {appVersion}
+        </div>
     </div>
 </div>

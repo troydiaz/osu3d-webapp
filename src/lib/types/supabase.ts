@@ -86,6 +86,111 @@ export interface Database {
           }
         ]
       }
+      inv_categories: {
+        Row: {
+          created_at: string
+          created_by_id: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          created_by_id: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          created_by_id?: string
+          id?: string
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inv_categories_created_by_id_fkey"
+            columns: ["created_by_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      inv_changes: {
+        Row: {
+          amount: number
+          created_at: string
+          created_by_id: string
+          id: string
+          inv_item_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          created_by_id: string
+          id?: string
+          inv_item_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          created_by_id?: string
+          id?: string
+          inv_item_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inv_change_created_by_id_fkey"
+            columns: ["created_by_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inv_change_inv_item_id_fkey"
+            columns: ["inv_item_id"]
+            referencedRelation: "inv_items"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      inv_items: {
+        Row: {
+          created_at: string
+          created_by_id: string
+          id: string
+          inv_category_id: string
+          minimum: number
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          created_by_id: string
+          id?: string
+          inv_category_id: string
+          minimum: number
+          name: string
+        }
+        Update: {
+          created_at?: string
+          created_by_id?: string
+          id?: string
+          inv_category_id?: string
+          minimum?: number
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inv_item_created_by_id_fkey"
+            columns: ["created_by_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inv_items_inv_category_id_fkey"
+            columns: ["inv_category_id"]
+            referencedRelation: "inv_categories"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       machine_defs: {
         Row: {
           created_at: string | null

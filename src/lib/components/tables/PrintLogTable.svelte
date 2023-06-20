@@ -12,7 +12,7 @@
 <!-- Fault table -->
 <div class="flex flex-col space-y-4">
     <div class="flex flex-row justify-start items-center">
-        <div class="prose"><h2>Print Log</h2></div>
+        <div class="font-thin text-3xl">Print Log</div>
         <div class="divider divider-horizontal"></div>
         <div class="grow">{prints.length} Entries Total</div>
         <Paginate totalRows={prints.length} bind:lowerIndex bind:upperIndex />

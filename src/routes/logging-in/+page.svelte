@@ -2,7 +2,6 @@
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
-	import { onMount } from 'svelte';
     import type { PageData } from './$types.js';
 
     export let data: PageData;
@@ -17,6 +16,6 @@
     };
 </script>
 
-<div class="flex flex-col items-center space-y-4">
+<div class="flex flex-col items-center space-y-4 w-screen h-screen">
     <img src="osu3d.svg" class="w-64 h-64 my-8">
 </div>
