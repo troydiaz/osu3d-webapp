@@ -32,8 +32,8 @@
 
 
 <div class="h-screen w-screen">
-    <div class="flex flex-col justify-center items-center gap-8 md:gap-12 w-full md:max-w-screen-sm mx-auto">
-        <img src="osu3d.svg" class="w-32 h-32 mt-8">
+    <div class="flex flex-col justify-start items-center gap-8 p-12 md:gap-12 w-full h-full md:max-w-screen-sm mx-auto">
+        <img src="osu3d.svg" class="w-32 h-32">
         <div>
             <div class="font-thin text-xl md:text-3xl text-center">3D Printing and<br>Additive Manufacturing Club</div>
             <div class="divider w-full max-w-sm mx-auto my-0"></div>
@@ -49,9 +49,15 @@
             onlyThirdPartyProviders={true}
             additionalData={{}}
         />
-    
-        <div class="text-sm">
-            {appName} {appVersion}
+        <div class="grow"></div>
+        <div class="text-xs p-2 rounded-lg bg-neutral">
+            <div class="text-sm text-center">Notice</div>
+            <div class="divider m-0"></div>
+            User authentication is handled by Google through Social Sign On (SSO).
+            Only your account name and email address is recorded by this system.
         </div>
+    </div>
+    <div class="absolute bottom-0 footer py-2 footer-center text-sm">
+            {appName} {appVersion}
     </div>
 </div>

@@ -5,12 +5,12 @@
 	import { getMachineStatus, machineStatusToText } from '$lib/types/database';
 	import { getAverageJobDuration, getSuccessRate, getTotalHours } from '$lib/helpers';
 	import { ArrowLeft, ChevronDoubleRight, ChevronRight, Wrench } from 'svelte-heros-v2';
-	import { AlertType, addAlert, alerts } from '$lib/stores/alerts';
+	import { AlertTypeOld, addAlert, alerts } from '$lib/stores/alerts';
 
     export let data: PageServerData;
     export let form: ActionData;
 
-    $: if (form) form.success ? addAlert(AlertType.INFO, 'Good news', 'Successfully commited all changes!') : addAlert(AlertType.ERROR, 'Uh oh...', 'Error commiting changes to the database...');
+    $: if (form) form.success ? addAlert(AlertTypeOld.INFO, 'Good news', 'Successfully commited all changes!') : addAlert(AlertTypeOld.ERROR, 'Uh oh...', 'Error commiting changes to the database...');
 
     const { session, machine, slug } = data;
 </script>

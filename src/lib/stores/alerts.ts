@@ -1,14 +1,14 @@
 import { writable } from "svelte/store";
 
-export enum AlertType {
+export enum AlertTypeOld {
     INFO,
     URGENT,
     ERROR
 }
 
-export const alerts = writable<{ id: string, header: string, message: string, type: AlertType }[]>([]);
+export const alerts = writable<{ id: string, header: string, message: string, type: AlertTypeOld }[]>([]);
 
-export const addAlert = (type: AlertType, header: string, message: string) => {
+export const addAlert = (type: AlertTypeOld, header: string, message: string) => {
     const id = Date.now().toString();
     alerts.update(oldAlerts => {
         setTimeout(() => deleteAlertId(id), 10000);
@@ -24,15 +24,15 @@ export const deleteAlertId = (id: string) => {
     });
 }
 
-export function getAlertStyling(type: AlertType) {
+export function getAlertStyling(type: AlertTypeOld) {
     switch (type) {
-        case AlertType.INFO:
+        case AlertTypeOld.INFO:
             return 'bg-info text-info-content';
             break;
-        case AlertType.URGENT:
+        case AlertTypeOld.URGENT:
             return 'bg-warning text-warning-content';
             break;
-        case AlertType.ERROR:
+        case AlertTypeOld.ERROR:
         default:
             return 'bg-error text-error-content';
             break;

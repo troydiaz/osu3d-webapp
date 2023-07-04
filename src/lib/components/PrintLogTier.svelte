@@ -57,7 +57,7 @@
     <div>
         <div class="tabs border-none justify-between">
             {#each machines as machine}
-            <a class="rounded-t-2xl tab tab-lifted my-tab-lifted tab-lg border-none grow {selectedMachine === machine ? 'tab-active !bg-neutral' : ''} {getMachineStatusColor(machine)}" on:click={() => selectMachineTab(machine)}>
+            <a class="rounded-t-2xl tab my-tab-lifted tab-lg border-none grow {selectedMachine === machine ? 'tab-active !bg-neutral' : ''} {getMachineStatusColor(machine)}" on:click={() => selectMachineTab(machine)}>
                 {machine.nickname}
             </a>
             {/each}

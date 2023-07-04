@@ -3,12 +3,12 @@
 	import type { ActionData, PageData } from "./$types";
 	import { ArrowLeft, Users } from "svelte-heros-v2";
 	import UserTable from "$lib/components/tables/UserTable.svelte";
-	import { AlertType, addAlert } from "$lib/stores/alerts";
+	import { AlertTypeOld, addAlert } from "$lib/stores/alerts";
 
     export let data: PageData;
     export let form: ActionData;
 
-    $: if (form) form.success ? addAlert(AlertType.INFO, 'Great news', 'Successfully commited all changes!') : addAlert(AlertType.ERROR, 'Uh oh...', 'Error commiting changes to the database...');
+    $: if (form) form.success ? addAlert(AlertTypeOld.INFO, 'Great news', 'Successfully commited all changes!') : addAlert(AlertTypeOld.ERROR, 'Uh oh...', 'Error commiting changes to the database...');
 
     let { session, userLevels } = data;
 </script>

@@ -1,9 +1,17 @@
+import { differenceInDays } from "date-fns";
 import type { Machine } from "./types/database";
 
 export function getDateAndTime(dateString: string | null) {
     if (!dateString) return '-';
     let date = new Date(dateString);
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+}
+
+export function getDaysSince(dateString: string | null) {
+    if (!dateString) return '-';
+    const days = differenceInDays(new Date(), new Date(dateString));
+    if (days === 0) return 'Today';
+    return `approx. ${days} ${days === 1 ? 'day': 'days'} ago`;
 }
 
 export function getTotalHours(machine: Machine) {

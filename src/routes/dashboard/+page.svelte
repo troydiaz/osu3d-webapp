@@ -4,7 +4,7 @@
 	import { type Machine, getActivePrintJobTimeRemaining } from "$lib/types/database";
 	import PrintLogTier from "$lib/components/PrintLogTier.svelte";
 	import { InformationCircle, RocketLaunch } from "svelte-heros-v2";
-	import { AlertType, addAlert } from "$lib/stores/alerts";
+	import { AlertTypeOld, addAlert } from "$lib/stores/alerts";
 	import { size } from "svelte-floating-ui/core";
 
     export let data: PageData;
