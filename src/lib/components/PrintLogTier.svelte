@@ -44,11 +44,11 @@
     <div class="flex flex-row justify-between items-center">
         <div class="font-thin text-3xl">Tier {tier} Printers</div>
         <!-- <div class="divider divider-horizontal"></div> -->
-        <div class="flex flex-row gap-2">
-            <div class="font-thin">Legend</div>
-            <div class="bg-neutral-content text-neutral text-xs font-mono rounded uppercase px-2 py-1">Idle</div>
-            <div class="bg-info text-info-content text-xs font-mono rounded uppercase px-2 py-1">Printing</div>
-            <div class="bg-warning text-warning-content text-xs font-mono rounded uppercase px-2 py-1">Fault</div>
+        <div class="flex flex-row">
+            <div class="font-light mr-2">Legend</div>
+            <div class="bg-neutral-content text-neutral text-xs font-mono rounded rounded-r-none uppercase px-2 py-1">Idle</div>
+            <div class="bg-info text-info-content text-xs font-mono uppercase px-2 py-1">Printing</div>
+            <div class="bg-warning text-warning-content text-xs font-mono rounded rounded-l-none uppercase px-2 py-1">Fault</div>
         </div>
         <!-- <span>{machines.filter(m => getMachineStatus(m) === MachineStatus.IDLE).length} ready of {machines.length} total</span> -->
     </div>

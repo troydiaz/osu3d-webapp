@@ -80,7 +80,6 @@
 
 <div class="flex flex-col gap-12 lg:my-12 w-full">
     <div class="relative overflow-hidden flex flex-row justify-between items-center bg-neutral rounded-2xl p-8 shadow-lg">
-        <a href="/dashboard" class="btn btn-outline uppercase text-xl font-light"><ArrowLeft class="inline" strokeWidth={'2px'} /><span class="ml-4 align-middle">Dashboard</span></a>
         <div class="grow"></div>
         <span class="text-5xl font-thin pr-6">Machine Manager</span>
         <Wrench size={'64px'} strokeWidth={'1px'} />

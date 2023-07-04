@@ -3,7 +3,7 @@
     import { invalidate } from "$app/navigation";
     import { onMount } from "svelte";
     import type { LayoutData } from "./$types";
-	import { ArrowLeftOnRectangle, Bars3, Bell, Cog6Tooth, CubeTransparent, InformationCircle, RocketLaunch, Users, Wrench } from "svelte-heros-v2";
+	import { ArrowLeftOnRectangle, Bars3, Bell, Calendar, Cog6Tooth, CubeTransparent, InformationCircle, RocketLaunch, Users, Wrench } from "svelte-heros-v2";
     import { alerts, deleteAlertId, getAlertStyling } from '$lib/stores/alerts';
 	import { slide } from "svelte/transition";
 	import { page } from "$app/stores";
@@ -134,6 +134,17 @@
                                 </li>
                             </SidebarTooltip>
                             {/if}
+
+
+                            <!-- Maintenance -->
+                            <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/maintenance')}>
+                                <div slot="text" class="flex flex-col justify-center items-center h-full"><div class="">Maintenance</div></div>
+                                <li>
+                                    <a href="/maintenance" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/maintenance') ? 'bg-info text-info-content hover:!bg-info hover:!text-info-content' : 'text-orange-400'}">
+                                        <Calendar size="40px" />
+                                    </a>
+                                </li>
+                            </SidebarTooltip>
                         </div>
 
                         <div class="flex flex-col justify-start gap-2">

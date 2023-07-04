@@ -48,8 +48,7 @@
                 {change.created_by.full_name}
               </td>
               <td class="flex flex-row justify-end gap-2">
-                <button class="btn btn-sm btn-success"><Plus /></button>
-                <button class="btn btn-sm btn-error"><Minus /></button>
+                <button class="btn btn-sm btn-error">Delete</button>
               </td>
           </tr>
           {/each}

@@ -38,7 +38,7 @@
       </div>
       <div class="flex flex-row justify-between items-center bg-base-100 h-8 px-4">
         <div class="text-xs text-mono">6/18/2023, 11:02:37 PM</div>
-        <div class="text-xs text-mono">approx. 1 day ago</div>
+        <div class="text-xs text-mono">approx. 2 day ago</div>
       </div>
     </div>
 
@@ -54,7 +54,7 @@
       </div>
       <div class="flex flex-row justify-between items-center bg-base-100 h-8 px-4">
         <div class="text-xs text-mono">6/18/2023, 11:00:16 PM</div>
-        <div class="text-xs text-mono">approx. 1 day ago</div>
+        <div class="text-xs text-mono">approx. 2 day ago</div>
       </div>
     </div>
 
@@ -70,7 +70,7 @@
       </div>
       <div class="flex flex-row justify-between items-center bg-base-100 h-8 px-4">
         <div class="text-xs text-mono">6/18/2023 12:20:32 PM</div>
-        <div class="text-xs text-mono">approx. 1 day ago</div>
+        <div class="text-xs text-mono">approx. 2 day ago</div>
       </div>
     </div>
 

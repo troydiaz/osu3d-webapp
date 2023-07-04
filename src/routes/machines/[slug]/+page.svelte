@@ -20,9 +20,11 @@
 
 
 <div class="flex flex-col space-y-8 lg:my-12 w-full">
-    <div class="relative overflow-hidden flex flex-row justify-between items-center bg-neutral rounded-2xl p-12 shadow-lg">
-        <a href="/machines" class="btn btn-outline uppercase text-xl font-light"><ArrowLeft class="inline" strokeWidth={'2px'} /><span class="ml-4 align-middle">Machine Manager</span></a>
-        <span class="text-5xl font-thin">Single Machine View</span>
+    <div class="relative overflow-hidden flex flex-row justify-between items-center bg-neutral rounded-2xl p-8 shadow-lg">
+        <a href="/machines" class="btn btn-ghost btn-square uppercase text-xl font-light"><ArrowLeft size={'36px'} /></a>
+        <div class="grow"></div>
+        <span class="text-5xl font-thin pr-6">Single Machine View</span>
+        <Wrench size={'64px'} strokeWidth={'1px'} />
     </div>
     
     <!-- Title -->
@@ -32,7 +34,7 @@
                 <span class="text-5xl font-thin">{machine.nickname}</span>
                 <span class="text-2xl">{machine.machine_def.make} {machine.machine_def.model}</span>
             </div>
-            <div class="stats bg-base-100 border-info/50 border backdrop-blur z-10">
+            <div class="stats bg-base-100 z-10">
                 <div class="stat">
                     <div class="stat-title">Current Status</div>
                     <div class="stat-value font-mono text-2xl">{machineStatusToText(getMachineStatus(machine))}</div>
@@ -40,7 +42,7 @@
             </div>
         </div>
         <div class="flex flex-col space-y-12">
-            <div class="stats bg-base-100 border-info/50 border backdrop-blur z-10">
+            <div class="stats bg-base-100 z-10">
                 <div class="stat">
                     <div class="stat-title">Total Jobs</div>
                     <div class="stat-value font-mono text-2xl">{machine.prints.length}</div>
@@ -54,7 +56,7 @@
                     <div class="stat-value font-mono text-2xl">{getSuccessRate(machine).toFixed(0)}%</div>
                 </div>
             </div>
-            <div class="stats bg-base-100 border-info/50 border backdrop-blur z-10">
+            <div class="stats bg-base-100 z-10">
                 <div class="stat">
                     <div class="stat-title">Total Hours</div>
                     <div class="stat-value font-mono text-2xl">{(getTotalHours(machine) / 1000).toFixed(2)} khrs</div>

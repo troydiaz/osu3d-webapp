@@ -23,7 +23,7 @@
         <CubeTransparent size={'64px'} strokeWidth={'1px'} />
     </div>
     <div class="flex flex-row justify-end items-center gap-4">
-        <NewItemMenu><button class="btn btn-primary btn-sm"><Plus /> New Item</button></NewItemMenu>
+        <NewItemMenu categories={categories}><button class="btn btn-primary btn-sm"><Plus /> New Item</button></NewItemMenu>
         <button class="btn btn-primary btn-sm"><Plus /> New Category</button>
     </div>
     <InventoryTable title={'All Items'} inventory={inventory || []} categories={categories} allowSearch={true} />
