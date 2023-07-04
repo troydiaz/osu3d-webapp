@@ -1,6 +1,7 @@
 # OSU 3D Club Frontend
 
-Web app that drives the management of all club activities. Currently under development.
+Web app that drives the management of all club activities. Currently under development. Developed and designed with input from
+other club members & officers.
 
 # Technologies
 
@@ -11,6 +12,7 @@ Web app that drives the management of all club activities. Currently under devel
     * realtime database subscriptions (amazing)
     * it's hip and cool
 * [SvelteKit](https://kit.svelte.dev/) framework for sweet sweet SSR
+* Tailwindcss (daisyui toolkit)
 
 # Photos
 
