@@ -1,5 +1,5 @@
 import type { Fault, Machine } from '$lib/types/database';
-import { fail, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load = (async ({ locals: { supabase, getSession } }) => {
@@ -14,15 +14,15 @@ export const load = (async ({ locals: { supabase, getSession } }) => {
         .select(`
             *,
             machine_def: machine_defs_id (*),
-            faults: fault_log (
+            faults: faults (
                 *,
-                created_by: created_by_id (*),
-                resolved_by: resolved_by_id (*)
+                created_by: created_by_user_id (*),
+                resolved_by: resolved_by_user_id (*)
             ),
-            prints: print_log (
+            prints: prints (
                 *,
-                created_by: created_by_id (*),
-                cancelled_by: cancelled_by_id (*)
+                created_by: created_by_user_id (*),
+                cancelled_by: cancelled_by_user_id (*)
             )
         `)
         .returns<Machine[]>();
@@ -30,7 +30,8 @@ export const load = (async ({ locals: { supabase, getSession } }) => {
     const { data: userLevel } = await supabase
         .from('user_levels')
         .select('*')
-        .eq('user_id', session?.user.id);
+        .eq('user_id', session.user.id)
+        .maybeSingle();
 
 	return { session, machines, userLevel };
 }) satisfies PageServerLoad;
@@ -49,10 +50,10 @@ export const actions = {
             return;
 
         await supabase
-            .from('fault_log')
+            .from('faults')
             .insert({
                 machine_id: faultMachineId,
-                created_by_id: createdById,
+                created_by_user_id: createdById,
                 description: faultDescription,
                 resolved: false
             })
@@ -72,9 +73,9 @@ export const actions = {
         const finishedDate = new Date(Date.now() + 1000 * 60 * 60 * printLogHours);
 
         await supabase
-            .from('print_log')
+            .from('prints')
             .insert({
-                created_by_id: createdById,
+                created_by_user_id: createdById,
                 machine_id: machineId,
                 done_at: finishedDate.toISOString(),
                 filament: printLogGrams
@@ -92,7 +93,7 @@ export const actions = {
 
         // Prevent someone from cancelling if it's already been cancelled
         const { data: safetyCheck } = await supabase
-            .from('print_log')
+            .from('prints')
             .select('*')
             .eq('id', printLogId)
 
@@ -103,10 +104,10 @@ export const actions = {
             console.log(safetyCheck);
 
         await supabase
-            .from('print_log')
+            .from('prints')
             .update({
                 cancelled: true,
-                cancelled_by_id: cancelledById,
+                cancelled_by_user_id: cancelledById,
                 cancelled_at: new Date().toISOString()
             })
             .eq('id', printLogId)

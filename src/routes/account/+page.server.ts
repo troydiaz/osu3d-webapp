@@ -11,7 +11,7 @@ export const load: PageServerLoad = (async ({ locals: { supabase, getSession } }
 	const { data: profile } = await supabase
 		.from('profiles')
 		.select(`email, full_name, discord`)
-		.eq('id', session.user.id)
+		.eq('user_id', session.user.id)
 		.single();
 
 	return { session, profile };
@@ -26,7 +26,7 @@ export const actions = {
 		const session = await getSession();
 
 		const { error } = await supabase.from('profiles').upsert({
-			id: session!.user.id,
+			user_id: session!.user.id,
 			full_name,
 			discord,
 			updated_at: new Date().toISOString()

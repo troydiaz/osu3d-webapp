@@ -3,10 +3,8 @@
 	import type { PageData } from "./$types";
 	import { type Machine, getActivePrintJobTimeRemaining } from "$lib/types/database";
 	import PrintLogTier from "$lib/components/PrintLogTier.svelte";
-	import { InformationCircle, RocketLaunch } from "svelte-heros-v2";
-	import { AlertTypeOld, addAlert } from "$lib/stores/alerts";
-	import { size } from "svelte-floating-ui/core";
-
+	import { RocketLaunch } from "svelte-heros-v2";
+	
     export let data: PageData;
     const { session, machines, userLevel } = data;
 
@@ -50,7 +48,7 @@
         <div class="text-5xl font-thin pr-6">Dashboard</div>
         <RocketLaunch size={'64px'} strokeWidth={'1px'} />
     </div>
-    <PrintLogTier machines={machines.filter(m => m.tier === 1)} tier={1} userLevel={userLevel[0]} />
-    <PrintLogTier machines={machines.filter(m => m.tier === 2)} tier={2} userLevel={userLevel[0]} />
+    <PrintLogTier machines={machines.filter(m => m.tier === 1)} tier={1} userLevel={userLevel} />
+    <PrintLogTier machines={machines.filter(m => m.tier === 2)} tier={2} userLevel={userLevel} />
 </div>
 {/if}

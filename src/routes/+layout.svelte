@@ -133,8 +133,6 @@
                                     </a>
                                 </li>
                             </SidebarTooltip>
-                            {/if}
-
 
                             <!-- Maintenance -->
                             <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/maintenance')}>
@@ -145,6 +143,10 @@
                                     </a>
                                 </li>
                             </SidebarTooltip>
+                            {/if}
+
+
+                            
                         </div>
 
                         <div class="flex flex-col justify-start gap-2">

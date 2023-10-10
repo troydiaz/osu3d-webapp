@@ -21,11 +21,11 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
         data: { session }
     } = await supabase.auth.getSession();
 
-    const { data: userLevel } = await supabase
+    const { data: userLevel } = session?.user.id ? await supabase
         .from('user_levels')
         .select('*')
-        .eq('user_id', session?.user.id)
-        .single();
+        .eq('user_id', session.user.id)
+        .maybeSingle() : { data: null };
 
     return { supabase, session, userLevel: userLevel };
 };

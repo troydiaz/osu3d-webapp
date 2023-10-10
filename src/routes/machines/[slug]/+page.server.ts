@@ -12,12 +12,12 @@ export const load = (async ({ params, locals: { supabase, getSession } }) => {
         .select(`
             *,
             machine_def: machine_defs_id (*),
-            faults: fault_log (
+            faults: faults(
                 *,
                 created_by: created_by_id (*),
                 resolved_by: resolved_by_id (*)
             ),
-            prints: print_log (
+            prints: prints (
                 *,
                 created_by: created_by_id (*),
                 cancelled_by: cancelled_by_id (*)
@@ -44,7 +44,7 @@ export const actions = {
 
         for (let job of resolveList) {
             let check = await supabase
-                .from('fault_log')
+                .from('faults')
                 .select('*')
                 .eq('id', job.id)
                 .single();
@@ -53,7 +53,7 @@ export const actions = {
                 continue;
 
             let update = await supabase
-                .from('fault_log')
+                .from('faults')
                 .update({
                     resolved: true,
                     resolved_by_id: resolvedById,

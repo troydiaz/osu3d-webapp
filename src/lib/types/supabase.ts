@@ -3,7 +3,7 @@ export type Json =
   | number
   | boolean
   | null
-  | { [key: string]: Json }
+  | { [key: string]: Json | undefined }
   | Json[]
 
 export interface Database {
@@ -34,55 +34,55 @@ export interface Database {
   }
   public: {
     Tables: {
-      fault_log: {
+      faults: {
         Row: {
           created_at: string
-          created_by_id: string
+          created_by_user_id: string
           description: string
           id: string
           machine_id: string
           resolved: boolean
           resolved_at: string | null
-          resolved_by_id: string | null
+          resolved_by_user_id: string | null
         }
         Insert: {
           created_at?: string
-          created_by_id: string
+          created_by_user_id: string
           description?: string
           id?: string
           machine_id: string
           resolved?: boolean
           resolved_at?: string | null
-          resolved_by_id?: string | null
+          resolved_by_user_id?: string | null
         }
         Update: {
           created_at?: string
-          created_by_id?: string
+          created_by_user_id?: string
           description?: string
           id?: string
           machine_id?: string
           resolved?: boolean
           resolved_at?: string | null
-          resolved_by_id?: string | null
+          resolved_by_user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "fault_log_created_by_id_fkey"
-            columns: ["created_by_id"]
+            foreignKeyName: "faults_created_by_user_id_fkey"
+            columns: ["created_by_user_id"]
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            referencedColumns: ["user_id"]
           },
           {
-            foreignKeyName: "fault_log_machine_id_fkey"
+            foreignKeyName: "faults_machine_id_fkey"
             columns: ["machine_id"]
             referencedRelation: "machines"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "fault_log_resolved_by_id_fkey"
-            columns: ["resolved_by_id"]
+            foreignKeyName: "faults_resolved_by_user_id_fkey"
+            columns: ["resolved_by_user_id"]
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            referencedColumns: ["user_id"]
           }
         ]
       }
@@ -107,10 +107,10 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "inv_categories_created_by_id_fkey"
+            foreignKeyName: "inv_categories_created_by_user_id_fkey"
             columns: ["created_by_id"]
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            referencedColumns: ["user_id"]
           }
         ]
       }
@@ -138,10 +138,10 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "inv_change_created_by_id_fkey"
+            foreignKeyName: "inv_change_created_by_user_id_fkey"
             columns: ["created_by_id"]
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "inv_change_inv_item_id_fkey"
@@ -178,10 +178,10 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "inv_item_created_by_id_fkey"
+            foreignKeyName: "inv_item_created_by_user_id_fkey"
             columns: ["created_by_id"]
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "inv_items_inv_category_id_fkey"
@@ -243,13 +243,13 @@ export interface Database {
           }
         ]
       }
-      print_log: {
+      prints: {
         Row: {
           cancelled: boolean
           cancelled_at: string | null
-          cancelled_by_id: string | null
+          cancelled_by_user_id: string | null
           created_at: string
-          created_by_id: string
+          created_by_user_id: string
           done_at: string
           filament: number
           id: string
@@ -258,9 +258,9 @@ export interface Database {
         Insert: {
           cancelled?: boolean
           cancelled_at?: string | null
-          cancelled_by_id?: string | null
+          cancelled_by_user_id?: string | null
           created_at?: string
-          created_by_id: string
+          created_by_user_id: string
           done_at: string
           filament?: number
           id?: string
@@ -269,9 +269,9 @@ export interface Database {
         Update: {
           cancelled?: boolean
           cancelled_at?: string | null
-          cancelled_by_id?: string | null
+          cancelled_by_user_id?: string | null
           created_at?: string
-          created_by_id?: string
+          created_by_user_id?: string
           done_at?: string
           filament?: number
           id?: string
@@ -279,19 +279,19 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "print_log_cancelled_by_id_fkey"
-            columns: ["cancelled_by_id"]
+            foreignKeyName: "prints_cancelled_by_user_id_fkey"
+            columns: ["cancelled_by_user_id"]
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            referencedColumns: ["user_id"]
           },
           {
-            foreignKeyName: "print_log_created_by_id_fkey"
-            columns: ["created_by_id"]
+            foreignKeyName: "prints_created_by_user_id_fkey"
+            columns: ["created_by_user_id"]
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            referencedColumns: ["user_id"]
           },
           {
-            foreignKeyName: "print_log_machine_id_fkey"
+            foreignKeyName: "prints_machine_id_fkey"
             columns: ["machine_id"]
             referencedRelation: "machines"
             referencedColumns: ["id"]
@@ -304,29 +304,29 @@ export interface Database {
           discord: string | null
           email: string | null
           full_name: string | null
-          id: string
           updated_at: string
+          user_id: string
         }
         Insert: {
           created_at?: string
           discord?: string | null
           email?: string | null
           full_name?: string | null
-          id: string
           updated_at?: string
+          user_id: string
         }
         Update: {
           created_at?: string
           discord?: string | null
           email?: string | null
           full_name?: string | null
-          id?: string
           updated_at?: string
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["id"]
+            foreignKeyName: "profiles_user_id_fkey"
+            columns: ["user_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -488,12 +488,6 @@ export interface Database {
             foreignKeyName: "objects_bucketId_fkey"
             columns: ["bucket_id"]
             referencedRelation: "buckets"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "objects_owner_fkey"
-            columns: ["owner"]
-            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]

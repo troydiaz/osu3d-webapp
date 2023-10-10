@@ -84,7 +84,7 @@
 </script>
 
 <div class="flex flex-row justify-center items-end gap-8 w-full pb-8 select-none">
-  <div class=" flex flex-row justify-center items-center gap-8">
+  <div class="flex flex-row justify-center items-center gap-8">
     <div class="btn btn-square btn-ghost" on:click={() => selectedMonth = addMonths(selectedMonth, -1)}>
       <ChevronLeft size={'32px'} />
     </div>

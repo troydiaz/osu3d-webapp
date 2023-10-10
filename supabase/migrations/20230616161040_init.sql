@@ -12,7 +12,7 @@ create table
 
 create table
   public.profiles (
-    id uuid not null,
+    user_id uuid not null,
     updated_at timestamp with time zone not null default now(),
     username text null,
     full_name text null,
@@ -20,9 +20,9 @@ create table
     website text null,
     created_at timestamp with time zone not null default now(),
     email text null,
-    constraint profiles_pkey primary key (id),
+    constraint profiles_pkey primary key (user_id),
     constraint profiles_username_key unique (username),
-    constraint profiles_id_fkey foreign key (id) references auth.users (id) on delete cascade,
+    constraint profiles_user_id_fkey foreign key (user_id) references auth.users (id) on delete cascade,
     constraint username_length check ((char_length(username) >= 3))
   ) tablespace pg_default;
 
@@ -47,34 +47,34 @@ create table
   ) tablespace pg_default;
 
 create table
-  public.fault_log (
+  public.faults (
     id uuid not null default uuid_generate_v4 (),
     created_at timestamp with time zone not null default now(),
     machine_id uuid not null,
     resolved boolean not null default false,
-    resolved_by_id uuid null,
+    resolved_by_user_id uuid null,
     resolved_at timestamp with time zone null,
-    created_by_id uuid not null,
+    created_by_user_id uuid not null,
     description text not null default ''::text,
-    constraint fault_log_pkey primary key (id),
-    constraint fault_log_created_by_id_fkey foreign key (created_by_id) references profiles (id),
-    constraint fault_log_machine_id_fkey foreign key (machine_id) references machines (id),
-    constraint fault_log_resolved_by_id_fkey foreign key (resolved_by_id) references profiles (id)
+    constraint faults_pkey primary key (id),
+    constraint faults_created_by_user_id_fkey foreign key (created_by_user_id) references profiles (user_id),
+    constraint faults_machine_id_fkey foreign key (machine_id) references machines (id),
+    constraint faults_resolved_by_user_id_fkey foreign key (resolved_by_user_id) references profiles (user_id)
   ) tablespace pg_default;
 
 create table
-  public.print_log (
+  public.prints (
     id uuid not null default uuid_generate_v4 (),
-    created_by_id uuid not null,
+    created_by_user_id uuid not null,
     machine_id uuid not null,
     created_at timestamp with time zone not null default now(),
     done_at timestamp with time zone not null,
     cancelled boolean not null default false,
-    cancelled_by_id uuid null,
+    cancelled_by_user_id uuid null,
     cancelled_at timestamp with time zone null,
     filament bigint not null default '0'::bigint,
-    constraint print_log_pkey primary key (id),
-    constraint print_log_cancelled_by_id_fkey foreign key (cancelled_by_id) references profiles (id),
-    constraint print_log_created_by_id_fkey foreign key (created_by_id) references profiles (id),
-    constraint print_log_machine_id_fkey foreign key (machine_id) references machines (id)
+    constraint prints_pkey primary key (id),
+    constraint prints_cancelled_by_user_id_fkey foreign key (cancelled_by_user_id) references profiles (user_id),
+    constraint prints_created_by_user_id_fkey foreign key (created_by_user_id) references profiles (user_id),
+    constraint prints_machine_id_fkey foreign key (machine_id) references machines (id)
   ) tablespace pg_default;
