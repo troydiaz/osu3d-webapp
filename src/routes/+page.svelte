@@ -44,7 +44,7 @@
         <Auth
             providers={['google']}
             supabaseClient={data.supabase}
-            redirectTo={(dev && browser) ? 'http://localhost:5173/' : `${data.url}/logging-in?redirect=/dashboard`}
+            redirectTo={`${data.url}/logging-in?redirect=/dashboard`}
             showLinks={false}
             theme="minimal"
             appearance={customTheme}

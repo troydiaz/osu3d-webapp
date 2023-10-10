@@ -76,7 +76,7 @@
                     <div class="h-full flex flex-col justify-between mt-2">
                         <div class="flex flex-col justify-start gap-2">
                             <!-- Notifications -->
-                            <SidebarTooltip>
+                            <!-- <SidebarTooltip>
                                 <div slot="text" class="flex flex-col justify-center items-center h-full justify-self-end"><div class="">Notifications</div></div>
                                 <li>
                                     <a on:click={() => showAlerts = !showAlerts} class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/logging-out') ? 'bg-info text-info-content hover:!bg-info hover:!text-info-content' : 'text-red-400'}">
@@ -84,7 +84,7 @@
                                         <span class="z-50 badge badge-error font-bold badge-md absolute top-0 right-1 px-1 py-1">3</span>
                                     </a>
                                 </li>
-                            </SidebarTooltip>
+                            </SidebarTooltip> -->
                             <div class="divider m-0"></div>
                             <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/dashboard')}>
                             <div slot="text" class="flex flex-col justify-center items-center h-full"><div class="">Dashboard</div></div>
