@@ -55,10 +55,6 @@
         }
     };
 
-    onMount(() => {
-        console.log(machines);
-    })
-
     const virtualElement = writable<VirtualElement>({ getBoundingClientRect });
     floatingRef(virtualElement);
 

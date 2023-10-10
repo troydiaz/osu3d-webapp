@@ -51,7 +51,5 @@ export const actions = {
             })
             .eq('id', faultId)
             .select();
-
-        console.log(result);
     }
 } satisfies Actions;

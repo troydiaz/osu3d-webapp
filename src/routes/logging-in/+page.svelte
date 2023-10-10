@@ -8,7 +8,6 @@
 
     $: {
         const redirectTo = $page.url.searchParams.get('redirect');
-        console.log(data);
 
         // check if user has been set in session store, then redirect
         if (browser && data.session) {

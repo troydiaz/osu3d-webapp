@@ -13,8 +13,6 @@
 
     let filterText = '';
 
-    $: console.log(filterText);
-
     $: filteredUsers = filterText.trim() !== '' ? userLevels.filter(u => u.full_name?.toLowerCase().includes(filterText.toLowerCase().trim()) || u.email?.toLowerCase().includes(filterText.toLowerCase().trim())) : userLevels;
 
     let lowerIndex: number = 0;

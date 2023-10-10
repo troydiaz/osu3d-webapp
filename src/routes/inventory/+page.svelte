@@ -7,8 +7,6 @@
 
     export let data: PageData;
     let { session, inventory, categories } = data;
-
-    $: console.log(inventory);
 </script>
 
 <svelte:head>

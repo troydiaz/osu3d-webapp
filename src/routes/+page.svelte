@@ -3,6 +3,7 @@
 	import type { Appearance } from '@supabase/auth-ui-svelte/dist/types';
     import type { PageData } from './$types';
 	import { onMount } from 'svelte';
+    import { dev, browser } from '$app/environment';
 
     export let data: PageData;
 
@@ -25,8 +26,6 @@
             container: 'background-size: 5px 5px;'
         }
     } as Appearance
-
-    onMount(() => console.log(data.url));
 </script>
 
 <svelte:head>
@@ -39,13 +38,13 @@
         <img src="osu3d.svg" class="w-32 h-32">
         <div>
             <div class="font-thin text-xl md:text-3xl text-center">3D Printing and<br>Additive Manufacturing Club</div>
-            <div class="divider w-full max-w-sm mx-auto my-0"></div>
+            <div class="divider w-full max-w-sm mx-auto my-4"></div>
             <div class="font-light text-xl md:text-3xl text-center">Oregon State University</div>
         </div>
         <Auth
             providers={['google']}
             supabaseClient={data.supabase}
-            redirectTo={`${data.url}/logging-in?redirect=/dashboard`}
+            redirectTo={(dev && browser) ? 'http://localhost:5173/' : `${data.url}/logging-in?redirect=/dashboard`}
             showLinks={false}
             theme="minimal"
             appearance={customTheme}

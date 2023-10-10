@@ -8,10 +8,6 @@
 
     export let faults: (Fault & { checked: boolean })[];
 
-    $: if (faults) {
-        console.log(faults);
-    }
-
     let lowerIndex: number = 0;
     let upperIndex: number = 0;
 </script>
