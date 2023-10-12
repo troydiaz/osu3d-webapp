@@ -36,7 +36,7 @@
             <div class="grow"></div>
     
         </div>
-        <table class="table table-compact min-w-full shadow-lg bg-neutral overflow-hidden">
+        <table class="table table-compact min-w-full shadow-lg bg-base-100 outline outline-1 outline-base-content/5 overflow-hidden">
             <thead>
                 <tr>
                     <th>Full Name</th>
@@ -75,14 +75,14 @@
             <div>{userLevels.length} Entries Total</div>
             <div class="divider divider-horizontal"></div>
             <div class="grow relative">
-                <input class="input input-sm input-bor w-full bg-neutral" type="text" placeholder="Filter by name or email..." bind:value={filterText} />
+                <input class="input input-sm input-bor w-full bg-base-100 outline outline-1 outline-base-content/5" type="text" placeholder="Filter by name or email..." bind:value={filterText} />
                 <button class="btn btn-sm btn-ghost hover:bg-transparent absolute right-0 opacity-50" on:click={() => filterText = ''}>Clear</button>
             </div>
             <div class="divider divider-horizontal"></div>
             <Paginate totalRows={filteredUsers.length} bind:lowerIndex bind:upperIndex />
         </div>
         {#if lowerIndex !== undefined && upperIndex !== undefined}
-        <table class="table table-compact min-w-full shadow-lg bg-neutral overflow-hidden">
+        <table class="table table-compact min-w-full shadow-lg bg-base-100 outline outline-1 outline-base-content/5 overflow-hidden">
             <thead>
                 <tr>
                     <th></th>
@@ -95,7 +95,7 @@
             </thead>
             <tbody>
                 {#each filteredUsers.slice(lowerIndex, upperIndex) as user, index}
-                <tr class="transition {user.checked ? 'bg-success text-success-content' : 'bg-neutral text-neutral-content'}">
+                <tr class="transition {user.checked ? 'bg-success text-success-content' : 'bg-base-100 outline outline-1 outline-base-content/5 text-neutral-content'}">
                     <td><input type="checkbox" class="checkbox bg-base-100 align-middle disabled:bg-opacity-25" bind:checked={user.checked} disabled={user.level === -1} /></td>
                     <td>{user.full_name}</td>
                     <td>{user.email}</td>
@@ -133,7 +133,7 @@
             <button class="btn btn-sm btn-success" form="change-perms-form" type="submit" disabled={selectedUsers.length === 0}>Save Changes</button>
             <div class="grow"></div>
         </div>
-        <table class="table table-compact min-w-full shadow-lg bg-neutral overflow-hidden">
+        <table class="table table-compact min-w-full shadow-lg bg-base-100 outline outline-1 outline-base-content/5 overflow-hidden">
             <thead>
                 <tr>
                     <th>Full Name</th>

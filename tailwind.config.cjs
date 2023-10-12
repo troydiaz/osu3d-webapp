@@ -11,7 +11,9 @@ module.exports = {
   daisyui: {
     themes: [
       'dark',
-      'cmyk'
+      'light'
     ],
-  }
+  },
+  darkMode: ['class', '[data-theme="dark"]'],
+  
 }

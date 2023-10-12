@@ -4,6 +4,14 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
+		
+		<script>
+			if (localStorage.getItem('theme') === 'dark')
+				document.getElementsByTagName('html')[0].setAttribute('data-theme', 'dark');
+			else if (localStorage.getItem('theme') === 'light')
+				document.getElementsByTagName('html')[0].setAttribute('data-theme', 'light');
+		</script>
+
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

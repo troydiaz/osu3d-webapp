@@ -26,7 +26,7 @@
         <Paginate totalRows={faults.length} bind:lowerIndex bind:upperIndex />
     </div>
     {#if lowerIndex !== undefined && upperIndex !== undefined}
-    <table class="table table-compact min-w-full shadow-lg bg-neutral overflow-hidden">
+    <table class="table table-compact min-w-full shadow-lg bg-base-100 outline outline-1 outline-base-content/5 overflow-hidden">
         <thead>
             <tr>
                 <th></th>
@@ -40,7 +40,7 @@
         </thead>
         <tbody>
             {#each faults.slice(lowerIndex, upperIndex) as fault, i}
-                <tr class="transition {fault.checked ? 'bg-success text-success-content' : 'bg-neutral text-neutral-content'}" class:cursor-pointer={!fault.resolved} on:click={() => fault.resolved ? null : fault.checked = !fault.checked}>
+                <tr class="transition {fault.checked ? 'bg-success text-success-content' : 'bg-base-100 outline outline-1 outline-base-content/5 text-neutral-content'}" class:cursor-pointer={!fault.resolved} on:click={() => fault.resolved ? null : fault.checked = !fault.checked}>
                     <td><input type="checkbox" class="checkbox bg-base-100 disabled:bg-opacity-25 align-middle" bind:checked={fault.checked} disabled={fault.resolved} /></td>
                     <td>{getDateAndTime(fault.created_at)}</td>
                     <td>{fault.created_by.full_name}</td>

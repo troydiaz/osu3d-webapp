@@ -4,6 +4,8 @@
 	import { onMount } from 'svelte';
 	import { PermCategory, PermFlag, getPermCategory, getPermissionBit, hasPermission } from '$lib/helpers.js';
 	import { addAlert, AlertTypeOld } from '$lib/stores/alerts.js';
+	import PageHeader from '$lib/components/PageHeader.svelte';
+  import ledger from '$lib/images/ledger.png';
 	
   export let data: PageData;
   export let form: ActionData;
@@ -14,17 +16,12 @@
 </script>
 
 <div class="flex flex-col gap-12 lg:my-12 w-full">
-  <div class="relative overflow-hidden flex flex-row justify-between items-center rounded-2xl p-8 shadow-lg bg-neutral">
-    <a href="/users" class="btn btn-ghost btn-square uppercase text-xl font-light"><ArrowLeft size={'36px'} /></a>
-    <div class="grow"></div>
-    <span class="text-5xl font-thin pr-6">User Permissions</span>
-    <Cog6Tooth size={'64px'} strokeWidth={'1px'} />
-  </div>
+  <PageHeader name="Modify Permissions" backUrl="/users" image={ledger} />
 
   <div class="flex flex-col gap-4">
     <div class="font-thin text-3xl">Flags</div>
     <!-- Account Settings -->
-    <div class="bg-neutral rounded-2xl p-8 w-full">
+    <div class="bg-base-100 outline outline-1 outline-base-content/5 rounded-2xl p-8 w-full">
 
       <div class="flex flex-col">
 

@@ -16,7 +16,7 @@
 
 <input type="checkbox" id="print-log-modal" class="modal-toggle" bind:checked={modalVisible} />
 {#if machineToLog}
-<div class="modal lg:ml-80">
+<div class="modal">
   <div class="modal-box w-full">
     <form method="POST" action="?/addPrintLog">
       <!-- Modal Title -->

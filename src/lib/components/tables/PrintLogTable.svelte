@@ -18,7 +18,7 @@
         <Paginate totalRows={prints.length} bind:lowerIndex bind:upperIndex />
     </div>
     {#if lowerIndex !== undefined && upperIndex !== undefined}
-    <table class="table table-compact shadow-lg bg-neutral overflow-hidden">
+    <table class="table table-compact shadow-lg bg-base-100 outline outline-1 outline-base-content/5 overflow-hidden">
         <thead>
             <tr>
                 <th></th>

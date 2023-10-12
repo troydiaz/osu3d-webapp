@@ -8,8 +8,9 @@
 	import FaultHistoryModal from "$lib/components/modals/FaultHistoryModal.svelte";
 	import type { Machine } from "$lib/types/database";
 	import PrintHistoryModal from "$lib/components/modals/PrintHistoryModal.svelte";
-	import { Wrench } from "svelte-heros-v2";
 	import MachineTable from "$lib/components/tables/MachineTable.svelte";
+	import PageHeader from "$lib/components/PageHeader.svelte";
+    import printer from '$lib/images/printer.png';
 
     const [floatingRef, floatingContent] = createFloatingActions({
         strategy: 'absolute',
@@ -74,11 +75,8 @@
 </svelte:head>
 
 <div class="flex flex-col gap-12 lg:my-12 w-full">
-    <div class="relative overflow-hidden flex flex-row justify-between items-center bg-neutral rounded-2xl p-8 shadow-lg">
-        <div class="grow"></div>
-        <span class="text-5xl font-thin pr-6">Machine Manager</span>
-        <Wrench size={'64px'} strokeWidth={'1px'} />
-    </div>
+    <PageHeader name="Machine Manager" image={printer} />
+    
     {#if machines}
     <MachineTable machines={machines.filter(m => m.tier === 1)} tier={1} />
     <MachineTable machines={machines.filter(m => m.tier === 2)} tier={2} />

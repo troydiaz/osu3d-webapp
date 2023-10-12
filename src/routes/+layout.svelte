@@ -3,13 +3,24 @@
   import { invalidate } from "$app/navigation";
   import { onMount } from "svelte";
   import type { LayoutData } from "./$types";
-  import { ArrowLeftOnRectangle, Bars3, Bell, Calendar, Cog6Tooth, CubeTransparent, InformationCircle, RocketLaunch, Users, Wrench } from "svelte-heros-v2";
-  import { alerts, deleteAlertId, getAlertStyling } from '$lib/stores/alerts';
+  import { Bars3, InformationCircle, Moon, Sun } from "svelte-heros-v2";
+  import { alerts, getAlertStyling } from '$lib/stores/alerts';
   import { slide } from "svelte/transition";
-  import { page } from "$app/stores";
   import SidebarTooltip from "$lib/components/SidebarTooltip.svelte";
   import AlertTray from "$lib/components/AlertTray.svelte";
   import { PermCategory, PermFlag, hasPermission } from "$lib/helpers";
+  import { themeChange } from 'theme-change';
+  import rocket from '$lib/images/rocket.png';
+  import gear from '$lib/images/gear.png';
+  import box from '$lib/images/package.png';
+  import ledger from '$lib/images/ledger.png';
+  import hammer from '$lib/images/hammer.png';
+  import printer from '$lib/images/printer.png';
+  import door from '$lib/images/door.png';
+	import SidebarButton from "$lib/components/SidebarButton.svelte";
+  import sun from '$lib/images/sun.png';
+  import moon from '$lib/images/moon.png';
+	import { page } from "$app/stores";
   
   export let data: LayoutData;
   let showAlerts = false;
@@ -18,6 +29,9 @@
   
   
   onMount(() => {
+    // Theme swap button
+    themeChange(false);
+
     const { data } = supabase.auth.onAuthStateChange(() => {
       invalidate('supabase:auth')
     });
@@ -26,7 +40,7 @@
   });
 </script>
 
-<main class="bg-gradient-to-b from-base-100 to-base-200">
+<main class="bg-gradient-to-b from-base-100 to-slate-100 dark:from-base-200 dark:to-slate-900">
   {#if data.session}
   <!-- Notification Tray -->
   
@@ -69,7 +83,7 @@
   
   <div class="z-20 drawer-side overflow-visible">
     <label for="my-drawer-2" class="drawer-overlay"></label>
-    <ul class="menu h-full px-4 bg-base-300">
+    <ul class="menu h-full px-4 bg-base-100 outline outline-1 outline-base-content/5">
       <div class="h-full flex flex-col justify-start items-center gap-4 py-4">
         <div class="w-12">
           <img src="/osu3d.svg" class="m-auto opacity-75">
@@ -89,88 +103,51 @@
             <div class="divider m-0"></div>
 
             <!-- Dashboard -->
-            <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/dashboard')}>
-              <div slot="text" class="flex flex-col justify-center items-center h-full"><div class="">Dashboard</div></div>
-              <li>
-                <a href="/dashboard" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/dashboard') ? 'bg-info text-info-content hover:!bg-info hover:!text-info-content' : 'text-violet-400'}">
-                  <RocketLaunch size="40px" />
-                </a>
-              </li>
-            </SidebarTooltip>
+
+            <SidebarButton name="Dashboard" url="/dashboard" image={rocket} />
 
             <!-- Account Settings -->
-            <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/account')}>
-              <div slot="text" class="flex flex-col justify-center items-center h-full"><div class="">Settings</div></div>
-              <li>
-                <a href="/account" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/account') ? 'bg-info text-info-content hover:!bg-info hover:!text-info-content' : 'text-white-400'}">
-                  <Cog6Tooth size="40px" />
-                </a>
-              </li>
-            </SidebarTooltip>
+            <SidebarButton name="Settings" url="/account" image={gear} />
+
+            <div class="divider m-0"></div>
             
             <!-- Machines -->
             {#if hasPermission(userLevel?.level, PermCategory.MACHINES, PermFlag.FIRST)}
-            <div class="divider m-0"></div>
-            <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/machines')}>
-              <div slot="text" class="flex flex-col justify-center items-center h-full"><div class="">Machines</div></div>
-              <li>
-                <a href="/machines" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/machines') ? 'bg-info text-info-content hover:!bg-info hover:text-info-content' : 'text-green-400'}">
-                  <Wrench size="40px" />
-                </a>
-              </li>
-            </SidebarTooltip>
+            
+            <SidebarButton name="Machines" url="/machines" image={printer} />
             {/if}
             
             <!-- Members -->
             {#if hasPermission(userLevel?.level, PermCategory.USERS, PermFlag.FIRST)}
-            <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/users')}>
-              <div slot="text" class="flex flex-col justify-center items-center h-full"><div class="">Members</div></div>
-              <li>
-                <a href="/users" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/users') ? 'bg-info text-info-content hover:!bg-info hover:!text-info-content' : 'text-blue-400'}">
-                  <Users size="40px" />
-                  <!-- <span class="z-50 badge bg-info text-info-content font-bold badge-md absolute top-0 right-1 px-1 py-1">3</span> -->
-                </a>
-              </li>
-            </SidebarTooltip> 
+            <SidebarButton name="Members" url="/users" image={ledger} />
             {/if}
             
             <!-- Inventory -->
+            
             {#if hasPermission(userLevel?.level, PermCategory.INVENTORY, PermFlag.FIRST)}
-            <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/inventory')}>
-              <div slot="text" class="flex flex-col justify-center items-center h-full"><div class="">Inventory</div></div>
-              <li>
-                <a href="/inventory" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/inventory') ? 'bg-info text-info-content hover:!bg-info hover:!text-info-content' : 'text-teal-400'}">
-                  <CubeTransparent size="40px" />
-                </a>
-              </li>
-            </SidebarTooltip>
+            <SidebarButton name="Inventory" url="/inventory" image={box} />
             {/if}
             
             
             <!-- Maintenance -->
             {#if hasPermission(userLevel?.level, PermCategory.MAINTENANCE, PermFlag.FIRST)}
-            <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/maintenance')}>
-              <div slot="text" class="flex flex-col justify-center items-center h-full"><div class="">Maintenance</div></div>
-              <li>
-                <a href="/maintenance" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/maintenance') ? 'bg-info text-info-content hover:!bg-info hover:!text-info-content' : 'text-orange-400'}">
-                  <Calendar size="40px" />
-                </a>
-              </li>
-            </SidebarTooltip>
+            <SidebarButton name="Maintenance" url="/maintenance" image={hammer} />
             {/if}
           </div>
           
           <div class="flex flex-col justify-start gap-2">
-            
-            <!-- Logout Button -->
-            <SidebarTooltip activeRoute={$page.url.pathname.startsWith('/logging-out')}>
-              <div slot="text" class="flex flex-col justify-center items-center h-full justify-self-end"><div class="">Logout</div></div>
+            <SidebarTooltip>
+              <div slot="text" class="flex flex-col justify-center items-center h-full justify-self-end"><div class="">Theme</div></div>
               <li>
-                <a href="/logging-out" class="flex-row justify-center items-center hover:bg-base-100 hover:rounded-r-none {$page.url.pathname.startsWith('/logging-out') ? 'bg-info text-info-content hover:!bg-info hover:!text-info-content' : 'text-red-400'}">
-                  <ArrowLeftOnRectangle size="40px" />
-                </a>
+                <button data-toggle-theme="light,dark" data-act-class="swap-active" class="swap group bg-gradient-to-b hover:rounded-r-none outline outline-1 outline-base-content/5 hover:from-blue-300 hover:to-blue-400 hover:dark:from-blue-500 hover:dark:to-blue-600">
+                  <div class="swap-off"><img src={moon} class="opacity-50 w-10 h-10" /></div>
+                  <div class="swap-on"><img src={sun} class="opacity-50 w-10 h-10" /></div>
+                </button>
               </li>
             </SidebarTooltip>
+            
+            <!-- Logout Button -->
+            <SidebarButton name="Logout" url="/logging-out" image={door} />
           </div>
         </div>
       </div>
