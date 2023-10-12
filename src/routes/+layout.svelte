@@ -13,14 +13,13 @@
   import rocket from '$lib/images/rocket.png';
   import gear from '$lib/images/gear.png';
   import box from '$lib/images/package.png';
-  import ledger from '$lib/images/ledger.png';
+  import ledger from '$lib/images/orange_book.png';
   import hammer from '$lib/images/hammer.png';
   import printer from '$lib/images/printer.png';
-  import door from '$lib/images/door.png';
+  import luggage from '$lib/images/luggage.png';
 	import SidebarButton from "$lib/components/SidebarButton.svelte";
   import sun from '$lib/images/sun.png';
-  import moon from '$lib/images/moon.png';
-	import { page } from "$app/stores";
+  import moon from '$lib/images/full_moon.png';
   
   export let data: LayoutData;
   let showAlerts = false;
@@ -139,7 +138,7 @@
             <SidebarTooltip>
               <div slot="text" class="flex flex-col justify-center items-center h-full justify-self-end"><div class="">Theme</div></div>
               <li>
-                <button data-toggle-theme="light,dark" data-act-class="swap-active" class="swap group bg-gradient-to-b hover:rounded-r-none outline outline-1 outline-base-content/5 hover:from-blue-300 hover:to-blue-400 hover:dark:from-blue-500 hover:dark:to-blue-600">
+                <button data-toggle-theme="light,dark" data-act-class="swap-active" class="swap group bg-gradient-to-b hover:rounded-r-none outline outline-1 outline-base-content/5 hover:from-blue-300 hover:to-blue-400 hover:dark:from-blue-400 hover:dark:to-blue-500">
                   <div class="swap-off"><img src={moon} class="opacity-50 w-10 h-10" /></div>
                   <div class="swap-on"><img src={sun} class="opacity-50 w-10 h-10" /></div>
                 </button>
@@ -147,7 +146,7 @@
             </SidebarTooltip>
             
             <!-- Logout Button -->
-            <SidebarButton name="Logout" url="/logging-out" image={door} />
+            <SidebarButton name="Logout" url="/logging-out" image={luggage} />
           </div>
         </div>
       </div>

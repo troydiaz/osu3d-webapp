@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { createFloatingActions } from "svelte-floating-ui";
-	import { flip, offset, shift } from "svelte-floating-ui/core";
+	import { offset } from "svelte-floating-ui/core";
 	import { fly } from "svelte/transition";
 
-
   export let activeRoute = false;
-
   let showTooltip = false;
 
   const [floatingRef, floatingContent] = createFloatingActions({
@@ -23,6 +21,6 @@
 
 {#if showTooltip}
 <div class="absolute border border-base-content/5 border-l-0 -translate-x-0.5" use:floatingContent>
-  <div class="pointer-events-none px-4 py-1 rounded-r-lg text-2xl h-[56px] transition bg-gradient-to-b font-light !text-black {activeRoute ? 'from-blue-300 to-blue-400 dark:from-blue-500 dark:to-blue-600' : 'from-blue-300 to-blue-400 dark:from-blue-500 dark:to-blue-600'}" transition:fly={{ x: -15, duration: 150}}><slot name="text" /></div>
+  <div class="pointer-events-none px-4 py-1 rounded-r-lg text-2xl h-[56px] transition bg-gradient-to-b font-light !text-black {activeRoute ? 'from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500' : 'from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500'}" transition:fly={{ x: -15, duration: 150}}><slot name="text" /></div>
 </div>
 {/if}

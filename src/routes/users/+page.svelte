@@ -5,7 +5,7 @@
 	import UserTable from "$lib/components/tables/UserTable.svelte";
 	import { AlertTypeOld, addAlert } from "$lib/stores/alerts";
 	import PageHeader from "$lib/components/PageHeader.svelte";
-    import ledger from '$lib/images/ledger.png';
+    import ledger from '$lib/images/orange_book.png';
 
     export let data: PageData;
     export let form: ActionData;

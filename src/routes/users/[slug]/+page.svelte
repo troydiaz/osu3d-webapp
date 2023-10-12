@@ -5,7 +5,7 @@
 	import { PermCategory, PermFlag, getPermCategory, getPermissionBit, hasPermission } from '$lib/helpers.js';
 	import { addAlert, AlertTypeOld } from '$lib/stores/alerts.js';
 	import PageHeader from '$lib/components/PageHeader.svelte';
-  import ledger from '$lib/images/ledger.png';
+  import ledger from '$lib/images/orange_book.png';
 	
   export let data: PageData;
   export let form: ActionData;
