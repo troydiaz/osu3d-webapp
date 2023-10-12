@@ -14,7 +14,7 @@
 </script>
 
 <svelte:head>
-    <title>osu3d | user manager</title>
+    <title>Users</title>
 </svelte:head>
 
 <div class="flex flex-col gap-12 lg:my-12 w-full">

@@ -12,7 +12,7 @@ export const load: PageServerLoad = (async ({ locals: { supabase, getSession } }
 		.from('profiles')
 		.select(`email, full_name, discord`)
 		.eq('user_id', session.user.id)
-		.single();
+		.maybeSingle();
 
 	return { session, profile };
 }) satisfies PageServerLoad;
@@ -25,23 +25,25 @@ export const actions = {
 
 		const session = await getSession();
 
-		const { error } = await supabase.from('profiles').upsert({
-			user_id: session!.user.id,
+		const { error } = await supabase.from('profiles').update({
 			full_name,
 			discord,
-			updated_at: new Date().toISOString()
-		});
+			updated_at: new Date().toISOString(),
+		}).eq('user_id', session!.user.id,);
 
-		if (error) {
+
+		if (error !== null) {
 			return fail(500, {
 				full_name,
-				discord
+				discord,
+				success: false
 			});
 		}
 
 		return {
 			full_name,
-			discord
+			discord,
+			success: true
 		};
 	},
 } satisfies Actions;

@@ -1,11 +1,11 @@
 import type { Database } from "./supabase";
 
-export type Fault = Database['public']['Tables']['fault_log']['Row'] & {
+export type Fault = Database['public']['Tables']['faults']['Row'] & {
     created_by: Database['public']['Tables']['profiles']['Row'],
     resolved_by: Database['public']['Tables']['profiles']['Row'] | null
 };
 
-export type Print = Database['public']['Tables']['print_log']['Row'] & {
+export type Print = Database['public']['Tables']['prints']['Row'] & {
     created_by: Database['public']['Tables']['profiles']['Row'],
     cancelled_by: Database['public']['Tables']['profiles']['Row'] | null
 };

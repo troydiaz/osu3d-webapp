@@ -12,9 +12,10 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"update-types": "source .env && npx supabase gen types typescript --local > src/lib/types/supabase.ts",
 		"db:pull": "dotenv -e .env npx prisma db pull",
-		"dump-prod": "./supabase/dump-remote.sh",
-		"reset-prod": "./supabase/reset-remote.sh",
-		"types-prod": "./supabase/gen-types-remote.sh"
+		"dump-remote": "./supabase/dump-remote.sh",
+		"reset-remote": "./supabase/reset-remote.sh",
+		"types-remote": "./supabase/gen-types-remote.sh",
+		"push-remote": "./supabase/push-remote.sh"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.1.0",

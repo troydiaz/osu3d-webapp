@@ -7,27 +7,27 @@ export const load = (async ({ params, locals: { supabase, getSession } }) => {
     if (!session)
         throw redirect(303, '/');
 
-        const { data: machine } = await supabase
-        .from('machines')
-        .select(`
+    const { data: machine } = await supabase
+    .from('machines')
+    .select(`
+        *,
+        machine_def: machine_defs_id (*),
+        faults: faults(
             *,
-            machine_def: machine_defs_id (*),
-            faults: faults(
-                *,
-                created_by: created_by_id (*),
-                resolved_by: resolved_by_id (*)
-            ),
-            prints: prints (
-                *,
-                created_by: created_by_id (*),
-                cancelled_by: cancelled_by_id (*)
-            )
-        `)
-        .eq('id', params.slug)
-        .order('created_at', { foreignTable: 'faults', ascending: false })
-        .order('created_at', { foreignTable: 'prints', ascending: false })
-        .returns<Machine[]>()
-        .single();
+            created_by: created_by_id (*),
+            resolved_by: resolved_by_id (*)
+        ),
+        prints: prints (
+            *,
+            created_by: created_by_id (*),
+            cancelled_by: cancelled_by_id (*)
+        )
+    `)
+    .eq('id', params.slug)
+    .order('created_at', { foreignTable: 'faults', ascending: false })
+    .order('created_at', { foreignTable: 'prints', ascending: false })
+    .returns<Machine[]>()
+    .single();
 
     return { session, machine, slug: params.slug }
 }) satisfies PageServerLoad;

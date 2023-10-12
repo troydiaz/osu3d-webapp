@@ -1,14 +1,13 @@
 <script lang="ts">
-	import { getDateAndTime } from "$lib/helpers";
-	import type { User, UserLevel } from "$lib/types/database";
+	import { goto } from "$app/navigation";
+	import { PermCategory, PermFlag, getDateAndTime, hasPermission } from "$lib/helpers";
+	import type { UserLevel } from "$lib/types/database";
 	import Paginate from "$lib/utilities/Paginate.svelte";
 	import { ArrowLongRight, ChevronDown, QuestionMarkCircle } from "svelte-heros-v2";
-	import { prevent_default } from "svelte/internal";
-    
+	    
     export let userLevels: (UserLevel & { checked: boolean, previousLevel: number })[];
 
     $: selectedUsers = userLevels.filter(f => f.checked && f.previousLevel !== f.level);
-    $: resolveButtonText = ('Commit ' + (selectedUsers.length > 0 ? (selectedUsers.length > 1 ? selectedUsers.length + ' changes to database' : ' change to database') : ' change to database')).trim();
     $: adminUsers = userLevels.filter(u => u.level === -1);
 
     let filterText = '';
@@ -17,6 +16,11 @@
 
     let lowerIndex: number = 0;
     let upperIndex: number = 0;
+
+    function selectUserId(userId: string) {
+        let userIndex = userLevels.findIndex(u => u.user_id === userId);
+        if (userIndex !== -1) userLevels[userIndex].checked = userLevels[userIndex].previousLevel !== userLevels[userIndex].level;
+    }
 </script>
 
 <div class="flex flex-col gap-12">
@@ -50,6 +54,7 @@
                             <option value={0}>No Permissions (0)</option>
                             <option value={1}>Tier 1 Certified (1)</option>
                             <option value={2}>Tier 2 Certified (2)</option>
+                            <option value={3}>Maintenance (3)</option>
                             <option value={-1}>Administrator (-1)</option>
                         </select>
                     </td>
@@ -85,7 +90,7 @@
                     <th>Email</th>
                     <th>Joined On <ChevronDown class="inline" size={'16px'} /></th>
                     <th>Last Update</th>
-                    <th>Permission Level</th>
+                    <th>Permission Flags</th>
                 </tr>
             </thead>
             <tbody>
@@ -97,12 +102,14 @@
                     <td>{getDateAndTime(user.created_at)}</td>
                     <td>{getDateAndTime(user.updated_at)}</td>
                     <td>
-                        <select bind:value={user.level} class="select select-sm text-neutral-content" disabled={user.level === -1}>
+                        <button class="btn btn-sm" on:click={() => goto(`/users/${user.user_id}`)} disabled={hasPermission(user.level, PermCategory.SPECIAL, PermFlag.FIRST)}>Edit Flags</button>
+                        <!-- <select bind:value={user.level} class="select select-sm text-neutral-content" disabled={user.level === -1} on:change={() => selectUserId(user.user_id)}>
                             <option value={0}>No Permissions (0)</option>
                             <option value={1}>Tier 1 Certified (1)</option>
                             <option value={2}>Tier 2 Certified (2)</option>
+                            <option value={3}>Maintenance (3)</option>
                             <option value={-1} disabled>Administrator (-1)</option>
-                        </select>
+                        </select> -->
                     </td>
                 </tr>
                 {/each}
@@ -123,7 +130,7 @@
             <div class="divider divider-horizontal"></div>
             <form id="change-perms-form" method="POST" action="?/changePermsMulti"></form>
             <input type="hidden" form="change-perms-form" name="permArray" value={JSON.stringify(selectedUsers.map(u => { return { id: u.user_id, newPermLevel: u.level } }))} />
-            <button class="btn btn-sm btn-success" form="change-perms-form" type="submit" disabled={selectedUsers.length === 0}>{resolveButtonText}</button>
+            <button class="btn btn-sm btn-success" form="change-perms-form" type="submit" disabled={selectedUsers.length === 0}>Save Changes</button>
             <div class="grow"></div>
         </div>
         <table class="table table-compact min-w-full shadow-lg bg-neutral overflow-hidden">
@@ -146,6 +153,7 @@
                             <option value={0}>No Permissions (0)</option>
                             <option value={1}>Tier 1 Certified (1)</option>
                             <option value={2}>Tier 2 Certified (2)</option>
+                            <option value={3}>Maintenance (3)</option>
                             <option value={-1}>Administrator (-1)</option>
                         </select>
                     </td>
@@ -160,6 +168,7 @@
                             <option value={0}>No Permissions (0)</option>
                             <option value={1}>Tier 1 Certified (1)</option>
                             <option value={2}>Tier 2 Certified (2)</option>
+                            <option value={3}>Maintenance (3)</option>
                             <option value={-1}>Administrator (-1)</option>
                         </select>
                     </td>

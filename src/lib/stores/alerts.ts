@@ -11,7 +11,7 @@ export const alerts = writable<{ id: string, header: string, message: string, ty
 export const addAlert = (type: AlertTypeOld, header: string, message: string) => {
     const id = Date.now().toString();
     alerts.update(oldAlerts => {
-        setTimeout(() => deleteAlertId(id), 10000);
+        setTimeout(() => deleteAlertId(id), 3000);
         return oldAlerts.concat({ id, header, message, type });
     });
 }

@@ -5,6 +5,7 @@
     import CancelPrintModal from "./modals/CancelPrintModal.svelte";
 	import { Wrench } from "svelte-heros-v2";
 	import { onMount } from "svelte";
+	import { PermFlag, hasPermission } from "$lib/helpers";
 
     export let userLevel: UserLevel;
     export let machines: Machine[];
@@ -18,9 +19,7 @@
     let cancelPrintModal: CancelPrintModal;
 
     function isTierCertified(tier: number) {
-        if (!userLevel) return false;
-        if (userLevel.level === -1) return true;
-        return userLevel.level >= tier;
+        return hasPermission(userLevel.level, tier - 1, PermFlag.FIRST);
     }
 
     function decrementTimers() {
@@ -57,7 +56,7 @@
     <div>
         <div class="tabs border-none justify-between">
             {#each machines as machine}
-            <a class="rounded-t-2xl tab my-tab-lifted tab-lg border-none grow {selectedMachine === machine ? 'tab-active !bg-neutral' : ''} {getMachineStatusColor(machine)}" on:click={() => selectMachineTab(machine)}>
+            <a role="tab" tabindex="-1" class="rounded-t-2xl tab my-tab-lifted tab-lg border-none grow {selectedMachine === machine ? 'tab-active !bg-neutral' : ''} {getMachineStatusColor(machine)}" on:click={() => selectMachineTab(machine)}>
                 {machine.nickname}
             </a>
             {/each}
@@ -71,9 +70,6 @@
                     <span class="text-5xl font-thin">{selectedMachine.nickname}</span>
                     <span class="text-2xl grow">{selectedMachine.machine_def.make} {selectedMachine.machine_def.model}</span>
                 </div>
-                {#if userLevel.level === -1}
-                    <button class="btn btn-ghost justify-start items-center grow"><Wrench size={'32px'} variation={'solid'} /></button>
-                {/if}
                 <img src="{selectedMachine.machine_def.model}.png" class="w-1/2 absolute blur opacity-50 left-16">
                 <div class="flex flex-col justify-start space-y-4 z-10 p-4 h-72 rounded-2xl bg-base-100 bg-opacity-75 backdrop-blur">
                     <div class="stats shadow h-24 bg-base-200 bg-opacity-50 backdrop-blur">

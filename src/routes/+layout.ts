@@ -2,7 +2,8 @@ import { invalidate } from '$app/navigation';
 import {
     PUBLIC_SUPABASE_URL,
     PUBLIC_SUPABASE_URL_DEV,
-    PUBLIC_SUPABASE_ANON_KEY
+    PUBLIC_SUPABASE_ANON_KEY,
+    PUBLIC_SUPABASE_ANON_KEY_DEV
 } from '$env/static/public';
 import type { Database } from '$lib/types/supabase';
 import { createSupabaseLoadClient } from '@supabase/auth-helpers-sveltekit';
@@ -14,7 +15,7 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
 
     const supabase = createSupabaseLoadClient<Database>({
         supabaseUrl: dev ? PUBLIC_SUPABASE_URL_DEV : PUBLIC_SUPABASE_URL,
-        supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
+        supabaseKey: dev ? PUBLIC_SUPABASE_ANON_KEY_DEV : PUBLIC_SUPABASE_ANON_KEY,
         event: { fetch },
         serverSession: data.session
     });
