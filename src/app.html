@@ -8,8 +8,8 @@
 		<script>
 			if (localStorage.getItem('theme') === 'dark')
 				document.getElementsByTagName('html')[0].setAttribute('data-theme', 'dark');
-			else if (localStorage.getItem('theme') === 'light')
-				document.getElementsByTagName('html')[0].setAttribute('data-theme', 'light');
+			else
+				document.getElementsByTagName('html')[0].setAttribute('data-theme', 'light')
 		</script>
 
 		%sveltekit.head%
