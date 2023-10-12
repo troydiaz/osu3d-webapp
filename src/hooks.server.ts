@@ -1,18 +1,14 @@
-import {
-    PUBLIC_SUPABASE_URL,
-    PUBLIC_SUPABASE_URL_DEV,
-    PUBLIC_SUPABASE_ANON_KEY,
-    PUBLIC_SUPABASE_ANON_KEY_DEV
-} from '$env/static/public';
+import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 import type { Database } from '$lib/types/supabase.js';
 import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit';
 import type { Handle } from '@sveltejs/kit';
 import { dev } from '$app/environment';
+import { DEV_SUPABASE_URL, DEV_SUPABASE_ANON_KEY } from '$env/static/private';
 
 export const handle: Handle = async ({ event, resolve }) => {
     event.locals.supabase = createSupabaseServerClient<Database>({
-        supabaseUrl: dev ? PUBLIC_SUPABASE_URL_DEV : PUBLIC_SUPABASE_URL,
-        supabaseKey: dev ? PUBLIC_SUPABASE_ANON_KEY_DEV : PUBLIC_SUPABASE_ANON_KEY,
+        supabaseUrl: dev ? DEV_SUPABASE_URL : PUBLIC_SUPABASE_URL,
+        supabaseKey: dev ? DEV_SUPABASE_ANON_KEY : PUBLIC_SUPABASE_ANON_KEY,
         event
     });
 
