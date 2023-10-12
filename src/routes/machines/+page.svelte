@@ -6,10 +6,9 @@
     import type { ClientRectObject, VirtualElement } from 'svelte-floating-ui/core';
 	import { writable } from "svelte/store";
 	import FaultHistoryModal from "$lib/components/modals/FaultHistoryModal.svelte";
-	import { onMount } from "svelte";
 	import type { Machine } from "$lib/types/database";
 	import PrintHistoryModal from "$lib/components/modals/PrintHistoryModal.svelte";
-	import { ArrowLeft, ExclamationCircle, Wrench } from "svelte-heros-v2";
+	import { Wrench } from "svelte-heros-v2";
 	import MachineTable from "$lib/components/tables/MachineTable.svelte";
 
     const [floatingRef, floatingContent] = createFloatingActions({
@@ -88,7 +87,7 @@
 
 
 {#if contextVisible && contextMachine}
-<div use:floatingContent on:mouseleave={mouseLeaveContext} style="z-index: 99;" id="rightclickmenu">
+<div use:floatingContent on:mouseleave={mouseLeaveContext} role="menu" tabindex="-1" style="z-index: 99;" id="rightclickmenu">
     <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
     <ul class="menu shadow-lg bg-white rounded-box w-36">
         <li class="menu-title py-2 select-none"><span>{contextMachine.nickname}</span></li>
