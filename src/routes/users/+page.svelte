@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-    <title>Users</title>
+    <title>Users | OSU 3D</title>
 </svelte:head>
 
 <div class="flex flex-col gap-12 lg:my-12 w-full">

@@ -52,7 +52,7 @@
             additionalData={{}}
         />
         <div class="grow"></div>
-        <div class="text-xs p-2 rounded-lg bg-base-100 outline outline-1 outline-base-content/5">
+        <div class="text-xs p-2 rounded-lg bg-base-100 outline outline-1 outline-base-content/10">
             <div class="text-sm text-center">Notice</div>
             <div class="divider m-0"></div>
             User authentication is handled by Google through Social Sign On (SSO).

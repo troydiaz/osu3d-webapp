@@ -50,16 +50,10 @@
 		<!-- <div class="divider divider-horizontal"></div> -->
 		<div class="flex flex-row">
 			<div class="font-light mr-2">Legend</div>
-			<div
-				class="bg-neutral-content text-neutral text-xs font-mono rounded rounded-r-none uppercase px-2 py-1"
-			>
-				Idle
-			</div>
-			<div class="bg-info text-info-content text-xs font-mono uppercase px-2 py-1">Printing</div>
-			<div
-				class="bg-warning text-warning-content text-xs font-mono rounded rounded-l-none uppercase px-2 py-1"
-			>
-				Fault
+			<div class="flex outline outline-1 outline-base-content/10 rounded overflow-hidden">
+				<div class="bg-base-100 text-base-content text-xs font-mono uppercase px-2 py-1">Idle</div>
+				<div class="bg-info text-info-content text-xs font-mono uppercase px-2 py-1">Printing</div>
+				<div class="bg-warning text-warning-content text-xs font-mono uppercase px-2 py-1">Fault</div>
 			</div>
 		</div>
 		<!-- <span>{machines.filter(m => getMachineStatus(m) === MachineStatus.IDLE).length} ready of {machines.length} total</span> -->
@@ -71,9 +65,9 @@
 				<a
 					role="tab"
 					tabindex="-1"
-					class="rounded-t-2xl translate-y-0.5 tab my-tab-lifted tab-lg grow {selectedMachine ===
+					class="rounded-t-2xl translate-y-[1px] tab my-tab-lifted tab-lg grow border-b-0 border border-transparent {selectedMachine ===
 					machine
-						? 'tab-active bg-base-100 text-current border-b-0 border !border-base-content/5 z-10'
+						? 'tab-active bg-base-100 !border-base-content/10 z-10'
 						: ''} {getMachineStatusColor(machine)}"
 					on:click={() => selectMachineTab(machine)}
 				>
@@ -82,7 +76,7 @@
 			{/each}
 		</div>
 		<div
-			class="rounded-b-2xl border border-base-content/5 bg-base-100 shadow-lg p-12 relative overflow-hidden"
+			class="rounded-b-2xl border border-1 border-base-content/10 bg-base-100 shadow-lg p-12 relative overflow-hidden"
 			class:rounded-tl-2xl={machines.indexOf(selectedMachine) !== 0}
 			class:rounded-tr-2xl={machines.indexOf(selectedMachine) !== machines.length - 1}
 		>
@@ -105,7 +99,6 @@
 					>
 						<div
 							class="stat"
-							class:bg-error-content={getMachineStatus(selectedMachine) === MachineStatus.FAULT}
 						>
 							<!-- <div class="stat-figure"><Bolt /></div> -->
 							<div class="stat-title w-24">Status</div>
@@ -115,7 +108,6 @@
 						</div>
 						<div
 							class="stat"
-							class:bg-error-content={getMachineStatus(selectedMachine) === MachineStatus.FAULT}
 						>
 							{#if getMachineStatus(selectedMachine) === MachineStatus.PRINTING}
 								<div class="stat-title">Time Remaining</div>
@@ -187,15 +179,14 @@
 						class="collapse-title text-xl font-medium bg-gradient-to-l to-base-100 outline outline-1 outline-base-content/25"
 						class:from-warning={getMachineStatus(machine) === MachineStatus.FAULT}
             class:from-info={getMachineStatus(machine) === MachineStatus.PRINTING}
-            
-            
+            class:from-base-100={getMachineStatus(machine) === MachineStatus.IDLE}
 					>
 						<span class="font-light tracking-wide">{machine.nickname}</span>
 					</div>
 					<div class="collapse-content">
 						<div class="flex justify-center pt-6">
 							<div
-								class="stats h-24 outline outline-1 outline-base-content/5 shadow-lg bg-base-200 bg-opacity-50 w-full"
+								class="stats h-24 outline outline-1 outline-base-content/10 shadow-lg bg-base-200 bg-opacity-50 w-full"
 							>
 								<div class="stat">
 									<!-- <div class="stat-figure"><Bolt /></div> -->

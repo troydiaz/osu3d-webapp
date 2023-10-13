@@ -92,7 +92,7 @@ export function getMachineStatusColor(machine: Machine) {
     else if (activePrints.length > 0)
         return 'text-info';
     else
-        return 'text-neutral-content';
+        return 'text-base-content/75';
 }
 
 export function machineStatusToText(status: MachineStatus) {

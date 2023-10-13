@@ -21,7 +21,7 @@
   <div class="flex flex-col gap-4">
     <div class="font-thin text-3xl">Flags</div>
     <!-- Account Settings -->
-    <div class="bg-base-100 outline outline-1 outline-base-content/5 rounded-2xl p-8 w-full">
+    <div class="bg-base-100 outline outline-1 outline-base-content/10 rounded-2xl p-8 w-full">
 
       <div class="flex flex-col">
 
