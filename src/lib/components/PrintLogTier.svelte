@@ -89,7 +89,7 @@
 				</div>
 				<img
 					src="{selectedMachine.machine_def.model}.png"
-					class="w-1/2 absolute blur opacity-50 left-16 pointer-events-none select-none"
+					class="w-1/2 absolute blur opacity-25 left-16 pointer-events-none select-none"
 				/>
 				<div
 					class="flex flex-col justify-start space-y-4 z-10 p-4 h-72 rounded-2xl bg-base-100 outline outline-1 outline-base-content/10 bg-opacity-75 backdrop-blur"

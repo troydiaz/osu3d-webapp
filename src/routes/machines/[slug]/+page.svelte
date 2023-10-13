@@ -64,7 +64,7 @@
         </div>
       </div>
     </div>
-    <img src="/{machine.machine_def.model}.png" class="w-3/4 absolute -top-1/4 -right-8 opacity-50 select-none blur-sm">
+    <img src="/{machine.machine_def.model}.png" class="w-3/4 absolute -top-1/4 -right-8 opacity-25 select-none blur-sm">
   </div>
   <div class="divider"></div>
   <FaultTable faults={machine.faults.map(f => { return {...f, checked: false} } )} />
