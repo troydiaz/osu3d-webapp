@@ -49,6 +49,8 @@ export const actions = {
                 created_by_id: session!.user.id,
                 inv_category_id
             });
+
+        console.log(result);
     },
     submitNewChange: async ({ request, locals: { supabase, getSession } }) => {
         const formData = await request.formData();

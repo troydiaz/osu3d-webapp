@@ -3,6 +3,8 @@
 	import type { PageServerData } from "./$types";
 	import { prettyDate, totalAllChanges, type InventoryChange } from "$lib/types/database";
 	import ChangeLogTable from "$lib/components/tables/ChangeLogTable.svelte";
+  import box from '$lib/images/package.png';
+	import PageHeader from "$lib/components/PageHeader.svelte";
 
 
   export let data: PageServerData;
@@ -21,21 +23,16 @@
 </svelte:head>
 
 <div class="flex flex-col gap-12 lg:my-12 w-full">
-  <div class="relative overflow-hidden flex flex-row justify-between items-center bg-neutral rounded-2xl p-8 shadow-lg">
-    <a href="/inventory" class="btn btn-ghost btn-square uppercase text-xl font-light"><ArrowLeft size={'36px'} /></a>
-    <div class="grow"></div>
-    <span class="text-5xl font-thin pr-6">Single Item View</span>
-    <CubeTransparent size={'64px'} strokeWidth={'1px'} />
-  </div>
-  <div class="flex flex-row justify-between bg-neutral rounded-2xl overflow-hidden p-12 shadow-lg">
+  <PageHeader name="Single Item View" image={box} backUrl="/inventory" />
+  <div class="flex flex-row justify-between bg-base-100 outline outline-1 outline-base-content/10 rounded-2xl overflow-hidden p-12 shadow-lg">
     <div class="flex flex-col justify-between items-start space-y-12 z-10">
         <div class="flex flex-col space-y-2">
             <span class="text-5xl font-thin">{singleItem.name}</span>
             <span class="text-2xl">{singleItem.inv_category.name}</span>
         </div>
         <div class="flex flex-row gap-4">
-          <button class="btn btn-outline">Adjust Lower Limit</button>
-          <button class="btn btn-outline">Edit Details</button>
+          <!-- <button class="btn btn-outline">Adjust Lower Limit</button>
+          <button class="btn btn-outline">Edit Details</button> -->
         </div>
     </div>
     <div class="flex flex-col space-y-12">
