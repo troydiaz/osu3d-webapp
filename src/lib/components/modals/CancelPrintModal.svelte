@@ -17,8 +17,8 @@
 
 <input type="checkbox" id="cancel-print-modal" class="modal-toggle" bind:checked={modalVisible} />
 {#if printToCancel}
-<div class="modal lg:ml-80">
-  <div class="modal-box w-full">
+<div class="modal">
+  <div class="modal-box w-screen md:max-w-lg max-w-full h-screen md:h-fit max-h-screen rounded-none md:rounded-xl">
     <form method="POST" action="?/cancelPrintLog">
         <!-- Modal Title -->
         <h3 class="font-bold text-lg">Cancel print on {selectedMachine?.nickname}</h3>

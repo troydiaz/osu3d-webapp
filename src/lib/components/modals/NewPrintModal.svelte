@@ -17,7 +17,7 @@
 <input type="checkbox" id="print-log-modal" class="modal-toggle" bind:checked={modalVisible} />
 {#if machineToLog}
 <div class="modal">
-  <div class="modal-box w-full">
+  <div class="modal-box w-screen md:max-w-lg max-w-full h-screen md:h-fit max-h-screen rounded-none md:rounded-xl">
     <form method="POST" action="?/addPrintLog">
       <!-- Modal Title -->
       <h3 class="font-bold text-lg">Start a print on {machineToLog?.nickname}</h3>

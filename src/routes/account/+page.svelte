@@ -42,9 +42,9 @@
   <PageHeader name="Account Settings" image={gear} />
 
   <div class="flex flex-col gap-4">
-    <div class="font-thin text-3xl">General</div>
+    <div class="font-thin text-3xl px-4 md:px-0">General</div>
     <!-- Account Settings -->
-    <div class="bg-base-100 outline outline-1 outline-base-content/5 rounded-2xl p-8 w-full">
+    <div class="bg-base-100 outline outline-1 outline-base-content/5 md:rounded-2xl p-8 w-full md:shadow-lg">
       <div class="flex flex-row items-center gap-4 bg-info p-4 rounded-2xl">
         <InformationCircle class="text-info-content inline" size={'36px'} />
         <div class="inline text-info-content">

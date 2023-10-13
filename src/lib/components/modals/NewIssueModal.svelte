@@ -17,7 +17,7 @@
 <input type="checkbox" id="new-machine-issue-modal" class="modal-toggle" bind:checked={modalVisible} />
 {#if machineToReport}
 <div class="modal">
-  <div class="modal-box w-screen md:max-w-lg max-w-full h-screen md:h-fit max-h-screen">
+  <div class="modal-box w-screen md:max-w-lg max-w-full h-screen md:h-fit max-h-screen rounded-none md:rounded-xl">
     <form method="POST" action="?/reportFault">
       <!-- Modal Title -->
       <h3 class="font-bold text-lg">Report an issue for {machineToReport?.nickname}</h3>
