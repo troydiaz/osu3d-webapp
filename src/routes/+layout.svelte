@@ -20,6 +20,7 @@
 	import SidebarButton from "$lib/components/SidebarButton.svelte";
   import sun from '$lib/images/sun.png';
   import moon from '$lib/images/full_moon.png';
+  import toast, { Toaster } from 'svelte-french-toast';
   
   export let data: LayoutData;
   let showAlerts = false;
@@ -158,3 +159,4 @@
 {/if}
 </main>
 
+<Toaster />

@@ -1,19 +1,20 @@
 <script lang="ts">
   import { applyAction, enhance } from '$app/forms';
-  import { Cog6Tooth, InformationCircle } from 'svelte-heros-v2';
   import type { PageData, ActionData } from "./$types.js";
 	import { goto } from '$app/navigation';
-	import { AlertTypeOld, addAlert } from '$lib/stores/alerts.js';
-  import gear from '$lib/images/gear.png';
+	import gear from '$lib/images/gear.png';
 	import PageHeader from '$lib/components/PageHeader.svelte';
+  import info from '$lib/images/info.png';
+	import toast from 'svelte-french-toast';
+	import { onMount } from 'svelte';
+	import Discord from '$lib/toasts/Discord.svelte';
 
   export let data: PageData;
   export let form: ActionData;
 
-  $: if (form) form.success ? addAlert(AlertTypeOld.INFO, 'Good news', 'Changes saved successfully') : addAlert(AlertTypeOld.ERROR, 'Uh oh', 'There was an issue saving your settings');
+  $: if (form) form.success ? toast.success('Saved', { className: ''}) : toast.error('Something went wrong :(');
 
   let { session, profile } = data;
-
   let loading = false;
 
   let full_name: string | null = profile?.full_name ?? form?.full_name ?? null;
@@ -49,14 +50,6 @@
     <div class="font-thin text-3xl px-4 md:px-0">General</div>
     <!-- Account Settings -->
     <div class="bg-base-100 outline outline-1 outline-base-content/10 md:rounded-2xl p-8 w-full md:shadow-lg">
-      <div class="flex flex-row items-center gap-4 bg-info p-4 rounded-2xl">
-        <InformationCircle class="text-info-content inline" size={'36px'} />
-        <div class="inline text-info-content">
-          Updating your Discord username will allow you to receive pings about your prints.
-          Your server Role will also be updated accordingly.
-        </div>
-      </div>
-      <div class="divider"></div>
       <form
         method="post"
         action="?/update"
