@@ -3,13 +3,11 @@
 	import type { PageData } from "./$types";
 	import { type Machine, getActivePrintJobTimeRemaining } from "$lib/types/database";
 	import PrintLogTier from "$lib/components/PrintLogTier.svelte";
-	import { RocketLaunch } from "svelte-heros-v2";
-    import rocket from '$lib/images/rocket.png';
+	import rocket from '$lib/images/rocket.png';
     import info from '$lib/images/info.png';
     import josef_light from '$lib/images/josef_light.png';
     import josef_dark from '$lib/images/josef_dark.png';
-	import el from "date-fns/locale/el";
-
+	
     export let data: PageData;
     const { session, machines, userLevel } = data;
 

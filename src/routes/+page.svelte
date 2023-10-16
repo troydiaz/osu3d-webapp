@@ -16,15 +16,12 @@
     const customTheme = {
         extend: false,
         className: {
-            button: 'btn btn-primary bg-opacity-50 border-opacity-0 auth-button',
+            button: 'btn btn-warning !rounded-lg !px-2',
             input: 'input',
             label: 'label',
             container: '',
             divider: 'py-4'
         },
-        style: {
-            container: 'background-size: 5px 5px;'
-        }
     } as Appearance
 </script>
 
@@ -33,12 +30,12 @@
 </svelte:head>
 
 
-<div class="h-screen w-screen">
-    <div class="flex flex-col justify-start items-center gap-8 p-12 md:gap-12 w-full h-full md:max-w-screen-sm mx-auto">
+<div class="h-screen w-screen my-auth-container">
+    <div class="flex flex-col justify-center items-center gap-4 p-12 md:gap-12 w-full h-full md:max-w-screen-sm mx-auto">
         <img src="osu3d.svg" class="w-32 h-32">
         <div>
             <div class="font-thin text-xl md:text-3xl text-center">3D Printing and<br>Additive Manufacturing Club</div>
-            <div class="divider w-full max-w-sm mx-auto my-4"></div>
+            <div class="divider w-full max-w-sm mx-auto my-2 md:my-4"></div>
             <div class="font-light text-xl md:text-3xl text-center">Oregon State University</div>
         </div>
         <Auth
@@ -50,9 +47,10 @@
             appearance={customTheme}
             onlyThirdPartyProviders={true}
             additionalData={{}}
+            
         />
-        <div class="grow"></div>
-        <div class="text-xs p-2 rounded-lg bg-base-100 outline outline-1 outline-base-content/10">
+        <!-- <div class="grow"></div> -->
+        <div class="text-xs p-2 rounded-lg bg-base-100 outline outline-1 outline-base-content/10 mt-12">
             <div class="text-sm text-center">Notice</div>
             <div class="divider m-0"></div>
             User authentication is handled by Google through Social Sign On (SSO).

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { addDays, addMonths, differenceInCalendarDays, differenceInDays, format, getDate, getDay, getDaysInMonth, getMonth, getWeek, getWeekOfMonth, isBefore, isSameMonth, isThisMonth, isThisWeek, isToday, isWeekend, lastDayOfMonth, lastDayOfWeek, setDate, setDay, startOfWeek } from 'date-fns';
+  import { addDays, addMonths, differenceInCalendarDays, format, getDate, getDay, getMonth, getWeek, isBefore, isSameMonth, isThisMonth, isThisWeek, isToday, isWeekend, lastDayOfMonth, lastDayOfWeek, setDate, setDay } from 'date-fns';
 	import { ChevronLeft, ChevronRight } from 'svelte-heros-v2';
 	import NewMaintMenu from './menu/NewMaintMenu.svelte';
 
@@ -83,15 +83,15 @@
   }
 </script>
 
-<div class="flex flex-row justify-center items-end gap-8 w-full pb-8 select-none">
+<div class="flex flex-row justify-center items-end gap-8 w-full pb-8 select-none mt-8">
   <div class="flex flex-row justify-center items-center gap-8">
-    <div class="btn btn-square btn-ghost" on:click={() => selectedMonth = addMonths(selectedMonth, -1)}>
+    <button class="btn btn-square btn-ghost" on:click={() => selectedMonth = addMonths(selectedMonth, -1)}>
       <ChevronLeft size={'32px'} />
-    </div>
+    </button>
     <div class="text-6xl font-thin w-72 text-center">{format(selectedMonth, 'LLL yyyy')}</div>
-    <div class="btn btn-square btn-ghost" on:click={() => selectedMonth = addMonths(selectedMonth, 1)}>
+    <button class="btn btn-square btn-ghost" on:click={() => selectedMonth = addMonths(selectedMonth, 1)}>
       <ChevronRight size={'32px'} />
-    </div>
+    </button>
   </div>
 </div>
 

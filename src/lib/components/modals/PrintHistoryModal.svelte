@@ -1,10 +1,6 @@
 <script lang="ts">
 	import type { Machine } from "$lib/types/database";
-	import { stringify } from "postcss";
-	import { createFloatingActions } from "svelte-floating-ui";
-	import type { ClientRectObject, VirtualElement } from "svelte-floating-ui/dom";
-	import { writable } from "svelte/store";
-
+	
   let machineToReview: Machine | null = null;
   let modalVisible = false;
 

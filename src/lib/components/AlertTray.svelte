@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createFloatingActions } from "svelte-floating-ui";
 	import { offset } from "svelte-floating-ui/core";
-	import { Bell, InformationCircle, XMark } from "svelte-heros-v2";
+	import { Bell } from "svelte-heros-v2";
 	import { fade } from "svelte/transition";
 	import Alert from "./Alert.svelte";
 	import { AlertType } from "$lib/types/alerts";
