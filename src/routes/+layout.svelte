@@ -3,9 +3,7 @@
   import { invalidate } from "$app/navigation";
   import { onMount } from "svelte";
   import type { LayoutData } from "./$types";
-  import { Bars3, InformationCircle, Moon, Sun } from "svelte-heros-v2";
-  import { alerts, getAlertStyling } from '$lib/stores/alerts';
-  import { slide } from "svelte/transition";
+  import { Bars3 } from "svelte-heros-v2";
   import SidebarTooltip from "$lib/components/SidebarTooltip.svelte";
   import AlertTray from "$lib/components/AlertTray.svelte";
   import { PermCategory, PermFlag, hasPermission } from "$lib/helpers";
@@ -20,7 +18,7 @@
 	import SidebarButton from "$lib/components/SidebarButton.svelte";
   import sun from '$lib/images/sun.png';
   import moon from '$lib/images/full_moon.png';
-  import toast, { Toaster } from 'svelte-french-toast';
+  import { Toaster } from 'svelte-french-toast';
   
   export let data: LayoutData;
   let showAlerts = false;

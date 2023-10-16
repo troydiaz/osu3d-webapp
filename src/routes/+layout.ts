@@ -24,5 +24,5 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
         .eq('user_id', session.user.id)
         .maybeSingle() : { data: null };
 
-    return { supabase, session, userLevel: userLevel };
+    return { supabase, session, userLevel };
 };
