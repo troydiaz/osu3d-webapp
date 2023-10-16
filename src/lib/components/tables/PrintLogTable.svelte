@@ -41,7 +41,7 @@
                         {((new Date(print.done_at).getTime() - new Date(print.created_at).getTime()) / 1000 / 60 / 60).toFixed(2)}
                     </td>
                     <td>{print.filament}g</td>
-                    <td><span class="font-mono p-1 rounded-lg bg-base-200" class:bg-red-400={print.canceled}>{print.canceled}</span></td>
+                    <td><code class="bg-base-300 p-1 rounded-lg {!print.canceled ? 'bg-error text-error-content' : ''}">{print.canceled}</code></td>
                     <td>{print.canceled_by?.full_name ?? '-'}</td>
                     <td>{getDateAndTime(print.canceled_at)}</td>
                 </tr>

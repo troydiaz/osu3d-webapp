@@ -46,8 +46,6 @@ export const actions = {
                 .eq('user_id', permChange.id)
                 .single()
 
-            console.log('change', change);
-
             if (change.status === 200 || change.status === 204) permChange.success = true;
         }
 

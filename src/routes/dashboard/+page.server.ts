@@ -48,6 +48,15 @@ export const actions = {
         if (faultDescription === '' || createdById === undefined)
             return;
 
+        const result = await supabase
+          .from('prints_view')
+          .update({
+            canceled: true,
+            canceled_by_user_id: session?.user.id,
+            canceled_at: new Date().toISOString()
+          })
+          .eq('complete', false);
+
         await supabase
             .from('faults')
             .insert({
@@ -55,7 +64,7 @@ export const actions = {
                 created_by_user_id: createdById,
                 description: faultDescription,
                 resolved: false
-            })
+            });
     },
     addPrintLog: async ({ request, locals: { supabase, getSession } }) => {
         const formData = await request.formData();
@@ -98,9 +107,6 @@ export const actions = {
 
         if (safetyCheck && safetyCheck.length > 0 && safetyCheck[0].canceled === true)
             return;
-
-        if (safetyCheck)
-            console.log(safetyCheck);
 
         await supabase
             .from('prints')

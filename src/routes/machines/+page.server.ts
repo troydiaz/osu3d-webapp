@@ -40,9 +40,7 @@ export const actions = {
     if (faultId === '' || resolvedById === undefined)
       return;
 
-    console.log(faultId, resolvedById);
-
-    let result = await supabase
+    await supabase
       .from('fault_log')
       .update({
         resolved: true,

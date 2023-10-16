@@ -93,32 +93,28 @@
           class="w-1/2 absolute blur opacity-25 left-16 pointer-events-none select-none"
         />
         <div
-          class="flex flex-col justify-start space-y-4 z-10 p-4 h-72 rounded-2xl bg-base-100 outline outline-1 outline-base-content/10 bg-opacity-75 backdrop-blur"
+          class="basis-1/2 flex flex-col justify-start space-y-4 z-10 p-4 h-72 rounded-2xl bg-base-100 outline outline-1 outline-base-content/10 bg-opacity-75 backdrop-blur"
         >
           <div class="stats h-24 bg-base-200 bg-opacity-50">
             <div class="stat">
-              <!-- <div class="stat-figure"><Bolt /></div> -->
               <div class="stat-title w-24">Status</div>
               <div class="stat-value font-mono text-2xl">
                 {machineStatusToText(getMachineStatus(selectedMachine))}
               </div>
             </div>
             <div class="stat">
-              {#if getMachineStatus(selectedMachine) === MachineStatus.PRINTING}
-                <div class="stat-title">Time Remaining</div>
-                <div class="stat-value">
-                  <span class="countdown font-mono text-2xl">
-                    <span style:--value={Math.floor(selectedMachineTime / 60 / 60)}></span>h
-                    <span style:--value={Math.floor((selectedMachineTime / 60) % 60)}></span>m
-                    <span style:--value={Math.floor(selectedMachineTime % 60)}></span>s
-                  </span>
-                </div>
-              {:else}
-                <div class="stat-title">Previous Job Finished</div>
-                <div class="stat-value font-mono text-2xl">
-                  {getLatestCompletePrintJob(selectedMachine)}
-                </div>
-              {/if}
+							<div class="stat-title">Time Remaining</div>
+							<div class="stat-value font-mono text-2xl">
+								{#if getMachineStatus(selectedMachine) === MachineStatus.PRINTING}
+								<span class="countdown">
+									<span style:--value={Math.floor(selectedMachineTime / 60 / 60)}></span>h
+									<span style:--value={Math.floor((selectedMachineTime / 60) % 60)}></span>m
+									<span style:--value={Math.floor(selectedMachineTime % 60)}></span>s
+								</span>
+								{:else}
+								-
+								{/if}
+							</div>
             </div>
           </div>
           <div class="divider"></div>

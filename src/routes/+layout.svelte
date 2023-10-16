@@ -76,8 +76,6 @@
             <!-- Account Settings -->
             <SidebarButton name="Settings" url="/account" image={gear} />
 
-            <div class="divider m-0"></div>
-            
             <!-- Printers -->
             {#if hasPermission(userLevel?.level, PermCategory.MACHINES, PermFlag.FIRST)}
             <SidebarButton name="Printers" url="/machines" image={printer} />

@@ -9,8 +9,6 @@
   
   export let data: PageServerData;
   export let form: ActionData;
-
-  console.log(data);
   
   const { session, machine, slug } = data;
 </script>

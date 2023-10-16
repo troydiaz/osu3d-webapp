@@ -67,7 +67,7 @@
       <input form="submit-new-change" type="number" name="amount" class="input text-3xl text-center font-light hide-input-arrows" bind:value={amount} />
     </div>
 
-    <button class="btn btn-circle btn-sm" on:click={() => amount -= 1}><Minus /></button>
+    <button class="btn btn-circle btn-sm btn-neutral" on:click={() => amount -= 1}><Minus /></button>
 
     <!-- Data field that cannot be seen -->
     <input form="submit-new-change" type="text" name="item_id" bind:value={itemId} hidden />

@@ -4,7 +4,6 @@
 	import Paginate from "$lib/utilities/Paginate.svelte";
 
     $: selectedRows = faults.filter(f => f.checked);
-    $: resolveButtonText = ('Resolve ' + (selectedRows.length > 0 ? (selectedRows.length > 1 ? selectedRows.length + ' entries' : ' entry') : ' entry')).trim();
 
     export let faults: (Fault & { checked: boolean })[];
 
@@ -21,7 +20,7 @@
         <div class="divider divider-horizontal"></div>
         <form id="fault-resolve-form" method="POST" action="?/resolveFaultsMulti"></form>
         <input type="hidden" form="fault-resolve-form" name="idArray" value={JSON.stringify(faults.filter(f => f.checked).map(f => f.id))} />
-        <button class="btn btn-sm btn-success" form="fault-resolve-form" type="submit" disabled={faults.filter(f => f.checked).length === 0}>{resolveButtonText}</button>
+        <button class="btn btn-sm btn-success" form="fault-resolve-form" type="submit" disabled={faults.filter(f => f.checked).length === 0}>Resolve</button>
         <div class="grow"></div>
         <Paginate totalRows={faults.length} bind:lowerIndex bind:upperIndex />
     </div>
