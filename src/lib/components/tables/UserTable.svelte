@@ -8,7 +8,7 @@
     export let userLevels: (UserLevel & { checked: boolean, previousLevel: number })[];
 
     $: selectedUsers = userLevels.filter(f => f.checked && f.previousLevel !== f.level);
-    $: adminUsers = userLevels.filter(u => u.level === -1);
+    $: adminUsers = userLevels.filter(u => hasPermission(u.level, PermCategory.SPECIAL, PermFlag.FIRST));
 
     let filterText = '';
 
@@ -67,7 +67,7 @@
     <!-- Users table -->
     <div class="flex flex-col gap-4">
         <div class="flex flex-row justify-start items-center">
-            <div class="font-thin text-3xl">All User Accounts</div>
+            <div class="font-thin text-3xl">User Accounts</div>
             <div class="tooltip ml-4" data-tip="Select a new permission level for a user and toggle the checkbox to stage the change for a database commit.">
                 <QuestionMarkCircle size={'24px'} class="text-blue-600 tooltip" />
             </div>

@@ -89,26 +89,26 @@ export interface Database {
       inv_categories: {
         Row: {
           created_at: string
-          created_by_id: string
+          created_by_user_id: string
           id: string
           name: string
         }
         Insert: {
           created_at?: string
-          created_by_id: string
+          created_by_user_id: string
           id?: string
           name: string
         }
         Update: {
           created_at?: string
-          created_by_id?: string
+          created_by_user_id?: string
           id?: string
           name?: string
         }
         Relationships: [
           {
             foreignKeyName: "inv_categories_created_by_user_id_fkey"
-            columns: ["created_by_id"]
+            columns: ["created_by_user_id"]
             referencedRelation: "profiles"
             referencedColumns: ["user_id"]
           }
@@ -118,35 +118,41 @@ export interface Database {
         Row: {
           amount: number
           created_at: string
-          created_by_id: string
+          created_by_user_id: string
           id: string
           inv_item_id: string
         }
         Insert: {
           amount: number
           created_at?: string
-          created_by_id: string
+          created_by_user_id: string
           id?: string
           inv_item_id: string
         }
         Update: {
           amount?: number
           created_at?: string
-          created_by_id?: string
+          created_by_user_id?: string
           id?: string
           inv_item_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "inv_change_created_by_user_id_fkey"
-            columns: ["created_by_id"]
+            foreignKeyName: "inv_changes_created_by_user_id_fkey"
+            columns: ["created_by_user_id"]
             referencedRelation: "profiles"
             referencedColumns: ["user_id"]
           },
           {
-            foreignKeyName: "inv_change_inv_item_id_fkey"
+            foreignKeyName: "inv_changes_inv_item_id_fkey"
             columns: ["inv_item_id"]
             referencedRelation: "inv_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inv_changes_inv_item_id_fkey"
+            columns: ["inv_item_id"]
+            referencedRelation: "inv_items_view"
             referencedColumns: ["id"]
           }
         ]
@@ -154,7 +160,7 @@ export interface Database {
       inv_items: {
         Row: {
           created_at: string
-          created_by_id: string
+          created_by_user_id: string
           id: string
           inv_category_id: string
           minimum: number
@@ -162,7 +168,7 @@ export interface Database {
         }
         Insert: {
           created_at?: string
-          created_by_id: string
+          created_by_user_id: string
           id?: string
           inv_category_id: string
           minimum: number
@@ -170,7 +176,7 @@ export interface Database {
         }
         Update: {
           created_at?: string
-          created_by_id?: string
+          created_by_user_id?: string
           id?: string
           inv_category_id?: string
           minimum?: number
@@ -178,8 +184,8 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "inv_item_created_by_user_id_fkey"
-            columns: ["created_by_id"]
+            foreignKeyName: "inv_items_created_by_user_id_fkey"
+            columns: ["created_by_user_id"]
             referencedRelation: "profiles"
             referencedColumns: ["user_id"]
           },
@@ -368,10 +374,116 @@ export interface Database {
       }
     }
     Views: {
-      [_ in never]: never
+      inv_changes_view: {
+        Row: {
+          amount: number | null
+          created_at: string | null
+          created_by_id: string | null
+          id: string | null
+          inv_item_id: string | null
+          running_total: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inv_changes_created_by_user_id_fkey"
+            columns: ["created_by_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "inv_changes_inv_item_id_fkey"
+            columns: ["inv_item_id"]
+            referencedRelation: "inv_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inv_changes_inv_item_id_fkey"
+            columns: ["inv_item_id"]
+            referencedRelation: "inv_items_view"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      inv_items_view: {
+        Row: {
+          created_at: string | null
+          created_by_id: string | null
+          current_stock: number | null
+          id: string | null
+          inv_category_id: string | null
+          minimum: number | null
+          name: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by_id?: string | null
+          current_stock?: never
+          id?: string | null
+          inv_category_id?: string | null
+          minimum?: number | null
+          name?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by_id?: string | null
+          current_stock?: never
+          id?: string | null
+          inv_category_id?: string | null
+          minimum?: number | null
+          name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inv_items_created_by_user_id_fkey"
+            columns: ["created_by_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "inv_items_inv_category_id_fkey"
+            columns: ["inv_category_id"]
+            referencedRelation: "inv_categories"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Functions: {
-      [_ in never]: never
+      get_perms: {
+        Args: {
+          user_id: string
+        }
+        Returns: Json
+      }
+      has_perm:
+        | {
+            Args: {
+              user_id: string
+              perm_name: string
+            }
+            Returns: boolean
+          }
+        | {
+            Args: {
+              user_id: string
+              bit_index: number
+            }
+            Returns: boolean
+          }
+      is_admin: {
+        Args: {
+          user_id: string
+        }
+        Returns: boolean
+      }
+      set_perm: {
+        Args: {
+          user_id: string
+          bit_index: number
+          value: boolean
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

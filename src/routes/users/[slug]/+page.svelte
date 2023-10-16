@@ -19,7 +19,7 @@
     <title>Users | OSU 3D</title>
 </svelte:head>
 
-<div class="flex flex-col gap-12 lg:my-12 w-full">
+<div class="flex flex-col gap-12 w-full">
   <PageHeader name="Modify Permissions" backUrl="/users" image={ledger} />
 
   <div class="flex flex-col gap-4">

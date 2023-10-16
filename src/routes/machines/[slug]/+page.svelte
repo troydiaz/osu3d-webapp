@@ -21,7 +21,7 @@
 </svelte:head>
 
 {#if machine}
-<div class="flex flex-col space-y-8 lg:my-12 w-full">
+<div class="flex flex-col space-y-8 w-full">
   <PageHeader name="Single Machine View" backUrl="/machines" image={printer} />
   
   <!-- Title -->

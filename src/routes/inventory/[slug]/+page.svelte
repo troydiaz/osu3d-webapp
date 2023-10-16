@@ -22,7 +22,7 @@
     <title>Inventory | OSU 3D</title>
 </svelte:head>
 
-<div class="flex flex-col gap-12 lg:my-12 w-full">
+<div class="flex flex-col gap-12 w-full">
   <PageHeader name="Single Item View" image={box} backUrl="/inventory" />
   <div class="flex flex-row justify-between bg-base-100 outline outline-1 outline-base-content/10 rounded-2xl overflow-hidden p-12 shadow-lg">
     <div class="flex flex-col justify-between items-start space-y-12 z-10">

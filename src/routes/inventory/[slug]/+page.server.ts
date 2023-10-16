@@ -7,26 +7,26 @@ export const load = (async ({ params, locals: { supabase, getSession } }) => {
     if (!session)
         throw redirect(303, '/');
 
-    let { data: singleItem } = await supabase
+    const { data: singleItem } = await supabase
       .from('inv_items')
       .select(`
           *,
-          created_by: created_by_id (*),
+          created_by: created_by_user_id (*),
           changes: inv_changes (
               *,
-              created_by: created_by_id (*)
+              created_by: created_by_user_id (*)
           ),
           inv_category: inv_category_id (*)
       `)
       .eq('id', params.slug)
       .order('created_at', { foreignTable: 'inv_changes', ascending: false })
       .returns<InventoryItem[]>()
-      .single();
+      .maybeSingle();
 
       console.log(singleItem?.changes.flatMap(c => c.amount));
 
       if (!singleItem)
-        throw error(404, 'Resource not found');
+        throw error(404, `Resource not found`);
 
       for (let i = singleItem.changes.length - 1; i >= 0; i--) {
         if (i === singleItem.changes.length - 1)

@@ -12,10 +12,10 @@ export const load = (async ({ locals: { supabase, getSession } }) => {
         .from('inv_items')
         .select(`
             *,
-            created_by: created_by_id (*),
+            created_by: created_by_user_id (*),
             changes: inv_changes (
                 *,
-                created_by: created_by_id (*)
+                created_by: created_by_user_id (*)
             ),
             inv_category: inv_category_id (*)
         `)
@@ -46,11 +46,9 @@ export const actions = {
             .insert({
                 name,
                 minimum,
-                created_by_id: session!.user.id,
+                created_by_user_id: session!.user.id,
                 inv_category_id
             });
-
-        console.log(result);
     },
     submitNewChange: async ({ request, locals: { supabase, getSession } }) => {
         const formData = await request.formData();
@@ -65,7 +63,7 @@ export const actions = {
             .insert({
                 inv_item_id: item_id,
                 amount: mode === 'add' ? amount : -amount,
-                created_by_id: session!.user.id
+                created_by_user_id: session!.user.id
             });
     }
 } satisfies Actions;

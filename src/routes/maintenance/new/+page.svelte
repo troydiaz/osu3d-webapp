@@ -4,7 +4,7 @@
 
 </script>
 
-<div class="flex flex-col gap-12 lg:my-12 w-full">
+<div class="flex flex-col gap-12 w-full">
   <div class="relative overflow-hidden flex flex-row justify-between items-center gap-4 bg-neutral rounded-2xl p-8 shadow-lg">
     <a href="/maintenance/log" class="btn btn-outline text-xl font-light">
       <ClipboardDocument /><span>Maintenance Log</span>

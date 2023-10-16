@@ -7,7 +7,6 @@
 
   export let inventory: InventoryItem[] = [];
   export let title: string = 'Untitled';
-  export let categories: InventoryCategory[] = [];
 
   let filterText = '';
 

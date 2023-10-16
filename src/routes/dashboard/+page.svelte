@@ -45,7 +45,7 @@
 
 
 {#if machines && userLevel }
-<div class="flex flex-col gap-12 pb-12 md:py-12 w-full">
+<div class="flex flex-col gap-12 w-full">
     <div class="relative overflow-hidden flex flex-row justify-between bg-base-100 outline outline-1 outline-base-content/10 items-center md:rounded-2xl p-8 md:shadow-lg">
         <div class="flex-row gap-4 items-center hidden md:flex">
             <div class="text-3xl font-thin">Hello</div>
