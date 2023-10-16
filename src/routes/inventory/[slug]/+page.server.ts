@@ -8,7 +8,7 @@ export const load = (async ({ params, locals: { supabase, getSession } }) => {
         throw redirect(303, '/');
 
     const { data: singleItem } = await supabase
-      .from('inv_items')
+      .from('inv_items_view')
       .select(`
           *,
           created_by: created_by_user_id (*),

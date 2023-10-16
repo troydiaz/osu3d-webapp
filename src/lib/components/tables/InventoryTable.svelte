@@ -55,7 +55,7 @@
               <td>
                   {item.name}
               </td>
-              <td>{item.changes ? totalAllChanges(item.changes) : '-'}</td>
+              <td>{item.current_stock}</td>
               <td>
                 {item.minimum}
               </td>

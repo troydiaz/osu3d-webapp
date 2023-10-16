@@ -28,7 +28,8 @@ export type UserLevel = Tables<'user_levels'>;
 export type InventoryItem = Tables<'inv_items'> & {
     changes: InventoryChange[],
     created_by: Tables<'profiles'>,
-    inv_category: Tables<'inv_categories'>
+    inv_category: Tables<'inv_categories'>,
+    current_stock: number
 }
 
 export type InventoryChange = Tables<'inv_changes'> & {

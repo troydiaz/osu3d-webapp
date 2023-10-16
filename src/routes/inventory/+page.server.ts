@@ -9,11 +9,11 @@ export const load = (async ({ locals: { supabase, getSession } }) => {
         throw redirect(303, '/');
 
     const { data: inventory } = await supabase
-        .from('inv_items')
+        .from('inv_items_view')
         .select(`
             *,
             created_by: created_by_user_id (*),
-            changes: inv_changes (
+            changes: inv_changes_view (
                 *,
                 created_by: created_by_user_id (*)
             ),
