@@ -20,7 +20,7 @@ export const load = (async ({ locals: { supabase, getSession } }) => {
       prints (
         *,
         created_by: created_by_user_id (*),
-        cancelled_by: cancelled_by_user_id (*)
+        canceled_by: canceled_by_user_id (*)
       )
     `)
     .returns<Machine[]>();

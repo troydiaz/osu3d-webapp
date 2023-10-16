@@ -36,9 +36,9 @@
                             <th>Created By</th>
                             <th>Hours</th>
                             <th>Consumed</th>
-                            <th>Cancelled</th>
-                            <th>Cancelled By</th>
-                            <th>Cancelled At</th>
+                            <th>Canceled</th>
+                            <th>Canceled By</th>
+                            <th>Canceled At</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,9 +50,9 @@
                                     {((new Date(print.done_at).getTime() - new Date(print.created_at).getTime()) / 1000 / 60 / 60).toFixed(2)}
                                 </td>
                                 <td>{print.filament}g</td>
-                                <td>{print.cancelled}</td>
-                                <td>{print.cancelled_by?.full_name ?? '-'}</td>
-                                <td>{getDateAndTime(print.cancelled_at)}</td>
+                                <td>{print.canceled}</td>
+                                <td>{print.canceled_by?.full_name ?? '-'}</td>
+                                <td>{getDateAndTime(print.canceled_at)}</td>
                             </tr>
                         {/each}
                     </tbody>

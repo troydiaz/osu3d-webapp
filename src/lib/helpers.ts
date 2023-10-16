@@ -32,7 +32,7 @@ export function getTotalExtrudedInKg(machine: Machine) {
 }
 
 export function getSuccessRate(machine: Machine) {
-  return (machine.prints.filter(p => p.cancelled === true).length || 1) / (machine.prints.length || 1) * 100;
+  return (machine.prints.filter(p => p.canceled === true).length || 1) / (machine.prints.length || 1) * 100;
 }
 
 export enum PermCategory {

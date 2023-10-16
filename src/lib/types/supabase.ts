@@ -251,9 +251,9 @@ export interface Database {
       }
       prints: {
         Row: {
-          cancelled: boolean
-          cancelled_at: string | null
-          cancelled_by_user_id: string | null
+          canceled: boolean
+          canceled_at: string | null
+          canceled_by_user_id: string | null
           created_at: string
           created_by_user_id: string
           done_at: string
@@ -262,9 +262,9 @@ export interface Database {
           machine_id: string
         }
         Insert: {
-          cancelled?: boolean
-          cancelled_at?: string | null
-          cancelled_by_user_id?: string | null
+          canceled?: boolean
+          canceled_at?: string | null
+          canceled_by_user_id?: string | null
           created_at?: string
           created_by_user_id: string
           done_at: string
@@ -273,9 +273,9 @@ export interface Database {
           machine_id: string
         }
         Update: {
-          cancelled?: boolean
-          cancelled_at?: string | null
-          cancelled_by_user_id?: string | null
+          canceled?: boolean
+          canceled_at?: string | null
+          canceled_by_user_id?: string | null
           created_at?: string
           created_by_user_id?: string
           done_at?: string
@@ -285,8 +285,8 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "prints_cancelled_by_user_id_fkey"
-            columns: ["cancelled_by_user_id"]
+            foreignKeyName: "prints_canceled_by_user_id_fkey"
+            columns: ["canceled_by_user_id"]
             referencedRelation: "profiles"
             referencedColumns: ["user_id"]
           },

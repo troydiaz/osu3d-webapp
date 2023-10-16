@@ -32,15 +32,13 @@
         selectedTier2Machine = tier2Machines[0];
         selectedTier2Time = getActivePrintJobTimeRemaining(selectedTier2Machine!);
 
-        // addAlert(AlertType.URGENT, 'Discord Reminder!', 'Add your username to your account settings to get automated pings about your prints!')
+        console.log(data);
     });
 </script>
 
 <svelte:head>
     <title>Dashboard | OSU 3D</title>
 </svelte:head>
-
-
 
 {#if machines && userLevel }
 <div class="flex flex-col gap-12 w-full">

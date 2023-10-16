@@ -4,6 +4,7 @@ import type { Actions, PageServerLoad } from "./$types";
 
 export const load = (async ({ params, locals: { supabase, getSession } }) => {
   const session = await getSession();
+
   if (!session)
     throw redirect(303, '/');
 
@@ -20,14 +21,13 @@ export const load = (async ({ params, locals: { supabase, getSession } }) => {
       prints (
         *,
         created_by: created_by_user_id (*),
-        cancelled_by: cancelled_by_user_id (*)
+        canceled_by: canceled_by_user_id (*)
       )
     `)
     .eq('id', params.slug)
     .order('created_at', { foreignTable: 'faults', ascending: false })
     .order('created_at', { foreignTable: 'prints', ascending: false })
-    .returns<Machine[]>()
-    .maybeSingle();
+    .returns<Machine[]>().maybeSingle();
 
   if (machine === null)
     throw error(404, 'Machine not found');
@@ -45,7 +45,7 @@ export const actions = {
     let resolveList: { id: string, success: boolean }[] = JSON.parse(formData.get('idArray') as string).map((id: string) => { return { id, success: false } });
 
     for (let job of resolveList) {
-      let check = await supabase
+      const check = await supabase
         .from('faults')
         .select('*')
         .eq('id', job.id)
@@ -54,7 +54,7 @@ export const actions = {
       if (check.data?.resolved)
         continue;
 
-      let update = await supabase
+      const update = await supabase
         .from('faults')
         .update({
           resolved: true,
@@ -62,7 +62,7 @@ export const actions = {
           resolved_at: new Date().toISOString()
         })
         .eq('id', job.id)
-        .select().maybeSingle();
+        .select();
 
       job.success = update.status === 200;
     }

@@ -1,28 +1,27 @@
 import type { Fault, Machine } from '$lib/types/database';
-import { redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load = (async ({ locals: { supabase, getSession } }) => {
-	const session = await getSession();
+  const session = await getSession();
 
-	if (!session) {
-		throw redirect(303, '/');
-	}
+  if (!session)
+    throw redirect(303, '/');
 
     const { data: machines } = await supabase
         .from('machines')
         .select(`
             *,
             machine_def: machine_defs_id (*),
-            faults: faults (
+            faults (
                 *,
                 created_by: created_by_user_id (*),
                 resolved_by: resolved_by_user_id (*)
             ),
-            prints: prints (
+            prints (
                 *,
                 created_by: created_by_user_id (*),
-                cancelled_by: cancelled_by_user_id (*)
+                canceled_by: canceled_by_user_id (*)
             )
         `)
         .returns<Machine[]>();
@@ -33,7 +32,7 @@ export const load = (async ({ locals: { supabase, getSession } }) => {
         .eq('user_id', session.user.id)
         .maybeSingle();
 
-	return { session, machines, userLevel };
+  return { session, machines, userLevel };
 }) satisfies PageServerLoad;
 
 export const actions = {
@@ -86,18 +85,18 @@ export const actions = {
         const formData = await request.formData();
 
         const printLogId = formData.get('printLogId') as string;
-        const cancelledById = session?.user.id;
+        const canceledById = session?.user.id;
 
-        if (!printLogId || !cancelledById)
+        if (!printLogId || !canceledById)
             return;
 
-        // Prevent someone from cancelling if it's already been cancelled
+        // Prevent someone from canceling if it's already been canceled
         const { data: safetyCheck } = await supabase
             .from('prints')
             .select('*')
             .eq('id', printLogId)
 
-        if (safetyCheck && safetyCheck.length > 0 && safetyCheck[0].cancelled === true)
+        if (safetyCheck && safetyCheck.length > 0 && safetyCheck[0].canceled === true)
             return;
 
         if (safetyCheck)
@@ -106,9 +105,9 @@ export const actions = {
         await supabase
             .from('prints')
             .update({
-                cancelled: true,
-                cancelled_by_user_id: cancelledById,
-                cancelled_at: new Date().toISOString()
+                canceled: true,
+                canceled_by_user_id: canceledById,
+                canceled_at: new Date().toISOString()
             })
             .eq('id', printLogId)
             .select();

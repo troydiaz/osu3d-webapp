@@ -1,39 +1,42 @@
 import type { Database } from "./supabase";
 
-export type Fault = Database['public']['Tables']['faults']['Row'] & {
-    created_by: Database['public']['Tables']['profiles']['Row'],
-    resolved_by: Database['public']['Tables']['profiles']['Row'] | null
+export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
+export type Enums<T extends keyof Database['public']['Enums']> = Database['public']['Enums'][T]
+
+export type Fault = Tables<'faults'> & {
+    created_by: Tables<'profiles'>,
+    resolved_by: Tables<'profiles'> | null
 };
 
-export type Print = Database['public']['Tables']['prints']['Row'] & {
-    created_by: Database['public']['Tables']['profiles']['Row'],
-    cancelled_by: Database['public']['Tables']['profiles']['Row'] | null
+export type Print = Tables<'prints'> & {
+    created_by: Tables<'profiles'>,
+    canceled_by: Tables<'profiles'> | null
 };
 
-export type Machine = Database['public']['Tables']['machines']['Row'] & {
-    machine_def: Database['public']['Tables']['machine_defs']['Row']
+export type Machine = Tables<'machines'> & {
+    machine_def: Tables<'machine_defs'>
     faults: Fault[],
     prints: Print[]
 }
 
-export type User = Database['public']['Tables']['profiles']['Row'] & {
-    perms: Database['public']['Tables']['user_levels']['Row']
+export type User = Tables<'profiles'> & {
+    perms: Tables<'user_levels'>
 }
 
-export type UserLevel = Database['public']['Tables']['user_levels']['Row'];
+export type UserLevel = Tables<'user_levels'>;
 
-export type InventoryItem = Database['public']['Tables']['inv_items']['Row'] & {
+export type InventoryItem = Tables<'inv_items'> & {
     changes: InventoryChange[],
-    created_by: Database['public']['Tables']['profiles']['Row'],
-    inv_category: Database['public']['Tables']['inv_categories']['Row']
+    created_by: Tables<'profiles'>,
+    inv_category: Tables<'inv_categories'>
 }
 
-export type InventoryChange = Database['public']['Tables']['inv_changes']['Row'] & {
-    created_by: Database['public']['Tables']['profiles']['Row'],
+export type InventoryChange = Tables<'inv_changes'> & {
+    created_by: Tables<'profiles'>,
     running_total: number // this is calculated client side
 }
 
-export type InventoryCategory = Database['public']['Tables']['inv_categories']['Row'];
+export type InventoryCategory = Tables<'inv_categories'>;
 
 export enum MachineStatus {
     UNKNOWN,
@@ -73,7 +76,7 @@ export function getMostRecentChangeDateName(changes: InventoryChange[] | undefin
 
 export function getMachineStatus(machine: Machine) {
     let activeFaults = machine.faults.filter(f => !f.resolved);
-    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.cancelled);
+    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.canceled);
 
     if (activeFaults.length > 0)
         return MachineStatus.FAULT;
@@ -85,7 +88,7 @@ export function getMachineStatus(machine: Machine) {
 
 export function getMachineStatusColor(machine: Machine) {
     let activeFaults = machine.faults.filter(f => !f.resolved);
-    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.cancelled);
+    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.canceled);
 
     if (activeFaults.length > 0)
         return 'text-warning'
@@ -110,9 +113,9 @@ export function machineStatusToText(status: MachineStatus) {
 }
 
 export function getLatestCompletePrintJob(machine: Machine) {
-    let previousPrints = machine.prints.filter(p => new Date(p.done_at).getTime() < Date.now() || p.cancelled)
+    let previousPrints = machine.prints.filter(p => new Date(p.done_at).getTime() < Date.now() || p.canceled)
         .sort((a, b) => {
-            return new Date(a.cancelled ? a.cancelled_at! : a.done_at).getTime() - new Date(b.cancelled ? b.cancelled_at! : b.done_at).getTime()
+            return new Date(a.canceled ? a.canceled_at! : a.done_at).getTime() - new Date(b.canceled ? b.canceled_at! : b.done_at).getTime()
         });
 
     let timeSince = '-';
@@ -132,7 +135,7 @@ export function getLatestCompletePrintJob(machine: Machine) {
 }
 
 export function getActivePrintJob(machine: Machine) {
-    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.cancelled);
+    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.canceled);
     return activePrints[0];
 }
 
@@ -140,7 +143,7 @@ export function getActivePrintJobTimeRemaining(machine: Machine) {
     if (machine === null || machine.prints === null)
         return 0;
 
-    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.cancelled);
+    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.canceled);
 
     if (activePrints.length === 0)
         return 0;

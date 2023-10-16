@@ -23,17 +23,14 @@
       <h3 class="font-bold text-lg">Report an issue for {machineToReport?.nickname}</h3>
         <!-- Machine ID  -->
         <div class="form-control">
-          <label class="label">
-            <span class="label-text">Machine ID</span>
-          </label>
-          <input name="faultMachineId" type="text" class="input input-bordered w-full input-disabled" value={`${machineToReport.id}`} readonly />
+          <input name="faultMachineId" type="hidden" class="input input-bordered w-full input-disabled" value={`${machineToReport.id}`} />
         </div>
         <!-- Machine Issue Description -->
         <div class="form-control">
           <label class="label">
             <span class="label-text">What is the issue?</span>
           </label>
-          <input name="faultDescription" type="text" placeholder="Type here..." class="input input-bordered w-full" />
+          <input name="faultDescription" type="text" placeholder="Type here..." class="input input-bordered w-full" autocomplete="off" />
         </div>
       <!-- Modal Actions -->
       <div class="modal-action">

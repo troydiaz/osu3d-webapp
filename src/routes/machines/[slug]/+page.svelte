@@ -4,20 +4,19 @@
   import PrintLogTable from '$lib/components/tables/PrintLogTable.svelte';
   import { getMachineStatus, machineStatusToText } from '$lib/types/database';
   import { getAverageJobDuration, getSuccessRate, getTotalHours } from '$lib/helpers';
-  import { AlertTypeOld, addAlert } from '$lib/stores/alerts';
-	import PageHeader from '$lib/components/PageHeader.svelte';
+  import PageHeader from '$lib/components/PageHeader.svelte';
 	import printer from '$lib/images/printer.png';
   
   export let data: PageServerData;
   export let form: ActionData;
-  
-  $: if (form) form.success ? addAlert(AlertTypeOld.INFO, 'Good news', 'Successfully commited all changes!') : addAlert(AlertTypeOld.ERROR, 'Uh oh...', 'Error commiting changes to the database...');
+
+  console.log(data);
   
   const { session, machine, slug } = data;
 </script>
 
 <svelte:head>
-  <head>Printers | OSU 3D</head>
+  <title>Printers | OSU 3D</title>
 </svelte:head>
 
 {#if machine}
@@ -45,8 +44,8 @@
           <div class="stat-value font-mono text-2xl">{machine.prints.length}</div>
         </div>
         <div class="stat">
-          <div class="stat-title">Cancelled Jobs </div>
-          <div class="stat-value font-mono text-2xl">{machine.prints.filter(p => p.cancelled === true).length}</div>
+          <div class="stat-title">Canceled Jobs </div>
+          <div class="stat-value font-mono text-2xl">{machine.prints.filter(p => p.canceled === true).length}</div>
         </div>
         <div class="stat">
           <div class="stat-title">Success Rate</div>
