@@ -13,6 +13,7 @@ module.exports = {
       'dark',
       'light'
     ],
+    logs: false
   },
   darkMode: ['class', '[data-theme="dark"]'],
   
