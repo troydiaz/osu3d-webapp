@@ -1,15 +1,12 @@
 <script lang="ts">
-	import { ArrowLeft, CubeTransparent } from "svelte-heros-v2";
 	import type { PageServerData } from "./$types";
 	import { prettyDate, totalAllChanges, type InventoryChange } from "$lib/types/database";
 	import ChangeLogTable from "$lib/components/tables/ChangeLogTable.svelte";
   import box from '$lib/images/package.png';
 	import PageHeader from "$lib/components/PageHeader.svelte";
 
-
   export let data: PageServerData;
-  const { session, singleItem } = data;
-
+  const {  singleItem } = data;
 
   function consumedPriorNumDays(changes: InventoryChange[], numDays: number) {
     const week = changes.filter(c => (new Date(c.created_at).getTime() > (Date.now() - 24 * 60 * 60 * numDays * 1000)) && c.amount < 0);

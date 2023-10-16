@@ -19,7 +19,7 @@
     <PageHeader name="Inventory" image={box} />
     <div class="flex flex-row justify-end items-center gap-4">
         <NewItemMenu categories={categories}><button class="btn btn-primary btn-sm"><Plus /> New Item</button></NewItemMenu>
-        <button class="btn btn-primary btn-sm"><Plus /> New Category</button>
+        <button class="btn btn-primary btn-sm" disabled><Plus /> New Category</button>
     </div>
     <InventoryTable title={'All Items'} inventory={inventory || []} allowSearch={true} />
     {#each categories || [] as category}

@@ -12,14 +12,14 @@ export const load = (async ({ params, locals: { supabase, getSession } }) => {
       .select(`
           *,
           created_by: created_by_user_id (*),
-          changes: inv_changes (
+          changes: inv_changes_view (
               *,
               created_by: created_by_user_id (*)
           ),
           inv_category: inv_category_id (*)
       `)
       .eq('id', params.slug)
-      .order('created_at', { foreignTable: 'inv_changes', ascending: false })
+      .order('created_at', { foreignTable: 'inv_changes_view', ascending: false })
       .returns<InventoryItem[]>()
       .maybeSingle();
 
@@ -27,13 +27,6 @@ export const load = (async ({ params, locals: { supabase, getSession } }) => {
 
       if (!singleItem)
         throw error(404, `Resource not found`);
-
-      for (let i = singleItem.changes.length - 1; i >= 0; i--) {
-        if (i === singleItem.changes.length - 1)
-          singleItem.changes[i].running_total = singleItem.changes[i].amount;
-        else
-          singleItem.changes[i].running_total = singleItem.changes[i + 1].running_total + singleItem.changes[i].amount;
-      }
 
     return { session, singleItem }
 }) satisfies PageServerLoad;

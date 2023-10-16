@@ -19,6 +19,7 @@
   import sun from '$lib/images/sun.png';
   import flashlight from '$lib/images/flashlight.png';
   import { Toaster } from 'svelte-french-toast';
+  import { dev } from "$app/environment";
   
   export let data: LayoutData;
   let showAlerts = false;
@@ -93,7 +94,7 @@
             
             
             <!-- Maintenance -->
-            {#if hasPermission(userLevel?.level, PermCategory.MAINTENANCE, PermFlag.FIRST)}
+            {#if hasPermission(userLevel?.level, PermCategory.MAINTENANCE, PermFlag.FIRST) && dev}
             <SidebarButton name="Maintenance" url="/maintenance" image={schedule} />
             {/if}
           </div>

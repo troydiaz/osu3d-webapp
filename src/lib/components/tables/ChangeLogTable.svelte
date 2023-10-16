@@ -1,10 +1,7 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
-	import { totalAllChanges, type InventoryItem, getMostRecentChangeDateName, type InventoryChange, prettyDate, prettyDateTime } from "$lib/types/database";
+	import { type InventoryChange, prettyDateTime } from "$lib/types/database";
 	import Paginate from "$lib/utilities/Paginate.svelte";
-	import { Minus, Plus } from "svelte-heros-v2";
-	import NewItemMenu from "../menu/NewItemMenu.svelte";
-
+	
   export let changes: InventoryChange[] = [];
 
   let lowerIndex: number = 0;
@@ -48,7 +45,7 @@
                 {change.created_by.full_name}
               </td>
               <td class="flex flex-row justify-end gap-2">
-                <button class="btn btn-sm btn-error">Delete</button>
+                <button class="btn btn-sm btn-error" disabled>Delete</button>
               </td>
           </tr>
           {/each}
