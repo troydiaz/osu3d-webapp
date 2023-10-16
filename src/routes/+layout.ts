@@ -3,9 +3,6 @@ import type { Database } from '$lib/types/supabase';
 import { createSupabaseLoadClient } from '@supabase/auth-helpers-sveltekit';
 import type { LayoutLoad } from './$types';
 import { dev } from '$app/environment';
-import { inject } from '@vercel/analytics';
-
-inject({ mode: dev ? 'development' : 'production' });
 
 export const load: LayoutLoad = async ({ fetch, data, depends }) => {
     depends('supabase:auth');
