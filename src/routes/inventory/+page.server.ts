@@ -41,6 +41,8 @@ export const actions = {
         const minimum = Number(formData.get('minimum'));
         const inv_category_id = formData.get('inv_category_id') as string;
 
+        console.log(name, minimum, inv_category_id);
+
         let result = await supabase
             .from('inv_items')
             .insert({

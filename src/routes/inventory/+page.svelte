@@ -8,7 +8,7 @@
     import box from '$lib/images/package.png';
 
     export let data: PageData;
-    let { session, inventory, categories } = data;
+    let { inventory, categories } = data;
 </script>
 
 <svelte:head>
