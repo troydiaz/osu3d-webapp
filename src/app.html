@@ -10,6 +10,10 @@
 			else
 				document.getElementsByTagName('html')[0].setAttribute('data-theme', 'light')
 		</script>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents;">%sveltekit.body%</div>
 		<!-- Cloudflare Web Analytics -->
 		<script>
 			if (location.hostname !== 'localhost') {
@@ -21,9 +25,5 @@
 			}
 		</script>
 		<!-- End Cloudflare Web Analytics -->
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents;">%sveltekit.body%</div>
 	</body>
 </html>
