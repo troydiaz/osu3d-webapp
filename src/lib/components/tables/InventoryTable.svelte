@@ -16,7 +16,7 @@
   let upperIndex: number = 0;
 </script>
 
-<!-- Machines table -->
+<!-- Inventory table -->
 <div class="flex flex-col gap-4">
   <div class="flex flex-row justify-start items-center">
       <div class="font-thin text-3xl">{title}</div>
@@ -27,7 +27,7 @@
       <div>{inventory.length} Entries Total</div>
       <div class="divider divider-horizontal"></div>
       <div class="grow relative">
-        <input class="input input-sm input-bor w-full bg-base-100 outline outline-1 outline-base-content/10" type="text" placeholder="Filter by name..." bind:value={filterText} />
+        <input class="input input-sm w-full" type="text" placeholder="Filter by name..." bind:value={filterText} />
         <button class="btn btn-sm btn-ghost hover:bg-transparent absolute right-0 opacity-50" on:click={() => filterText = ''}>Clear</button>
       </div>
       <div class="divider divider-horizontal"></div>
@@ -38,7 +38,7 @@
       <Paginate totalRows={inventory.length} bind:lowerIndex bind:upperIndex />
   </div>
   
-  <table class="table shadow-lg bg-base-100 outline outline-1 outline-base-content/10">
+  <table class="table shadow-lg bg-base-100">
       <thead>
           <tr>
               <th>Name</th>

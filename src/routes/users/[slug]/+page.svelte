@@ -1,26 +1,21 @@
 <script lang="ts">
-  import { ArrowLeft, Cog6Tooth } from 'svelte-heros-v2';
   import type { PageData, ActionData } from "./$types.js";
-	import { onMount } from 'svelte';
-	import { PermCategory, PermFlag, getPermCategory, getPermissionBit, hasPermission } from '$lib/helpers.js';
-	import { addAlert, AlertTypeOld } from '$lib/stores/alerts.js';
+	import { PermCategory, PermFlag, getPermissionBit, hasPermission } from '$lib/helpers.js';
 	import PageHeader from '$lib/components/PageHeader.svelte';
   import ledger from '$lib/images/orange_book.png';
 	
   export let data: PageData;
   export let form: ActionData;
 
-  $: if (form) form.success ? addAlert(AlertTypeOld.INFO, 'Good news', 'Changes saved successfully') : addAlert(AlertTypeOld.ERROR, 'Uh oh', 'There was an issue saving your settings');
-
-  let { session, user } = data;
+  let { user } = data;
 </script>
 
 <svelte:head>
-    <title>Users | OSU 3D</title>
+    <title>Members | OSU 3D</title>
 </svelte:head>
 
 <div class="flex flex-col gap-12 w-full">
-  <PageHeader name="Modify Permissions" backUrl="/users" image={ledger} />
+  <PageHeader name="Edit Member" backUrl="/users" image={ledger} />
 
   <div class="flex flex-col gap-4">
     <div class="font-thin text-3xl">Flags</div>

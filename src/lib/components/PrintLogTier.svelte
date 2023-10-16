@@ -1,259 +1,253 @@
 <script lang="ts">
-	import {
-		getMachineStatus,
-		type Machine,
-		machineStatusToText,
-		MachineStatus,
-		getLatestCompletePrintJob,
-		getActivePrintJobTimeRemaining,
-		type UserLevel,
-		getMachineStatusColor
-	} from '$lib/types/database';
-	import NewIssueModal from './modals/NewIssueModal.svelte';
-	import NewPrintModal from './modals/NewPrintModal.svelte';
-	import CancelPrintModal from './modals/CancelPrintModal.svelte';
-	import { PermFlag, hasPermission } from '$lib/helpers';
+  import {
+    getMachineStatus,
+    type Machine,
+    machineStatusToText,
+    MachineStatus,
+    getLatestCompletePrintJob,
+    getActivePrintJobTimeRemaining,
+    type UserLevel,
+    getMachineStatusColor
+  } from '$lib/types/database';
+  import NewIssueModal from './modals/NewIssueModal.svelte';
+  import NewPrintModal from './modals/NewPrintModal.svelte';
+  import CancelPrintModal from './modals/CancelPrintModal.svelte';
+  import { PermFlag, hasPermission } from '$lib/helpers';
 
-	export let userLevel: UserLevel;
-	export let machines: Machine[];
-	export let tier: number;
+  export let userLevel: UserLevel;
+  export let machines: Machine[];
+  export let tier: number;
 
-	let selectedMachine: Machine;
-	let selectedMachineTime = 0;
+  let selectedMachine: Machine;
+  let selectedMachineTime = 0;
 
-	let newIssueModal: NewIssueModal;
-	let newPrintModal: NewPrintModal;
-	let cancelPrintModal: CancelPrintModal;
+  let newIssueModal: NewIssueModal;
+  let newPrintModal: NewPrintModal;
+  let cancelPrintModal: CancelPrintModal;
 
-	function isTierCertified(tier: number) {
-		return hasPermission(userLevel.level, tier - 1, PermFlag.FIRST);
-	}
+  function isTierCertified(tier: number) {
+    return hasPermission(userLevel.level, tier - 1, PermFlag.FIRST);
+  }
 
-	function decrementTimers() {
-		selectedMachineTime = selectedMachineTime > 0 ? selectedMachineTime - 1 : 0;
-	}
+  function decrementTimers() {
+    selectedMachineTime = selectedMachineTime > 0 ? selectedMachineTime - 1 : 0;
+  }
 
-	$: selectMachineTab(machines[0]);
+  $: selectMachineTab(machines[0]);
 
-	setInterval(decrementTimers, 1000);
+  setInterval(decrementTimers, 1000);
 
-	function selectMachineTab(machine: Machine) {
-		selectedMachine = machine;
-		selectedMachineTime = getActivePrintJobTimeRemaining(machine);
-	}
+  function selectMachineTab(machine: Machine) {
+    selectedMachine = machine;
+    selectedMachineTime = getActivePrintJobTimeRemaining(machine);
+  }
 </script>
 
 <div class="flex flex-col gap-4">
-	<!-- Header -->
-	<div class="flex flex-row justify-between items-center px-4 lg:px-0">
-		<div class="font-thin text-3xl">Tier {tier} Printers</div>
-		<!-- <div class="divider divider-horizontal"></div> -->
-		<div class="flex flex-row">
-			<div class="font-light mr-2">Legend</div>
-			<div class="flex outline outline-1 outline-base-content/10 rounded overflow-hidden">
-				<div class="bg-base-100 text-base-content text-xs font-mono uppercase px-2 py-1">Idle</div>
-				<div class="bg-info text-info-content text-xs font-mono uppercase px-2 py-1">Printing</div>
-				<div class="bg-warning text-warning-content text-xs font-mono uppercase px-2 py-1">Fault</div>
-			</div>
-		</div>
-		<!-- <span>{machines.filter(m => getMachineStatus(m) === MachineStatus.IDLE).length} ready of {machines.length} total</span> -->
-	</div>
+  <!-- Header -->
+  <div class="flex flex-row justify-between items-center px-4 lg:px-0">
+    <div class="font-thin text-3xl">Tier {tier} Printers</div>
+    <!-- <div class="divider divider-horizontal"></div> -->
+    <div class="flex flex-row">
+      <div class="font-light mr-2">Legend</div>
+      <div class="flex outline outline-1 outline-base-content/10 rounded overflow-hidden">
+        <div class="bg-base-100 text-base-content text-xs font-mono uppercase px-2 py-1">Idle</div>
+        <div class="bg-info text-info-content text-xs font-mono uppercase px-2 py-1">Printing</div>
+        <div class="bg-warning text-warning-content text-xs font-mono uppercase px-2 py-1">Fault</div>
+      </div>
+    </div>
+    <!-- <span>{machines.filter(m => getMachineStatus(m) === MachineStatus.IDLE).length} ready of {machines.length} total</span> -->
+  </div>
 
-	<div class="hidden xl:block">
-		<div class="tabs border-none justify-between">
-			{#each machines as machine}
-				<a
-					role="tab"
-					tabindex="-1"
-					class="rounded-t-2xl translate-y-[1px] tab my-tab-lifted tab-lg grow border-b-0 border border-transparent {selectedMachine ===
-					machine
-						? 'tab-active bg-base-100 !border-base-content/10 z-10'
-						: ''} {getMachineStatusColor(machine)}"
-					on:click={() => selectMachineTab(machine)}
-				>
-					{machine.nickname}
-				</a>
-			{/each}
-		</div>
-		<div
-			class="rounded-b-2xl border border-1 border-base-content/10 bg-base-100 shadow-lg p-12 relative overflow-hidden"
-			class:rounded-tl-2xl={machines.indexOf(selectedMachine) !== 0}
-			class:rounded-tr-2xl={machines.indexOf(selectedMachine) !== machines.length - 1}
-		>
-			<div class="flex flex-row justify-between">
-				<div class="flex flex-col justify-start space-y-2 z-10">
-					<span class="text-5xl font-thin">{selectedMachine.nickname}</span>
-					<span class="text-2xl grow"
-						>{selectedMachine.machine_def.make} {selectedMachine.machine_def.model}</span
-					>
-				</div>
-				<img
-					src="{selectedMachine.machine_def.model}.png"
-					class="w-1/2 absolute blur opacity-25 left-16 pointer-events-none select-none"
-				/>
-				<div
-					class="flex flex-col justify-start space-y-4 z-10 p-4 h-72 rounded-2xl bg-base-100 outline outline-1 outline-base-content/10 bg-opacity-75 backdrop-blur"
-				>
-					<div
-						class="stats h-24 outline outline-1 outline-base-content/10 bg-base-200 bg-opacity-50"
-					>
-						<div
-							class="stat"
-						>
-							<!-- <div class="stat-figure"><Bolt /></div> -->
-							<div class="stat-title w-24">Status</div>
-							<div class="stat-value font-mono text-2xl">
-								{machineStatusToText(getMachineStatus(selectedMachine))}
-							</div>
-						</div>
-						<div
-							class="stat"
-						>
-							{#if getMachineStatus(selectedMachine) === MachineStatus.PRINTING}
-								<div class="stat-title">Time Remaining</div>
-								<div class="stat-value">
-									<span class="countdown font-mono text-2xl">
-										<span style:--value={Math.floor(selectedMachineTime / 60 / 60)}></span>h
-										<span style:--value={Math.floor((selectedMachineTime / 60) % 60)}></span>m
-										<span style:--value={Math.floor(selectedMachineTime % 60)}></span>s
-									</span>
-								</div>
-							{:else}
-								<div class="stat-title">Previous Job Finished</div>
-								<div class="stat-value font-mono text-2xl">
-									{getLatestCompletePrintJob(selectedMachine)}
-								</div>
-							{/if}
-						</div>
-					</div>
-					<div class="divider"></div>
-					{#if isTierCertified(tier)}
-						<div class="flex flex-row space-x-4">
-							<button
-								class="btn btn-accent flex-1"
-								on:click={() => cancelPrintModal.launchModal(selectedMachine)}
-								disabled={getMachineStatus(selectedMachine) !== MachineStatus.PRINTING ||
-									getMachineStatus(selectedMachine) === MachineStatus.FAULT}
-							>
-								Cancel Print
-							</button>
-							<button
-								class="btn btn-error flex-1"
-								on:click={() => newIssueModal.launchModal(selectedMachine)}
-								disabled={getMachineStatus(selectedMachine) === MachineStatus.FAULT}
-							>
-								Report Issue
-							</button>
-						</div>
-						<button
-							class="btn btn-accent"
-							on:click={() => newPrintModal.launchModal(selectedMachine)}
-							disabled={getMachineStatus(selectedMachine) === MachineStatus.PRINTING ||
-								getMachineStatus(selectedMachine) === MachineStatus.FAULT ||
-								!isTierCertified(1)}
-						>
-							Log Print
-						</button>
-					{:else}
-						<div class="grow"></div>
-						<p class="self-center uppercase text-center">
-							Tier {tier} cert required to<br />log a print for this machine
-						</p>
-						<div class="grow"></div>
-					{/if}
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="hidden xl:block">
+    <div class="tabs border-none justify-between">
+      {#each machines as machine}
+        <a
+          role="tab"
+          tabindex="-1"
+          class="rounded-t-2xl translate-y-[1px] tab my-tab-lifted tab-lg grow border-b-0 border border-transparent {selectedMachine ===
+          machine
+            ? 'tab-active bg-base-100 !border-base-content/10 z-10'
+            : ''} {getMachineStatusColor(machine)}"
+          on:click={() => selectMachineTab(machine)}
+        >
+          {machine.nickname}
+        </a>
+      {/each}
+    </div>
+    <div
+      class="rounded-b-2xl border border-1 border-base-content/10 bg-base-100 shadow-lg p-12 relative overflow-hidden"
+      class:rounded-tl-2xl={machines.indexOf(selectedMachine) !== 0}
+      class:rounded-tr-2xl={machines.indexOf(selectedMachine) !== machines.length - 1}
+    >
+      <div class="flex flex-row justify-between">
+        <div class="flex flex-col justify-start space-y-2 z-10">
+          <span class="text-5xl font-thin">{selectedMachine.nickname}</span>
+          <span class="text-2xl grow"
+            >{selectedMachine.machine_def.make}
+            {selectedMachine.machine_def.model}</span
+          >
+        </div>
+        <img
+          src="{selectedMachine.machine_def.model}.png"
+          class="w-1/2 absolute blur opacity-25 left-16 pointer-events-none select-none"
+        />
+        <div
+          class="flex flex-col justify-start space-y-4 z-10 p-4 h-72 rounded-2xl bg-base-100 outline outline-1 outline-base-content/10 bg-opacity-75 backdrop-blur"
+        >
+          <div class="stats h-24 bg-base-200 bg-opacity-50">
+            <div class="stat">
+              <!-- <div class="stat-figure"><Bolt /></div> -->
+              <div class="stat-title w-24">Status</div>
+              <div class="stat-value font-mono text-2xl">
+                {machineStatusToText(getMachineStatus(selectedMachine))}
+              </div>
+            </div>
+            <div class="stat">
+              {#if getMachineStatus(selectedMachine) === MachineStatus.PRINTING}
+                <div class="stat-title">Time Remaining</div>
+                <div class="stat-value">
+                  <span class="countdown font-mono text-2xl">
+                    <span style:--value={Math.floor(selectedMachineTime / 60 / 60)}></span>h
+                    <span style:--value={Math.floor((selectedMachineTime / 60) % 60)}></span>m
+                    <span style:--value={Math.floor(selectedMachineTime % 60)}></span>s
+                  </span>
+                </div>
+              {:else}
+                <div class="stat-title">Previous Job Finished</div>
+                <div class="stat-value font-mono text-2xl">
+                  {getLatestCompletePrintJob(selectedMachine)}
+                </div>
+              {/if}
+            </div>
+          </div>
+          <div class="divider"></div>
+          {#if isTierCertified(tier)}
+            <div class="flex flex-row space-x-4">
+              <button
+                class="btn btn-accent flex-1"
+                on:click={() => cancelPrintModal.launchModal(selectedMachine)}
+                disabled={getMachineStatus(selectedMachine) !== MachineStatus.PRINTING ||
+                  getMachineStatus(selectedMachine) === MachineStatus.FAULT}
+              >
+                Cancel Print
+              </button>
+              <button
+                class="btn btn-error flex-1"
+                on:click={() => newIssueModal.launchModal(selectedMachine)}
+                disabled={getMachineStatus(selectedMachine) === MachineStatus.FAULT}
+              >
+                Report Issue
+              </button>
+            </div>
+            <button
+              class="btn btn-accent"
+              on:click={() => newPrintModal.launchModal(selectedMachine)}
+              disabled={getMachineStatus(selectedMachine) === MachineStatus.PRINTING ||
+                getMachineStatus(selectedMachine) === MachineStatus.FAULT ||
+                !isTierCertified(1)}
+            >
+              Log Print
+            </button>
+          {:else}
+            <div class="grow"></div>
+            <p class="self-center uppercase text-center">
+              Tier {tier} cert required to<br />log a print for this machine
+            </p>
+            <div class="grow"></div>
+          {/if}
+        </div>
+      </div>
+    </div>
+  </div>
 
-	<div class="xl:hidden">
-		<div class="join join-vertical w-full md:shadow-xl">
-			{#each machines as machine}
-				<div class="collapse join-item bg-base-100 outline outline-1 outline-base-content/10"
+  <div class="xl:hidden">
+    <div class="join join-vertical w-full md:shadow-lg">
+      {#each machines as machine}
+        <div
+          class="collapse join-item bg-base-100 outline outline-1 outline-base-content/10"
           on:click={() => selectMachineTab(machine)}
           role="tab"
           tabindex="-1"
         >
-					<input type="radio" name="accordion-1" />
-					<div
-						class="collapse-title text-xl font-medium bg-gradient-to-l to-base-100 outline outline-1 outline-base-content/25"
-						class:from-warning={getMachineStatus(machine) === MachineStatus.FAULT}
+          <input type="radio" name="accordion-1" />
+          <div
+            class="collapse-title text-xl font-medium bg-gradient-to-l to-base-100 outline outline-1 outline-base-content/25"
+            class:from-warning={getMachineStatus(machine) === MachineStatus.FAULT}
             class:from-info={getMachineStatus(machine) === MachineStatus.PRINTING}
             class:from-base-100={getMachineStatus(machine) === MachineStatus.IDLE}
-					>
-						<span class="font-light tracking-wide">{machine.nickname}</span>
-					</div>
-					<div class="collapse-content">
-						<div class="flex justify-center pt-6">
-							<div
-								class="stats h-24 outline outline-1 outline-base-content/10 shadow-lg bg-base-200 bg-opacity-50 w-full"
-							>
-								<div class="stat">
-									<!-- <div class="stat-figure"><Bolt /></div> -->
-									<div class="stat-title w-24">Status</div>
-									<div class="stat-value font-mono text-2xl">
-										{machineStatusToText(getMachineStatus(selectedMachine))}
-									</div>
-								</div>
-								<div class="stat rounded-l-none">
-									{#if getMachineStatus(selectedMachine) === MachineStatus.PRINTING}
-										<div class="stat-title">Time Remaining</div>
-										<div class="stat-value">
-											<span class="countdown font-mono text-2xl">
-												<span class="rounded-none" style:--value={Math.floor(selectedMachineTime / 60 / 60)}></span>:
-												<span class="rounded-none" style:--value={Math.floor((selectedMachineTime / 60) % 60)}></span>:
-												<span class="rounded-none" style:--value={Math.floor(selectedMachineTime % 60)}></span>
+          >
+            <span class="font-light tracking-wide">{machine.nickname}</span>
+          </div>
+          <div class="collapse-content">
+            <div class="flex justify-center pt-6">
+              <div class="stats h-24 shadow-lg bg-base-200 bg-opacity-50 w-full">
+                <div class="stat">
+                  <!-- <div class="stat-figure"><Bolt /></div> -->
+                  <div class="stat-title w-24">Status</div>
+                  <div class="stat-value font-mono text-2xl">
+                    {machineStatusToText(getMachineStatus(selectedMachine))}
+                  </div>
+                </div>
+                <div class="stat rounded-l-none">
+                  {#if getMachineStatus(selectedMachine) === MachineStatus.PRINTING}
+                    <div class="stat-title">Time Remaining</div>
+                    <div class="stat-value">
+                      <span class="countdown font-mono text-2xl">
+                        <span class="rounded-none" style:--value={Math.floor(selectedMachineTime / 60 / 60)}></span>:
+                        <span class="rounded-none" style:--value={Math.floor((selectedMachineTime / 60) % 60)}></span>:
+                        <span class="rounded-none" style:--value={Math.floor(selectedMachineTime % 60)}></span>
                       </span>
-										</div>
-									{:else}
-										<div class="stat-title">Previous Job Finished</div>
-										<div class="stat-value font-mono text-2xl">
-											{getLatestCompletePrintJob(selectedMachine)}
-										</div>
-									{/if}
-								</div>
-							</div>
-						</div>
-						<div class="divider"></div>
-						{#if isTierCertified(tier)}
-							<div class="flex flex-col gap-4">
-								<button
-									class="btn btn-accent"
-									on:click={() => newPrintModal.launchModal(selectedMachine)}
-									disabled={getMachineStatus(selectedMachine) === MachineStatus.PRINTING ||
-										getMachineStatus(selectedMachine) === MachineStatus.FAULT ||
-										!isTierCertified(1)}
-								>
-									Log Print
-								</button>
-								<button
-									class="btn btn-accent"
-									on:click={() => cancelPrintModal.launchModal(selectedMachine)}
-									disabled={getMachineStatus(selectedMachine) !== MachineStatus.PRINTING ||
-										getMachineStatus(selectedMachine) === MachineStatus.FAULT}
-								>
-									Cancel Print
-								</button>
-								<button
-									class="btn btn-error"
-									on:click={() => newIssueModal.launchModal(selectedMachine)}
-									disabled={getMachineStatus(selectedMachine) === MachineStatus.FAULT}
-								>
-									Report Issue
-								</button>
-							</div>
-						{:else}
-							<div class="grow"></div>
-							<p class="self-center uppercase text-center">
-								Tier {tier} cert required to<br />log a print for this machine
-							</p>
-							<div class="grow"></div>
-						{/if}
-					</div>
-				</div>
-			{/each}
-		</div>
-	</div>
+                    </div>
+                  {:else}
+                    <div class="stat-title">Previous Job Finished</div>
+                    <div class="stat-value font-mono text-2xl">
+                      {getLatestCompletePrintJob(selectedMachine)}
+                    </div>
+                  {/if}
+                </div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            {#if isTierCertified(tier)}
+              <div class="flex flex-col gap-4">
+                <button
+                  class="btn btn-accent"
+                  on:click={() => newPrintModal.launchModal(selectedMachine)}
+                  disabled={getMachineStatus(selectedMachine) === MachineStatus.PRINTING ||
+                    getMachineStatus(selectedMachine) === MachineStatus.FAULT ||
+                    !isTierCertified(1)}
+                >
+                  Log Print
+                </button>
+                <button
+                  class="btn btn-accent"
+                  on:click={() => cancelPrintModal.launchModal(selectedMachine)}
+                  disabled={getMachineStatus(selectedMachine) !== MachineStatus.PRINTING ||
+                    getMachineStatus(selectedMachine) === MachineStatus.FAULT}
+                >
+                  Cancel Print
+                </button>
+                <button
+                  class="btn btn-error"
+                  on:click={() => newIssueModal.launchModal(selectedMachine)}
+                  disabled={getMachineStatus(selectedMachine) === MachineStatus.FAULT}
+                >
+                  Report Issue
+                </button>
+              </div>
+            {:else}
+              <div class="grow"></div>
+              <p class="self-center uppercase text-center">
+                Tier {tier} cert required to<br />log a print for this machine
+              </p>
+              <div class="grow"></div>
+            {/if}
+          </div>
+        </div>
+      {/each}
+    </div>
+  </div>
 </div>
 
 <NewIssueModal bind:this={newIssueModal} />
@@ -261,22 +255,22 @@
 <CancelPrintModal bind:this={cancelPrintModal} />
 
 <style>
-	.my-tab-lifted::after,
-	.my-tab-lifted::before {
-		background-image: radial-gradient(
-			circle at var(--circle-pos),
-			transparent var(--tab-grad),
-			transparent calc(var(--tab-grad) + 0.3px),
-			transparent calc(var(--tab-grad) + var(--tab-border, 1px)),
-			var(--tab-bg) calc(var(--tab-grad) + var(--tab-border, 1px) + 0.3px)
-		) !important;
-	}
+  .my-tab-lifted::after,
+  .my-tab-lifted::before {
+    background-image: radial-gradient(
+      circle at var(--circle-pos),
+      transparent var(--tab-grad),
+      transparent calc(var(--tab-grad) + 0.3px),
+      transparent calc(var(--tab-grad) + var(--tab-border, 1px)),
+      var(--tab-bg) calc(var(--tab-grad) + var(--tab-border, 1px) + 0.3px)
+    ) !important;
+  }
 
-	.my-tab-lifted:first-of-type::before {
-		background-image: none !important;
-	}
+  .my-tab-lifted:first-of-type::before {
+    background-image: none !important;
+  }
 
-	.my-tab-lifted:last-of-type::after {
-		background-image: none !important;
-	}
+  .my-tab-lifted:last-of-type::after {
+    background-image: none !important;
+  }
 </style>

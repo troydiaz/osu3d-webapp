@@ -3,39 +3,48 @@
 @tailwind utilities;
 
 html, body {
-    height: 100%;
+  height: 100%;
 }
 
 .my-auth-container {
-    background: radial-gradient(white, theme('colors.slate.300') 200%);
-    [data-theme="dark"] & {
-        background: radial-gradient(theme('colors.base-content / 0.15'), black 200%); 
-    }
+  background: radial-gradient(white, theme('colors.slate.300') 200%);
+  [data-theme="dark"] & {
+    background: radial-gradient(theme('colors.base-content / 0.15'), black 200%); 
+  }
 }
 
 @layer utilities {
-    .auth-button {
-        @apply rounded-lg !important;
-        @apply px-2 !important;
-    }
-
-    .table-row-error td {
-        @apply bg-red-300 !important;
-    }
-
-    .table-row-error:hover td {
-        @apply bg-red-500 !important;
-    }
+  .auth-button {
+    @apply !rounded-lg !px-2;
+  }
+  
+  .table-row-error td {
+    @apply !bg-red-300;
+  }
+  
+  .table-row-error:hover td {
+    @apply !bg-red-500;
+  }
 }
 
 svg:focus {
-    @apply outline-none !important;
+  @apply !outline-none;
 }
 
 @layer base {
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-        }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
+}
+
+.stats,
+.table,
+.input {
+  @apply outline outline-1 outline-base-content/10;
+}
+
+.window {
+  @apply w-full bg-base-100 outline outline-1 outline-base-content/10 overflow-hidden md:rounded-2xl p-8 md:shadow-lg;
+}

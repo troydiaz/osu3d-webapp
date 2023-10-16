@@ -3,7 +3,7 @@
 	import type { PageData } from "./$types";
 	import { type Machine, getActivePrintJobTimeRemaining } from "$lib/types/database";
 	import PrintLogTier from "$lib/components/PrintLogTier.svelte";
-	import rocket from '$lib/images/rocket.png';
+	import log from '$lib/images/log.png';
     import info from '$lib/images/info.png';
     import josef_light from '$lib/images/josef_light.png';
     import josef_dark from '$lib/images/josef_dark.png';
@@ -31,8 +31,6 @@
         if (tier2Machines.length > 0)
         selectedTier2Machine = tier2Machines[0];
         selectedTier2Time = getActivePrintJobTimeRemaining(selectedTier2Machine!);
-
-        console.log(data);
     });
 </script>
 
@@ -42,14 +40,14 @@
 
 {#if machines && userLevel }
 <div class="flex flex-col gap-12 w-full">
-    <div class="relative overflow-hidden flex flex-row justify-between bg-base-100 outline outline-1 outline-base-content/10 items-center md:rounded-2xl p-8 md:shadow-lg">
+    <div class="window relative overflow-hidden flex flex-row justify-between items-center">
         <div class="flex-row gap-4 items-center hidden md:flex">
             <div class="text-3xl font-thin">Hello</div>
-            <div class="text-2xl font-mono bg-base-200 px-2 rounded-xl py-1 outline outline-1 outline-base-content/20 text-gray-500">{session.user.email}</div>
+            <div class="text-2xl font-mono bg-base-200 px-2 rounded-lg py-1 outline outline-1 outline-base-content/20 text-gray-500">{session.user.email}</div>
         </div>
         <div class="grow"></div>
         <div class="lg:text-5xl text-3xl font-thin z-10">Dashboard</div>
-        <img src={rocket} class="absolute right-32 top-12 blur-[1px] scale-[5] w-16 h-16  opacity-25 pointer-events-none select-none" />
+        <img src={log} class="absolute right-32 top-12 blur-[1px] scale-[5] w-16 h-16  opacity-25 pointer-events-none select-none" />
     </div>
 
     <div class="flex flex-row justify-center md:justify-end items-center bg-gradient-to-br from-info/10 to-info/30 p-8 md:rounded-xl relative outline outline-info/50 lg:pr-24">

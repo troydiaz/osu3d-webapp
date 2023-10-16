@@ -14,13 +14,13 @@
 <!-- Machines table -->
 <div class="flex flex-col space-y-4">
     <div class="flex flex-row justify-start items-center">
-        <div class="font-thin text-3xl">Tier {tier} Machines</div>
+        <div class="font-thin text-3xl">Tier {tier} Printers</div>
         <div class="divider divider-horizontal"></div>
         <div class="grow">{machines.length} Entries Total</div>
         <Paginate totalRows={machines.length} bind:lowerIndex bind:upperIndex />
     </div>
     
-    <table class="table shadow-lg bg-base-100 outline outline-1 outline-base-content/10 overflow-hidden">
+    <table class="table shadow-lg bg-base-100 overflow-hidden">
         <thead>
             <tr>
                 <th>Status</th>

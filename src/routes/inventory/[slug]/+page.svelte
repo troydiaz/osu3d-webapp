@@ -23,8 +23,8 @@
 </svelte:head>
 
 <div class="flex flex-col gap-12 w-full">
-  <PageHeader name="Single Item View" image={box} backUrl="/inventory" />
-  <div class="flex flex-row justify-between bg-base-100 outline outline-1 outline-base-content/10 rounded-2xl overflow-hidden p-12 shadow-lg">
+  <PageHeader name="Edit Inventory" image={box} backUrl="/inventory" />
+  <div class="window flex flex-row justify-between !p-12">
     <div class="flex flex-col justify-between items-start space-y-12 z-10">
         <div class="flex flex-col space-y-2">
             <span class="text-5xl font-thin">{singleItem.name}</span>

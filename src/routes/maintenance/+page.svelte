@@ -1,7 +1,7 @@
 <script lang="ts">
 	import CalendarEvents from "$lib/components/CalendarEvents.svelte";
 	import PageHeader from "$lib/components/PageHeader.svelte";
-	import hammer from '$lib/images/hammer.png';
+	import schedule from '$lib/images/schedule.png';
 
 </script>
 
@@ -10,7 +10,7 @@
 </svelte:head>
 
 <div class="flex flex-col gap-12 w-full">
-  <PageHeader name="Maintenance" image={hammer} />
+  <PageHeader name="Maintenance" image={schedule} />
 </div>
 
 <CalendarEvents />

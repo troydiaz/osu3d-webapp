@@ -49,7 +49,7 @@
   <div class="flex flex-col gap-4">
     <div class="font-thin text-3xl px-4 md:px-0">General</div>
     <!-- Account Settings -->
-    <div class="bg-base-100 outline outline-1 outline-base-content/10 md:rounded-2xl p-8 w-full md:shadow-lg">
+    <div class="window">
       <form
         method="post"
         action="?/update"

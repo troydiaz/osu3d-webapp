@@ -22,7 +22,7 @@
       <Paginate totalRows={changes.length} bind:lowerIndex bind:upperIndex />
   </div>
   
-  <table class="table shadow-lg bg-base-100 outline outline-1 outline-base-content/10 overflow-hidden">
+  <table class="table shadow-lg bg-base-100 overflow-hidden">
       <thead>
           <tr>
               <th>Date</th>

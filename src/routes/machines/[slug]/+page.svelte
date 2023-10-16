@@ -20,8 +20,8 @@
 </svelte:head>
 
 {#if machine}
-<div class="flex flex-col space-y-8 w-full">
-  <PageHeader name="Single Machine View" backUrl="/machines" image={printer} />
+<div class="flex flex-col gap-12 w-full">
+  <PageHeader name="Edit Printer" backUrl="/machines" image={printer} />
   
   <!-- Title -->
   <div class="relative flex flex-row justify-between bg-base-100 outline outline-1 outline-base-content/10 rounded-2xl overflow-hidden p-12 shadow-lg">
@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="flex flex-col space-y-12">
-      <div class="stats bg-base-100 z-10">
+      <div class="stats bg-base-200 z-10">
         <div class="stat">
           <div class="stat-title">Total Jobs</div>
           <div class="stat-value font-mono text-2xl">{machine.prints.length}</div>
@@ -52,7 +52,7 @@
           <div class="stat-value font-mono text-2xl">{getSuccessRate(machine).toFixed(0)}%</div>
         </div>
       </div>
-      <div class="stats bg-base-100 z-10">
+      <div class="stats bg-base-200 z-10">
         <div class="stat">
           <div class="stat-title">Total Hours</div>
           <div class="stat-value font-mono text-2xl">{(getTotalHours(machine) / 1000).toFixed(2)} khrs</div>
@@ -69,9 +69,7 @@
     </div>
     <img src="/{machine.machine_def.model}.png" class="w-3/4 absolute -top-1/4 -right-8 opacity-25 select-none blur-sm">
   </div>
-  <div class="divider"></div>
   <FaultTable faults={machine.faults.map(f => { return {...f, checked: false} } )} />
-  <div class="divider"></div>
   <PrintLogTable prints={machine.prints || []} />
 </div>
 {:else}

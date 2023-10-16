@@ -16,7 +16,7 @@
 </svelte:head>
 
 <div class="flex flex-col gap-12 w-full">
-    <PageHeader name="Club Inventory" image={box} />
+    <PageHeader name="Inventory" image={box} />
     <div class="flex flex-row justify-end items-center gap-4">
         <NewItemMenu categories={categories}><button class="btn btn-primary btn-sm"><Plus /> New Item</button></NewItemMenu>
         <button class="btn btn-primary btn-sm"><Plus /> New Category</button>
