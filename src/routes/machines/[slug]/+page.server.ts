@@ -1,7 +1,7 @@
 import type { Machine } from "$lib/types/database";
 import { error, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
-import { fetchOneMachine } from "$lib/queries/machine";
+import { fetchOneMachine } from "$lib/server/machine";
 
 export const load = (async ({ params, locals: { supabase, getSession } }) => {
   const session = await getSession();
