@@ -1,12 +1,25 @@
 <script lang="ts">
 	import { getDateAndTime } from "$lib/helpers";
-	import type { Print } from "$lib/types/database";
+	import type { Enums, Print } from "$lib/types/database";
 	import Paginate from "$lib/utilities/Paginate.svelte";
 	import { onMount } from "svelte";
 
     export let prints: Print[] = [];
     let lowerIndex: number = 0;
     let upperIndex: number = 0;
+
+    function getStatusColor(status: Enums<'print_status'>) {
+      switch (status) {
+        case 'CANCELED':
+          return 'bg-base-300/75 text-base-content';
+        case 'WORKING':
+          return 'bg-warning/75 text-warning-content';
+        case 'SUCCESS':
+          return 'bg-success/75 text-success-content';
+        case 'FAULT':
+          return 'bg-error/75 text-error-content';
+      }
+    }
 </script>
 
 <!-- Fault table -->
@@ -26,9 +39,9 @@
                 <th>Created By</th>
                 <th>Hours</th>
                 <th>Consumed</th>
-                <th>Canceled</th>
-                <th>Canceled By</th>
-                <th>Canceled At</th>
+                <th>Status</th>
+                <!-- <th>Canceled By</th>
+                <th>Canceled At</th> -->
             </tr>
         </thead>
         <tbody>
@@ -41,9 +54,9 @@
                         {((new Date(print.done_at).getTime() - new Date(print.created_at).getTime()) / 1000 / 60 / 60).toFixed(2)}
                     </td>
                     <td>{print.filament}g</td>
-                    <td><code class="bg-base-300 p-1 rounded-lg {!print.canceled ? 'bg-error text-error-content' : ''}">{print.canceled}</code></td>
-                    <td>{print.canceled_by?.full_name ?? '-'}</td>
-                    <td>{getDateAndTime(print.canceled_at)}</td>
+                    <td><code class="p-1 rounded-lg min-w-full uppercase {getStatusColor(print.status)}">{print.status}</code></td>
+                    <!-- <td>{print.full_name ?? '—'}</td> -->
+                    <!-- <td>{getDateAndTime(print.canceled_at)}</td> -->
                 </tr>
             {/each}
         </tbody>

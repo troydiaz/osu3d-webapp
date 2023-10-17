@@ -1,44 +1,20 @@
 <script lang="ts">
-	import { onMount } from "svelte";
 	import type { PageData } from "./$types";
-	import { type Machine, getActivePrintJobTimeRemaining } from "$lib/types/database";
 	import PrintLogTier from "$lib/components/PrintLogTier.svelte";
 	import log from '$lib/images/log.png';
-    import info from '$lib/images/info.png';
-    import josef_light from '$lib/images/josef_light.png';
-    import josef_dark from '$lib/images/josef_dark.png';
-	
-    export let data: PageData;
-    const { session, machines, userLevel } = data;
+  import info from '$lib/images/info.png';
+  import josef_light from '$lib/images/josef_light.png';
+  import josef_dark from '$lib/images/josef_dark.png';
 
-    let tier1Machines: Machine[] = [];
-    let selectedTier1Machine: Machine | null = null;
-    let selectedTier1Time: number = 0;
-
-    let tier2Machines: Machine[] = [];
-    let selectedTier2Machine: Machine | null = null;
-    let selectedTier2Time: number = 0;
-
-    onMount(() => {
-        tier1Machines.push(...machines?.filter(m => m.tier === 1) ?? []);
-
-        if (tier1Machines.length > 0)
-        selectedTier1Machine = tier1Machines[0];
-        selectedTier1Time = getActivePrintJobTimeRemaining(selectedTier1Machine!);
-
-        tier2Machines.push(...machines?.filter(m => m.tier === 2) ?? []);
-
-        if (tier2Machines.length > 0)
-        selectedTier2Machine = tier2Machines[0];
-        selectedTier2Time = getActivePrintJobTimeRemaining(selectedTier2Machine!);
-    });
+  export let data: PageData;
+  const { session, machines, userLevel } = data;
 </script>
 
 <svelte:head>
     <title>Dashboard | OSU 3D</title>
 </svelte:head>
 
-{#if machines && userLevel }
+{#if machines && userLevel}
 <div class="flex flex-col gap-12 w-full">
     <div class="window relative overflow-hidden flex flex-row justify-between items-center">
         <div class="flex-row gap-4 items-center hidden md:flex">

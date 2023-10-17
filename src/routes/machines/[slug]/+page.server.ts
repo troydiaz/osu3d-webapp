@@ -1,36 +1,13 @@
 import type { Machine } from "$lib/types/database";
 import { error, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
+import { fetchOneMachine } from "$lib/queries/machine";
 
 export const load = (async ({ params, locals: { supabase, getSession } }) => {
   const session = await getSession();
+  if (!session) throw redirect(303, '/');
 
-  if (!session)
-    throw redirect(303, '/');
-
-  const { data: machine } = await supabase
-    .from('machines')
-    .select(`
-      *,
-      machine_def: machine_defs_id (*),
-      faults (
-        *,
-        created_by: created_by_user_id (*),
-        resolved_by: resolved_by_user_id (*)
-      ),
-      prints (
-        *,
-        created_by: created_by_user_id (*),
-        canceled_by: canceled_by_user_id (*)
-      )
-    `)
-    .eq('id', params.slug)
-    .order('created_at', { foreignTable: 'faults', ascending: false })
-    .order('created_at', { foreignTable: 'prints', ascending: false })
-    .returns<Machine[]>().maybeSingle();
-
-  if (machine === null)
-    throw error(404, 'Machine not found');
+  const machine = await fetchOneMachine(supabase, params.slug);
 
   return { session, machine, slug: params.slug }
 }) satisfies PageServerLoad;
@@ -40,9 +17,9 @@ export const actions = {
     const formData = await request.formData();
     const session = await getSession();
 
-    const resolvedById = session?.user.id;
-    if (!resolvedById) return { success: false };
-    let resolveList: { id: string, success: boolean }[] = JSON.parse(formData.get('idArray') as string).map((id: string) => { return { id, success: false } });
+    const resolved_by_id = session?.user.id;
+    if (!resolved_by_id) return { success: false };
+    let resolveList: { id: string, success: boolean }[] = JSON.parse(formData.get('id-array') as string).map((id: string) => { return { id, success: false } });
 
     for (let job of resolveList) {
       const check = await supabase
@@ -55,10 +32,10 @@ export const actions = {
         continue;
 
       const update = await supabase
-        .from('faults')
+        .from('machine_events')
         .update({
           resolved: true,
-          resolved_by_user_id: resolvedById,
+          resolved_by_user_id: resolved_by_id,
           resolved_at: new Date().toISOString()
         })
         .eq('id', job.id)

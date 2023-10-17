@@ -34,58 +34,6 @@ export interface Database {
   }
   public: {
     Tables: {
-      faults: {
-        Row: {
-          created_at: string
-          created_by_user_id: string
-          description: string
-          id: string
-          machine_id: string
-          resolved: boolean
-          resolved_at: string | null
-          resolved_by_user_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          created_by_user_id: string
-          description?: string
-          id?: string
-          machine_id: string
-          resolved?: boolean
-          resolved_at?: string | null
-          resolved_by_user_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          created_by_user_id?: string
-          description?: string
-          id?: string
-          machine_id?: string
-          resolved?: boolean
-          resolved_at?: string | null
-          resolved_by_user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "faults_created_by_user_id_fkey"
-            columns: ["created_by_user_id"]
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
-          },
-          {
-            foreignKeyName: "faults_machine_id_fkey"
-            columns: ["machine_id"]
-            referencedRelation: "machines"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "faults_resolved_by_user_id_fkey"
-            columns: ["resolved_by_user_id"]
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
-          }
-        ]
-      }
       inv_categories: {
         Row: {
           created_at: string
@@ -218,6 +166,82 @@ export interface Database {
         }
         Relationships: []
       }
+      machine_events: {
+        Row: {
+          created_at: string
+          created_by_user_id: string
+          description: string | null
+          event_type: Database["public"]["Enums"]["event_type"]
+          id: string
+          machine_id: string
+          print_id: string | null
+          resolved: boolean
+          resolved_at: string | null
+          resolved_by_user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by_user_id: string
+          description?: string | null
+          event_type: Database["public"]["Enums"]["event_type"]
+          id?: string
+          machine_id: string
+          print_id?: string | null
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by_user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by_user_id?: string
+          description?: string | null
+          event_type?: Database["public"]["Enums"]["event_type"]
+          id?: string
+          machine_id?: string
+          print_id?: string | null
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by_user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "machine_events_created_by_user_id_fkey"
+            columns: ["created_by_user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "machine_events_machine_id_fkey"
+            columns: ["machine_id"]
+            referencedRelation: "machines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "machine_events_machine_id_fkey"
+            columns: ["machine_id"]
+            referencedRelation: "machines_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "machine_events_print_id_fkey"
+            columns: ["print_id"]
+            referencedRelation: "prints"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "machine_events_print_id_fkey"
+            columns: ["print_id"]
+            referencedRelation: "prints_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "machine_events_resolved_by_user_id_fkey"
+            columns: ["resolved_by_user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          }
+        ]
+      }
       machines: {
         Row: {
           created_at: string | null
@@ -251,9 +275,6 @@ export interface Database {
       }
       prints: {
         Row: {
-          canceled: boolean
-          canceled_at: string | null
-          canceled_by_user_id: string | null
           created_at: string
           created_by_user_id: string
           done_at: string
@@ -262,9 +283,6 @@ export interface Database {
           machine_id: string
         }
         Insert: {
-          canceled?: boolean
-          canceled_at?: string | null
-          canceled_by_user_id?: string | null
           created_at?: string
           created_by_user_id: string
           done_at: string
@@ -273,9 +291,6 @@ export interface Database {
           machine_id: string
         }
         Update: {
-          canceled?: boolean
-          canceled_at?: string | null
-          canceled_by_user_id?: string | null
           created_at?: string
           created_by_user_id?: string
           done_at?: string
@@ -284,12 +299,6 @@ export interface Database {
           machine_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "prints_canceled_by_user_id_fkey"
-            columns: ["canceled_by_user_id"]
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
-          },
           {
             foreignKeyName: "prints_created_by_user_id_fkey"
             columns: ["created_by_user_id"]
@@ -300,6 +309,12 @@ export interface Database {
             foreignKeyName: "prints_machine_id_fkey"
             columns: ["machine_id"]
             referencedRelation: "machines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prints_machine_id_fkey"
+            columns: ["machine_id"]
+            referencedRelation: "machines_view"
             referencedColumns: ["id"]
           }
         ]
@@ -378,7 +393,7 @@ export interface Database {
         Row: {
           amount: number | null
           created_at: string | null
-          created_by_id: string | null
+          created_by_user_id: string | null
           id: string | null
           inv_item_id: string | null
           running_total: number | null
@@ -386,7 +401,7 @@ export interface Database {
         Relationships: [
           {
             foreignKeyName: "inv_changes_created_by_user_id_fkey"
-            columns: ["created_by_id"]
+            columns: ["created_by_user_id"]
             referencedRelation: "profiles"
             referencedColumns: ["user_id"]
           },
@@ -407,7 +422,7 @@ export interface Database {
       inv_items_view: {
         Row: {
           created_at: string | null
-          created_by_id: string | null
+          created_by_user_id: string | null
           current_stock: number | null
           id: string | null
           inv_category_id: string | null
@@ -416,7 +431,7 @@ export interface Database {
         }
         Insert: {
           created_at?: string | null
-          created_by_id?: string | null
+          created_by_user_id?: string | null
           current_stock?: never
           id?: string | null
           inv_category_id?: string | null
@@ -425,7 +440,7 @@ export interface Database {
         }
         Update: {
           created_at?: string | null
-          created_by_id?: string | null
+          created_by_user_id?: string | null
           current_stock?: never
           id?: string | null
           inv_category_id?: string | null
@@ -435,7 +450,7 @@ export interface Database {
         Relationships: [
           {
             foreignKeyName: "inv_items_created_by_user_id_fkey"
-            columns: ["created_by_id"]
+            columns: ["created_by_user_id"]
             referencedRelation: "profiles"
             referencedColumns: ["user_id"]
           },
@@ -447,13 +462,112 @@ export interface Database {
           }
         ]
       }
+      machines_view: {
+        Row: {
+          created_at: string | null
+          id: string | null
+          machine_defs_id: string | null
+          nickname: string | null
+          status: Database["public"]["Enums"]["machine_status"] | null
+          tier: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string | null
+          machine_defs_id?: string | null
+          nickname?: string | null
+          status?: never
+          tier?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string | null
+          machine_defs_id?: string | null
+          nickname?: string | null
+          status?: never
+          tier?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "machines_machine_defs_id_fkey"
+            columns: ["machine_defs_id"]
+            referencedRelation: "machine_defs"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      prints_view: {
+        Row: {
+          created_at: string | null
+          created_by_user_id: string | null
+          done_at: string | null
+          filament: number | null
+          id: string | null
+          machine_id: string | null
+          status: Database["public"]["Enums"]["print_status"] | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by_user_id?: string | null
+          done_at?: string | null
+          filament?: number | null
+          id?: string | null
+          machine_id?: string | null
+          status?: never
+        }
+        Update: {
+          created_at?: string | null
+          created_by_user_id?: string | null
+          done_at?: string | null
+          filament?: number | null
+          id?: string | null
+          machine_id?: string | null
+          status?: never
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prints_created_by_user_id_fkey"
+            columns: ["created_by_user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "prints_machine_id_fkey"
+            columns: ["machine_id"]
+            referencedRelation: "machines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prints_machine_id_fkey"
+            columns: ["machine_id"]
+            referencedRelation: "machines_view"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Functions: {
+      check_prints: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      get_machine_status: {
+        Args: {
+          machine_id: string
+        }
+        Returns: Database["public"]["Enums"]["machine_status"]
+      }
       get_perms: {
         Args: {
           user_id: string
         }
         Returns: Json
+      }
+      get_print_status: {
+        Args: {
+          print_id: string
+        }
+        Returns: Database["public"]["Enums"]["print_status"]
       }
       has_perm:
         | {
@@ -486,7 +600,9 @@ export interface Database {
       }
     }
     Enums: {
-      [_ in never]: never
+      event_type: "STOP" | "FAULT"
+      machine_status: "IDLE" | "WORKING" | "FAULT"
+      print_status: "WORKING" | "SUCCESS" | "CANCELED" | "FAULT"
     }
     CompositeTypes: {
       [_ in never]: never

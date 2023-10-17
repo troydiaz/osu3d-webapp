@@ -4,7 +4,7 @@
     type Machine,
     machineStatusToText,
     MachineStatus,
-    getLatestCompletePrintJob,
+    getTimeSinceLastCompletePrintJob,
     getActivePrintJobTimeRemaining,
     type UserLevel,
     getMachineStatusColor
@@ -198,7 +198,7 @@
                   {:else}
                     <div class="stat-title">Previous Job Finished</div>
                     <div class="stat-value font-mono text-2xl">
-                      {getLatestCompletePrintJob(selectedMachine)}
+                      {getTimeSinceLastCompletePrintJob(selectedMachine)}
                     </div>
                   {/if}
                 </div>

@@ -3,20 +3,23 @@ import type { Database } from "./supabase";
 export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
 export type Enums<T extends keyof Database['public']['Enums']> = Database['public']['Enums'][T]
 
-export type Fault = Tables<'faults'> & {
-    created_by: Tables<'profiles'>,
-    resolved_by: Tables<'profiles'> | null
-};
-
 export type Print = Tables<'prints'> & {
-    created_by: Tables<'profiles'>,
-    canceled_by: Tables<'profiles'> | null
-};
+    created_by: Tables<'profiles'>
+    status: Enums<'print_status'>
+}
+
+export type MachineEvent = Tables<'machine_events'> & {
+  created_by: Tables<'profiles'> | null
+  resolved_by: Tables<'profiles'> | null
+  machine?: Machine
+  print?: Print
+}
 
 export type Machine = Tables<'machines'> & {
     machine_def: Tables<'machine_defs'>
-    faults: Fault[],
     prints: Print[]
+    status: Enums<'machine_status'>
+    events: MachineEvent[]
 }
 
 export type User = Tables<'profiles'> & {
@@ -26,14 +29,14 @@ export type User = Tables<'profiles'> & {
 export type UserLevel = Tables<'user_levels'>;
 
 export type InventoryItem = Tables<'inv_items'> & {
-    changes: InventoryChange[],
-    created_by: Tables<'profiles'>,
-    inv_category: Tables<'inv_categories'>,
+    changes: InventoryChange[]
+    created_by: Tables<'profiles'>
+    inv_category: Tables<'inv_categories'>
     current_stock: number
 }
 
 export type InventoryChange = Tables<'inv_changes'> & {
-    created_by: Tables<'profiles'>,
+    created_by: Tables<'profiles'>
     running_total: number // this is calculated client side
 }
 
@@ -44,12 +47,6 @@ export enum MachineStatus {
     IDLE,
     FAULT,
     PRINTING
-}
-
-export interface HMS {
-    h: number,
-    m: number,
-    s: number
 }
 
 export function prettyDate(input: string) {
@@ -76,27 +73,27 @@ export function getMostRecentChangeDateName(changes: InventoryChange[] | undefin
 }
 
 export function getMachineStatus(machine: Machine) {
-    let activeFaults = machine.faults.filter(f => !f.resolved);
-    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.canceled);
-
-    if (activeFaults.length > 0)
-        return MachineStatus.FAULT;
-    else if (activePrints.length > 0)
-        return MachineStatus.PRINTING;
-    else
-        return MachineStatus.IDLE;
+    switch (machine.status) {
+        case 'FAULT':
+            return MachineStatus.FAULT;
+        case 'IDLE':
+            return MachineStatus.IDLE;
+        case 'WORKING':
+            return MachineStatus.PRINTING;
+        default:
+            return MachineStatus.UNKNOWN;
+    }
 }
 
 export function getMachineStatusColor(machine: Machine) {
-    let activeFaults = machine.faults.filter(f => !f.resolved);
-    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.canceled);
-
-    if (activeFaults.length > 0)
-        return 'text-warning'
-    else if (activePrints.length > 0)
-        return 'text-info';
-    else
-        return 'text-base-content/75';
+    switch (machine.status) {
+        case 'FAULT':
+            return 'text-warning';
+        case 'WORKING':
+            return 'text-info';
+        default:
+            return 'text-base-content/75';
+    }
 }
 
 export function machineStatusToText(status: MachineStatus) {
@@ -113,10 +110,10 @@ export function machineStatusToText(status: MachineStatus) {
     }
 }
 
-export function getLatestCompletePrintJob(machine: Machine) {
-    let previousPrints = machine.prints.filter(p => new Date(p.done_at).getTime() < Date.now() || p.canceled)
+export function getTimeSinceLastCompletePrintJob(machine: Machine) {
+    let previousPrints = machine.prints.filter(p => p.status === 'SUCCESS' || p.status === 'CANCELED')
         .sort((a, b) => {
-            return new Date(a.canceled ? a.canceled_at! : a.done_at).getTime() - new Date(b.canceled ? b.canceled_at! : b.done_at).getTime()
+            return new Date(a.status === 'CANCELED' ? a.created_at : a.done_at).getTime() - new Date(b.status === 'CANCELED' ? b.created_at : b.done_at).getTime()
         });
 
     let timeSince = '-';
@@ -136,15 +133,14 @@ export function getLatestCompletePrintJob(machine: Machine) {
 }
 
 export function getActivePrintJob(machine: Machine) {
-    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.canceled);
-    return activePrints[0];
+    return machine.prints.find(p => p.status === 'WORKING');
 }
 
 export function getActivePrintJobTimeRemaining(machine: Machine) {
     if (machine === null || machine.prints === null)
         return 0;
 
-    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && !p.canceled);
+    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && p.status !== 'CANCELED');
 
     if (activePrints.length === 0)
         return 0;

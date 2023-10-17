@@ -2,13 +2,13 @@ import { differenceInDays } from "date-fns";
 import type { Machine } from "./types/database";
 
 export function getDateAndTime(dateString: string | null) {
-  if (!dateString) return '-';
+  if (!dateString) return '—';
   let date = new Date(dateString);
   return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 }
 
 export function getDaysSince(dateString: string | null) {
-  if (!dateString) return '-';
+  if (!dateString) return '—';
   const days = differenceInDays(new Date(), new Date(dateString));
   if (days === 0) return 'Today';
   return `approx. ${days} ${days === 1 ? 'day': 'days'} ago`;
@@ -32,7 +32,7 @@ export function getTotalExtrudedInKg(machine: Machine) {
 }
 
 export function getSuccessRate(machine: Machine) {
-  return (machine.prints.filter(p => p.canceled === true).length || 1) / (machine.prints.length || 1) * 100;
+  return (machine.prints.filter(p => p.status === 'SUCCESS').length || 1) / (machine.prints.length || 1) * 100;
 }
 
 export enum PermCategory {

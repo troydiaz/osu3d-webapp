@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Machine } from "$lib/types/database";
-	import type { Session } from "@supabase/supabase-js";
 
   let machineToReport: Machine | null = null;
   let modalVisible = false;
@@ -8,6 +7,8 @@
   export function launchModal(machine: Machine | null) {
     if (machine === null)
       return;
+
+    console.log(machine);
 
     machineToReport = machine;
     modalVisible = true;
@@ -23,14 +24,16 @@
       <h3 class="font-bold text-lg">Report an issue for {machineToReport?.nickname}</h3>
         <!-- Machine ID  -->
         <div class="form-control">
-          <input name="faultMachineId" type="hidden" class="input input-bordered w-full input-disabled" value={`${machineToReport.id}`} />
+          <input name="machine_id" type="hidden" value={machineToReport.id} />
         </div>
+        <!-- Print ID (if in progress) -->
+        <input name="print_id" type="hidden" value={machineToReport.prints.find(p => p.status === 'WORKING')?.id ?? null} />
         <!-- Machine Issue Description -->
         <div class="form-control">
           <label class="label">
             <span class="label-text">What is the issue?</span>
           </label>
-          <input name="faultDescription" type="text" placeholder="Type here..." class="input input-bordered w-full" autocomplete="off" />
+          <input name="description" type="text" placeholder="Type here..." class="input input-bordered w-full" autocomplete="off" />
         </div>
       <!-- Modal Actions -->
       <div class="modal-action">

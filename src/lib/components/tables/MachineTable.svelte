@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { getMachineStatus, type Fault, type Machine, machineStatusToText, MachineStatus, getLatestCompletePrintJob } from "$lib/types/database";
+	import { getMachineStatus, type Fault, type Machine, machineStatusToText, MachineStatus, getTimeSinceLastCompletePrintJob } from "$lib/types/database";
 	import Paginate from "$lib/utilities/Paginate.svelte";
 	import { ExclamationCircle } from "svelte-heros-v2";
 
@@ -41,7 +41,7 @@
                 </td>
                 <td>{machine.nickname}</td>
                 <td>{machine.machine_def.make} {machine.machine_def.model}</td>
-                <td>{getLatestCompletePrintJob(machine)}</td>
+                <td>{getTimeSinceLastCompletePrintJob(machine)}</td>
                 <!-- <td>
                     <button class="btn btn-square btn-ghost focus:outline-none">
                         <Bars3></Bars3>

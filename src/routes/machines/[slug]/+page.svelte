@@ -10,7 +10,7 @@
   export let data: PageServerData;
   export let form: ActionData;
   
-  const { session, machine, slug } = data;
+  const { machine, slug } = data;
 </script>
 
 <svelte:head>
@@ -43,7 +43,7 @@
         </div>
         <div class="stat">
           <div class="stat-title">Canceled Jobs </div>
-          <div class="stat-value font-mono text-2xl">{machine.prints.filter(p => p.canceled === true).length}</div>
+          <div class="stat-value font-mono text-2xl">{machine.prints.filter(p => p.status === 'CANCELED').length}</div>
         </div>
         <div class="stat">
           <div class="stat-title">Success Rate</div>
@@ -67,7 +67,7 @@
     </div>
     <img src="/{machine.machine_def.model}.png" class="w-3/4 absolute -top-1/4 -right-8 opacity-25 select-none blur-sm">
   </div>
-  <FaultTable faults={machine.faults.map(f => { return {...f, checked: false} } )} />
+  <FaultTable faults={machine.events.map(e => { return {...e, checked: false} } )} />
   <PrintLogTable prints={machine.prints || []} />
 </div>
 {:else}

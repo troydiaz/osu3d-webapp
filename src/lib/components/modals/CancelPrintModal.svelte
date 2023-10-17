@@ -9,22 +9,24 @@
     if (machine === null)
       return;
 
-    printToCancel = getActivePrintJob(machine);
     selectedMachine = machine;
+    printToCancel = getActivePrintJob(machine);
     modalVisible = true;
   }
 </script>
 
 <input type="checkbox" id="cancel-print-modal" class="modal-toggle" bind:checked={modalVisible} />
-{#if printToCancel}
+{#if printToCancel && selectedMachine}
 <div class="modal">
   <div class="modal-box w-screen md:max-w-lg max-w-full h-screen md:h-fit max-h-screen rounded-none md:rounded-xl">
     <form method="POST" action="?/cancelPrintLog">
         <div class="flex flex-col gap-4">
           <!-- Modal Title -->
           <h3 class="font-bold text-lg">Cancel print on {selectedMachine?.nickname}</h3>
-          <!-- Machine ID  -->
-          <input name="printLogId" type="hidden" class="input input-bordered w-full input-disabled" value={printToCancel.id} />
+          <!-- Print ID  -->
+          <input name="print-id" type="hidden" value={printToCancel.id} />
+          <!-- Machine ID -->
+          <input name="machine-id" type="hidden" value={selectedMachine.id} />
           <!-- Print Hours -->
           <div>Are you sure you want to cancel this print?</div>
           <div>Owner: {printToCancel.created_by.full_name}</div>

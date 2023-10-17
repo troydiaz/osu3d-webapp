@@ -1,25 +1,34 @@
 <script lang="ts">
 	import { getDateAndTime } from "$lib/helpers";
-	import type { Fault } from "$lib/types/database";
+  import type { Enums, MachineEvent } from "$lib/types/database";
 	import Paginate from "$lib/utilities/Paginate.svelte";
 
-    $: selectedRows = faults.filter(f => f.checked);
+  $: selectedIds = faults.filter(f => f.checked).map(f => f.id);
 
-    export let faults: (Fault & { checked: boolean })[];
+  export let faults: (MachineEvent & { checked: boolean })[];
 
-    let lowerIndex: number = 0;
-    let upperIndex: number = 0;
+  let lowerIndex: number = 0;
+  let upperIndex: number = 0;
+
+  function getEventTypeColor(status: Enums<'event_type'>) {
+      switch (status) {
+        case 'STOP':
+          return 'bg-warning/75 text-warning-content';
+        case 'FAULT':
+          return 'bg-error/75 text-error-content';
+      }
+    }
 </script>
 
 <!-- Fault table -->
 <div class="flex flex-col space-y-4">
     <div class="flex flex-row justify-start items-center">
-        <div class="font-thin text-3xl">Fault Log</div>
+        <div class="font-thin text-3xl">Event Log</div>
         <div class="divider divider-horizontal"></div>
         <div>{faults.length} Entries Total</div> 
         <div class="divider divider-horizontal"></div>
         <form id="fault-resolve-form" method="POST" action="?/resolveFaultsMulti"></form>
-        <input type="hidden" form="fault-resolve-form" name="idArray" value={JSON.stringify(faults.filter(f => f.checked).map(f => f.id))} />
+        <input type="hidden" form="fault-resolve-form" name="id-array" value={JSON.stringify(selectedIds)} />
         <button class="btn btn-sm btn-success" form="fault-resolve-form" type="submit" disabled={faults.filter(f => f.checked).length === 0}>Resolve</button>
         <div class="grow"></div>
         <Paginate totalRows={faults.length} bind:lowerIndex bind:upperIndex />
@@ -30,7 +39,8 @@
             <tr>
                 <th></th>
                 <th>Date</th>
-                <th>Created By</th>
+                <th>Code</th>
+                <th>Issued By</th>
                 <th>Description</th>
                 <th>Resolved</th>
                 <th>Resolved By</th>
@@ -42,14 +52,15 @@
                 <tr class="transition {fault.checked ? 'bg-success text-success-content' : ''}" class:cursor-pointer={!fault.resolved} on:click={() => fault.resolved ? null : fault.checked = !fault.checked}>
                     <td><input type="checkbox" class="checkbox bg-base-100 disabled:bg-opacity-25 align-middle" bind:checked={fault.checked} disabled={fault.resolved} /></td>
                     <td>{getDateAndTime(fault.created_at)}</td>
-                    <td>{fault.created_by.full_name}</td>
+                    <td><code class="p-1 rounded-lg uppercase {getEventTypeColor(fault.event_type)}">{fault.event_type}</code></td>
+                    <td>{fault.created_by?.full_name ?? '—'}</td>
                     <td>
-                        <div class="tooltip before:whitespace-pre-wrap before:content-[attr(data-tip)]" data-tip={fault.description}>
-                            <span class="w-32 max-w-32 truncate inline-block text-start">{fault.description}</span>
+                        <div class="tooltip before:whitespace-pre-wrap before:content-[attr(data-tip)]" data-tip={fault.description ?? '—'}>
+                            <span class="w-32 max-w-32 truncate inline-block text-start">{fault.description ?? '—'}</span>
                         </div>
                     </td>
-                    <td><code class="bg-base-300 p-1 rounded-lg {!fault.resolved ? 'bg-error text-error-content' : ''}">{fault.resolved}</code></td>
-                    <td>{fault.resolved_by?.full_name || '-'}</td>
+                    <td><code class="bg-success/75 text-success-content p-1 rounded-lg uppercase {!fault.resolved ? 'bg-error text-error-content' : ''}">{fault.resolved}</code></td>
+                    <td>{fault.resolved_by?.full_name ?? '—'}</td>
                     <td>{getDateAndTime(fault.resolved_at)}</td>
                 </tr>
             {/each}
