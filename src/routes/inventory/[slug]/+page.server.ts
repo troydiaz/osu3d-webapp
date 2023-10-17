@@ -1,4 +1,4 @@
-import type { Fault, InventoryItem, Machine } from "$lib/types/database";
+import type { InventoryItem } from "$lib/types/database";
 import { error, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 
