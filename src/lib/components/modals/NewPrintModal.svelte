@@ -40,7 +40,7 @@
           </div>
       <!-- Modal Actions -->
       <div class="modal-action">
-        <label for="print-log-modal" class="btn">Cancel</label>
+        <button type="button" class="btn" on:click={() => modalVisible = false}>Cancel</button>
         <input type="submit" class="btn btn-warning" value="Submit" />
       </div>
     </form>
