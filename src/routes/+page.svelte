@@ -1,27 +1,25 @@
 <script lang="ts">
-    import { Auth } from '@supabase/auth-ui-svelte';
+  import { Auth } from '@supabase/auth-ui-svelte';
 	import type { Appearance } from '@supabase/auth-ui-svelte/dist/types';
-    import type { PageData } from './$types';
-	import { onMount } from 'svelte';
-    import { dev, browser } from '$app/environment';
+  import type { PageData } from './$types';
 
-    export let data: PageData;
+  export let data: PageData;
 
-    // @ts-ignore
-    const appName = __NAME__;
+  // @ts-ignore
+  const appName = __NAME__;
 
-    // @ts-ignore
-    const appVersion = __VERSION__;
+  // @ts-ignore
+  const appVersion = __VERSION__;
 
-    const customTheme = {
-        extend: false,
-        className: {
-            button: 'btn btn-warning !rounded-lg !px-2',
-            input: 'input',
-            label: 'label',
-            container: '',
-            divider: 'py-4'
-        },
+  const customTheme = {
+      extend: false,
+      className: {
+          button: 'btn btn-warning !rounded-lg !px-2',
+          input: 'input',
+          label: 'label',
+          container: '',
+          divider: 'py-4'
+      },
     } as Appearance
 </script>
 
@@ -53,8 +51,9 @@
       <div class="text-xs p-2 rounded-lg bg-base-100 outline outline-1 outline-base-content/10 mt-8">
           <div class="text-sm text-center">Notice</div>
           <div class="divider m-0"></div>
-          User authentication is handled by Google through Social Sign On (SSO).
-          Only your account name and email address is recorded by this system.
+            User authentication is handled by Google through Social Sign On (SSO).
+            Only your account name and email address is recorded by this system.
+          <a href="/privacy-policy" class="link-hover link-primary">View our privacy policy.</a>
       </div>
     </div>
     <div class="absolute bottom-0 footer py-2 footer-center text-sm text-base-content">
