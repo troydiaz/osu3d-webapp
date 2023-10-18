@@ -1,5 +1,6 @@
 import { redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
+import type { Machine } from "$lib/types/database";
 import { fetchAllMachines } from "$lib/server/machine";
 
 export const load = (async ({ locals: { supabase, getSession } }) => {

@@ -1,32 +1,15 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type { Machine } from '$lib/types/database';
+import { fetchAllMachines } from '$lib/server/machine';
 
 export const load = (async ({ locals: { supabase, getSession } }) => {
   const session = await getSession();
   if (!session) throw redirect(303, '/');
 
-  const result = await supabase
-    .from('machines_view')
-    .select(`
-      *,
-      machine_def: machine_defs_id (*),
-      prints: prints_view (
-        *,
-        created_by: created_by_user_id (*)
-      ),
-      events: machine_events (
-        *,
-        created_by: created_by_user_id (*),
-        resolved_by: resolved_by_user_id (*)
-      )
-    `)
-    .returns<Machine[]>();
+  const machines = await fetchAllMachines(supabase);
 
-  if (result.error)
-    throw error(result.status, result.error.message);
-
-  return { session, machines: result.data };
+  return { session, machines };
 }) satisfies PageServerLoad;
 
 export const actions = {

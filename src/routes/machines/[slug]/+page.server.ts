@@ -9,6 +9,9 @@ export const load = (async ({ params, locals: { supabase, getSession } }) => {
 
   const machine = await fetchOneMachine(supabase, params.slug);
 
+  if (machine === null)
+    throw error(404, 'Machine not found');
+
   return { session, machine, slug: params.slug }
 }) satisfies PageServerLoad;
 

@@ -1,8 +1,9 @@
 import type { Machine } from "$lib/types/database";
+import type { Database } from "$lib/types/supabase";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { error } from "@sveltejs/kit";
 
-export const fetchAllMachines = async (supabase: SupabaseClient) => {
+export const fetchAllMachines = async (supabase: SupabaseClient<Database>) => {
   const result = await supabase
     .from('machines_view')
     .select(`
@@ -26,7 +27,7 @@ export const fetchAllMachines = async (supabase: SupabaseClient) => {
   return result.data;
 }
 
-export const fetchOneMachine = async (supabase: SupabaseClient, id: string) => {
+export const fetchOneMachine = async (supabase: SupabaseClient<Database>, id: string) => {
   const result = await supabase
     .from('machines_view')
     .select(`
