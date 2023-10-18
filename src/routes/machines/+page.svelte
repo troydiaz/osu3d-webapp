@@ -1,4 +1,3 @@
-
 <script lang="ts">
 	import type { PageData } from "./$types";
     import MachineTable from "$lib/components/tables/MachineTable.svelte";

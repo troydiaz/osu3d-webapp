@@ -11,13 +11,22 @@
   let upperIndex: number = 0;
 
   function getEventTypeColor(status: Enums<'event_type'>) {
-      switch (status) {
-        case 'STOP':
-          return 'bg-warning/75 text-warning-content';
-        case 'FAULT':
-          return 'bg-error/75 text-error-content';
-      }
+    switch (status) {
+      case 'STOP':
+        return 'bg-warning/75 text-warning-content';
+      case 'FAULT':
+        return 'bg-error/75 text-error-content';
     }
+  }
+
+  function getResolvedColor(resolved: boolean) {
+    switch (resolved) {
+      case true:
+        return 'bg-success/75 text-success-content';
+      case false:
+        return 'bg-error/75 text-error-content';
+    }
+  }
 </script>
 
 <!-- Fault table -->
@@ -59,7 +68,7 @@
                             <span class="w-32 max-w-32 truncate inline-block text-start">{fault.description ?? '—'}</span>
                         </div>
                     </td>
-                    <td><code class="bg-success/75 text-success-content p-1 rounded-lg uppercase {!fault.resolved ? 'bg-error text-error-content' : ''}">{fault.resolved}</code></td>
+                    <td><code class="p-1 rounded-lg uppercase {getResolvedColor(fault.resolved)}">{fault.resolved}</code></td>
                     <td>{fault.resolved_by?.full_name ?? '—'}</td>
                     <td>{getDateAndTime(fault.resolved_at)}</td>
                 </tr>

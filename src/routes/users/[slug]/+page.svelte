@@ -3,9 +3,14 @@
 	import { PermCategory, PermFlag, getPermissionBit, hasPermission } from '$lib/helpers.js';
 	import PageHeader from '$lib/components/PageHeader.svelte';
   import ledger from '$lib/images/orange_book.png';
+  import toast from "svelte-french-toast";
 	
   export let data: PageData;
   export let form: ActionData;
+
+  $: if (form) form.success ?
+    toast.success('Saved') :
+    toast.error('An error occurred');
 
   let { user } = data;
 </script>
