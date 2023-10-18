@@ -30,34 +30,34 @@
 </svelte:head>
 
 
-<div class="h-screen w-screen my-auth-container">
-    <div class="flex flex-col justify-center items-center gap-4 p-12 md:gap-12 w-full h-full md:max-w-screen-sm mx-auto">
-        <img src="osu3d.svg" class="w-32 h-32">
-        <div>
-            <div class="font-thin text-xl md:text-3xl text-center">3D Printing and<br>Additive Manufacturing Club</div>
-            <div class="divider w-full max-w-sm mx-auto my-2 md:my-4"></div>
-            <div class="font-light text-xl md:text-3xl text-center">Oregon State University</div>
-        </div>
-        <Auth
-            providers={['google']}
-            supabaseClient={data.supabase}
-            redirectTo={`${data.url}/logging-in?redirect=/dashboard`}
-            showLinks={false}
-            theme="minimal"
-            appearance={customTheme}
-            onlyThirdPartyProviders={true}
-            additionalData={{}}
-            
-        />
-        <!-- <div class="grow"></div> -->
-        <div class="text-xs p-2 rounded-lg bg-base-100 outline outline-1 outline-base-content/10 mt-12">
-            <div class="text-sm text-center">Notice</div>
-            <div class="divider m-0"></div>
-            User authentication is handled by Google through Social Sign On (SSO).
-            Only your account name and email address is recorded by this system.
-        </div>
+<div class="min-h-screen w-screen my-auth-container">
+    <div class="flex flex-col justify-center items-center gap-8 p-12 md:gap-12 w-full h-full md:max-w-screen-sm mx-auto">
+      <img src="osu3d.svg" class="w-32 h-32">
+      <div class="text-base-content">
+          <div class="font-thin text-xl md:text-3xl text-center">3D Printing and<br>Additive Manufacturing Club</div>
+          <div class="divider w-full max-w-sm mx-auto my-2 md:my-4"></div>
+          <div class="font-light text-xl md:text-3xl text-center">Oregon State University</div>
+      </div>
+      <Auth
+          providers={['google']}
+          supabaseClient={data.supabase}
+          redirectTo={`${data.url}/logging-in?redirect=/dashboard`}
+          showLinks={false}
+          theme="minimal"
+          appearance={customTheme}
+          onlyThirdPartyProviders={true}
+          additionalData={{}}
+          
+      />
+      <!-- <div class="grow"></div> -->
+      <div class="text-xs p-2 rounded-lg bg-base-100 outline outline-1 outline-base-content/10 mt-8">
+          <div class="text-sm text-center">Notice</div>
+          <div class="divider m-0"></div>
+          User authentication is handled by Google through Social Sign On (SSO).
+          Only your account name and email address is recorded by this system.
+      </div>
     </div>
-    <div class="absolute bottom-0 footer py-2 footer-center text-sm">
+    <div class="absolute bottom-0 footer py-2 footer-center text-sm text-base-content">
             {appName} {appVersion}
     </div>
 </div>
