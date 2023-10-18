@@ -34,7 +34,7 @@
     <div class="flex flex-row justify-start items-center">
         <div class="font-thin text-3xl">Event Log</div>
         <div class="divider divider-horizontal"></div>
-        <div>{faults.length} Entries Total</div> 
+        <div>{faults.length} Entries</div> 
         <div class="divider divider-horizontal"></div>
         <form id="fault-resolve-form" method="POST" action="?/resolveFaultsMulti"></form>
         <input type="hidden" form="fault-resolve-form" name="id-array" value={JSON.stringify(selectedIds)} />

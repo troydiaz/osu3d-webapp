@@ -24,7 +24,7 @@
       
       
       {#if allowSearch}
-      <div>{inventory.length} Entries Total</div>
+      <div>{inventory.length} Entries</div>
       <div class="divider divider-horizontal"></div>
       <div class="grow relative">
         <input class="input input-sm w-full" type="text" placeholder="Filter by name..." bind:value={filterText} />
@@ -32,7 +32,7 @@
       </div>
       <div class="divider divider-horizontal"></div>
       {:else}
-      <div class="grow">{inventory.length} Entries Total</div>
+      <div class="grow">{inventory.length} Entries</div>
       {/if}
 
       <Paginate totalRows={inventory.length} bind:lowerIndex bind:upperIndex />

@@ -27,7 +27,7 @@
     <div class="flex flex-row justify-start items-center">
         <div class="font-thin text-3xl">Print Log</div>
         <div class="divider divider-horizontal"></div>
-        <div class="grow">{prints.length} Entries Total</div>
+        <div class="grow">{prints.length} Entries</div>
         <Paginate totalRows={prints.length} bind:lowerIndex bind:upperIndex />
     </div>
     {#if lowerIndex !== undefined && upperIndex !== undefined}

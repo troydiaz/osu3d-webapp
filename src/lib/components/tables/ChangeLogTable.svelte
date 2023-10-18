@@ -13,7 +13,7 @@
   <div class="flex flex-row justify-start items-center">
       <div class="font-thin text-3xl">History</div>
       <div class="divider divider-horizontal"></div>
-      <div class="grow">{changes.length} Entries Total</div>
+      <div class="grow">{changes.length} Entries</div>
 
       <div class="divider divider-horizontal"></div>
       <Paginate totalRows={changes.length} bind:lowerIndex bind:upperIndex />

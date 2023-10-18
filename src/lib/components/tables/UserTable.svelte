@@ -20,7 +20,7 @@
         <div class="flex flex-row justify-start items-center">
             <div class="font-thin text-3xl">User Accounts</div>
             <div class="divider divider-horizontal"></div>
-            <div>{userLevels.length} Entries Total</div>
+            <div>{userLevels.length} Entries</div>
             <div class="divider divider-horizontal"></div>
             <div class="grow relative">
                 <input class="input input-sm w-full" type="text" placeholder="Filter by name or email..." bind:value={filterText} />
