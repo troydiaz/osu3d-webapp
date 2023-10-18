@@ -547,10 +547,6 @@ export interface Database {
       }
     }
     Functions: {
-      check_prints: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
       get_machine_status: {
         Args: {
           machine_id: string
@@ -573,14 +569,14 @@ export interface Database {
         | {
             Args: {
               user_id: string
-              perm_name: string
+              bit_index: number
             }
             Returns: boolean
           }
         | {
             Args: {
               user_id: string
-              bit_index: number
+              perm_name: string
             }
             Returns: boolean
           }
