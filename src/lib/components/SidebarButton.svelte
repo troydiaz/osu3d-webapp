@@ -9,7 +9,7 @@
 
 <SidebarTooltip activeRoute={$page.url.pathname.startsWith(url)}>
   <li>
-    <a href={url} class="p-0 py-1 group flex-row justify-center items-center bg-gradient-to-b hover:rounded-r-none outline outline-1 outline-base-content/10 {$page.url.pathname.startsWith(url) ? 'from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500' : 'hover:from-blue-300 hover:to-blue-400 hover:dark:from-blue-400 hover:dark:to-blue-500'}">
+    <a href={url} class="p-0 py-1 group flex-row justify-center items-center bg-gradient-to-b hover:rounded-r-none border border-base-content/10 {$page.url.pathname.startsWith(url) ? 'from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500' : 'hover:from-blue-300 hover:to-blue-400 hover:dark:from-blue-400 hover:dark:to-blue-500'}">
       <img src={image} class="w-12 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-500 ease-in-out {$page.url.pathname.startsWith(url) ? 'drop-shadow rotate-3 opacity-100 scale-110' : 'opacity-50'}" />
     </a>
   </li>
