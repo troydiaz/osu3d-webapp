@@ -2,7 +2,7 @@
 	import { getActivePrintJob, type Machine, type Print } from "$lib/types/database";
 
   let selectedMachine: Machine | null = null;
-  let printToCancel: Print | null = null;
+  let printToCancel: Print | undefined;
   let modalVisible = false;
 
   export function launchModal(machine: Machine | null) {
