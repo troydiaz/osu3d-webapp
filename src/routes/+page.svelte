@@ -14,7 +14,7 @@
   const customTheme = {
       extend: false,
       className: {
-          button: 'btn btn-warning !rounded-lg !px-2',
+          button: 'btn btn-warning !rounded-lg !px-3 !border-none',
           input: 'input',
           label: 'label',
           container: '',
@@ -28,7 +28,7 @@
 </svelte:head>
 
 
-<div class="min-h-screen w-screen my-auth-container">
+<div class="min-h-screen w-screen">
     <div class="flex flex-col justify-center items-center gap-8 p-12 md:gap-12 w-full h-full md:max-w-screen-sm mx-auto">
       <img src="osu3d.svg" class="w-32 h-32">
       <div class="text-base-content">
@@ -53,7 +53,7 @@
           <div class="divider m-0"></div>
             User authentication is handled by Google through Social Sign On (SSO).
             Only your account name and email address is recorded by this system.
-          <a href="/privacy-policy" class="link-hover link-primary">View our privacy policy.</a>
+          <a href="/privacy-policy" class="link-hover link-warning">View our privacy policy.</a>
       </div>
     </div>
     <div class="absolute bottom-0 footer py-2 footer-center text-sm text-base-content">

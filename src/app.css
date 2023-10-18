@@ -4,12 +4,13 @@
 
 html, body {
   height: 100%;
+  @apply text-base-content;
 }
 
 .my-auth-container {
   background: radial-gradient(white, theme('colors.slate.300') 200%);
   [data-theme="dark"] & {
-    background: radial-gradient(theme('colors.base-content / 0.15'), black 200%); 
+    background: radial-gradient(theme('colors.base-content / 0.15'), theme('colors.base-content' / 0.05) 200%); 
   }
 }
 
@@ -42,7 +43,7 @@ svg:focus {
 .stats,
 .table,
 .input {
-  @apply outline outline-1 outline-base-content/10;
+  @apply border border-base-content/10;
 }
 
 .stats {
@@ -50,5 +51,16 @@ svg:focus {
 }
 
 .window {
-  @apply w-full bg-base-100 outline outline-1 outline-base-content/10 overflow-hidden md:rounded-2xl p-8 md:shadow-lg;
+  @apply w-full bg-base-100 border border-base-content/10 overflow-hidden md:rounded-2xl p-8 md:shadow-lg;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }

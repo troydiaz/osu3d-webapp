@@ -20,6 +20,7 @@
   import flashlight from '$lib/images/flashlight.png';
   import { Toaster } from 'svelte-french-toast';
   import { dev } from "$app/environment";
+  import { Svrollbar } from 'svrollbar';
   
   export let data: LayoutData;
   let showAlerts = false;
@@ -39,6 +40,9 @@
   });
 </script>
 
+<div class="fixed top-0 h-screen w-full bg-gradient-to-bl from-base-100 to-slate-100 dark:from-black dark:to-slate-900 -z-10"></div>
+<!-- <div class="fixed top-0 h-screen w-full -z-10 my-auth-container"></div> -->
+
 <main>
   {#if data.session}
   <!-- Notification Tray -->
@@ -47,7 +51,7 @@
   
   <div class="drawer lg:drawer-open">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content lg:px-16 min-h-screen bg-gradient-to-bl from-base-100 to-slate-100 dark:from-black dark:to-slate-950">
+    <div class="drawer-content lg:px-16 min-h-screen">
       <div class="lg:hidden w-full z-20 bg-base-100 navbar sticky top-0 flex-row justify-between space-x-4 shadow outline outline-1 outline-base-content/10">
         <label for="my-drawer-2" class="btn btn-square btn-ghost drawer-button lg:hidden"><Bars3 /></label>
         <a href="https://discord.gg/XE2vD4QY">
@@ -55,7 +59,7 @@
         </a>
       </div>
       
-      <div class="container max-w-screen-md mx-auto lg:mx-0 lg:max-w-screen-lg">
+      <div class="container max-w-screen-md mx-auto lg:max-w-screen-lg">
         <!-- Main app -->
         <div class="flex flex-col items-start justify-start w-full h-full pb-12 md:py-12">
           <slot />
@@ -121,8 +125,9 @@
   </div>
 </div>
 {:else}
-<slot />
+  <slot />
 {/if}
 </main>
 
 <Toaster position="top-right" />
+<Svrollbar />

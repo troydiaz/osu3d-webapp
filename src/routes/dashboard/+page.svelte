@@ -19,7 +19,7 @@
     <div class="window relative overflow-hidden flex flex-row justify-between items-center">
         <div class="flex-row gap-4 items-center hidden md:flex">
             <div class="text-3xl font-thin">Hello</div>
-            <div class="text-2xl font-mono bg-base-200 px-2 rounded-lg py-1 outline outline-1 outline-base-content/20 text-gray-500">{session.user.email}</div>
+            <div class="text-3xl font-mono bg-base-200 px-2 rounded-lg py-1 border border-base-content/20">{session.user.email}</div>
         </div>
         <div class="grow"></div>
         <div class="lg:text-5xl text-3xl font-thin z-10">Dashboard</div>

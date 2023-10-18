@@ -1,19 +1,19 @@
 
 
 <svelte:head>
-    <title>OSU 3D</title>
+    <title>Privacy Policy | OSU 3D</title>
 </svelte:head>
 
 
-<div class="min-h-screen w-screen my-auth-container">
+<div class="min-h-screen w-full">
     <div class="flex flex-col justify-center items-center gap-8 p-12 md:gap-12 w-full h-full md:max-w-screen-lg mx-auto">
       <img src="osu3d.svg" class="w-32 h-32">
-      <div class="text-base-content">
+      <div>
         <div class="font-thin text-xl md:text-3xl text-center">3D Printing and<br>Additive Manufacturing Club</div>
         <div class="divider w-full max-w-sm mx-auto my-2 md:my-4"></div>
         <div class="font-light text-xl md:text-3xl text-center">Oregon State University</div>
-    </div>
-      <div class="bg-base-100 p-12 rounded-xl border border-base-content/10">
+      </div>
+      <div class="window !w-fit !p-12">
         <article class="prose">
           <h1>Privacy Policy</h1>
           <p class="italic">Effective October 18, 2023</p>
@@ -161,7 +161,7 @@
             immediately, after they are posted on this page.
           </p>
           <h2>Contact Us</h2>
-          <p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at <a class="link link-hover link-primary" href="mailto:team@osu3d.io?subject=Regarding your Privacy Policy">team@osu3d.io</a>.</p>
+          <p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at <a class="link link-hover link-warning" href="mailto:team@osu3d.io?subject=Regarding your Privacy Policy">team@osu3d.io</a>.</p>
         </article>
       </div>
     </div>
