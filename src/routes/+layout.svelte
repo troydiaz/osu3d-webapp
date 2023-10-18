@@ -105,7 +105,7 @@
             <SidebarTooltip>
               <div slot="text" class="flex flex-col justify-center items-center h-full">Theme</div>
               <li>
-                <button data-toggle-theme="light,dark" data-act-class="swap-active" class="py-1 group swap bg-gradient-to-b hover:rounded-r-none outline outline-1 outline-base-content/10 hover:from-blue-300 hover:to-blue-400 hover:dark:from-blue-400 hover:dark:to-blue-500">
+                <button data-toggle-theme="light,dark" data-act-class="swap-active" class="py-1 group swap bg-gradient-to-b hover:rounded-r-none border border-base-content/10 hover:from-blue-300 hover:to-blue-400 hover:dark:from-blue-400 hover:dark:to-blue-500">
                   <div class="swap-off"><img src={sun} class="opacity-50 w-12 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-500 ease-in-out" /></div>
                   <div class="swap-on"><img src={flashlight} class="opacity-50 w-12 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-500 ease-in-out" /></div>
                 </button>
