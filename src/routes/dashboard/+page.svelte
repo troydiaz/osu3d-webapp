@@ -42,7 +42,7 @@
     
         <img id="josef-light" src={josef_light} class="hidden md:block absolute h-full left-[4px] rounded-xl -translate-x-1 pointer-events-none select-none" />
         <img id="josef-dark" src={josef_dark} class="hidden md:block absolute h-full left-[4px] rounded-xl -translate-x-1 pointer-events-none select-none" />
-        <img src={info} class="absolute right-1/2 -top-2 lg:right-3 lg:top-3 -translate-y-1/2 translate-x-1/2 w-12 h-12 lg:w-16 lg:h-16 min-w-fit rounded-full bg-blue-500 p-1 outline outline-info/25" />
+        <img src={info} class="absolute right-1/2 -top-2 lg:right-3 lg:top-3 -translate-y-1/2 translate-x-1/2 w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-blue-500 p-1 border-4 border-blue-300 dark:border-blue-700" />
     </div>
 
 
