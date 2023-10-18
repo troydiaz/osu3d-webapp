@@ -5,6 +5,16 @@
 html, body {
   height: 100%;
   @apply text-base-content;
+
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .my-auth-container {
@@ -52,15 +62,4 @@ svg:focus {
 
 .window {
   @apply w-full bg-base-100 border border-base-content/10 overflow-hidden md:rounded-2xl p-8 md:shadow-lg;
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
 }
