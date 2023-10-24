@@ -43,37 +43,39 @@
         <Paginate totalRows={faults.length} bind:lowerIndex bind:upperIndex />
     </div>
     {#if lowerIndex !== undefined && upperIndex !== undefined}
-    <table class="table table-compact min-w-full shadow-lg bg-base-100 overflow-hidden">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Date</th>
-                <th>Code</th>
-                <th>Issued By</th>
-                <th>Description</th>
-                <th>Resolved</th>
-                <th>Resolved By</th>
-                <th>Resolved At</th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each faults.slice(lowerIndex, upperIndex) as fault, i}
-                <tr class="transition {fault.checked ? 'bg-success text-success-content' : ''}" class:cursor-pointer={!fault.resolved} on:click={() => fault.resolved ? null : fault.checked = !fault.checked}>
-                    <td><input type="checkbox" class="checkbox bg-base-100 disabled:bg-opacity-25 align-middle" bind:checked={fault.checked} disabled={fault.resolved} /></td>
-                    <td>{getDateAndTime(fault.created_at)}</td>
-                    <td><code class="p-1 rounded-lg uppercase {getEventTypeColor(fault.event_type)}">{fault.event_type}</code></td>
-                    <td>{fault.created_by?.full_name ?? '—'}</td>
-                    <td>
-                        <div class="tooltip before:whitespace-pre-wrap before:content-[attr(data-tip)]" data-tip={fault.description ?? '—'}>
-                            <span class="w-32 max-w-32 truncate inline-block text-start">{fault.description ?? '—'}</span>
-                        </div>
-                    </td>
-                    <td><code class="p-1 rounded-lg uppercase {getResolvedColor(fault.resolved)}">{fault.resolved}</code></td>
-                    <td>{fault.resolved_by?.full_name ?? '—'}</td>
-                    <td>{getDateAndTime(fault.resolved_at)}</td>
-                </tr>
-            {/each}
-        </tbody>
-    </table>
+    <div class="window !p-0">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th></th>
+                  <th>Date</th>
+                  <th>Code</th>
+                  <th>Issued By</th>
+                  <th>Description</th>
+                  <th>Resolved</th>
+                  <th>Resolved By</th>
+                  <th>Resolved At</th>
+              </tr>
+          </thead>
+          <tbody>
+              {#each faults.slice(lowerIndex, upperIndex) as fault, i}
+                  <tr class="transition {fault.checked ? 'bg-success text-success-content' : ''}" class:cursor-pointer={!fault.resolved} on:click={() => fault.resolved ? null : fault.checked = !fault.checked}>
+                      <td><input type="checkbox" class="checkbox bg-base-100 disabled:bg-opacity-25 align-middle" bind:checked={fault.checked} disabled={fault.resolved} /></td>
+                      <td>{getDateAndTime(fault.created_at)}</td>
+                      <td><code class="p-1 rounded-lg uppercase {getEventTypeColor(fault.event_type)}">{fault.event_type}</code></td>
+                      <td>{fault.created_by?.full_name ?? '—'}</td>
+                      <td>
+                          <div class="tooltip before:whitespace-pre-wrap before:content-[attr(data-tip)]" data-tip={fault.description ?? '—'}>
+                              <span class="w-32 max-w-32 truncate inline-block text-start">{fault.description ?? '—'}</span>
+                          </div>
+                      </td>
+                      <td><code class="p-1 rounded-lg uppercase {getResolvedColor(fault.resolved)}">{fault.resolved}</code></td>
+                      <td>{fault.resolved_by?.full_name ?? '—'}</td>
+                      <td>{getDateAndTime(fault.resolved_at)}</td>
+                  </tr>
+              {/each}
+          </tbody>
+      </table>
+    </div>
     {/if}
 </div>

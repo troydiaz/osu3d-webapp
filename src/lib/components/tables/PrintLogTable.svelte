@@ -31,35 +31,37 @@
         <Paginate totalRows={prints.length} bind:lowerIndex bind:upperIndex />
     </div>
     {#if lowerIndex !== undefined && upperIndex !== undefined}
-    <table class="table table-compact shadow-lg bg-base-100 overflow-hidden">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Date</th>
-                <th>Created By</th>
-                <th>Hours</th>
-                <th>Consumed</th>
-                <th>Status</th>
-                <!-- <th>Canceled By</th>
-                <th>Canceled At</th> -->
-            </tr>
-        </thead>
-        <tbody>
-            {#each prints as print, i}
-                <tr>
-                    <td><input type="checkbox" class="checkbox checkbox-accent disabled:bg-opacity-25" disabled /></td>
-                    <td>{getDateAndTime(print.created_at)}</td>
-                    <td>{print.created_by.full_name}</td>
-                    <td>
-                        {((new Date(print.done_at).getTime() - new Date(print.created_at).getTime()) / 1000 / 60 / 60).toFixed(2)}
-                    </td>
-                    <td>{print.filament}g</td>
-                    <td><code class="p-1 rounded-lg min-w-full uppercase {getStatusColor(print.status)}">{print.status}</code></td>
-                    <!-- <td>{print.full_name ?? '—'}</td> -->
-                    <!-- <td>{getDateAndTime(print.canceled_at)}</td> -->
-                </tr>
-            {/each}
-        </tbody>
-    </table>
+    <div class="window !p-0">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th></th>
+                  <th>Date</th>
+                  <th>Created By</th>
+                  <th>Hours</th>
+                  <th>Consumed</th>
+                  <th>Status</th>
+                  <!-- <th>Canceled By</th>
+                  <th>Canceled At</th> -->
+              </tr>
+          </thead>
+          <tbody>
+              {#each prints as print, i}
+                  <tr>
+                      <td><input type="checkbox" class="checkbox checkbox-accent disabled:bg-opacity-25" disabled /></td>
+                      <td>{getDateAndTime(print.created_at)}</td>
+                      <td>{print.created_by.full_name}</td>
+                      <td>
+                          {((new Date(print.done_at).getTime() - new Date(print.created_at).getTime()) / 1000 / 60 / 60).toFixed(2)}
+                      </td>
+                      <td>{print.filament}g</td>
+                      <td><code class="p-1 rounded-lg min-w-full uppercase {getStatusColor(print.status)}">{print.status}</code></td>
+                      <!-- <td>{print.full_name ?? '—'}</td> -->
+                      <!-- <td>{getDateAndTime(print.canceled_at)}</td> -->
+                  </tr>
+              {/each}
+          </tbody>
+      </table>
+    </div>
     {/if}
 </div>
