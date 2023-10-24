@@ -38,42 +38,44 @@
       <Paginate totalRows={inventory.length} bind:lowerIndex bind:upperIndex />
   </div>
   
-  <table class="table shadow-lg bg-base-100">
-      <thead>
-          <tr>
-              <th>Name</th>
-              <th>In Stock</th>
-              <th>Lower Threshold</th>
-              <th>Last Updated</th>
-              <th>Last Updated By</th>
-              <th class="text-end">Actions</th>
-          </tr>
-      </thead>
-      <tbody>
-          {#each inventory || [] as item}
-          <tr>
-              <td>
-                  {item.name}
-              </td>
-              <td>{item.current_stock}</td>
-              <td>
-                {item.minimum}
-              </td>
-              <td>
-                {getMostRecentChangeDateName(item.changes).date}
-              </td>
-              <td>
-                {getMostRecentChangeDateName(item.changes).name}
-              </td>
-              <td class="flex flex-row justify-end gap-2">
-                <NewChangeMenu mode={'add'} itemId={item.id}><button class="btn btn-sm btn-success"><Plus /></button></NewChangeMenu>
-                <NewChangeMenu mode={'subtract'} itemId={item.id}><button class="btn btn-sm btn-error"><Minus /></button></NewChangeMenu>
-                <div class="divider divider-horizontal m-0"></div>
-                <!-- <button class="btn btn-sm btn-primary" on:click={() => goto(`/inventory/${item.id}`)}>Inv</button> -->
-                <button class="btn btn-sm btn-primary" on:click={() => goto(`/inventory/${item.id}`)}>View</button>
-              </td>
-          </tr>
-          {/each}
-      </tbody>
-  </table>
+  <div class="window !p-0">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>In Stock</th>
+                <th>Lower Threshold</th>
+                <th>Last Updated</th>
+                <th>Last Updated By</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {#each inventory || [] as item}
+            <tr>
+                <td>
+                    {item.name}
+                </td>
+                <td>{item.current_stock}</td>
+                <td>
+                  {item.minimum}
+                </td>
+                <td>
+                  {getMostRecentChangeDateName(item.changes).date}
+                </td>
+                <td>
+                  {getMostRecentChangeDateName(item.changes).name}
+                </td>
+                <td class="flex flex-row justify-end gap-2">
+                  <NewChangeMenu mode={'add'} itemId={item.id}><button class="btn btn-sm btn-success"><Plus /></button></NewChangeMenu>
+                  <NewChangeMenu mode={'subtract'} itemId={item.id}><button class="btn btn-sm btn-error"><Minus /></button></NewChangeMenu>
+                  <div class="divider divider-horizontal m-0"></div>
+                  <!-- <button class="btn btn-sm btn-primary" on:click={() => goto(`/inventory/${item.id}`)}>Inv</button> -->
+                  <button class="btn btn-sm btn-primary" on:click={() => goto(`/inventory/${item.id}`)}>View</button>
+                </td>
+            </tr>
+            {/each}
+        </tbody>
+    </table>
+  </div>
 </div>

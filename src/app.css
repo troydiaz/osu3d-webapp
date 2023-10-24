@@ -51,7 +51,6 @@ svg:focus {
 }
 
 .stats,
-.table,
 .input {
   @apply border border-base-content/10;
 }

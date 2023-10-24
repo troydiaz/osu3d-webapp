@@ -19,36 +19,38 @@
       <Paginate totalRows={changes.length} bind:lowerIndex bind:upperIndex />
   </div>
   
-  <table class="table shadow-lg bg-base-100 overflow-hidden">
-      <thead>
-          <tr>
-              <th>Date</th>
-              <th>Change</th>
-              <th>Running Total</th>
-              <th>Recorded By</th>
-              <th class="text-end">Actions</th>
-          </tr>
-      </thead>
-      <tbody>
-          {#each changes || [] as change}
-          <tr>
-              <td>
-                {prettyDateTime(change.created_at)}
-              </td>
-              <td>
-                {change.amount}
-              </td>
-              <td>
-                {change.running_total}  
-              </td>
-              <td>
-                {change.created_by.full_name}
-              </td>
-              <td class="flex flex-row justify-end gap-2">
-                <button class="btn btn-sm btn-error" disabled>Delete</button>
-              </td>
-          </tr>
-          {/each}
-      </tbody>
-  </table>
+  <div class="window !p-0">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Change</th>
+                <th>Running Total</th>
+                <th>Recorded By</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {#each changes || [] as change}
+            <tr>
+                <td>
+                  {prettyDateTime(change.created_at)}
+                </td>
+                <td>
+                  {change.amount}
+                </td>
+                <td>
+                  {change.running_total}
+                </td>
+                <td>
+                  {change.created_by.full_name}
+                </td>
+                <td class="flex flex-row justify-end gap-2">
+                  <button class="btn btn-sm btn-error" disabled>Delete</button>
+                </td>
+            </tr>
+            {/each}
+        </tbody>
+    </table>
+  </div>
 </div>

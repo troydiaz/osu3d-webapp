@@ -20,35 +20,37 @@
         <Paginate totalRows={machines.length} bind:lowerIndex bind:upperIndex />
     </div>
     
-    <table class="table shadow-lg bg-base-100 overflow-hidden">
-        <thead>
-            <tr>
-                <th>Status</th>
-                <th>Nickname</th>
-                <th>Type</th>
-                <th>Latest Job</th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each machines || [] as machine}
-            <tr class="hover cursor-pointer {getMachineStatus(machine) === MachineStatus.FAULT ? ' text-error' : ''}" on:click={() => goto(`/machines/${machine.id}`)} >
-                <td>
-                    {#if getMachineStatus(machine) === MachineStatus.FAULT}
-                    <ExclamationCircle />
-                    {:else}
-                    {machineStatusToText(getMachineStatus(machine))}
-                    {/if}
-                </td>
-                <td>{machine.nickname}</td>
-                <td>{machine.machine_def.make} {machine.machine_def.model}</td>
-                <td>{getTimeSinceLastCompletePrintJob(machine)}</td>
-                <!-- <td>
-                    <button class="btn btn-square btn-ghost focus:outline-none">
-                        <Bars3></Bars3>
-                    </button>
-                </td> -->
-            </tr>
-            {/each}
-        </tbody>
-    </table>
+    <div class="window !p-0">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th>Status</th>
+                  <th>Nickname</th>
+                  <th>Type</th>
+                  <th>Latest Job</th>
+              </tr>
+          </thead>
+          <tbody>
+              {#each machines || [] as machine}
+              <tr class="hover cursor-pointer {getMachineStatus(machine) === MachineStatus.FAULT ? ' text-error' : ''}" on:click={() => goto(`/machines/${machine.id}`)} >
+                  <td>
+                      {#if getMachineStatus(machine) === MachineStatus.FAULT}
+                      <ExclamationCircle />
+                      {:else}
+                      {machineStatusToText(getMachineStatus(machine))}
+                      {/if}
+                  </td>
+                  <td>{machine.nickname}</td>
+                  <td>{machine.machine_def.make} {machine.machine_def.model}</td>
+                  <td>{getTimeSinceLastCompletePrintJob(machine)}</td>
+                  <!-- <td>
+                      <button class="btn btn-square btn-ghost focus:outline-none">
+                          <Bars3></Bars3>
+                      </button>
+                  </td> -->
+              </tr>
+              {/each}
+          </tbody>
+      </table>
+    </div>
 </div>

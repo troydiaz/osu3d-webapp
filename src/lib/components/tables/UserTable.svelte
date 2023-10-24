@@ -30,30 +30,32 @@
             <Paginate totalRows={filteredUsers.length} bind:lowerIndex bind:upperIndex />
         </div>
         {#if lowerIndex !== undefined && upperIndex !== undefined}
-        <table class="table table-compact min-w-full shadow-lg bg-base-100 overflow-hidden">
-            <thead>
-                <tr>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Joined On <ChevronDown class="inline" size={'16px'} /></th>
-                    <th>Last Update</th>
-                    <th>Permission Flags</th>
-                </tr>
-            </thead>
-            <tbody>
-                {#each filteredUsers.slice(lowerIndex, upperIndex) as user, index}
-                <tr class="transition {user.checked ? 'bg-success text-success-content' : ''}">
-                    <td>{user.full_name}</td>
-                    <td>{user.email}</td>
-                    <td>{getDateAndTime(user.created_at)}</td>
-                    <td>{getDateAndTime(user.updated_at)}</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary" on:click={() => goto(`/users/${user.user_id}`)} disabled={hasPermission(user.level, PermCategory.SPECIAL, PermFlag.FIRST)}>Edit Flags</button>
-                    </td>
-                </tr>
-                {/each}
-            </tbody>
-        </table>
+        <div class="window !p-0">
+          <table class="table">
+              <thead>
+                  <tr>
+                      <th>Full Name</th>
+                      <th>Email</th>
+                      <th>Joined On <ChevronDown class="inline" size={'16px'} /></th>
+                      <th>Last Update</th>
+                      <th>Permission Flags</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {#each filteredUsers.slice(lowerIndex, upperIndex) as user, index}
+                  <tr class="transition {user.checked ? 'bg-success text-success-content' : ''}">
+                      <td>{user.full_name}</td>
+                      <td>{user.email}</td>
+                      <td>{getDateAndTime(user.created_at)}</td>
+                      <td>{getDateAndTime(user.updated_at)}</td>
+                      <td>
+                          <button class="btn btn-sm btn-primary" on:click={() => goto(`/users/${user.user_id}`)} disabled={hasPermission(user.level, PermCategory.SPECIAL, PermFlag.FIRST)}>Edit Flags</button>
+                      </td>
+                  </tr>
+                  {/each}
+              </tbody>
+          </table>
+        </div>
         {/if}
     </div>
 </div>
