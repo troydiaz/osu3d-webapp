@@ -50,10 +50,10 @@
     <!-- <div class="divider divider-horizontal"></div> -->
     <div class="flex flex-row">
       <div class="font-light mr-2">Legend</div>
-      <div class="flex outline outline-1 outline-base-content/10 rounded overflow-hidden">
-        <div class="bg-base-100 text-base-content text-xs font-mono uppercase px-2 py-1">Idle</div>
+      <div class="flex bg-base-100 border border-base-content/10 rounded">
+        <div class="bg-base-100 text-base-content rounded-l text-xs font-mono uppercase px-2 py-1">Idle</div>
         <div class="bg-info text-info-content text-xs font-mono uppercase px-2 py-1">Printing</div>
-        <div class="bg-warning text-warning-content text-xs font-mono uppercase px-2 py-1">Fault</div>
+        <div class="bg-warning text-warning-content rounded-r text-xs font-mono uppercase px-2 py-1">Fault</div>
       </div>
     </div>
     <!-- <span>{machines.filter(m => getMachineStatus(m) === MachineStatus.IDLE).length} ready of {machines.length} total</span> -->
