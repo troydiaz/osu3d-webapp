@@ -22,7 +22,7 @@
   <PageHeader name="Edit Printer" backUrl="/machines" image={printer} />
   
   <!-- Title -->
-  <div class="relative flex flex-row justify-between bg-base-100 outline outline-1 outline-base-content/10 rounded-2xl overflow-hidden p-12 shadow-lg">
+  <div class="window relative flex flex-row justify-between !p-12">
     <div class="flex flex-col justify-between items-start space-y-12 z-10">
       <div class="flex flex-col space-y-2">
         <span class="text-5xl font-thin">{machine.nickname}</span>
