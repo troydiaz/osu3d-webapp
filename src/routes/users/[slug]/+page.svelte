@@ -38,10 +38,10 @@
 
           <form id="perm-form" method="post" action="?/setPerms">
             <div class="flex gap-2 justify-end mr-8 mt-32">
-              <div class="flex flex-col gap-2 mr-4">
+              <!-- <div class="flex flex-col gap-2 mr-4">
                 <span class="uppercase font-mono -rotate-45 absolute -translate-y-24 -translate-x-3 text-left w-40">Admin</span>
                 <input name="admin" checked={hasPermission(user.level, PermCategory.SPECIAL, PermFlag.FIRST)} value={getPermissionBit(PermCategory.SPECIAL, PermFlag.FIRST)} type="checkbox" class="checkbox checkbox-error" />
-              </div>
+              </div> -->
               <div class="flex flex-col gap-2">
                 <span class="uppercase font-mono -rotate-45 absolute -translate-y-24 -translate-x-3 text-left w-40">Inventory</span>
                 <input name="inventory" checked={hasPermission(user.level, PermCategory.INVENTORY, PermFlag.FIRST)} value={getPermissionBit(PermCategory.INVENTORY, PermFlag.FIRST)} type="checkbox" class="checkbox checkbox-secondary" />
