@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
-    import MachineTable from "$lib/components/tables/MachineTable.svelte";
+  import MachineTable from "$lib/components/tables/MachineTable.svelte";
 	import PageHeader from "$lib/components/PageHeader.svelte";
-    import printer from '$lib/images/printer.png';
+  import printer from '$lib/images/printer.png';
 
-    export let data: PageData;
-    let { machines } = data;
+  export let data: PageData;
+  let { machines } = data;
 </script>
 
 <svelte:head>

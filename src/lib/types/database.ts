@@ -1,3 +1,4 @@
+import { formatDistance, subDays } from "date-fns";
 import type { Database } from "./supabase";
 
 export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row'];
@@ -111,41 +112,32 @@ export function machineStatusToText(status: MachineStatus) {
 }
 
 export function getTimeSinceLastCompletePrintJob(machine: Machine) {
-    let previousPrints = machine.prints.filter(p => p.status === 'SUCCESS' || p.status === 'CANCELED')
-        .sort((a, b) => {
-            return new Date(a.status === 'CANCELED' ? a.created_at : a.done_at).getTime() - new Date(b.status === 'CANCELED' ? b.created_at : b.done_at).getTime()
-        });
+    const recentPrint = machine.prints
+      .sort((a, b) => {
+          return new Date(a.status !== 'SUCCESS' ? a.created_at : a.done_at).getTime() - new Date(b.status !== 'SUCCESS' ? b.created_at : b.done_at).getTime()
+      })
+      .at(0);
 
-    let timeSince = '-';
+    if (!recentPrint)
+      return '-';
 
-    if (previousPrints.length > 0) {
-        let elapsedHours = (Date.now() - new Date(previousPrints[0].done_at).getTime()) / 1000 / 60 / 60;
-
-        if (elapsedHours < 0.1)
-            timeSince = 'just now';
-        else if (elapsedHours < 1)
-            timeSince = '< 1 hr ago';
-        else
-            timeSince = elapsedHours.toFixed(0) + ' hrs ago';
-    }
-
-    return timeSince;
+    return formatDistance(new Date(recentPrint.status !== 'SUCCESS' ? recentPrint.created_at : recentPrint.done_at), new Date(), { addSuffix: true });
 }
 
 export function getActivePrintJob(machine: Machine) {
-    return machine.prints.find(p => p.status === 'WORKING');
+  return machine.prints.find(p => p.status === 'WORKING');
 }
 
 export function getActivePrintJobTimeRemaining(machine: Machine) {
-    if (machine === null || machine.prints === null)
-        return 0;
+  if (machine === null || machine.prints === null)
+    return 0;
 
-    let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && p.status !== 'CANCELED');
+  let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && p.status !== 'CANCELED');
 
-    if (activePrints.length === 0)
-        return 0;
+  if (activePrints.length === 0)
+    return 0;
 
-    let currentPrint = activePrints[0];
+  let currentPrint = activePrints[0];
 
-    return (new Date(currentPrint.done_at).getTime() - Date.now()) / 1000;
+  return (new Date(currentPrint.done_at).getTime() - Date.now()) / 1000;
 }
