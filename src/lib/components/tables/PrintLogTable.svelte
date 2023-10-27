@@ -46,7 +46,7 @@
               </tr>
           </thead>
           <tbody>
-              {#each prints as print, i}
+              {#each prints.slice(lowerIndex, upperIndex) as print, i}
                   <tr>
                       <td><input type="checkbox" class="checkbox checkbox-accent disabled:bg-opacity-25" disabled /></td>
                       <td>{getDateAndTime(print.created_at)}</td>
