@@ -3,7 +3,7 @@
   import FaultTable from '$lib/components/tables/FaultTable.svelte';
   import PrintLogTable from '$lib/components/tables/PrintLogTable.svelte';
   import { getMachineStatus, machineStatusToText } from '$lib/types/database';
-  import { getAverageJobDuration, getSuccessRate, getTotalHours } from '$lib/helpers';
+  import { getAverageJobDuration, getSuccessRate, getTotalExtrudedInKg, getTotalHours } from '$lib/helpers';
   import PageHeader from '$lib/components/PageHeader.svelte';
 	import printer from '$lib/images/printer.png';
   
@@ -57,7 +57,7 @@
         </div>
         <div class="stat">
           <div class="stat-title">Total Extruded</div>
-          <div class="stat-value font-mono text-2xl">{(getTotalHours(machine) / 1000).toFixed(2)} kg</div>
+          <div class="stat-value font-mono text-2xl">{(getTotalExtrudedInKg(machine)).toFixed(2)} kg</div>
         </div>
         <div class="stat">
           <div class="stat-title">Avg. Job Duration</div>
