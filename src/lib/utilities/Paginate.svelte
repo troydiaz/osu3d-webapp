@@ -6,7 +6,7 @@
     export let lowerIndex: number;
     export let upperIndex: number;
 
-    let pageSize = 8;
+    export let pageSize = 8;
     let currentPage = 1;
 
     function changePage(newIndex: number) {
