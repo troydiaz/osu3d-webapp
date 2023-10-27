@@ -31,6 +31,7 @@
         <button class="btn btn-sm btn-ghost hover:bg-transparent absolute right-0 opacity-50" on:click={() => filterText = ''}>Clear</button>
       </div>
       <div class="hidden lg:flex divider divider-horizontal"></div>
+      <div class="grow lg:hidden"></div>
       <Paginate pageSize={20} totalRows={filteredUsers.length} bind:lowerIndex bind:upperIndex />
     </div>
     {#if lowerIndex !== undefined && upperIndex !== undefined}
