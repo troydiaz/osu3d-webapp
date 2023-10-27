@@ -158,7 +158,7 @@
   </div>
 
   <div class="xl:hidden">
-    <div class="join join-vertical w-full md:shadow-lg">
+    <div class="join rounded-none md:rounded-2xl join-vertical w-full md:shadow-lg">
       {#each machines as machine}
         <div
           class="collapse join-item bg-base-100 outline outline-1 outline-base-content/10"
