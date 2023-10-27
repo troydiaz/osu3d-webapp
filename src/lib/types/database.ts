@@ -113,7 +113,7 @@ export function machineStatusToText(status: MachineStatus) {
 
 export function getTimeSinceLastCompletePrintJob(machine: Machine) {
     const recentPrint = machine.prints
-      .sort((a, b) => {
+      .sort((b, a) => {
           return new Date(a.status !== 'SUCCESS' ? a.created_at : a.done_at).getTime() - new Date(b.status !== 'SUCCESS' ? b.created_at : b.done_at).getTime()
       })
       .at(0);
