@@ -9,6 +9,18 @@
 
     let lowerIndex: number = 0;
     let upperIndex: number = 0;
+
+    function getRowColor(status: MachineStatus) {
+      switch (status) {
+        case MachineStatus.UNKNOWN:
+        case MachineStatus.IDLE:
+          return '';
+        case MachineStatus.FAULT:
+          return 'text-error';
+        case MachineStatus.PRINTING:
+          return 'text-info';
+      }
+    }
 </script>
 
 <!-- Machines table -->
@@ -33,7 +45,7 @@
           </thead>
           <tbody>
               {#each machines || [] as machine}
-              <tr class="hover cursor-pointer {getMachineStatus(machine) === MachineStatus.FAULT ? ' text-error' : ''}" on:click={() => goto(`/machines/${machine.id}`)} >
+              <tr class="hover cursor-pointer {getRowColor(getMachineStatus(machine))}" on:click={() => goto(`/machines/${machine.id}`)} >
                   <td>
                       {#if getMachineStatus(machine) === MachineStatus.FAULT}
                       <ExclamationCircle />
