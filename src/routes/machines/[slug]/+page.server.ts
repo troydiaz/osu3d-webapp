@@ -1,4 +1,3 @@
-import type { Machine } from "$lib/types/database";
 import { error, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { fetchOneMachine } from "$lib/server/machine";
