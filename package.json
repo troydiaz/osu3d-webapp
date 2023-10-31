@@ -1,6 +1,6 @@
 {
 	"name": "osu3d-webapp",
-	"version": "2.2.8",
+	"version": "2.3.0",
 	"private": true,
 	"scripts": {
 		"dev": "NODE_ENV=development vite dev",
