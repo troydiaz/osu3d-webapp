@@ -33,7 +33,7 @@
     selectedMachineTime = selectedMachineTime > 0 ? selectedMachineTime - 1 : 0;
   }
 
-  $: selectMachineTab(machines[0]);
+  $: if (machines && !selectedMachine) selectMachineTab(machines[0]);
 
   setInterval(decrementTimers, 1000);
 
@@ -43,6 +43,7 @@
   }
 </script>
 
+{#if selectedMachine}
 <div class="flex flex-col gap-4">
   <!-- Header -->
   <div class="flex flex-row justify-between items-center window-header">
@@ -245,6 +246,7 @@
     </div>
   </div>
 </div>
+{/if}
 
 <NewIssueModal bind:this={newIssueModal} />
 <NewPrintModal bind:this={newPrintModal} />
