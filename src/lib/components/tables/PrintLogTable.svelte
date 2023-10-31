@@ -2,7 +2,6 @@
 	import { getDateAndTime } from "$lib/helpers";
 	import type { Enums, Print } from "$lib/types/database";
 	import Paginate from "$lib/utilities/Paginate.svelte";
-	import { onMount } from "svelte";
 
     export let prints: Print[] = [];
     let lowerIndex: number = 0;
@@ -24,10 +23,10 @@
 
 <!-- Fault table -->
 <div class="flex flex-col space-y-4">
-    <div class="flex flex-row justify-start items-center">
+    <div class="flex flex-row justify-start items-center window-header">
         <div class="font-thin text-3xl">Print Log</div>
-        <div class="divider divider-horizontal"></div>
-        <div class="grow">{prints.length} Entries</div>
+        <div class="divider divider-horizontal hidden md:flex"></div>
+        <div class="grow"><span class="hidden md:inline">{prints.length} Entries</span></div>
         <Paginate totalRows={prints.length} bind:lowerIndex bind:upperIndex />
     </div>
     {#if lowerIndex !== undefined && upperIndex !== undefined}
@@ -37,7 +36,7 @@
               <tr>
                   <th></th>
                   <th>Date</th>
-                  <th>Created By</th>
+                  <th class="hidden md:table-cell">Created By</th>
                   <th>Hours</th>
                   <th>Consumed</th>
                   <th>Status</th>
@@ -49,15 +48,15 @@
               {#each prints.slice(lowerIndex, upperIndex) as print, i}
                   <tr>
                       <td><input type="checkbox" class="checkbox checkbox-accent disabled:bg-opacity-25" disabled /></td>
-                      <td>{getDateAndTime(print.created_at)}</td>
-                      <td>{print.created_by.full_name}</td>
+                      <td><span class="hidden md:inline">{getDateAndTime(print.created_at, true)}</span><span class="md:hidden">{getDateAndTime(print.created_at, false)}</span></td>
+                      <td class="hidden md:table-cell">{print.created_by.full_name}</td>
                       <td>
                           {((new Date(print.done_at).getTime() - new Date(print.created_at).getTime()) / 1000 / 60 / 60).toFixed(2)}
                       </td>
                       <td>{print.filament}g</td>
                       <td><code class="p-1 rounded-lg min-w-full uppercase {getStatusColor(print.status)}">{print.status}</code></td>
                       <!-- <td>{print.full_name ?? '—'}</td> -->
-                      <!-- <td>{getDateAndTime(print.canceled_at)}</td> -->
+                      <!-- <td>{getDateAndTime(print.canceled_at, true)}</td> -->
                   </tr>
               {/each}
           </tbody>

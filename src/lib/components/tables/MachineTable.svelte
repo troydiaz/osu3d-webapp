@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { getMachineStatus, type Fault, type Machine, machineStatusToText, MachineStatus, getTimeSinceLastCompletePrintJob } from "$lib/types/database";
+	import { getMachineStatus, type Machine, machineStatusToText, MachineStatus, getTimeSinceLastCompletePrintJob } from "$lib/types/database";
 	import Paginate from "$lib/utilities/Paginate.svelte";
 	import { ExclamationCircle } from "svelte-heros-v2";
 
@@ -13,10 +13,11 @@
 
 <!-- Machines table -->
 <div class="flex flex-col space-y-4">
-    <div class="flex flex-row justify-start items-center">
-        <div class="font-thin text-3xl">Tier {tier} Printers</div>
-        <div class="divider divider-horizontal"></div>
-        <div class="grow">{machines.length} Entries</div>
+    <div class="flex flex-row justify-start items-center window-header">
+        <div class="font-thin text-3xl">Tier {tier}</div>
+        <div class="divider divider-horizontal hidden md:flex"></div>
+        <div class="grow hidden md:flex">{machines.length} Entries</div>
+        <div class="grow md:hidden"></div>
         <Paginate totalRows={machines.length} bind:lowerIndex bind:upperIndex />
     </div>
     
@@ -27,7 +28,7 @@
                   <th>Status</th>
                   <th>Nickname</th>
                   <th>Type</th>
-                  <th>Latest Job</th>
+                  <th class="hidden md:block">Latest Job</th>
               </tr>
           </thead>
           <tbody>
@@ -42,7 +43,7 @@
                   </td>
                   <td>{machine.nickname}</td>
                   <td>{machine.machine_def.make} {machine.machine_def.model}</td>
-                  <td>{getTimeSinceLastCompletePrintJob(machine)}</td>
+                  <td class="hidden md:block">{getTimeSinceLastCompletePrintJob(machine)}</td>
                   <!-- <td>
                       <button class="btn btn-square btn-ghost focus:outline-none">
                           <Bars3></Bars3>

@@ -1,10 +1,11 @@
 import { differenceInDays } from "date-fns";
 import type { Machine } from "./types/database";
 
-export function getDateAndTime(dateString: string | null) {
+export function getDateAndTime(dateString: string | null, includeTime: boolean) {
   if (!dateString) return '—';
   let date = new Date(dateString);
-  return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  return includeTime ? `${date.toLocaleDateString()} ${date.toLocaleTimeString()}` :
+    `${date.toLocaleDateString()}`;
 }
 
 export function getDaysSince(dateString: string | null) {

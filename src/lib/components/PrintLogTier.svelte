@@ -45,7 +45,7 @@
 
 <div class="flex flex-col gap-4">
   <!-- Header -->
-  <div class="flex flex-row justify-between items-center px-4 lg:px-0">
+  <div class="flex flex-row justify-between items-center window-header">
     <div class="font-thin text-3xl">Tier {tier} Printers</div>
     <!-- <div class="divider divider-horizontal"></div> -->
     <div class="flex flex-row">

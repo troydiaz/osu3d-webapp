@@ -35,7 +35,7 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col space-y-12">
+    <div class="hidden md:flex flex-col space-y-12">
       <div class="stats bg-base-200 z-10">
         <div class="stat">
           <div class="stat-title">Total Jobs</div>

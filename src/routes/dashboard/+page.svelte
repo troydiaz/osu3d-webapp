@@ -16,7 +16,7 @@
 
 {#if machines && userLevel}
 <div class="flex flex-col gap-12 w-full">
-    <div class="window relative overflow-hidden flex flex-row justify-between items-center">
+    <div class="h-24 window relative overflow-hidden flex flex-row justify-between items-center">
         <div class="flex-row gap-4 items-center hidden md:flex">
             <div class="text-3xl font-thin">Hello</div>
             <div class="text-3xl font-mono bg-base-200 px-2 rounded-lg py-1 border border-base-content/20">{session.user.email}</div>

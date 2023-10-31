@@ -20,7 +20,7 @@
     <button class="btn btn-square btn-sm btn-ghost text-neutral-content"><XMark /></button>
   </div>
   <div class="flex flex-row justify-between items-center bg-base-100 h-8 px-4">
-    <div class="text-xs text-mono text-neutral-content">{getDateAndTime(dateString)}</div>
+    <div class="text-xs text-mono text-neutral-content">{getDateAndTime(dateString, true)}</div>
     <div class="text-xs text-mono text-neutral-content">{getDaysSince(dateString)}</div>
   </div>
 </div>
@@ -38,7 +38,7 @@
     <button class="btn btn-square btn-sm btn-ghost text-neutral-content"><XMark /></button>
   </div>
   <div class="flex flex-row justify-between items-center bg-base-100 h-8 px-4">
-    <div class="text-xs text-mono text-neutral-content">{getDateAndTime(dateString)}</div>
+    <div class="text-xs text-mono text-neutral-content">{getDateAndTime(dateString, true)}</div>
     <div class="text-xs text-mono text-neutral-content">{getDaysSince(dateString)}</div>
   </div>
 </div>

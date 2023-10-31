@@ -74,7 +74,7 @@
             </td>
             <td>{user.full_name}</td>
             <td>{user.email}</td>
-            <td>{getDateAndTime(user.created_at)}</td>
+            <td>{getDateAndTime(user.created_at, true)}</td>
             <td>
               <button class="btn btn-sm btn-primary" on:click={() => goto(`/users/${user.user_id}`)} disabled={hasPermission(user.level, PermCategory.SPECIAL, PermFlag.FIRST)}>Edit Flags</button>
             </td>
