@@ -40,7 +40,7 @@
                   <th>Status</th>
                   <th>Nickname</th>
                   <th>Type</th>
-                  <th class="hidden md:block">Latest Job</th>
+                  <th class="hidden md:table-cell">Latest Job</th>
               </tr>
           </thead>
           <tbody>
@@ -55,7 +55,7 @@
                   </td>
                   <td>{machine.nickname}</td>
                   <td>{machine.machine_def.make} {machine.machine_def.model}</td>
-                  <td class="hidden md:block">{getTimeSinceLastCompletePrintJob(machine)}</td>
+                  <td class="hidden md:table-cell">{getTimeSinceLastCompletePrintJob(machine)}</td>
                   <!-- <td>
                       <button class="btn btn-square btn-ghost focus:outline-none">
                           <Bars3></Bars3>
