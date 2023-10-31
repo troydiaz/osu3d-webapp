@@ -139,5 +139,5 @@ export function getActivePrintJobTimeRemaining(machine: Machine) {
 
   let currentPrint = activePrints[0];
 
-  return (new Date(currentPrint.done_at).getTime() - Date.now()) / 1000;
+  return Math.ceil((new Date(currentPrint.done_at).getTime() - Date.now()) / 1000);
 }

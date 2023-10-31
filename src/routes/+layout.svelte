@@ -40,7 +40,7 @@
   });
 </script>
 
-<div class="fixed top-0 h-screen w-full bg-gradient-to-bl from-base-100 to-slate-100 dark:from-black dark:to-slate-900 -z-10"></div>
+<div class="fixed top-0 h-screen w-full bg-gradient-to-bl from-base-100 to-slate-100 dark:from-black dark:to-slate-900 -z-50"></div>
 <!-- <div class="fixed top-0 h-screen w-full -z-10 my-auth-container"></div> -->
 
 <main>

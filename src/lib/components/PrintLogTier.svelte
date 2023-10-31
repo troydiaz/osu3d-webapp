@@ -13,6 +13,7 @@
   import NewPrintModal from './modals/NewPrintModal.svelte';
   import CancelPrintModal from './modals/CancelPrintModal.svelte';
   import { PermFlag, hasPermission } from '$lib/helpers';
+  import { onMount } from 'svelte';
 
   export let userLevel: UserLevel;
   export let machines: Machine[];
@@ -30,16 +31,25 @@
   }
 
   function decrementTimers() {
+    // Move to IDLE state if time has elapsed
+    if (selectedMachine.status === 'WORKING' && selectedMachineTime === 0) selectedMachine.status = 'IDLE';
+
+    // Decrement time
     selectedMachineTime = selectedMachineTime > 0 ? selectedMachineTime - 1 : 0;
   }
 
   $: if (machines && !selectedMachine) selectMachineTab(machines[0]);
 
-  setInterval(decrementTimers, 1000);
+  onMount(() => {
+    setInterval(decrementTimers, 1000);
+  });
 
   function selectMachineTab(machine: Machine) {
     selectedMachine = machine;
     selectedMachineTime = getActivePrintJobTimeRemaining(machine);
+
+    // Move to IDLE state if time has elapsed
+    if (selectedMachine.status === 'WORKING' && selectedMachineTime === 0) selectedMachine.status = 'IDLE';
   }
 </script>
 
@@ -66,9 +76,9 @@
         <a
           role="tab"
           tabindex="-1"
-          class="rounded-t-2xl translate-y-[1px] tab my-tab-lifted tab-lg grow border-b-0 border border-transparent {selectedMachine ===
+          class="rounded-t-2xl translate-y-[1px] tab my-tab-lifted tab-lg grow border border-transparent {selectedMachine ===
           machine
-            ? 'tab-active bg-base-100 !border-base-content/10 z-10'
+            ? 'tab-active bg-base-100 !border-base-content/10'
             : ''} {getMachineStatusColor(machine)}"
           on:click={() => selectMachineTab(machine)}
         >
@@ -77,24 +87,26 @@
       {/each}
     </div>
     <div
-      class="rounded-b-2xl border border-1 border-base-content/10 bg-base-100 shadow-lg p-12 relative overflow-hidden"
+      class="rounded-b-2xl border border-t-0 border-base-content/10 bg-base-100 shadow-lg relative"
       class:rounded-tl-2xl={machines.indexOf(selectedMachine) !== 0}
       class:rounded-tr-2xl={machines.indexOf(selectedMachine) !== machines.length - 1}
     >
-      <div class="flex flex-row justify-between">
-        <div class="flex flex-col justify-start space-y-2 z-10">
+      <div class="absolute rounded-b-2xl w-full h-full overflow-hidden">
+        <img
+          src="{selectedMachine.machine_def.model}.png"
+          class="w-1/2 absolute blur opacity-25 left-16 pointer-events-none select-none"
+        />
+      </div>
+      <div class="flex flex-row justify-between p-12">
+        <div class="flex flex-col justify-start space-y-2">
           <span class="text-5xl font-thin">{selectedMachine.nickname}</span>
           <span class="text-2xl grow"
             >{selectedMachine.machine_def.make}
             {selectedMachine.machine_def.model}</span
           >
         </div>
-        <img
-          src="{selectedMachine.machine_def.model}.png"
-          class="w-1/2 absolute blur opacity-25 left-16 pointer-events-none select-none"
-        />
         <div
-          class="basis-1/2 flex flex-col justify-start space-y-4 z-10 p-4 h-72 rounded-2xl bg-base-100 outline outline-1 outline-base-content/10 bg-opacity-75 backdrop-blur"
+          class="z-0 basis-1/2 flex flex-col justify-start space-y-4 p-4 h-72 rounded-2xl bg-base-100 border border-base-content/10 bg-opacity-75"
         >
           <div class="stats h-24 bg-base-200 bg-opacity-50">
             <div class="stat">
