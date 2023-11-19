@@ -12,11 +12,11 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"update-types": "source .env && npx supabase gen types typescript --local > src/lib/types/supabase.ts",
 		"db:pull": "dotenv -e .env npx prisma db pull",
-		"dump-remote": "./supabase/scripts/dump-remote.sh",
-		"reset-remote": "./supabase/scripts/reset-remote.sh",
+		"dump:sremote": "./supabase/scripts/dump-remote.sh",
+		"reset:remote": "./supabase/scripts/reset-remote.sh",
 		"types": "./supabase/scripts/types.sh",
-		"push-remote": "./supabase/scripts/push-remote.sh",
-		"squash-remote": "./supabase/scripts/squash-remote.sh"
+		"up:remote": "./supabase/scripts/migrate-remote.sh",
+		"squash:remote": "./supabase/scripts/squash-remote.sh"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.1.0",

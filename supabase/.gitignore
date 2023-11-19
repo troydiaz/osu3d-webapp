@@ -4,3 +4,4 @@
 dump/
 migrations/
 seed.sql
+keys/
