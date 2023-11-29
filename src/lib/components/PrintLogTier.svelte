@@ -30,6 +30,8 @@
     // Special tier flags
     // Tier 99 is tier 1.5 (BambuLabs)
     if (tier === 99) return hasPermission(userLevel.level, 0, PermFlag.SECOND);
+    // Tier 98 is tier 2.5 (Snapmaker)
+    if (tier === 98) return hasPermission(userLevel.level, 1, PermFlag.SECOND);
 
     // Normal tier perms
     return hasPermission(userLevel.level, tier - 1, PermFlag.FIRST);
@@ -64,6 +66,8 @@
   <div class="flex flex-row justify-between items-center window-header">
     {#if tier === 99}
       <div class="font-thin text-3xl">Tier 1.5 Printers</div>
+    {:else if tier === 98}
+      <div class="font-thin text-3xl">Tier 2.5 Printers</div>
     {:else}
       <div class="font-thin text-3xl">Tier {tier} Printers</div>
     {/if}
@@ -163,8 +167,7 @@
               class="btn btn-accent"
               on:click={() => newPrintModal.launchModal(selectedMachine)}
               disabled={getMachineStatus(selectedMachine) === MachineStatus.PRINTING ||
-                getMachineStatus(selectedMachine) === MachineStatus.FAULT ||
-                !isTierCertified(1)}
+                getMachineStatus(selectedMachine) === MachineStatus.FAULT}
             >
               Log Print
             </button>

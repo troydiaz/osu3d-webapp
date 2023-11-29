@@ -52,6 +52,10 @@
     <PrintLogTier machines={machines.filter(m => m.tier === 99)} tier={99} userLevel={userLevel} />
 
     <PrintLogTier machines={machines.filter(m => m.tier === 2)} tier={2} userLevel={userLevel} />
+
+    <!-- For the Snapmaker -->
+    <PrintLogTier machines={machines.filter(m => m.tier === 98)} tier={98} userLevel={userLevel} />
+
     <PrintLogTier machines={machines.filter(m => m.tier === 3)} tier={3} userLevel={userLevel} />
 </div>
 {/if}
