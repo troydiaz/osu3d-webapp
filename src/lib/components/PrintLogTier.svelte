@@ -260,9 +260,19 @@
               </div>
             {:else}
               <div class="grow"></div>
-              <p class="self-center uppercase text-center">
-                Tier {tier} cert required to<br />log a print for this machine
-              </p>
+              {#if tier === 99}
+                <p class="self-center uppercase text-center">
+                  Tier 1.5 cert required to<br />log a print for this machine
+                </p>
+              {:else if tier === 98}
+                <p class="self-center uppercase text-center">
+                  Tier 2.5 cert required to<br />log a print for this machine
+                </p>
+              {:else}
+                <p class="self-center uppercase text-center">
+                  Tier {tier} cert required to<br />log a print for this machine
+                </p>
+              {/if}
               <div class="grow"></div>
             {/if}
           </div>
