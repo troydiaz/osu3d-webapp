@@ -53,8 +53,14 @@
                 {#if hasPermission(user.level, PermCategory.TIER_3, PermFlag.FIRST)}
                 <span class="px-1 py-1 font-mono bg-error text-error-content rounded-lg text-xs">TIER 3</span>
                 {/if}
+                {#if hasPermission(user.level, PermCategory.TIER_2, PermFlag.SECOND)}
+                <span class="px-1 py-1 font-mono bg-warning text-warning-content rounded-lg text-xs">TIER 2.5</span>
+                {/if}
                 {#if hasPermission(user.level, PermCategory.TIER_2, PermFlag.FIRST)}
                 <span class="px-1 py-1 font-mono bg-warning text-warning-content rounded-lg text-xs">TIER 2</span>
+                {/if}
+                {#if hasPermission(user.level, PermCategory.TIER_1, PermFlag.SECOND)}
+                <span class="px-1 py-1 font-mono bg-info text-info-content rounded-lg text-xs">TIER 1.5</span>
                 {/if}
                 {#if hasPermission(user.level, PermCategory.TIER_1, PermFlag.FIRST)}
                 <span class="px-1 py-1 font-mono bg-info text-info-content rounded-lg text-xs">TIER 1</span>
