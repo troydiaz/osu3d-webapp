@@ -33,12 +33,15 @@ export const actions = {
     const tier2 = (formData.get('tier2') as number | null) ?? 0;
     const tier1 = (formData.get('tier1') as number | null) ?? 0;
 
+    // Special tier 99 (bambu labs tier 1.5)
+    const tier99 = (formData.get('tier99') as number | null) ?? 0;
+
     const userId = formData.get('user_id') as string | null;
 
     if (!userId)
       throw error(404, 'No user ID');
 
-    const perms = admin | inventory | maintenance | machines | tier3 | tier2 | tier1;
+    const perms = admin | inventory | maintenance | machines | tier3 | tier2 | tier1 | tier99;
 
     const result = await supabase
       .from('user_levels')

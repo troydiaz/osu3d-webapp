@@ -63,6 +63,10 @@
                 <input name="tier2" checked={hasPermission(user.level, PermCategory.TIER_2, PermFlag.FIRST)} value={getPermissionBit(PermCategory.TIER_2, PermFlag.FIRST)} type="checkbox" class="checkbox checkbox-warning" />
               </div>
               <div class="flex flex-col gap-2">
+                <span class="uppercase font-mono -rotate-45 absolute -translate-y-24 -translate-x-3 text-left w-40">Tier 1.5</span>
+                <input name="tier99" checked={hasPermission(user.level, PermCategory.TIER_1, PermFlag.SECOND)} value={getPermissionBit(PermCategory.TIER_1, PermFlag.SECOND)} type="checkbox" class="checkbox checkbox-warning" />
+              </div>
+              <div class="flex flex-col gap-2">
                 <span class="uppercase font-mono -rotate-45 absolute -translate-y-24 -translate-x-3 text-left w-40">Tier 1</span>
                 <input name="tier1" checked={hasPermission(user.level, PermCategory.TIER_1, PermFlag.FIRST)} value={getPermissionBit(PermCategory.TIER_1, PermFlag.FIRST)} type="checkbox" class="checkbox checkbox-warning" />
               </div>
