@@ -47,6 +47,10 @@
 
 
     <PrintLogTier machines={machines.filter(m => m.tier === 1)} tier={1} userLevel={userLevel} />
+    
+    <!-- For Bambu Labs printers -->
+    <PrintLogTier machines={machines.filter(m => m.tier === 99)} tier={99} userLevel={userLevel} />
+
     <PrintLogTier machines={machines.filter(m => m.tier === 2)} tier={2} userLevel={userLevel} />
     <PrintLogTier machines={machines.filter(m => m.tier === 3)} tier={3} userLevel={userLevel} />
 </div>

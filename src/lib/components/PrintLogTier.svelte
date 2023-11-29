@@ -27,6 +27,11 @@
   let cancelPrintModal: CancelPrintModal;
 
   function isTierCertified(tier: number) {
+    // Special tier flags
+    // Tier 99 is tier 1.5 (BambuLabs)
+    if (tier === 99) return hasPermission(userLevel.level, 0, PermFlag.SECOND);
+
+    // Normal tier perms
     return hasPermission(userLevel.level, tier - 1, PermFlag.FIRST);
   }
 
@@ -57,7 +62,12 @@
 <div class="flex flex-col gap-4">
   <!-- Header -->
   <div class="flex flex-row justify-between items-center window-header">
-    <div class="font-thin text-3xl">Tier {tier} Printers</div>
+    {#if tier === 99}
+      <div class="font-thin text-3xl">Tier 1.5 Printers</div>
+    {:else}
+      <div class="font-thin text-3xl">Tier {tier} Printers</div>
+    {/if}
+    
     <!-- <div class="divider divider-horizontal"></div> -->
     <div class="flex flex-row">
       <div class="font-light mr-2">Legend</div>
