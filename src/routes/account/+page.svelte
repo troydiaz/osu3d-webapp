@@ -4,11 +4,8 @@
 	import { goto } from '$app/navigation';
 	import gear from '$lib/images/gear.png';
 	import PageHeader from '$lib/components/PageHeader.svelte';
-  import info from '$lib/images/info.png';
-	import toast from 'svelte-french-toast';
-	import { onMount } from 'svelte';
-	import Discord from '$lib/toasts/Discord.svelte';
-
+  import toast from 'svelte-french-toast';
+	
   export let data: PageData;
   export let form: ActionData;
 
