@@ -10,14 +10,14 @@
   // @ts-ignore
   const appVersion = __VERSION__;
 
-    async function signIn() {
-      await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${data.url}/auth/callback`
-        }
-      });
-    }
+  async function signIn() {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${data.url}/auth/callback`
+      }
+    });
+  }
 </script>
 
 <svelte:head>
