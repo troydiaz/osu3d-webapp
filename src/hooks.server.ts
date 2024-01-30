@@ -1,27 +1,48 @@
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, PUBLIC_DEV_SUPABASE_ANON_KEY, PUBLIC_DEV_SUPABASE_URL } from '$env/static/public';
 import type { Database } from '$lib/types/supabase.js';
-import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit';
 import type { Handle } from '@sveltejs/kit';
+import { createServerClient } from '@supabase/ssr';
 import { dev } from '$app/environment';
+import type { UserLevel } from '$lib/types/database';
 
 export const handle: Handle = async ({ event, resolve }) => {
-    event.locals.supabase = createSupabaseServerClient<Database>({
-        supabaseUrl: dev ? PUBLIC_DEV_SUPABASE_URL : PUBLIC_SUPABASE_URL,
-        supabaseKey: dev ? PUBLIC_DEV_SUPABASE_ANON_KEY : PUBLIC_SUPABASE_ANON_KEY,
-        event
-    });
+  event.locals.supabase = createServerClient<Database>(
+    dev ? PUBLIC_DEV_SUPABASE_URL : PUBLIC_SUPABASE_URL,
+    dev ? PUBLIC_DEV_SUPABASE_ANON_KEY : PUBLIC_SUPABASE_ANON_KEY, {
+    cookies: {
+      get: (key) => event.cookies.get(key),
+      set: (key, value, options) => {
+        event.cookies.set(key, value, options);
+      },
+      remove: (key, options) => {
+        event.cookies.delete(key, options);
+      }
+    }
+  });
+  
+  event.locals.getSession = async () => {
+    const {
+      data: { session }
+    } = await event.locals.supabase.auth.getSession();
+    
+    return session;
+  };
 
-    event.locals.getSession = async () => {
-        const {
-            data: { session }
-        } = await event.locals.supabase.auth.getSession();
+  event.locals.getPermissions = async () => {
+    const session = await event.locals.getSession();
+    if (!session?.user.id) return null;
 
-        return session;
-    };
+    const { data: userLevel } = await event.locals.supabase.from('user_levels')
+      .select('*')
+      .eq('user_id', session.user.id)
+      .maybeSingle<UserLevel>();
 
-    return resolve(event, {
-        filterSerializedResponseHeaders(name) {
-            return name === 'content-range';
-        }
-    });
+    return userLevel;
+  }
+
+  return resolve(event, {
+    filterSerializedResponseHeaders(name) {
+      return name === 'content-range';
+    }
+  });
 };

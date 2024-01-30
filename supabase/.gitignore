@@ -5,3 +5,4 @@ dump/
 migrations/
 seed.sql
 keys/
+users.csv

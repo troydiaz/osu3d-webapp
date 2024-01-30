@@ -7,14 +7,16 @@
   import josef_dark from '$lib/images/josef_dark.png';
 
   export let data: PageData;
-  const { session, machines, userLevel } = data;
+  const { session, machines, permissions } = data;
+
+  $: console.log(permissions);
 </script>
 
 <svelte:head>
     <title>Dashboard | OSU 3D</title>
 </svelte:head>
 
-{#if machines && userLevel}
+{#if machines && permissions}
 <div class="flex flex-col gap-12 w-full">
     <div class="h-24 window relative overflow-hidden flex flex-row justify-between items-center">
         <div class="flex-row gap-4 items-center hidden md:flex">
@@ -46,17 +48,17 @@
     </div>
 
 
-    <PrintLogTier machines={machines.filter(m => m.tier === 1)} tier={1} userLevel={userLevel} />
+    <PrintLogTier machines={machines.filter(m => m.tier === 1)} tier={1} userLevel={permissions} />
     
     <!-- For Bambu Labs printers -->
-    <PrintLogTier machines={machines.filter(m => m.tier === 99)} tier={99} userLevel={userLevel} />
+    <PrintLogTier machines={machines.filter(m => m.tier === 99)} tier={99} userLevel={permissions} />
 
-    <PrintLogTier machines={machines.filter(m => m.tier === 2)} tier={2} userLevel={userLevel} />
+    <PrintLogTier machines={machines.filter(m => m.tier === 2)} tier={2} userLevel={permissions} />
 
     <!-- For the Snapmaker -->
-    <PrintLogTier machines={machines.filter(m => m.tier === 98)} tier={98} userLevel={userLevel} />
+    <PrintLogTier machines={machines.filter(m => m.tier === 98)} tier={98} userLevel={permissions} />
 
-    <PrintLogTier machines={machines.filter(m => m.tier === 3)} tier={3} userLevel={userLevel} />
+    <PrintLogTier machines={machines.filter(m => m.tier === 3)} tier={3} userLevel={permissions} />
 </div>
 {/if}
 
