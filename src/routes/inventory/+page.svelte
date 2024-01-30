@@ -1,7 +1,7 @@
 
 <script lang="ts">
   import type { PageData } from "./$types";
-  import { Plus } from "svelte-heros-v2";
+  import { Pencil, PencilSquare, Plus } from "svelte-heros-v2";
   import InventoryTable from "$lib/components/tables/InventoryTable.svelte";
   import NewItemMenu from "$lib/components/menu/NewItemMenu.svelte";
   import PageHeader from "$lib/components/PageHeader.svelte";
@@ -18,6 +18,7 @@
 <div class="flex flex-col gap-12 w-full">
   <PageHeader name="Inventory" image={box} />
   <div class="flex flex-row justify-end items-center gap-4">
+    <a href="/inventory/tree" class="btn btn-primary btn-sm"><PencilSquare /> Edit Tree</a>
     <NewItemMenu categories={categories}><button class="btn btn-primary btn-sm"><Plus /> New Item</button></NewItemMenu>
     <button class="btn btn-primary btn-sm" disabled><Plus /> New Category</button>
   </div>

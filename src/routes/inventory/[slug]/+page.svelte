@@ -6,7 +6,7 @@
   import PageHeader from "$lib/components/PageHeader.svelte";
 
   export let data: PageServerData;
-  const {  singleItem } = data;
+  const { singleItem } = data;
 
   function consumedPriorNumDays(changes: InventoryChange[], numDays: number) {
     const week = changes.filter(c => (new Date(c.created_at).getTime() > (Date.now() - 24 * 60 * 60 * numDays * 1000)) && c.amount < 0);
@@ -16,7 +16,7 @@
 
 
 <svelte:head>
-    <title>Inventory | OSU 3D</title>
+  <title>Inventory | OSU 3D</title>
 </svelte:head>
 
 <div class="flex flex-col gap-12 w-full">

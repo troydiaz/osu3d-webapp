@@ -42,6 +42,7 @@ export type InventoryChange = Tables<'inv_changes'> & {
 }
 
 export type InventoryCategory = Tables<'inv_categories'>;
+export type InventoryLocation = Tables<'inv_locations'>;
 
 export enum MachineStatus {
     UNKNOWN,
