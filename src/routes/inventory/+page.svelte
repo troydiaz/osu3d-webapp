@@ -6,6 +6,7 @@
   import NewItemMenu from "$lib/components/menu/NewItemMenu.svelte";
   import PageHeader from "$lib/components/PageHeader.svelte";
   import box from '$lib/images/package.png';
+  import NewCategoryMenu from "$lib/components/menu/NewCategoryMenu.svelte";
 
   export let data: PageData;
   let { inventory, categories } = data;
@@ -18,9 +19,9 @@
 <div class="flex flex-col gap-12 w-full">
   <PageHeader name="Inventory" image={box} />
   <div class="flex flex-row justify-end items-center gap-4">
-    <a href="/inventory/tree" class="btn btn-primary btn-sm"><PencilSquare /> Edit Tree</a>
-    <NewItemMenu categories={categories}><button class="btn btn-primary btn-sm"><Plus /> New Item</button></NewItemMenu>
-    <button class="btn btn-primary btn-sm" disabled><Plus /> New Category</button>
+    <a href="/inventory/tree" class="btn btn-secondary btn-sm"><PencilSquare /> Locations</a>
+    <NewItemMenu categories={categories}><button class="btn btn-primary btn-sm"><Plus /> Item</button></NewItemMenu>
+    <NewCategoryMenu categories={categories}><button class="btn btn-primary btn-sm"><Plus /> Category</button></NewCategoryMenu>
   </div>
   <InventoryTable title={'All Items'} inventory={inventory || []} allowSearch={true} />
   {#each categories || [] as category}

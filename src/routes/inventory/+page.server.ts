@@ -57,18 +57,12 @@ export const actions = {
     const session = await getSession();
 
     const name = formData.get('name') as string;
-    const minimum = Number(formData.get('minimum'));
-    const inv_category_id = formData.get('inv_category_id') as string;
 
-    console.log(name, minimum, inv_category_id);
-
-    let result = await supabase
-      .from('inv_items')
+    const result = await supabase
+      .from('inv_categories')
       .insert({
         name,
-        minimum,
-        created_by_user_id: session!.user.id,
-        inv_category_id
+        created_by_user_id: session!.user.id
       });
   },
   submitNewChange: async ({ request, locals: { supabase, getSession } }) => {

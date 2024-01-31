@@ -6,7 +6,6 @@
 	import { fade, fly } from "svelte/transition";
 
   let showTooltip = false;
-  export let categories: InventoryCategory[] = [];
 
   const arrowRef = writable<HTMLElement>();
 
@@ -14,8 +13,9 @@
     strategy: 'absolute',
     placement: 'bottom',
     middleware: [
-      offset({ crossAxis: 25, mainAxis: 15 }),
-      arrow({ element: arrowRef })
+      offset({ crossAxis: -100,  mainAxis: 15 }),
+      arrow({ element: arrowRef }),
+      shift()
     ],
     onComputed({ placement, middlewareData }) {
       const { x, y } = middlewareData.arrow!;
@@ -35,9 +35,9 @@
   });
 </script>
 
-<div use:floatingRef on:click={() => showTooltip = !showTooltip} class="{showTooltip ? 'z-20' : ''}">
+<button use:floatingRef on:click={() => showTooltip = !showTooltip} class="{showTooltip ? 'z-20' : ''}">
   <slot />
-</div>
+</button>
 
 {#if showTooltip}
 <div class="absolute w-80 z-20" use:floatingContent>
@@ -51,47 +51,25 @@
     </div>
 
     <form
-      id="submit-new-item"
+      id="submit-new-category"
 			method="post"
-			action="?/submitNewItem" />
+			action="?/submitNewCategory" />
 
     <!-- New Item Dialog -->
-    <div class="text-xl text-bold text-primary-content text-center font-thin">Create New Inventory Item</div>
-
-    <!-- Category -->
-    <div class="form-control w-full max-w-xs">
-      <label for="inv_category_id" class="label"><span class="label-text text-primary-content font-light">Category</span></label>
-      <select form="submit-new-item" name="inv_category_id" class="select">
-        {#each categories as category}
-        <option value={category.id}>{category.name}</option>
-        {/each}
-      </select>
-    </div>
+    <div class="text-xl text-bold text-primary-content text-center font-thin">Create New Inventory Category</div>
 
     <!-- Name -->
     <div class="form-control w-full max-w-xs">
       <label for="name" class="label"><span class="label-text text-primary-content font-light">Name</span></label>
-      <input form="submit-new-item" type="text" name="name" class="input font-light" />
-    </div>
-
-    <!-- Description -->
-    <!-- <div class="form-control w-full max-w-xs">
-      <label for="description" class="label"><span class="label-text text-primary-content font-light">Description (optional)</span></label>
-      <textarea name="description" class="input" />
-    </div> -->
-
-    <div class="form-control w-full max-w-xs">
-      <label for="minimum" class="label"><span class="label-text text-primary-content font-light">Min. threshold (optional)</span></label>
-      <input form="submit-new-item" type="number" name="minimum" class="input font-light" />
+      <input form="submit-new-category" type="text" name="name" class="input font-light" />
     </div>
 
     <div class="flex flex-row justify-end gap-4 mt-4">
-      <button class="btn btn-sm btn-ghost text-primary-content font-light" form="submit-new-item" type="submit">Submit</button>
+      <button class="btn btn-sm btn-ghost text-primary-content font-light" form="submit-new-category" type="submit">Submit</button>
       <button class="btn btn-sm btn-ghost text-error font-light" on:click={() => showTooltip = false}>Cancel</button>
     </div>
   </div>
 </div>
 
-<div class="fixed w-screen h-screen top-0 left-0 bg-neutral-900/50 z-10" transition:fade={{ duration: 200 }} on:click={() => showTooltip = false}></div>
+<button class="cursor-default fixed w-screen h-screen top-0 left-0 bg-neutral-900/50 z-10" transition:fade={{ duration: 200 }} on:click={() => showTooltip = false}></button>
 {/if}
-
