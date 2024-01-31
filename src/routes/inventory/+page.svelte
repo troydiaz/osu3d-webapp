@@ -21,7 +21,7 @@
   <div class="flex flex-row justify-end items-center gap-4">
     <a href="/inventory/tree" class="btn btn-secondary btn-sm"><PencilSquare /> Locations</a>
     <NewItemMenu categories={categories}><button class="btn btn-primary btn-sm"><Plus /> Item</button></NewItemMenu>
-    <NewCategoryMenu categories={categories}><button class="btn btn-primary btn-sm"><Plus /> Category</button></NewCategoryMenu>
+    <NewCategoryMenu><button class="btn btn-primary btn-sm"><Plus /> Category</button></NewCategoryMenu>
   </div>
   <InventoryTable title={'All Items'} inventory={inventory || []} allowSearch={true} />
   {#each categories || [] as category}
