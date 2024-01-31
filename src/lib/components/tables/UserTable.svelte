@@ -49,34 +49,34 @@
         <tbody>
           {#each filteredUsers.slice(lowerIndex, upperIndex) as user, index}
           <tr class="transition {user.checked ? 'bg-success text-success-content' : ''}">
-            <td class=" grid-cols-3 gap-1 w-52 hidden md:grid">
-                {#if hasPermission(user.level, PermCategory.TIER_3, PermFlag.FIRST)}
+            <td class="grid-cols-3 gap-1 w-52 hidden md:grid">
+              {#if hasPermission(user.level, PermCategory.TIER_3, PermFlag.FIRST)}
                 <span class="px-1 py-1 font-mono bg-error text-white rounded-sm text-xs">TR 3</span>
-                {/if}
-                {#if hasPermission(user.level, PermCategory.TIER_2, PermFlag.SECOND)}
+              {/if}
+              {#if hasPermission(user.level, PermCategory.TIER_2, PermFlag.SECOND)}
                 <span class="px-1 py-1 font-mono bg-warning text-white rounded-sm text-xs">TR 2.5</span>
-                {/if}
-                {#if hasPermission(user.level, PermCategory.TIER_2, PermFlag.FIRST)}
+              {/if}
+              {#if hasPermission(user.level, PermCategory.TIER_2, PermFlag.FIRST)}
                 <span class="px-1 py-1 font-mono bg-warning text-white rounded-sm text-xs">TR 2</span>
-                {/if}
-                {#if hasPermission(user.level, PermCategory.TIER_1, PermFlag.SECOND)}
+              {/if}
+              {#if hasPermission(user.level, PermCategory.TIER_1, PermFlag.SECOND)}
                 <span class="px-1 py-1 font-mono bg-info text-white rounded-sm text-xs">TR 1.5</span>
-                {/if}
-                {#if hasPermission(user.level, PermCategory.TIER_1, PermFlag.FIRST)}
+              {/if}
+              {#if hasPermission(user.level, PermCategory.TIER_1, PermFlag.FIRST)}
                 <span class="px-1 py-1 font-mono bg-info text-white rounded-sm text-xs">TR 1</span>
-                {/if}
-                {#if hasPermission(user.level, PermCategory.INVENTORY, PermFlag.FIRST)}
+              {/if}
+              {#if hasPermission(user.level, PermCategory.INVENTORY, PermFlag.FIRST)}
                 <span class="px-1 py-1 font-mono bg-primary text-white rounded-sm text-xs">INVEN.</span>
-                {/if}
-                {#if hasPermission(user.level, PermCategory.MAINTENANCE, PermFlag.FIRST)}
+              {/if}
+              {#if hasPermission(user.level, PermCategory.MAINTENANCE, PermFlag.FIRST)}
                 <span class="px-1 py-1 font-mono bg-primary text-white rounded-sm text-xs">MAINT.</span>
-                {/if}
-                {#if hasPermission(user.level, PermCategory.MACHINES, PermFlag.FIRST)}
+              {/if}
+              {#if hasPermission(user.level, PermCategory.MACHINES, PermFlag.FIRST)}
                 <span class="px-1 py-1 font-mono bg-primary text-white rounded-sm text-xs">PRINT.</span>
-                {/if}
-                {#if hasPermission(user.level, PermCategory.SPECIAL, PermFlag.FIRST)}
+              {/if}
+              {#if hasPermission(user.level, PermCategory.SPECIAL, PermFlag.FIRST)}
                 <span class="px-1 py-1 font-mono bg-secondary text-white rounded-sm text-xs">ADMIN.</span>
-                {/if}
+              {/if}
             </td>
             <td>{user.full_name}</td>
             <td>{user.email}</td>
