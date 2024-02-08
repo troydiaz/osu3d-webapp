@@ -1,12 +1,14 @@
 import type { User, UserLevel } from "$lib/types/database";
 import { error, redirect, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
+import { hasPermission, PermCategory, PermFlag } from "$lib/helpers";
 
-export const load = (async ({ params, locals: { supabase, getSession } }) => {
+export const load = (async ({ params, locals: { supabase, getSession, getPermissions } }) => {
   const session = await getSession();
-  
-  if (!session)
-    throw redirect(303, '/');
+  const permissions = await getPermissions();
+
+  if (!session || !hasPermission(permissions?.level, PermCategory.USERS, PermFlag.FIRST))
+      throw redirect(303, '/');
 
   const { data: user } = await supabase
     .from('user_levels')
