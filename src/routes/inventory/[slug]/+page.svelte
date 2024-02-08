@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { PageServerData } from "./$types";
-	import { prettyDate, totalAllChanges, type InventoryChange } from "$lib/types/database";
-	import ChangeLogTable from "$lib/components/tables/ChangeLogTable.svelte";
+  import type { PageServerData } from "./$types";
+  import { prettyDate, totalAllChanges, type InventoryChange } from "$lib/types/database";
+  import ChangeLogTable from "$lib/components/tables/ChangeLogTable.svelte";
   import box from '$lib/images/package.png';
-	import PageHeader from "$lib/components/PageHeader.svelte";
+  import PageHeader from "$lib/components/PageHeader.svelte";
 
   export let data: PageServerData;
-  const {  singleItem } = data;
+  const { singleItem } = data;
 
   function consumedPriorNumDays(changes: InventoryChange[], numDays: number) {
     const week = changes.filter(c => (new Date(c.created_at).getTime() > (Date.now() - 24 * 60 * 60 * numDays * 1000)) && c.amount < 0);
@@ -16,52 +16,51 @@
 
 
 <svelte:head>
-    <title>Inventory | OSU 3D</title>
+  <title>Inventory | OSU 3D</title>
 </svelte:head>
 
 <div class="flex flex-col gap-12 w-full">
   <PageHeader name="Edit Inventory" image={box} backUrl="/inventory" />
   <div class="window flex flex-row justify-between !p-12">
     <div class="flex flex-col justify-between items-start space-y-12 z-10">
-        <div class="flex flex-col space-y-2">
-            <span class="text-5xl font-thin">{singleItem.name}</span>
-            <span class="text-2xl">{singleItem.inv_category.name}</span>
-        </div>
-        <div class="flex flex-row gap-4">
-          <!-- <button class="btn btn-outline">Adjust Lower Limit</button>
-          <button class="btn btn-outline">Edit Details</button> -->
-        </div>
+      <div class="flex flex-col space-y-2">
+        <span class="text-5xl font-thin">{singleItem.name}</span>
+        <span class="text-2xl">{singleItem.inv_category.name}</span>
+      </div>
+      <div class="flex flex-row gap-4">
+        <!-- <button class="btn btn-outline">Adjust Lower Limit</button>
+        <button class="btn btn-outline">Edit Details</button> -->
+      </div>
     </div>
     <div class="flex flex-col space-y-12">
-        <div class="stats bg-base-100 z-10">
-            <div class="stat">
-              <div class="stat-title">On Hand</div>
-              <div class="stat-value font-mono text-2xl">{totalAllChanges(singleItem.changes)}</div>
-                
-            </div>
-            <div class="stat">
-                <div class="stat-title">Last Updated</div>
-                <div class="stat-value font-mono text-2xl">{singleItem.changes.length > 0 ? prettyDate(singleItem.changes[0].created_at) : '-'}</div>
-            </div>
-            <div class="stat">
-                <div class="stat-title">Updated By</div>
-                <div class="stat-value font-mono text-2xl">{singleItem.changes.length > 0 ? singleItem.changes[0].created_by.full_name : '-'}</div>
-            </div>
+      <div class="stats bg-base-100 z-10">
+        <div class="stat">
+          <div class="stat-title">On Hand</div>
+          <div class="stat-value font-mono text-2xl">{totalAllChanges(singleItem.changes)}</div>
         </div>
-        <div class="stats bg-base-100 z-10">
-            <div class="stat">
-              <div class="stat-title">Lower Limit</div>
-              <div class="stat-value font-mono text-2xl">{singleItem.minimum}</div>
-            </div>
-            <div class="stat">
-                <div class="stat-title">Consumed (week)</div>
-                <div class="stat-value font-mono text-2xl">{consumedPriorNumDays(singleItem.changes, 7)}</div>
-            </div>
-            <div class="stat">
-                <div class="stat-title">Consumed (month)</div>
-                <div class="stat-value font-mono text-2xl">{consumedPriorNumDays(singleItem.changes, 28)}</div>
-            </div>
+        <div class="stat">
+          <div class="stat-title">Last Updated</div>
+          <div class="stat-value font-mono text-2xl">{singleItem.changes.length > 0 ? prettyDate(singleItem.changes[0].created_at) : '-'}</div>
         </div>
+        <div class="stat">
+          <div class="stat-title">Updated By</div>
+          <div class="stat-value font-mono text-2xl">{singleItem.changes.length > 0 ? singleItem.changes[0].created_by.full_name : '-'}</div>
+        </div>
+      </div>
+      <div class="stats bg-base-100 z-10">
+        <div class="stat">
+          <div class="stat-title">Lower Limit</div>
+          <div class="stat-value font-mono text-2xl">{singleItem.minimum}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-title">Consumed (week)</div>
+          <div class="stat-value font-mono text-2xl">{consumedPriorNumDays(singleItem.changes, 7)}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-title">Consumed (month)</div>
+          <div class="stat-value font-mono text-2xl">{consumedPriorNumDays(singleItem.changes, 28)}</div>
+        </div>
+      </div>
     </div>
   </div>
 

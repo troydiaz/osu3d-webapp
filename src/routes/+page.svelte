@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { Auth } from '@supabase/auth-ui-svelte';
-	import type { Appearance } from '@supabase/auth-ui-svelte/dist/types';
   import type { PageData } from './$types';
 
   export let data: PageData;
+  $: ({ supabase } = data);
 
   // @ts-ignore
   const appName = __NAME__;
@@ -11,22 +10,19 @@
   // @ts-ignore
   const appVersion = __VERSION__;
 
-  const customTheme = {
-      extend: false,
-      className: {
-          button: 'btn btn-warning !rounded-lg !px-3 !border-none',
-          input: 'input',
-          label: 'label',
-          container: '',
-          divider: 'py-4'
-      },
-    } as Appearance
+  async function signIn() {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${data.url}/auth/callback`
+      }
+    });
+  }
 </script>
 
 <svelte:head>
     <title>OSU 3D</title>
 </svelte:head>
-
 
 <div class="min-h-screen w-screen">
     <div class="flex flex-col justify-center items-center gap-8 p-12 md:gap-12 w-full h-full md:max-w-screen-sm mx-auto">
@@ -36,17 +32,7 @@
           <div class="divider w-full max-w-sm mx-auto my-2 md:my-4"></div>
           <div class="font-light text-xl md:text-3xl text-center">Oregon State University</div>
       </div>
-      <Auth
-          providers={['google']}
-          supabaseClient={data.supabase}
-          redirectTo={`${data.url}/logging-in?redirect=/dashboard`}
-          showLinks={false}
-          theme="minimal"
-          appearance={customTheme}
-          onlyThirdPartyProviders={true}
-          additionalData={{}}
-          
-      />
+      <button on:click={() => signIn()} class="bg-orange-400 text-white rounded-lg px-4 py-2 text-xl">SIGN IN WITH GOOGLE</button>
       <!-- <div class="grow"></div> -->
       <div class="text-xs p-2 rounded-lg bg-base-100 outline outline-1 outline-base-content/10 mt-8">
           <div class="text-sm text-center">Notice</div>

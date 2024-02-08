@@ -1,10 +1,13 @@
-import type { Fault, Machine, User, UserLevel } from "$lib/types/database";
+import type { UserLevel } from "$lib/types/database";
 import { redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
+import { PermCategory, PermFlag, hasPermission } from "$lib/helpers";
 
-export const load = (async ({ locals: { supabase, getSession } }) => {
+export const load = (async ({ locals: { supabase, getSession, getPermissions } }) => {
     const session = await getSession();
-    if (!session)
+    const permissions = await getPermissions();
+
+    if (!session || !hasPermission(permissions?.level, PermCategory.USERS, PermFlag.FIRST))
         throw redirect(303, '/');
 
     const { data: userLevels } = await supabase

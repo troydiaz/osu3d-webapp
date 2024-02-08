@@ -15,7 +15,7 @@
   });
 </script>
 
-<div use:floatingRef on:mouseenter={() => showTooltip = true} on:mouseleave={() => showTooltip = false}>
+<div role="tooltip" use:floatingRef on:mouseenter={() => showTooltip = true} on:mouseleave={() => showTooltip = false}>
   <slot />
 </div>
 

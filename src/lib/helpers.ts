@@ -66,3 +66,38 @@ export function hasPermission(perms: number | null | undefined, category: PermCa
 export function getPermissionBit(category: PermCategory, flag: PermFlag) {
   return (1 << flag) << (4 * category);
 }
+
+// Flat array to tree
+export type ITreeItem<T> = T & {
+  children: ITreeItem<T>[],
+};
+
+export type IItemKey = string | number;
+
+export function createTree<T>(flatList: T[], idKey: IItemKey, parentKey: IItemKey): ITreeItem<T>[] {
+  const tree: ITreeItem<T>[] = [];
+
+  // hash table.
+  const mappedArr = new Map<IItemKey, ITreeItem<T>>();
+  flatList.forEach((el: any) => {
+      const elId: IItemKey = el[idKey];
+
+      mappedArr.set(elId, el);
+      mappedArr.get(elId)!.children = [];
+  });
+
+  // also you can use Object.values(mappedArr).forEach(...
+  // but if you have element which was nested more than one time
+  // you should iterate flatList again:
+  flatList.forEach((elem: any) => {
+      const mappedElem = mappedArr.get(elem[idKey])!;
+
+      if (elem[parentKey]) {
+          mappedArr.get(elem[parentKey])!.children.push(elem);
+      } else {
+          tree.push(mappedElem);
+      }
+  });
+
+  return tree;
+}

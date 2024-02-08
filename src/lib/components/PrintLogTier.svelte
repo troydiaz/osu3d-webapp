@@ -38,6 +38,7 @@
   }
 
   function decrementTimers() {
+    if (!selectedMachine) return;
     // Move to IDLE state if time has elapsed
     if (selectedMachine.status === 'WORKING' && selectedMachineTime === 0) selectedMachine.status = 'IDLE';
 
@@ -45,7 +46,7 @@
     selectedMachineTime = selectedMachineTime > 0 ? selectedMachineTime - 1 : 0;
   }
 
-  $: if (machines && !selectedMachine) selectMachineTab(machines[0]);
+  $: if (machines.length > 0 && !selectedMachine) selectMachineTab(machines[0]);
 
   onMount(() => {
     setInterval(decrementTimers, 1000);

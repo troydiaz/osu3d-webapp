@@ -2,7 +2,7 @@ import { error, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { fetchAllMachines } from '$lib/server/machine';
 
-export const load = (async ({ locals: { supabase, getSession } }) => {
+export const load = (async ({ locals: { supabase, getSession, getPermissions } }) => {
   const session = await getSession();
   if (!session) throw redirect(303, '/');
 

@@ -1,8 +1,7 @@
 <script lang="ts">
   import "../app.css";
-  import { invalidate } from "$app/navigation";
+  import { goto, invalidate, invalidateAll } from "$app/navigation";
   import { onMount } from "svelte";
-  import type { LayoutData } from "./$types";
   import { Bars3 } from "svelte-heros-v2";
   import SidebarTooltip from "$lib/components/SidebarTooltip.svelte";
   import AlertTray from "$lib/components/AlertTray.svelte";
@@ -21,30 +20,36 @@
   import { Toaster } from 'svelte-french-toast';
   import { dev } from "$app/environment";
   import { Svrollbar } from 'svrollbar';
-  
-  export let data: LayoutData;
+    
   let showAlerts = false;
   
-  $: ({ supabase, userLevel } = data);
-  
-  
+  export let data;
+  let { supabase, permissions, session } = data
+  $: ({ supabase, permissions, session } = data)
+
   onMount(() => {
     // Theme swap button
     themeChange(false);
 
-    const { data } = supabase.auth.onAuthStateChange(() => {
-      invalidate('supabase:auth')
+    const { data } = supabase.auth.onAuthStateChange((event, _session) => {
+      if (_session?.expires_at !== session?.expires_at)
+        invalidate('supabase:auth')
     });
     
     return () => data.subscription.unsubscribe();
   });
+
+  async function signOut() {
+    await supabase.auth.signOut();
+    goto('/');
+  }
 </script>
 
 <div class="fixed top-0 h-screen w-full bg-gradient-to-bl from-base-100 to-slate-100 dark:from-black dark:to-slate-900 -z-50"></div>
 <!-- <div class="fixed top-0 h-screen w-full -z-10 my-auth-container"></div> -->
 
 <main>
-  {#if data.session}
+  {#if session}
   <!-- Notification Tray -->
   
   <AlertTray showAlerts={showAlerts} />
@@ -74,7 +79,7 @@
     <ul class="menu h-full px-4 bg-base-100 outline outline-1 outline-base-content/10">
       <div class="h-full flex flex-col justify-start items-center gap-4 py-4">
         <div class="w-12">
-          <img src="/osu3d.svg" class="m-auto opacity-75">
+          <img src="/osu3d.svg" alt="Club logo" class="m-auto opacity-75">
         </div>
         <div class="h-full flex flex-col justify-between mt-2">
           <div class="flex flex-col justify-start md:gap-3 gap-2">
@@ -86,23 +91,23 @@
             <SidebarButton name="Settings" url="/account" image={gear} />
 
             <!-- Printers -->
-            {#if hasPermission(userLevel?.level, PermCategory.MACHINES, PermFlag.FIRST)}
+            {#if hasPermission(permissions?.level, PermCategory.MACHINES, PermFlag.FIRST)}
             <SidebarButton name="Printers" url="/machines" image={printer} />
             {/if}
             
             <!-- Members -->
-            {#if hasPermission(userLevel?.level, PermCategory.USERS, PermFlag.FIRST)}
+            {#if hasPermission(permissions?.level, PermCategory.USERS, PermFlag.FIRST)}
             <SidebarButton name="Members" url="/users" image={ledger} />
             {/if}
             
             <!-- Inventory -->
-            {#if hasPermission(userLevel?.level, PermCategory.INVENTORY, PermFlag.FIRST)}
+            {#if hasPermission(permissions?.level, PermCategory.INVENTORY, PermFlag.FIRST)}
             <SidebarButton name="Inventory" url="/inventory" image={box} />
             {/if}
             
             
             <!-- Maintenance -->
-            {#if hasPermission(userLevel?.level, PermCategory.MAINTENANCE, PermFlag.FIRST) && dev}
+            {#if hasPermission(permissions?.level, PermCategory.MAINTENANCE, PermFlag.FIRST) && dev}
             <SidebarButton name="Maintenance" url="/maintenance" image={schedule} />
             {/if}
           </div>
@@ -112,14 +117,21 @@
               <div slot="text" class="flex flex-col justify-center items-center h-full">Theme</div>
               <li>
                 <button data-toggle-theme="light,dark" data-act-class="swap-active" class="py-1 group swap bg-gradient-to-b hover:rounded-r-none border border-base-content/10 hover:from-blue-300 hover:to-blue-400 hover:dark:from-blue-400 hover:dark:to-blue-500">
-                  <div class="swap-off"><img src={sun} class="opacity-50 w-12 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-500 ease-in-out" /></div>
-                  <div class="swap-on"><img src={flashlight} class="opacity-50 w-12 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-500 ease-in-out" /></div>
+                  <div class="swap-off"><img src={sun} alt="Enter dark mode" class="opacity-50 w-12 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-500 ease-in-out" /></div>
+                  <div class="swap-on"><img src={flashlight} alt="Enter light mode" class="opacity-50 w-12 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-500 ease-in-out" /></div>
                 </button>
               </li>
             </SidebarTooltip>
             
             <!-- Logout Button -->
-            <SidebarButton name="Logout" url="/logging-out" image={key} />
+            <SidebarTooltip>
+              <div slot="text" class="flex flex-col justify-center items-center h-full">Logout</div>
+              <li>
+                <button on:click={() => signOut()} class="py-1 group swap bg-gradient-to-b hover:rounded-r-none border border-base-content/10 hover:from-blue-300 hover:to-blue-400 hover:dark:from-blue-400 hover:dark:to-blue-500">
+                  <img src={key} alt="Logout" class="opacity-50 w-12 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-500 ease-in-out" />
+                </button>
+              </li>
+            </SidebarTooltip>
           </div>
         </div>
       </div>
