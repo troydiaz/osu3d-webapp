@@ -1,10 +1,14 @@
 import { error, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { fetchOneMachine } from "$lib/server/machine";
+import { hasPermission, PermCategory, PermFlag } from "$lib/helpers";
 
-export const load = (async ({ params, locals: { supabase, getSession } }) => {
+export const load = (async ({ params, locals: { supabase, getSession, getPermissions } }) => {
   const session = await getSession();
-  if (!session) throw redirect(303, '/');
+  const permissions = await getPermissions();
+  
+  if (!session || !hasPermission(permissions?.level, PermCategory.MACHINES, PermFlag.FIRST))
+    throw redirect(303, '/');
 
   const machine = await fetchOneMachine(supabase, params.slug);
 
