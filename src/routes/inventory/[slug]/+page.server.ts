@@ -1,10 +1,13 @@
 import type { InventoryItem } from "$lib/types/database";
 import { error, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
+import { hasPermission, PermCategory, PermFlag } from "$lib/helpers";
 
-export const load = (async ({ params, locals: { supabase, getSession } }) => {
+export const load = (async ({ params, locals: { supabase, getSession, getPermissions } }) => {
   const session = await getSession();
-  if (!session)
+  const permissions = await getPermissions();
+  
+  if (!session || !hasPermission(permissions?.level, PermCategory.INVENTORY, PermFlag.FIRST))
     throw redirect(303, '/');
 
   const { data: singleItem } = await supabase

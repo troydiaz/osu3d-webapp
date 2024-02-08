@@ -1,11 +1,13 @@
 import type { InventoryLocation } from "$lib/types/database";
 import { error, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
-import { createTree } from "$lib/helpers";
+import { PermCategory, PermFlag, createTree, hasPermission } from "$lib/helpers";
 
-export const load = (async ({ params, locals: { supabase, getSession } }) => {
+export const load = (async ({ params, locals: { supabase, getSession, getPermissions } }) => {
   const session = await getSession();
-  if (!session)
+  const permissions = await getPermissions();
+  
+  if (!session || !hasPermission(permissions?.level, PermCategory.INVENTORY, PermFlag.FIRST))
     throw redirect(303, '/');
 
   const { data: inventoryLocations } = await supabase
