@@ -25,7 +25,7 @@
     </div>
     <div class="grow"></div>
     <div class="lg:text-5xl text-3xl font-thin z-10">Dashboard</div>
-    <img src={log} class="absolute right-32 top-12 blur-[1px] scale-[5] w-16 h-16  opacity-25 pointer-events-none select-none" />
+    <img src={log} class="hidden md:block absolute right-32 top-12 blur-[1px] scale-[5] w-16 h-16  opacity-25 pointer-events-none select-none" />
   </div>
 
   <div class="flex flex-row justify-center md:justify-end items-center bg-gradient-to-br from-info/10 to-info/30 p-8 md:rounded-xl relative outline outline-info/50 lg:pr-24">

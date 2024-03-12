@@ -42,7 +42,7 @@
             <th class="hidden md:block"></th>
             <th>Full Name</th>
             <th>Email</th>
-            <th>Joined On <ChevronDown class="inline" size={'16px'} /></th>
+            <th class="hidden md:block">Joined On <ChevronDown class="inline" size={'16px'} /></th>
             <th>Permission Flags</th>
           </tr>
         </thead>
@@ -80,7 +80,7 @@
             </td>
             <td>{user.full_name}</td>
             <td>{user.email}</td>
-            <td>{getDateAndTime(user.created_at, true)}</td>
+            <td class="hidden md:block">{getDateAndTime(user.created_at, true)}</td>
             <td>
               <button class="btn btn-sm btn-primary" on:click={() => goto(`/users/${user.user_id}`)} disabled={hasPermission(user.level, PermCategory.SPECIAL, PermFlag.FIRST)}>Edit Flags</button>
             </td>

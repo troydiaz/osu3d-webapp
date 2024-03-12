@@ -23,13 +23,13 @@
   <PageHeader name="Edit Member" backUrl="/users" image={ledger} />
 
   <div class="flex flex-col gap-4">
-    <div class="font-thin text-3xl">Flags</div>
+    <div class="font-thin text-3xl px-4 lg:px-0">Flags</div>
     <!-- Account Settings -->
     <div class="window">
 
       <div class="flex flex-col">
 
-        <div class="flex justify-between">
+        <div class="flex flex-col lg:flex-row justify-between">
           <div class="flex flex-col gap-2 justify-end">
             <div>Name: { user.full_name }</div>
             <div>Email: { user.email }</div>

@@ -15,5 +15,5 @@
   {/if}
   <div class="grow"></div>
   <div class="lg:text-5xl text-3xl font-thin pr-6 z-10">{ name }</div>
-  <img src={image} alt="Page banner" class="absolute right-32 top-12 blur-[0.75px] scale-[4] w-16 h-16 opacity-25 pointer-events-none select-none" />
+  <img src={image} alt="Page banner" class="hidden md:block absolute right-32 top-12 blur-[0.75px] scale-[4] w-16 h-16 opacity-25 pointer-events-none select-none" />
 </div>
