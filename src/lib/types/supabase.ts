@@ -656,7 +656,7 @@ export interface Database {
           account_email: string
           tier: number
         }
-        Returns: boolean
+        Returns: Json
       }
       get_machine_status: {
         Args: {
