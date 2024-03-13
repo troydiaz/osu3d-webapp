@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { createFloatingActions } from "svelte-floating-ui";
 	import { offset } from "svelte-floating-ui/core";
-	import { fly } from "svelte/transition";
+  import { cubicInOut } from "svelte/easing";
+	import { fade, fly } from "svelte/transition";
 
   export let activeRoute = false;
   let showTooltip = false;
@@ -10,7 +11,7 @@
     strategy: 'absolute',
     placement: 'right',
     middleware: [
-      offset(0)
+      offset(-0.25)
     ]
   });
 </script>
@@ -20,7 +21,7 @@
 </div>
 
 {#if showTooltip}
-<div class="absolute -translate-x-0.5 pointer-events-none" use:floatingContent>
-  <div class="px-4 py-1 rounded-r-md text-2xl h-[58px] transition bg-gradient-to-b font-light text-white {activeRoute ? 'from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500' : 'from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500'}" transition:fly={{ x: -5, duration: 100 }}><slot name="text" /></div>
+<div class="absolute pointer-events-none" use:floatingContent>
+  <div class="pr-4 pl-1 py-1 rounded-r-md text-2xl font-extralight h-14 bg-gradient-to-b text-white {activeRoute ? 'from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500' : 'from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500'}"><slot name="text" /></div>
 </div>
 {/if}

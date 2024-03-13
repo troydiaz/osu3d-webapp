@@ -108,29 +108,37 @@
               </div>
         
               <div class="flex flex-col justify-start gap-2">
-                <div class="relative hover:drop-shadow-md shadow-black">
+                <!-- Theme button -->
+                <div class="relative">
                   <SidebarTooltip>
-                    <li class="group border border-base-content/5 hover:border-transparent rounded-md transition-all duration-1000 ease-in-out">
-                      <button data-toggle-theme="light,dark" data-act-class="swap-active" class="disable-focus h-[58px] py-1 group swap rounded-md group-hover:rounded-r-none transition-colors duration-100 bg-gradient-to-b group-hover:from-blue-300 group-hover:to-blue-400 group-hover:dark:from-blue-400 group-hover:dark:to-blue-500">
-                        <div class="swap-off"><img src={sun} alt="Enter dark mode" class="opacity-50 w-12 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-500 ease-in-out" /></div>
-                        <div class="swap-on"><img src={flashlight} alt="Enter light mode" class="opacity-50 w-12 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-500 ease-in-out" /></div>
-                      </button>
+                    <li class="group h-14 flex justify-center items-center">
+                      <!-- Background div for the hover effect -->
+                      <div class="absolute inset-0 bg-gradient-to-b rounded-md transition-none from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500 group-hover:opacity-100 opacity-0 rounded-r-none"></div>
+                      
+                      <a role="button" tabindex="-1"  data-toggle-theme="light,dark" data-act-class="swap-active" class="disable-focus h-14 py-1 group swap rounded-md group-hover:rounded-r-none transition-colors duration-100 !bg-transparent">
+                        <div class="swap-off"><img src={sun} alt="Enter dark mode" class="opacity-75 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-300 ease-in-out" /></div>
+                        <div class="swap-on"><img src={flashlight} alt="Enter light mode" class="opacity-75 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-300 ease-in-out" /></div>
+                      </a>
                     </li>
                     <div slot="text" class="flex flex-col justify-center items-center h-full drop-shadow-lg shadow-black">Theme</div>
                   </SidebarTooltip>
                 </div>
         
                 <!-- Logout Button -->
-                <div class="relative hover:drop-shadow-md shadow-black">
+                <div class="relative">
                   <SidebarTooltip>
-                    <li class="group border border-base-content/5 hover:border-transparent rounded-md transition-all duration-1000 ease-in-out">
-                      <button on:click={() => signOut()} class="disable-focus h-[58px] py-1 group swap bg-gradient-to-b rounded-md group-hover:rounded-r-none transition-colors duration-100 group-hover:from-blue-300 group-hover:to-blue-400 group-hover:dark:from-blue-400 group-hover:dark:to-blue-500">
-                        <img src={key} alt="Logout" class="opacity-50 w-12 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-500 ease-in-out" />
-                      </button>
+                    <li class="group h-14 flex justify-center items-center">
+                      <!-- Background div for the hover effect -->
+                      <div class="absolute inset-0 bg-gradient-to-b rounded-md transition-none from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500 group-hover:opacity-100 opacity-0 rounded-r-none"></div>
+                      
+                      <a role="button" tabindex="-1" on:click={() => signOut()} class="h-14 py-1 group disable-focus rounded-md group-hover:rounded-r-none">
+                        <img src={key} alt="Logout" class="opacity-75 h-12 group-hover:opacity-100 group-hover:scale-105 group-hover:drop-shadow shadow-black transition duration-300 ease-in-out" />
+                      </a>
                     </li>
                     <div slot="text" class="flex flex-col justify-center items-center h-full drop-shadow-lg shadow-black">Logout</div>
                   </SidebarTooltip>
                 </div>
+
               </div>
             </div>
           </div>
