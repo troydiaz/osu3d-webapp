@@ -122,7 +122,7 @@ export function getTimeSinceLastCompletePrintJob(machine: Machine) {
     if (!recentPrint)
       return '-';
 
-    return formatDistance(new Date(recentPrint.status !== 'SUCCESS' ? recentPrint.created_at : recentPrint.done_at), new Date(), { addSuffix: true });
+    return formatDistance(new Date(recentPrint.status !== 'SUCCESS' ? recentPrint.created_at : recentPrint.done_at), new Date());
 }
 
 export function getActivePrintJob(machine: Machine) {

@@ -62,24 +62,24 @@
 </script>
 
 {#if selectedMachine}
-<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-4 text-base">
   <!-- Header -->
   <div class="flex flex-row justify-between items-center window-header">
     {#if tier === 99}
-      <div class="font-thin text-3xl">Tier 1.5 Printers</div>
+      <div class="font-light md:text-xl">Tier 1.5 Printers</div>
     {:else if tier === 98}
-      <div class="font-thin text-3xl">Tier 2.5 Printers</div>
+      <div class="font-light md:text-xl">Tier 2.5 Printers</div>
     {:else}
-      <div class="font-thin text-3xl">Tier {tier} Printers</div>
+      <div class="font-light md:text-xl">Tier {tier} Printers</div>
     {/if}
     
     <!-- <div class="divider divider-horizontal"></div> -->
     <div class="flex flex-row">
-      <div class="font-light mr-2">Legend</div>
+      <div class="font-thin mr-2 hidden sm:block">Legend</div>
       <div class="flex bg-base-100 border border-base-content/10 rounded">
-        <div class="bg-base-100 text-base-content rounded-l text-xs font-mono uppercase px-2 py-1">Idle</div>
-        <div class="bg-info text-info-content text-xs font-mono uppercase px-2 py-1">Printing</div>
-        <div class="bg-warning text-warning-content rounded-r text-xs font-mono uppercase px-2 py-1">Fault</div>
+        <div class="bg-base-100 text-base-content rounded-l text-xs uppercase px-2 py-1">Idle</div>
+        <div class="bg-info text-info-content text-xs uppercase px-2 py-1">Printing</div>
+        <div class="bg-warning text-warning-content rounded-r text-xs uppercase px-2 py-1">Fault</div>
       </div>
     </div>
     <!-- <span>{machines.filter(m => getMachineStatus(m) === MachineStatus.IDLE).length} ready of {machines.length} total</span> -->
@@ -115,24 +115,24 @@
       <div class="flex flex-row justify-between p-12">
         <div class="flex flex-col justify-start space-y-2">
           <span class="text-5xl font-thin">{selectedMachine.nickname}</span>
-          <span class="text-2xl grow"
-            >{selectedMachine.machine_def.make}
-            {selectedMachine.machine_def.model}</span
-          >
+            <span class="text-base sm:text-2xl grow">
+            {selectedMachine.machine_def.make}
+            {selectedMachine.machine_def.model}
+            </span>
         </div>
         <div
           class="z-0 basis-1/2 flex flex-col justify-start space-y-4 p-4 h-72 rounded-2xl bg-base-100 border border-base-content/10 bg-opacity-75"
         >
           <div class="stats h-24 bg-base-200 bg-opacity-50">
             <div class="stat">
-              <div class="stat-title w-24">Status</div>
-              <div class="stat-value font-mono text-2xl">
+              <div class="stat-title w-24 sm:text-sm">Status</div>
+              <div class="stat-value font-light tracking-wide sm:text-2xl">
                 {machineStatusToText(getMachineStatus(selectedMachine))}
               </div>
             </div>
             <div class="stat">
-							<div class="stat-title">Time Remaining</div>
-							<div class="stat-value font-mono text-2xl">
+							<div class="stat-title sm:text-sm">Time Remaining</div>
+							<div class="stat-value font-light tracking-wide sm:text-2xl">
 								{#if getMachineStatus(selectedMachine) === MachineStatus.PRINTING}
 								<span class="countdown">
 									<span style:--value={Math.floor(selectedMachineTime / 60 / 60)}></span>h
@@ -200,31 +200,31 @@
             class:from-info={getMachineStatus(machine) === MachineStatus.PRINTING}
             class:from-base-100={getMachineStatus(machine) === MachineStatus.IDLE}
           >
-            <span class="font-light tracking-wide">{machine.nickname}</span>
+            <span class="font-light tracking-wide text-base">{machine.nickname}</span>
           </div>
           <div class="collapse-content">
             <div class="flex justify-center pt-6">
               <div class="stats h-24 shadow-lg bg-base-200 bg-opacity-50 w-full">
                 <div class="stat">
                   <!-- <div class="stat-figure"><Bolt /></div> -->
-                  <div class="stat-title w-24">Status</div>
-                  <div class="stat-value font-mono text-2xl">
+                  <div class="stat-title w-24 sm:text-sm">Status</div>
+                  <div class="stat-value font-light tracking-wide text-base sm:text-2xl">
                     {machineStatusToText(getMachineStatus(selectedMachine))}
                   </div>
                 </div>
                 <div class="stat rounded-l-none">
                   {#if getMachineStatus(selectedMachine) === MachineStatus.PRINTING}
-                    <div class="stat-title">Time Remaining</div>
-                    <div class="stat-value">
-                      <span class="countdown font-mono text-2xl">
+                    <div class="stat-title sm:text-sm">Time Remaining</div>
+                    <div class="stat-value font-light tracking-wide text-base sm:text-2xl">
+                      <span class="countdown">
                         <span class="rounded-none" style:--value={Math.floor(selectedMachineTime / 60 / 60)}></span>:
                         <span class="rounded-none" style:--value={Math.floor((selectedMachineTime / 60) % 60)}></span>:
                         <span class="rounded-none" style:--value={Math.floor(selectedMachineTime % 60)}></span>
                       </span>
                     </div>
                   {:else}
-                    <div class="stat-title">Previous Job Finished</div>
-                    <div class="stat-value font-mono text-2xl">
+                    <div class="stat-title sm:text-sm">Previous Job Finished</div>
+                    <div class="stat-value font-light tracking-wide text-base sm:text-2xl">
                       {getTimeSinceLastCompletePrintJob(selectedMachine)}
                     </div>
                   {/if}
