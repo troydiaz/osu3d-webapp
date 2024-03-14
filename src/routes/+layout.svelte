@@ -12,14 +12,9 @@
   import { dev } from "$app/environment";
 
   // Images
-  import log from '$lib/images/log.png';
-  import gear from '$lib/images/gear.png';
-  import box from '$lib/images/package.png';
-  import ledger from '$lib/images/orange_book.png';
-  import schedule from '$lib/images/schedule.png';
-  import printer from '$lib/images/printer.png';
   import key from '$lib/images/key.png';
   import flashlight from '$lib/images/flashlight.png';
+  import { Box, CirclePlay, Cog, Database, Home, LogOut, Megaphone, PieChart, Play, SunMoon, User, UserCircle, Users, Wrench } from "lucide-svelte";
       
   let showAlerts = false;
   
@@ -52,7 +47,7 @@
     
     <div class="drawer lg:drawer-open">
       <input id="drawer-id" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-content lg:px-16 overflow-x-auto">
+      <div class="drawer-content overflow-x-auto">
 
         <!-- Navbar for smaller screens -->
         <div class="lg:hidden z-20 bg-base-100 navbar fixed bottom-0 justify-between space-x-4 shadow border-t border-base-content/10">
@@ -62,7 +57,7 @@
           </a>
         </div>
         
-        <div class="container md:max-w-screen-md mx-auto lg:max-w-screen-lg  ">
+        <div class="container lg:px-16">
           <!-- Main app -->
           <div class="flex flex-col items-start justify-start w-full h-full pb-32 md:pt-12 lg:pb-12">
             <slot />
@@ -72,48 +67,96 @@
     
       <div class="z-20 drawer-side overflow-visible">
         <label for="drawer-id" class="drawer-overlay"></label>
-        <ul class="menu h-full px-4 bg-base-100 outline outline-1 outline-base-content/10">
-          <div class="flex flex-col h-full justify-start items-center gap-4 py-4">
-            <div class="w-12">
+        <ul class="menu h-full w-52 px-4 dark:bg-slate-400/10 backdrop-blur-xl ring-1 ring-white/10">
+          <div class="flex flex-col h-full justify-start items-stretch gap-4 py-4">
+            <!-- <div class="w-12">
               <img src="/osu3d.svg" alt="Club logo" class="m-auto opacity-75">
-            </div>
-            <div class="flex flex-col h-full justify-between mt-2">
-              <div class="flex flex-col justify-start md:gap-3 gap-2">
+            </div> -->
+            <div class="flex flex-col h-full justify-between items-stretch">
+              <div class="flex flex-col justify-start md:gap-2 gap-2">
+
+                <div class="flex flex-col justify-center items-center gap-2 py-4">
+                  <UserCircle size={48} strokeWidth={1.5} />
+                  <div class="text-sm font-thin">Stephen Fike</div>
+                </div>
+
+                <div class="flex justify-center items-center gap-2 py-2">
+                  <div class="grow h-[1px] w-full bg-white/10"></div>
+                  <div class="text-xs font-light opacity-50 whitespace-nowrap">OSU 3D</div>
+                  <div class="grow h-[1px] w-full bg-white/10"></div>
+                </div>
+
                 <!-- Dashboard -->
-                <SidebarButton name="Dashboard" url="/dashboard" image={log} />
+                <SidebarButton name="Home" url="/dashboard">
+                  <span slot="icon"><Home /></span>
+                </SidebarButton>
+                <!-- Print -->
+                <SidebarButton name="Print" url="/print">
+                  <span slot="icon"><Play /></span>
+                </SidebarButton>
                 <!-- Account Settings -->
-                <SidebarButton name="Settings" url="/account" image={gear} />
+                <SidebarButton name="Settings" url="/account">
+                  <span slot="icon"><Cog /></span>
+                </SidebarButton>
+
+                <div class="flex justify-center items-center gap-2 py-2">
+                  <div class="grow h-[1px] w-full bg-white/10"></div>
+                  <div class="text-xs font-light opacity-50 whitespace-nowrap">Club Duties</div>
+                  <div class="grow h-[1px] w-full bg-white/10"></div>
+                </div>
+
                 <!-- Printers -->
                 {#if hasPermission(permissions?.level, PermCategory.MACHINES, PermFlag.FIRST)}
-                <SidebarButton name="Printers" url="/machines" image={printer} />
+                <SidebarButton name="Printers" url="/machines">
+                  <span slot="icon"><Database /></span>
+                </SidebarButton>
                 {/if}
-        
-                <!-- Members -->
-                {#if hasPermission(permissions?.level, PermCategory.USERS, PermFlag.FIRST)}
-                <SidebarButton name="Members" url="/users" image={ledger} />
-                {/if}
-        
+
                 <!-- Inventory -->
                 {#if hasPermission(permissions?.level, PermCategory.INVENTORY, PermFlag.FIRST)}
-                <SidebarButton name="Inventory" url="/inventory" image={box} />
+                <SidebarButton name="Inventory" url="/inventory">
+                  <span slot="icon"><Box /></span>
+                </SidebarButton>
                 {/if}
-        
         
                 <!-- Maintenance -->
                 {#if hasPermission(permissions?.level, PermCategory.MAINTENANCE, PermFlag.FIRST) && dev}
-                <SidebarButton name="Maintenance" url="/maintenance" image={schedule} />
+                <SidebarButton name="Maintenance" url="/maintenance">
+                  <span slot="icon"><Wrench /></span>
+                </SidebarButton>
                 {/if}
+
+                <div class="flex justify-center items-center gap-2 py-2">
+                  <div class="grow h-[1px] w-full bg-white/10"></div>
+                  <div class="text-xs font-light opacity-50">Management</div>
+                  <div class="grow h-[1px] w-full bg-white/10"></div>
+                </div>
+        
+                <!-- Members -->
+                {#if hasPermission(permissions?.level, PermCategory.USERS, PermFlag.FIRST)}
+                <SidebarButton name="Members" url="/users">
+                  <span slot="icon"><Users /></span>
+                </SidebarButton>
+                {/if}
+
+                <!-- Members -->
+                {#if hasPermission(permissions?.level, PermCategory.USERS, PermFlag.FIRST)}
+                <SidebarButton name="Reports" url="/reports">
+                  <span slot="icon"><PieChart /></span>
+                </SidebarButton>
+                {/if}
+        
               </div>
               
-              <div class="flex flex-col justify-start gap-2">
-                <!-- Theme button -->
+              
+              
+              <!-- <div class="flex flex-col justify-start gap-2">
                 <div class="relative">
                   <SidebarTooltip>
                     <li class="group h-14 flex justify-center items-center">
-                      <!-- Background div for the hover effect -->
                       <div class="absolute inset-0 bg-gradient-to-b rounded-md transition-none from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500 group-hover:opacity-100 opacity-0 rounded-r-none"></div>
                       
-                      <button data-toggle-theme="light,dark" data-act-class="swap-active" class="disable-focus h-14 py-1 group swap rounded-md group-hover:rounded-r-none transition-colors duration-100 !bg-transparent">
+                      <button data-toggle-theme="light,night" data-act-class="swap-active" class="disable-focus h-14 py-1 group swap rounded-md group-hover:rounded-r-none transition-colors duration-100 !bg-transparent">
                         <div class="swap-off"><img src={sun} alt="Enter dark mode" class="opacity-75 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-300 ease-in-out" /></div>
                         <div class="swap-on"><img src={flashlight} alt="Enter light mode" class="opacity-75 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-300 ease-in-out" /></div>
                       </button>
@@ -122,11 +165,9 @@
                   </SidebarTooltip>
                 </div>
         
-                <!-- Logout Button -->
                 <div class="relative">
                   <SidebarTooltip>
                     <li class="group h-14 flex justify-center items-center">
-                      <!-- Background div for the hover effect -->
                       <div class="absolute inset-0 bg-gradient-to-b rounded-md transition-none from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500 group-hover:opacity-100 opacity-0 rounded-r-none"></div>
                       
                       <button on:click={() => signOut()} class="h-14 py-1 group disable-focus rounded-md group-hover:rounded-r-none">
@@ -136,7 +177,7 @@
                     <div slot="text" class="flex flex-col justify-center items-center h-full drop-shadow-lg shadow-black">Logout</div>
                   </SidebarTooltip>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </ul>
@@ -149,4 +190,6 @@
 
 <Toaster position="top-right" />
 
-<div class="fixed inset-0 bg-gradient-to-bl from-base-100 to-slate-100 dark:from-black dark:to-slate-900 -z-10 pointer-events-none select-none"></div>
+<div class="fixed inset-0 -z-10 pointer-events-none select-none blur-2xl">
+  <img src="/bgdark2.jpg" class="h-full w-full" />
+</div>

@@ -1,13 +1,19 @@
 <script lang="ts">
   import type { PageData } from "./$types";
   import PrintLogTier from "./PrintLogTier.svelte";
-  import log from '$lib/images/log.png';
-  import info from '$lib/images/info.png';
-  import josef_light from '$lib/images/josef_light.png';
-  import josef_dark from '$lib/images/josef_dark.png';
+  import { Ban, BarChart3, Bot, GraduationCap, Info, Layers, Link2, Locate, Megaphone, MessageCircle, Play, Star, ThumbsUp } from "lucide-svelte";
+  import { MachineStatus } from "$lib/types/models";
+  import { formatDistanceToNowStrict, formatDuration, formatRelative } from "date-fns";
+  import { elasticIn } from "svelte/easing";
 
   export let data: PageData;
-  const { permissions, routeData } = data;
+  const { permissions, routeData, session } = data;
+
+  $: activeJobs = routeData.filter(m => m.status === MachineStatus.WORKING);
+
+  $: activeJobCount = routeData.filter(m => m.status === MachineStatus.WORKING).length;
+  $: activeFaultCount = routeData.filter(m => m.status === MachineStatus.FAULT).length;
+  $: activeIdleCount = routeData.filter(m => m.status === MachineStatus.IDLE).length;
 </script>
 
 <svelte:head>
@@ -16,57 +22,150 @@
 
 {#if routeData && permissions}
 <div class="flex flex-col gap-12 w-full">
-  <div class="md:h-24 h-12 relative overflow-hidden flex flex-row justify-between items-center bg-base-100 border border-base-content/5 md:rounded-2xl p-8 gap-4">
-    <div class="md:text-3xl text-xl font-thin pr-6 z-10">Dashboard</div>
-    <div class="grow"></div>
-    <img src={log} alt="Page banner" class="hidden md:block absolute right-32 top-12 blur-[0.75px] scale-[4] w-16 h-16 opacity-25 pointer-events-none select-none" />
+
+  <div>
+    <div class="text-2xl font-thin">Good morning, { (session.user.user_metadata.full_name).split(' ')[0] }</div>
   </div>
 
-  <div class="flex flex-row justify-center md:justify-end items-center bg-gradient-to-br from-info/10 to-info/30 p-8 md:rounded-xl relative outline outline-1 outline-base-content/5 lg:pr-24">
-      
-    <div class="text-info-content">
-      <article class="prose prose-blue prose-sm">
-        <h3>Josef Bot is at your service...</h3>
-        <ul>
-          <li>Automatic server roles</li>
-          <li>Get pings about your prints</li>
-          <li>Be notified when a printer is available</li>
-          <li>Add your Discord username in <a href="/account">Settings</a></li>
-        </ul>
-      </article>
+  <div class="grid grid-cols-4 gap-12">
+
+    
+
+    <div class="col-span-2 relative dark:bg-slate-400/10 backdrop-blur-xl rounded-lg ring-1 ring-yellow-500/75 flex flex-col gap-4 p-4">
+
+      <div class="text-xl font-thin flex flex-row items-center gap-4 px-2">
+        <span><ThumbsUp strokeWidth={1.5} size={'20pt'} /></span>
+        <span>Announcements</span>
+        <span class="text-yellow-500 w-full text-end font-medium">NEW</span>
+      </div>
+
+      <div class="w-full h-[1px] bg-white/10" />
+      <div class="flex flex-col gap-2 text-sm font-extralight">
+        <p>
+          We will be consolidating tiers 1 & 1.5, tiers 2 & 2.5 at the start of Spring term. If you haven't gotten your tier certs on osu3d.io, please
+          do so before the end of the term.
+        </p>
+        <div class="flex items-center gap-2 font-thin text-sm w-full text-end whitespace-nowrap"><div class="grow h-[1px] w-full bg-white/10" />Stephen Fike | March 14, 2024</div>
+        <p>
+          Something that's probably important, I don't know.
+        </p>
+        <div class="flex items-center gap-2 font-thin text-sm w-full text-end whitespace-nowrap"><div class="grow h-[1px] w-full bg-white/10" />Stephen Fike | March 12, 2024</div>
+      </div>
     </div>
 
-    <img alt="Josef" id="josef-light" src={josef_light} class="hidden md:block absolute h-full left-[4px] rounded-xl -translate-x-1 pointer-events-none select-none" />
-    <img alt="Josef" id="josef-dark" src={josef_dark} class="hidden md:block absolute h-full left-[4px] rounded-xl -translate-x-1 pointer-events-none select-none" />
-    <img alt="Info icon" src={info} class="absolute right-1/2 -top-2 lg:right-3 lg:top-3 -translate-y-1/2 translate-x-1/2 w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-blue-500 p-1 shadow" />
+    <div class="col-span-2 dark:bg-slate-400/10 backdrop-blur-xl rounded-lg ring-1 ring-white/10 flex flex-col gap-4 p-4">
+      <div class="text-xl font-thin flex flex-row items-center gap-4 px-2"><span><Bot strokeWidth={1.5} size={'20pt'} /></span>Josef the Discord Bot</div>
+      <div class="w-full h-[1px] bg-white/10" />
+      <div class="flex flex-col gap-2 text-sm font-extralight">
+        <p>
+          You've already added your Discord username in the Settings page. Great!
+        </p>
+      </div>
+    </div>
+
+    <div class="col-span-3 dark:bg-slate-400/10 backdrop-blur-xl rounded-lg ring-1 ring-white/10 flex flex-col gap-4 p-4">
+      <div class="text-xl font-thin flex flex-row items-center gap-4 px-2"><span><Locate strokeWidth={1.5} size={'20pt'} /></span>Quickstart</div>
+      <div class="w-full h-[1px] bg-white/10" />
+      <div class="flex gap-4">
+        <a class="btn btn-ghost ring-1 ring-white/10 h-fit p-4 bg-white/10">
+          <div class="flex flex-col justify-center items-center gap-4">
+            <Play />
+            <div>Start Print</div>
+          </div>
+        </a>
+        <a class="btn btn-ghost ring-1 ring-white/10 h-fit p-4 bg-white/10">
+          <div class="flex flex-col justify-center items-center gap-4">
+            <BarChart3 />
+            <div>My Stats</div>
+          </div>
+        </a>
+        <a class="btn btn-ghost ring-1 ring-white/10 h-fit p-4 bg-white/10">
+          <div class="flex flex-col justify-center items-center gap-4">
+            <GraduationCap />
+            <div>Club Canvas</div>
+          </div>
+        </a>
+        <a class="btn btn-ghost ring-1 ring-white/10 h-fit p-4 bg-white/10">
+          <div class="flex flex-col justify-center items-center gap-4">
+            <MessageCircle />
+            <div>Club Discord</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-span-1 dark:bg-slate-400/10 backdrop-blur-xl rounded-lg ring-1 ring-white/10 flex flex-col gap-4 p-4">
+      <div class="text-xl font-thin flex flex-row items-center gap-4 px-2"><span><Layers strokeWidth={1.5} size={'20pt'} /></span>Printer Status</div>
+      <div class="w-full h-[1px] bg-white/10" />
+      <div class="flex justify-around items-center h-full">
+
+        <div class="flex flex-col gap-2 justify-start items-center">
+          <div class="text-4xl font-thin">{ activeJobCount }</div>
+          <div class="flex justify-center items-center gap-2 py-2 w-full">
+            <div class="text-xs font-light opacity-50">ACTIVE</div>
+          </div>
+        </div>
+
+        <div class="relative flex flex-col gap-2 justify-start items-center">
+          <div class="text-4xl font-thin">{ activeIdleCount }</div>
+          <div class="flex justify-center items-center gap-2 py-2 w-full">
+            <div class="shrink text-xs font-light opacity-50">IDLE</div>
+          </div>
+        </div>
+
+        <div class="relative flex flex-col gap-2 justify-start items-center">
+          <div class="text-4xl font-thin text-red-600">{ activeFaultCount }</div>
+          <div class="flex justify-center items-center gap-2 py-2 w-full">
+            <div class="shrink text-xs font-light opacity-50">FAULT</div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+    <!-- My Jobs -->
+    <div class="col-span-4 relative dark:bg-slate-400/10 backdrop-blur-xl rounded-lg ring-1 ring-white/10 flex flex-col gap-4 p-4">
+
+      <div class="text-xl font-thin flex flex-row items-center gap-4 px-2">
+        <Star strokeWidth={1.5} size={'20pt'} />
+        <span>My Jobs</span>
+      </div>
+
+      <div class="w-full h-[1px] bg-white/10" />
+      <div class="flex gap-4">
+        {#each activeJobs as job}
+          <div class=" flex flex-col justify-center items-center gap-2">
+            <div class="flex flex-col items-center">
+              <div class="text-sm font-extralight">{job.nickname}</div>
+              {#if job.done_at}
+                <div class="text-xs font-light opacity-50">{formatDistanceToNowStrict(new Date(job.done_at))} remain</div>
+              {/if}
+            </div>
+            <img src="/{job.model}.png" class="max-h-28" />
+            
+            <button class="btn btn-ghost btn-sm ring-1 ring-error/10 hover:bg-error/25 px-2">
+              <div class="flex justify-center items-center gap-1">
+                <Ban size={16} />
+                <div class="text-xs font-normal">Cancel</div>
+              </div>
+            </button>
+          </div>
+        {/each}
+      </div>
+    </div>
   </div>
 
 
-  <PrintLogTier routeData={routeData.filter(m => m.tier === 1)} tier={1} userLevel={permissions} />
+  <!-- <PrintLogTier routeData={routeData.filter(m => m.tier === 1)} tier={1} userLevel={permissions} /> -->
   
   <!-- For Bambu Labs printers -->
-  <PrintLogTier routeData={routeData.filter(m => m.tier === 99)} tier={99} userLevel={permissions} />
+  <!-- <PrintLogTier routeData={routeData.filter(m => m.tier === 99)} tier={99} userLevel={permissions} />
 
-  <PrintLogTier routeData={routeData.filter(m => m.tier === 2)} tier={2} userLevel={permissions} />
+  <PrintLogTier routeData={routeData.filter(m => m.tier === 2)} tier={2} userLevel={permissions} /> -->
 
   <!-- For the Snapmaker -->
-  <PrintLogTier routeData={routeData.filter(m => m.tier === 98)} tier={98} userLevel={permissions} />
+  <!-- <PrintLogTier routeData={routeData.filter(m => m.tier === 98)} tier={98} userLevel={permissions} />
 
-  <PrintLogTier routeData={routeData.filter(m => m.tier === 3)} tier={3} userLevel={permissions} />
+  <PrintLogTier routeData={routeData.filter(m => m.tier === 3)} tier={3} userLevel={permissions} /> -->
 </div>
 {/if}
-
-<style>
-  #josef-light, #josef-dark {
-    -webkit-mask-image: linear-gradient(to left, transparent 0%, black 50%);
-    mask-image: linear-gradient(to left, transparent 0%, black 50%);
-  }
-
-  :global(html[data-theme="light"] #josef-dark)  {
-    display: none !important;
-  }
-
-  :global(html[data-theme="dark"] #josef-light) {
-    display: none !important;
-  }
-</style>

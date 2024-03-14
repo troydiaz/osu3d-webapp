@@ -8,7 +8,13 @@ export const load = (async ({ locals: { supabase, getSession, getPermissions } }
 
   const routeData = await fetchDashboardRouteData(supabase);
 
-  return { session, routeData };
+  const { data: profile } = await supabase
+		.from('profiles')
+		.select(`email, full_name, discord`)
+		.eq('user_id', session.user.id)
+		.maybeSingle();
+
+  return { session, routeData, profile };
 }) satisfies PageServerLoad;
 
 export const actions = {
