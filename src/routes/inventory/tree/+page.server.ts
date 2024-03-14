@@ -1,4 +1,4 @@
-import type { InventoryLocation } from "$lib/types/database";
+import type { InventoryLocation } from "$lib/types/models";
 import { error, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { PermCategory, PermFlag, createTree, hasPermission } from "$lib/helpers";

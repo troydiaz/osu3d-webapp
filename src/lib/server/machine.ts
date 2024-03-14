@@ -1,4 +1,4 @@
-import type { Machine } from "$lib/types/database";
+import type { DashboardMachine, Machine } from "$lib/types/models";
 import type { Database } from "$lib/types/supabase";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { error } from "@sveltejs/kit";
@@ -19,7 +19,22 @@ export const fetchAllMachines = async (supabase: SupabaseClient<Database>) => {
         resolved_by: resolved_by_user_id (*)
       )
     `)
+
     .returns<Machine[]>();
+
+  if (result.error)
+    throw error(result.status, result.error.message);
+
+  return result.data;
+}
+
+export const fetchDashboardRouteData = async (supabase: SupabaseClient<Database>) => {
+  const result = await supabase
+    .from('dashboard_view')
+    .select(`
+      *
+    `)
+    .returns<DashboardMachine[]>();
 
   if (result.error)
     throw error(result.status, result.error.message);

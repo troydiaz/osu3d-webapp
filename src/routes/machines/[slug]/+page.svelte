@@ -1,15 +1,13 @@
 <script lang="ts">
-  import type { ActionData, PageServerData } from './$types';
+  import type { PageServerData } from './$types';
   import FaultTable from '$lib/components/tables/FaultTable.svelte';
   import PrintLogTable from '$lib/components/tables/PrintLogTable.svelte';
-  import { getMachineStatus, machineStatusToText } from '$lib/types/database';
+  import { getMachineStatus, machineStatusToText } from '$lib/types/models';
   import { getAverageJobDuration, getSuccessRate, getTotalExtrudedInKg, getTotalHours } from '$lib/helpers';
   import PageHeader from '$lib/components/PageHeader.svelte';
 	import printer from '$lib/images/printer.png';
   
   export let data: PageServerData;
-  export let form: ActionData;
-  
   const { machine, slug } = data;
 </script>
 
@@ -65,7 +63,7 @@
         </div>
       </div>
     </div>
-    <img src="/{machine.machine_def.model}.png" class="w-3/4 absolute -top-1/4 -right-8 opacity-25 select-none blur-sm">
+    <img alt="Printer" src="/{machine.machine_def.model}.png" class="w-3/4 absolute -top-1/4 -right-8 opacity-25 select-none blur-sm">
   </div>
   <FaultTable faults={machine.events.map(e => { return {...e, checked: false} } )} />
   <PrintLogTable prints={machine.prints || []} />

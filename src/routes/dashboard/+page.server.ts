@@ -1,14 +1,14 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { fetchAllMachines } from '$lib/server/machine';
+import { fetchDashboardRouteData } from '$lib/server/machine';
 
 export const load = (async ({ locals: { supabase, getSession, getPermissions } }) => {
   const session = await getSession();
   if (!session) throw redirect(303, '/');
 
-  const machines = await fetchAllMachines(supabase);
+  const routeData = await fetchDashboardRouteData(supabase);
 
-  return { session, machines };
+  return { session, routeData };
 }) satisfies PageServerLoad;
 
 export const actions = {
@@ -41,18 +41,18 @@ export const actions = {
     const formData = await request.formData();
     const session = await getSession();
 
-    const machineId = formData.get('machineId') as string;
-    const printLogHours = Number(formData.get('printLogHours') as string);
-    const printLogGrams = Number(formData.get('printLogGrams') as string);
-    const createdById = session?.user.id;
+    const machine_id = formData.get('machine_id') as string;
+    const printLogHours = Number(formData.get('hours') as string);
+    const printLogGrams = Number(formData.get('grams') as string);
+    const created_by_user_id = session?.user.id;
 
-    if (printLogHours === 0 || printLogGrams === 0 || !createdById) return;
+    if (printLogHours === 0 || printLogGrams === 0 || !created_by_user_id) return;
 
     const finishedDate = new Date(Date.now() + 1000 * 60 * 60 * printLogHours);
 
     await supabase.from('prints').insert({
-      created_by_user_id: createdById,
-      machine_id: machineId,
+      created_by_user_id,
+      machine_id: machine_id,
       done_at: finishedDate.toISOString(),
       filament: printLogGrams
     });
@@ -61,8 +61,8 @@ export const actions = {
     const session = await getSession();
     const formData = await request.formData();
 
-    const print_id = formData.get('print-id') as string | null;
-    const machine_id = formData.get('machine-id') as string | null;
+    const print_id = formData.get('print_id') as string | null;
+    const machine_id = formData.get('machine_id') as string | null;
 
     const created_by_user_id = session?.user.id;
 

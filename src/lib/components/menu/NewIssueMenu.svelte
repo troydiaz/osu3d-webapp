@@ -42,7 +42,7 @@
   });
 </script>
 
-<div role="button" tabindex="-1" use:floatingRef on:click={() => showTooltip = !showTooltip} class="{showTooltip ? 'z-20' : 'z-0'}">
+<div role="menu" tabindex="-1" use:floatingRef on:click={() => showTooltip = !showTooltip} class="{showTooltip ? 'z-20' : 'z-0'}">
   <slot />
 </div>
 
@@ -79,6 +79,6 @@
   </div>
 </div>
 
-<div role="none" class="fixed w-screen h-screen top-0 left-0 bg-neutral-900/50 z-10" transition:fade={{ duration: 200 }} on:click={() => showTooltip = false}></div>
+<button class="fixed w-screen h-screen top-0 left-0 bg-neutral-900/50 z-10" transition:fade={{ duration: 200 }} on:click={() => showTooltip = false}></button>
 {/if}
 

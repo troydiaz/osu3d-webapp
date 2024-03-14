@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ITreeItem } from "$lib/helpers";
-  import type { InventoryLocation } from "$lib/types/database";
+  import type { InventoryLocation } from "$lib/types/models";
   import { MagnifyingGlass, Pencil, Plus, Trash } from "svelte-heros-v2";
 
   export let node: ITreeItem<InventoryLocation>;

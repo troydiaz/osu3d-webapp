@@ -1,4 +1,4 @@
-import type { Fault, Machine, User, UserLevel } from "$lib/types/database";
+import type { Fault, Machine, User, UserLevel } from "$lib/types/models";
 import { redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 

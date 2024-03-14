@@ -1,5 +1,5 @@
 import { differenceInDays } from "date-fns";
-import type { Machine } from "./types/database";
+import type { Machine } from "./types/models";
 
 export function getDateAndTime(dateString: string | null, includeTime: boolean) {
   if (!dateString) return '—';

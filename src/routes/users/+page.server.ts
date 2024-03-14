@@ -1,4 +1,4 @@
-import type { UserLevel } from "$lib/types/database";
+import type { UserLevel } from "$lib/types/models";
 import { redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { PermCategory, PermFlag, hasPermission } from "$lib/helpers";

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type InventoryChange, prettyDateTime } from "$lib/types/database";
+	import { type InventoryChange, prettyDateTime } from "$lib/types/models";
 	import Paginate from "$lib/utilities/Paginate.svelte";
 	
   export let changes: InventoryChange[] = [];

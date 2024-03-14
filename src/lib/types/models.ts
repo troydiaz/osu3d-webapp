@@ -45,10 +45,22 @@ export type InventoryCategory = Tables<'inv_categories'>;
 export type InventoryLocation = Tables<'inv_locations'>;
 
 export enum MachineStatus {
-    UNKNOWN,
-    IDLE,
-    FAULT,
-    PRINTING
+    UNKNOWN = 'UNKNOWN',
+    IDLE = 'IDLE',
+    FAULT = 'FAULT',
+    WORKING = 'WORKING'
+}
+
+export type DashboardMachine = {
+    machine_id: string
+    tier: number
+    make: string
+    model: string
+    nickname: string
+    status: MachineStatus
+    print_id: string
+    done_at: string | null
+    full_name: string | null
 }
 
 export function prettyDate(input: string) {
@@ -81,14 +93,14 @@ export function getMachineStatus(machine: Machine) {
         case 'IDLE':
             return MachineStatus.IDLE;
         case 'WORKING':
-            return MachineStatus.PRINTING;
+            return MachineStatus.WORKING;
         default:
             return MachineStatus.UNKNOWN;
     }
 }
 
-export function getMachineStatusColor(machine: Machine) {
-    switch (machine.status) {
+export function getMachineStatusColor(status: MachineStatus) {
+    switch (status) {
         case 'FAULT':
             return 'text-warning';
         case 'WORKING':
@@ -104,7 +116,7 @@ export function machineStatusToText(status: MachineStatus) {
             return 'Idle';
         case MachineStatus.FAULT:
             return 'Down';
-        case MachineStatus.PRINTING:
+        case MachineStatus.WORKING:
             return 'Printing';
         case MachineStatus.UNKNOWN:
         default:
@@ -129,16 +141,7 @@ export function getActivePrintJob(machine: Machine) {
   return machine.prints.find(p => p.status === 'WORKING');
 }
 
-export function getActivePrintJobTimeRemaining(machine: Machine) {
-  if (machine === null || machine.prints === null)
-    return 0;
-
-  let activePrints = machine.prints.filter(p => new Date(p.done_at).getTime() > Date.now() && p.status !== 'CANCELED');
-
-  if (activePrints.length === 0)
-    return 0;
-
-  let currentPrint = activePrints[0];
-
-  return Math.ceil((new Date(currentPrint.done_at).getTime() - Date.now()) / 1000);
+export function getTimeUntil(dateString: string | null) {
+  if (!dateString || new Date(dateString).getTime() < Date.now()) return 0;
+  return Math.ceil((new Date(dateString).getTime() - Date.now()) / 1000);
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { PermCategory, PermFlag, getDateAndTime, hasPermission } from "$lib/helpers";
-  import type { UserLevel } from "$lib/types/database";
+  import type { UserLevel } from "$lib/types/models";
   import Paginate from "$lib/utilities/Paginate.svelte";
   import { ChevronDown } from "svelte-heros-v2";
   

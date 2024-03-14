@@ -3,7 +3,7 @@ import type { Database } from '$lib/types/supabase.js';
 import type { Handle } from '@sveltejs/kit';
 import { createServerClient } from '@supabase/ssr';
 import { dev } from '$app/environment';
-import type { UserLevel } from '$lib/types/database';
+import type { UserLevel } from '$lib/types/models';
 
 export const handle: Handle = async ({ event, resolve }) => {
   event.locals.supabase = createServerClient<Database>(

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { InventoryCategory } from "$lib/types/database";
+	import type { InventoryCategory } from "$lib/types/models";
 	import { arrow, createFloatingActions } from "svelte-floating-ui";
 	import { offset, shift } from "svelte-floating-ui/core";
 	import { writable } from "svelte/store";

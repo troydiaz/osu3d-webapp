@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { PageServerData } from "./$types";
-  import { prettyDate, totalAllChanges, type InventoryChange } from "$lib/types/database";
+  import { prettyDate, totalAllChanges, type InventoryChange } from "$lib/types/models";
   import ChangeLogTable from "$lib/components/tables/ChangeLogTable.svelte";
   import box from '$lib/images/package.png';
   import PageHeader from "$lib/components/PageHeader.svelte";

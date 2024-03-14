@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { totalAllChanges, type InventoryItem, getMostRecentChangeDateName, type InventoryCategory } from "$lib/types/database";
+	import { totalAllChanges, type InventoryItem, getMostRecentChangeDateName, type InventoryCategory } from "$lib/types/models";
 	import Paginate from "$lib/utilities/Paginate.svelte";
 	import { Minus, Plus } from "svelte-heros-v2";
 	import NewChangeMenu from "../menu/NewChangeMenu.svelte";

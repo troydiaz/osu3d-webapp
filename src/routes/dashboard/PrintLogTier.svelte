@@ -1,25 +1,25 @@
 <script lang="ts">
   import {
-    getMachineStatus,
-    type Machine,
     machineStatusToText,
     MachineStatus,
-    getTimeSinceLastCompletePrintJob,
-    getActivePrintJobTimeRemaining,
     type UserLevel,
-    getMachineStatusColor
-  } from '$lib/types/database';
-  import NewIssueModal from './modals/NewIssueModal.svelte';
-  import NewPrintModal from './modals/NewPrintModal.svelte';
-  import CancelPrintModal from './modals/CancelPrintModal.svelte';
+    getMachineStatusColor,
+    type DashboardMachine,
+
+    getTimeUntil
+
+  } from '$lib/types/models';
+  import NewIssueModal from '../../lib/components/modals/NewIssueModal.svelte';
+  import NewPrintModal from '../../lib/components/modals/NewPrintModal.svelte';
+  import CancelPrintModal from '../../lib/components/modals/CancelPrintModal.svelte';
   import { PermFlag, hasPermission } from '$lib/helpers';
   import { onMount } from 'svelte';
 
   export let userLevel: UserLevel;
-  export let machines: Machine[];
+  export let routeData: DashboardMachine[];
   export let tier: number;
 
-  let selectedMachine: Machine;
+  let selectedMachine: DashboardMachine;
   let selectedMachineTime = 0;
 
   let newIssueModal: NewIssueModal;
@@ -40,24 +40,22 @@
   function decrementTimers() {
     if (!selectedMachine) return;
     // Move to IDLE state if time has elapsed
-    if (selectedMachine.status === 'WORKING' && selectedMachineTime === 0) selectedMachine.status = 'IDLE';
-
+    if (selectedMachine.status === MachineStatus.WORKING && selectedMachineTime === 0) selectedMachine.status = MachineStatus.IDLE;
     // Decrement time
     selectedMachineTime = selectedMachineTime > 0 ? selectedMachineTime - 1 : 0;
   }
 
-  $: if (machines.length > 0 && !selectedMachine) selectMachineTab(machines[0]);
+  $: if (routeData.length > 0 && !selectedMachine) selectMachineTab(routeData[0]);
 
   onMount(() => {
     setInterval(decrementTimers, 1000);
   });
 
-  function selectMachineTab(machine: Machine) {
+  function selectMachineTab(machine: DashboardMachine) {
     selectedMachine = machine;
-    selectedMachineTime = getActivePrintJobTimeRemaining(machine);
-
+    selectedMachineTime = getTimeUntil(machine.done_at);
     // Move to IDLE state if time has elapsed
-    if (selectedMachine.status === 'WORKING' && selectedMachineTime === 0) selectedMachine.status = 'IDLE';
+    if (selectedMachine.status === MachineStatus.WORKING && selectedMachineTime === 0) selectedMachine.status = MachineStatus.IDLE;
   }
 </script>
 
@@ -73,7 +71,6 @@
       <div class="font-thin text-xl md:text-2xl">Tier {tier} Printers</div>
     {/if}
     
-    <!-- <div class="divider divider-horizontal"></div> -->
     <div class="flex flex-row">
       <div class="font-thin mr-2 hidden sm:block">Legend</div>
       <div class="flex bg-base-100 border border-base-content/10 rounded">
@@ -82,33 +79,31 @@
         <div class="bg-warning text-warning-content rounded-r text-xs uppercase px-2 py-1">Fault</div>
       </div>
     </div>
-    <!-- <span>{machines.filter(m => getMachineStatus(m) === MachineStatus.IDLE).length} ready of {machines.length} total</span> -->
   </div>
 
   <div class="hidden xl:block">
     <div class="tabs border-none justify-between">
-      {#each machines as machine}
-        <a
-          role="tab"
-          tabindex="-1"
-          class="rounded-t-2xl translate-y-[1px] tab my-tab-lifted tab-lg grow border border-transparent {selectedMachine ===
-          machine
+      {#each routeData as machine}
+        <button
+          class="rounded-t-2xl translate-y-[1px] tab my-tab-lifted tab-lg grow border border-transparent {
+          selectedMachine === machine
             ? 'tab-active bg-base-100 !border-base-content/5'
-            : ''} {getMachineStatusColor(machine)}"
+            : ''} {getMachineStatusColor(machine.status)}"
           on:click={() => selectMachineTab(machine)}
         >
           {machine.nickname}
-        </a>
+        </button>
       {/each}
     </div>
     <div
       class="rounded-b-2xl border border-t-0 border-base-content/5 bg-base-100 relative"
-      class:rounded-tl-2xl={machines.indexOf(selectedMachine) !== 0}
-      class:rounded-tr-2xl={machines.indexOf(selectedMachine) !== machines.length - 1}
+      class:rounded-tl-2xl={routeData.indexOf(selectedMachine) !== 0}
+      class:rounded-tr-2xl={routeData.indexOf(selectedMachine) !== routeData.length - 1}
     >
       <div class="absolute rounded-b-2xl w-full h-full overflow-hidden">
         <img
-          src="{selectedMachine.machine_def.model}.png"
+          alt="Printer"
+          src="{selectedMachine.model}.png"
           class="w-1/2 absolute blur opacity-25 left-16 pointer-events-none select-none"
         />
       </div>
@@ -116,8 +111,8 @@
         <div class="flex flex-col justify-start space-y-2">
           <span class="text-3xl font-thin">{selectedMachine.nickname}</span>
             <span class="text-base sm:text-2xl font-thin grow">
-            {selectedMachine.machine_def.make}
-            {selectedMachine.machine_def.model}
+            {selectedMachine.make}
+            {selectedMachine.model}
             </span>
         </div>
         <div
@@ -127,13 +122,13 @@
             <div class="stat">
               <div class="stat-title w-24 sm:text-sm">Status</div>
               <div class="stat-value font-light tracking-wide sm:text-2xl">
-                {machineStatusToText(getMachineStatus(selectedMachine))}
+                {machineStatusToText(selectedMachine.status)}
               </div>
             </div>
             <div class="stat">
 							<div class="stat-title sm:text-sm">Time Remaining</div>
 							<div class="stat-value font-light tracking-wide sm:text-2xl">
-								{#if getMachineStatus(selectedMachine) === MachineStatus.PRINTING}
+								{#if selectedMachine.status === MachineStatus.WORKING}
 								<span class="countdown">
 									<span style:--value={Math.floor(selectedMachineTime / 60 / 60)}></span>h
 									<span style:--value={Math.floor((selectedMachineTime / 60) % 60)}></span>m
@@ -151,15 +146,14 @@
               <button
                 class="btn btn-accent flex-1"
                 on:click={() => cancelPrintModal.launchModal(selectedMachine)}
-                disabled={getMachineStatus(selectedMachine) !== MachineStatus.PRINTING ||
-                  getMachineStatus(selectedMachine) === MachineStatus.FAULT}
+                disabled={selectedMachine.status !== MachineStatus.WORKING}
               >
                 Cancel Print
               </button>
               <button
                 class="btn btn-error flex-1"
                 on:click={() => newIssueModal.launchModal(selectedMachine)}
-                disabled={getMachineStatus(selectedMachine) === MachineStatus.FAULT}
+                disabled={selectedMachine.status === MachineStatus.FAULT}
               >
                 Report Issue
               </button>
@@ -167,8 +161,8 @@
             <button
               class="btn btn-accent"
               on:click={() => newPrintModal.launchModal(selectedMachine)}
-              disabled={getMachineStatus(selectedMachine) === MachineStatus.PRINTING ||
-                getMachineStatus(selectedMachine) === MachineStatus.FAULT}
+              disabled={selectedMachine.status === MachineStatus.WORKING ||
+                selectedMachine.status === MachineStatus.FAULT}
             >
               Log Print
             </button>
@@ -186,8 +180,8 @@
 
   <div class="xl:hidden">
     <div class="join rounded-none md:rounded-2xl join-vertical w-full">
-      {#each machines as machine}
-        <div
+      {#each routeData as machine}
+        <button
           class="collapse join-item bg-base-100 outline outline-1 outline-base-content/5"
           on:click={() => selectMachineTab(machine)}
           role="tab"
@@ -196,9 +190,9 @@
           <input type="radio" name="accordion-1" />
           <div
             class="collapse-title text-xl font-medium bg-gradient-to-l to-base-100 outline outline-1 outline-base-content/25"
-            class:from-warning={getMachineStatus(machine) === MachineStatus.FAULT}
-            class:from-info={getMachineStatus(machine) === MachineStatus.PRINTING}
-            class:from-base-100={getMachineStatus(machine) === MachineStatus.IDLE}
+            class:from-warning={machine.status === MachineStatus.FAULT}
+            class:from-info={machine.status === MachineStatus.WORKING}
+            class:from-base-100={machine.status === MachineStatus.IDLE}
           >
             <span class="font-light tracking-wide text-base">{machine.nickname}</span>
           </div>
@@ -209,11 +203,11 @@
                   <!-- <div class="stat-figure"><Bolt /></div> -->
                   <div class="stat-title w-24 sm:text-sm">Status</div>
                   <div class="stat-value font-light tracking-wide text-base sm:text-2xl">
-                    {machineStatusToText(getMachineStatus(selectedMachine))}
+                    {machineStatusToText(machine.status)}
                   </div>
                 </div>
                 <div class="stat rounded-l-none">
-                  {#if getMachineStatus(selectedMachine) === MachineStatus.PRINTING}
+                  {#if machine.status === MachineStatus.WORKING}
                     <div class="stat-title sm:text-sm">Time Remaining</div>
                     <div class="stat-value font-light tracking-wide text-base sm:text-2xl">
                       <span class="countdown">
@@ -223,9 +217,9 @@
                       </span>
                     </div>
                   {:else}
-                    <div class="stat-title sm:text-sm">Previous Job Finished</div>
+                    <div class="stat-title sm:text-sm">Time Remaining</div>
                     <div class="stat-value font-light tracking-wide text-base sm:text-2xl">
-                      {getTimeSinceLastCompletePrintJob(selectedMachine)}
+                      -
                     </div>
                   {/if}
                 </div>
@@ -237,8 +231,8 @@
                 <button
                   class="btn btn-accent"
                   on:click={() => newPrintModal.launchModal(selectedMachine)}
-                  disabled={getMachineStatus(selectedMachine) === MachineStatus.PRINTING ||
-                    getMachineStatus(selectedMachine) === MachineStatus.FAULT ||
+                  disabled={selectedMachine.status === MachineStatus.WORKING ||
+                    selectedMachine.status === MachineStatus.FAULT ||
                     !isTierCertified(1)}
                 >
                   Log Print
@@ -246,15 +240,14 @@
                 <button
                   class="btn btn-accent"
                   on:click={() => cancelPrintModal.launchModal(selectedMachine)}
-                  disabled={getMachineStatus(selectedMachine) !== MachineStatus.PRINTING ||
-                    getMachineStatus(selectedMachine) === MachineStatus.FAULT}
+                  disabled={selectedMachine.status !== MachineStatus.WORKING}
                 >
                   Cancel Print
                 </button>
                 <button
                   class="btn btn-error"
                   on:click={() => newIssueModal.launchModal(selectedMachine)}
-                  disabled={getMachineStatus(selectedMachine) === MachineStatus.FAULT}
+                  disabled={selectedMachine.status === MachineStatus.FAULT}
                 >
                   Report Issue
                 </button>
@@ -277,7 +270,7 @@
               <div class="grow"></div>
             {/if}
           </div>
-        </div>
+        </button>
       {/each}
     </div>
   </div>

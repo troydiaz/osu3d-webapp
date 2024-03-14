@@ -1,4 +1,4 @@
-import type { InventoryCategory, InventoryItem } from "$lib/types/database";
+import type { InventoryCategory, InventoryItem } from "$lib/types/models";
 import { error, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { hasPermission, PermCategory, PermFlag } from "$lib/helpers";

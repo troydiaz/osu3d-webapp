@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { getMachineStatus, type Machine, machineStatusToText, MachineStatus, getTimeSinceLastCompletePrintJob } from "$lib/types/database";
+	import { getMachineStatus, type Machine, machineStatusToText, MachineStatus, getTimeSinceLastCompletePrintJob } from "$lib/types/models";
 	import Paginate from "$lib/utilities/Paginate.svelte";
 	import { ExclamationCircle } from "svelte-heros-v2";
 
@@ -17,7 +17,7 @@
           return '';
         case MachineStatus.FAULT:
           return 'text-error';
-        case MachineStatus.PRINTING:
+        case MachineStatus.WORKING:
           return 'text-info';
       }
     }

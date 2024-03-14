@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getDateAndTime } from "$lib/helpers";
-	import type { Enums, Print } from "$lib/types/database";
+	import type { Enums, Print } from "$lib/types/models";
 	import Paginate from "$lib/utilities/Paginate.svelte";
 
     export let prints: Print[] = [];

@@ -4,7 +4,6 @@
   import { onMount } from "svelte";
   import { Bars3 } from "svelte-heros-v2";
   import SidebarTooltip from "$lib/components/SidebarTooltip.svelte";
-  import AlertTray from "$lib/components/AlertTray.svelte";
   import { PermCategory, PermFlag, hasPermission } from "$lib/helpers";
   import { themeChange } from 'theme-change';
 	import SidebarButton from "$lib/components/SidebarButton.svelte";
@@ -49,7 +48,6 @@
 <main>
   {#if session}
     <!-- Notification Tray -->
-    
     <!-- <AlertTray showAlerts={showAlerts} /> -->
     
     <div class="drawer lg:drawer-open">
@@ -64,7 +62,7 @@
           </a>
         </div>
         
-        <div class="container md:max-w-screen-md mx-auto lg:max-w-screen-lg">
+        <div class="container md:max-w-screen-md mx-auto lg:max-w-screen-lg  ">
           <!-- Main app -->
           <div class="flex flex-col items-start justify-start w-full h-full pb-32 md:pt-12 lg:pb-12">
             <slot />
@@ -106,7 +104,7 @@
                 <SidebarButton name="Maintenance" url="/maintenance" image={schedule} />
                 {/if}
               </div>
-        
+              
               <div class="flex flex-col justify-start gap-2">
                 <!-- Theme button -->
                 <div class="relative">
@@ -115,10 +113,10 @@
                       <!-- Background div for the hover effect -->
                       <div class="absolute inset-0 bg-gradient-to-b rounded-md transition-none from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500 group-hover:opacity-100 opacity-0 rounded-r-none"></div>
                       
-                      <a role="button" tabindex="-1"  data-toggle-theme="light,dark" data-act-class="swap-active" class="disable-focus h-14 py-1 group swap rounded-md group-hover:rounded-r-none transition-colors duration-100 !bg-transparent">
+                      <button data-toggle-theme="light,dark" data-act-class="swap-active" class="disable-focus h-14 py-1 group swap rounded-md group-hover:rounded-r-none transition-colors duration-100 !bg-transparent">
                         <div class="swap-off"><img src={sun} alt="Enter dark mode" class="opacity-75 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-300 ease-in-out" /></div>
                         <div class="swap-on"><img src={flashlight} alt="Enter light mode" class="opacity-75 h-12 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow shadow-black transition-all duration-300 ease-in-out" /></div>
-                      </a>
+                      </button>
                     </li>
                     <div slot="text" class="flex flex-col justify-center items-center h-full drop-shadow-lg shadow-black">Theme</div>
                   </SidebarTooltip>
@@ -131,14 +129,13 @@
                       <!-- Background div for the hover effect -->
                       <div class="absolute inset-0 bg-gradient-to-b rounded-md transition-none from-blue-300 to-blue-400 dark:from-blue-400 dark:to-blue-500 group-hover:opacity-100 opacity-0 rounded-r-none"></div>
                       
-                      <a role="button" tabindex="-1" on:click={() => signOut()} class="h-14 py-1 group disable-focus rounded-md group-hover:rounded-r-none">
+                      <button on:click={() => signOut()} class="h-14 py-1 group disable-focus rounded-md group-hover:rounded-r-none">
                         <img src={key} alt="Logout" class="opacity-75 h-12 group-hover:opacity-100 group-hover:scale-105 group-hover:drop-shadow shadow-black transition duration-300 ease-in-out" />
-                      </a>
+                      </button>
                     </li>
                     <div slot="text" class="flex flex-col justify-center items-center h-full drop-shadow-lg shadow-black">Logout</div>
                   </SidebarTooltip>
                 </div>
-
               </div>
             </div>
           </div>
@@ -153,4 +150,3 @@
 <Toaster position="top-right" />
 
 <div class="fixed inset-0 bg-gradient-to-bl from-base-100 to-slate-100 dark:from-black dark:to-slate-900 -z-10 pointer-events-none select-none"></div>
-<!-- <div class="fixed top-0 h-screen w-full -z-10 my-auth-container"></div> -->
