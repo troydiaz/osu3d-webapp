@@ -33,7 +33,7 @@
 <!-- Fault table -->
 <div class="flex flex-col space-y-4">
     <div class="flex flex-row justify-start items-center window-header">
-        <div class="font-thin text-3xl">Event Log</div>
+        <div class="font-thin text-xl md:text-2xl">Event Log</div>
         <div class="divider divider-horizontal hidden md:flex"></div>
         <div class="hidden md:block">{faults.length} Entries</div> 
         <div class="divider divider-horizontal hidden md:flex"></div>

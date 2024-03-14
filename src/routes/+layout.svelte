@@ -72,7 +72,7 @@
         </div>
       </div> 
     
-      <div class="z-20 drawer-side overflow-visible border-r border-base-content/10">
+      <div class="z-20 drawer-side overflow-visible">
         <label for="drawer-id" class="drawer-overlay"></label>
         <ul class="menu h-full px-4 bg-base-100 outline outline-1 outline-base-content/10">
           <div class="flex flex-col h-full justify-start items-center gap-4 py-4">
@@ -152,5 +152,5 @@
 
 <Toaster position="top-right" />
 
-<div class="fixed top-0 bottom-0 left-0 right-0 bg-gradient-to-bl from-base-100 to-slate-100 dark:from-black dark:to-slate-900 -z-10 pointer-events-none select-none"></div>
+<div class="fixed inset-0 bg-gradient-to-bl from-base-100 to-slate-100 dark:from-black dark:to-slate-900 -z-10 pointer-events-none select-none"></div>
 <!-- <div class="fixed top-0 h-screen w-full -z-10 my-auth-container"></div> -->

@@ -22,7 +22,7 @@
   <!-- Users table -->
   <div class="flex flex-col gap-4">
     <div class="flex flex-row justify-start items-center px-4 lg:px-0">
-      <div class="font-thin text-3xl">User Accounts</div>
+      <div class="font-thin text-xl md:text-2xl">User Accounts</div>
       <div class="hidden lg:flex divider divider-horizontal"></div>
       <div class="hidden lg:block">{userLevels.length} Entries</div>
       <div class="hidden lg:flex divider divider-horizontal"></div>

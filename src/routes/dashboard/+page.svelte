@@ -18,21 +18,17 @@
 
 {#if machines && permissions}
 <div class="flex flex-col gap-12 w-full">
-  <div class="h-24 window relative overflow-hidden flex flex-row justify-between items-center">
-    <div class="flex-row gap-4 items-center hidden md:flex">
-      <div class="text-3xl font-thin">Hello</div>
-      <div class="text-3xl font-mono bg-base-200 px-2 rounded-lg py-1 border border-base-content/20">{session.user.email}</div>
-    </div>
+  <div class="md:h-24 h-12 relative overflow-hidden flex flex-row justify-between items-center bg-base-100 border border-base-content/5 md:rounded-2xl p-8 gap-4">
+    <div class="md:text-3xl text-xl font-thin pr-6 z-10">Dashboard</div>
     <div class="grow"></div>
-    <div class="lg:text-5xl text-3xl font-thin z-10">Dashboard</div>
-    <img src={log} class="hidden md:block absolute right-32 top-12 blur-[1px] scale-[5] w-16 h-16  opacity-25 pointer-events-none select-none" />
+    <img src={log} alt="Page banner" class="hidden md:block absolute right-32 top-12 blur-[0.75px] scale-[4] w-16 h-16 opacity-25 pointer-events-none select-none" />
   </div>
 
-  <div class="flex flex-row justify-center md:justify-end items-center bg-gradient-to-br from-info/10 to-info/30 p-8 md:rounded-xl relative outline outline-info/50 lg:pr-24">
+  <div class="flex flex-row justify-center md:justify-end items-center bg-gradient-to-br from-info/10 to-info/30 p-8 md:rounded-xl relative outline outline-1 outline-base-content/5 lg:pr-24">
       
     <div class="text-info-content">
       <article class="prose prose-blue prose-sm">
-        <h2>Josef Bot is at your service...</h2>
+        <h3>Josef Bot is at your service...</h3>
         <ul>
           <li>Automatic server roles</li>
           <li>Get pings about your prints</li>
@@ -44,7 +40,7 @@
 
     <img id="josef-light" src={josef_light} class="hidden md:block absolute h-full left-[4px] rounded-xl -translate-x-1 pointer-events-none select-none" />
     <img id="josef-dark" src={josef_dark} class="hidden md:block absolute h-full left-[4px] rounded-xl -translate-x-1 pointer-events-none select-none" />
-    <img src={info} class="absolute right-1/2 -top-2 lg:right-3 lg:top-3 -translate-y-1/2 translate-x-1/2 w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-blue-500 p-1 border-4 border-blue-300 dark:border-blue-700" />
+    <img src={info} class="absolute right-1/2 -top-2 lg:right-3 lg:top-3 -translate-y-1/2 translate-x-1/2 w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-blue-500 p-1 shadow" />
   </div>
 
 

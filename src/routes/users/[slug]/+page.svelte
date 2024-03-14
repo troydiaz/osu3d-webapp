@@ -23,7 +23,7 @@
   <PageHeader name="Edit Member" backUrl="/users" image={ledger} />
 
   <div class="flex flex-col gap-4">
-    <div class="font-thin text-3xl px-4 lg:px-0">Flags</div>
+    <div class="font-thin text-xl md:text-2xl window-header">Flags</div>
     <!-- Account Settings -->
     <div class="window">
 

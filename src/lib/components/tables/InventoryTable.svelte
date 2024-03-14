@@ -19,7 +19,7 @@
 <!-- Inventory table -->
 <div class="flex flex-col gap-4">
   <div class="flex flex-row justify-start items-center">
-      <div class="font-thin text-3xl">{title}</div>
+      <div class="font-thin text-xl md:text-2xl">{title}</div>
       <div class="divider divider-horizontal"></div>
       
       

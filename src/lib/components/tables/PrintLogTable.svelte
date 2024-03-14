@@ -24,7 +24,7 @@
 <!-- Fault table -->
 <div class="flex flex-col space-y-4">
     <div class="flex flex-row justify-start items-center window-header">
-        <div class="font-thin text-3xl">Print Log</div>
+        <div class="font-thin text-xl md:text-2xl">Print Log</div>
         <div class="divider divider-horizontal hidden md:flex"></div>
         <div class="grow"><span class="hidden md:inline">{prints.length} Entries</span></div>
         <Paginate totalRows={prints.length} bind:lowerIndex bind:upperIndex />

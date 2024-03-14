@@ -22,11 +22,11 @@
   <PageHeader name="Edit Printer" backUrl="/machines" image={printer} />
   
   <!-- Title -->
-  <div class="window relative flex flex-row justify-between !p-12">
+  <div class="window relative flex flex-row justify-between !p-12 overflow-hidden">
     <div class="flex flex-col justify-between items-start gap-4 md:gap-12 z-10">
       <div class="flex flex-col space-y-2">
-        <span class="text-5xl font-thin">{machine.nickname}</span>
-        <span class="hidden md:inline text-2xl">{machine.machine_def.make} {machine.machine_def.model}</span>
+        <span class="text-3xl font-thin">{machine.nickname}</span>
+        <span class="hidden md:inline text-base sm:text-2xl font-thin">{machine.machine_def.make} {machine.machine_def.model}</span>
       </div>
       <div class="stats bg-base-100 z-10">
         <div class="stat">

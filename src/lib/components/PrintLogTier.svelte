@@ -66,11 +66,11 @@
   <!-- Header -->
   <div class="flex flex-row justify-between items-center window-header">
     {#if tier === 99}
-      <div class="font-light md:text-xl">Tier 1.5 Printers</div>
+      <div class="font-thin text-xl md:text-2xl">Tier 1.5 Printers</div>
     {:else if tier === 98}
-      <div class="font-light md:text-xl">Tier 2.5 Printers</div>
+      <div class="font-thin text-xl md:text-2xl">Tier 2.5 Printers</div>
     {:else}
-      <div class="font-light md:text-xl">Tier {tier} Printers</div>
+      <div class="font-thin text-xl md:text-2xl">Tier {tier} Printers</div>
     {/if}
     
     <!-- <div class="divider divider-horizontal"></div> -->
@@ -93,7 +93,7 @@
           tabindex="-1"
           class="rounded-t-2xl translate-y-[1px] tab my-tab-lifted tab-lg grow border border-transparent {selectedMachine ===
           machine
-            ? 'tab-active bg-base-100 !border-base-content/10'
+            ? 'tab-active bg-base-100 !border-base-content/5'
             : ''} {getMachineStatusColor(machine)}"
           on:click={() => selectMachineTab(machine)}
         >
@@ -102,7 +102,7 @@
       {/each}
     </div>
     <div
-      class="rounded-b-2xl border border-t-0 border-base-content/10 bg-base-100 shadow-lg relative"
+      class="rounded-b-2xl border border-t-0 border-base-content/5 bg-base-100 relative"
       class:rounded-tl-2xl={machines.indexOf(selectedMachine) !== 0}
       class:rounded-tr-2xl={machines.indexOf(selectedMachine) !== machines.length - 1}
     >
@@ -114,14 +114,14 @@
       </div>
       <div class="flex flex-row justify-between p-12">
         <div class="flex flex-col justify-start space-y-2">
-          <span class="text-5xl font-thin">{selectedMachine.nickname}</span>
-            <span class="text-base sm:text-2xl grow">
+          <span class="text-3xl font-thin">{selectedMachine.nickname}</span>
+            <span class="text-base sm:text-2xl font-thin grow">
             {selectedMachine.machine_def.make}
             {selectedMachine.machine_def.model}
             </span>
         </div>
         <div
-          class="z-0 basis-1/2 flex flex-col justify-start space-y-4 p-4 h-72 rounded-2xl bg-base-100 border border-base-content/10 bg-opacity-75"
+          class="z-0 basis-1/2 flex flex-col justify-start space-y-4 p-4 h-72 rounded-2xl bg-base-100 border border-base-content/5 bg-opacity-75"
         >
           <div class="stats h-24 bg-base-200 bg-opacity-50">
             <div class="stat">
@@ -185,10 +185,10 @@
   </div>
 
   <div class="xl:hidden">
-    <div class="join rounded-none md:rounded-2xl join-vertical w-full md:shadow-lg">
+    <div class="join rounded-none md:rounded-2xl join-vertical w-full">
       {#each machines as machine}
         <div
-          class="collapse join-item bg-base-100 outline outline-1 outline-base-content/10"
+          class="collapse join-item bg-base-100 outline outline-1 outline-base-content/5"
           on:click={() => selectMachineTab(machine)}
           role="tab"
           tabindex="-1"

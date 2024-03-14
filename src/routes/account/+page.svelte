@@ -44,7 +44,7 @@
   <PageHeader name="Account Settings" image={gear} />
 
   <div class="flex flex-col gap-4">
-    <div class="font-thin text-3xl px-4 md:px-0">General</div>
+    <div class="font-thin text-xl md:text-2xl px-4 md:px-0">General</div>
     <!-- Account Settings -->
     <div class="window">
       <form
