@@ -27,7 +27,7 @@ export type User = Tables<'profiles'> & {
     perms: Tables<'user_levels'>
 }
 
-export type UserLevel = Tables<'user_levels'>;
+export type Permissions = Tables<'user_levels'>;
 
 export type InventoryItem = Tables<'inv_items'> & {
     changes: InventoryChange[]

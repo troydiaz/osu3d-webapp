@@ -1,19 +1,17 @@
 <script lang="ts">
   import type { PageData } from "./$types";
-  import PrintLogTier from "./PrintLogTier.svelte";
-  import { Ban, BarChart3, Bot, GraduationCap, Info, Layers, Link2, Locate, Megaphone, MessageCircle, Play, Star, ThumbsUp } from "lucide-svelte";
+  import { Ban, BarChart3, Bot, GraduationCap, Layers, Locate, MessageCircle, Play, Star, ThumbsUp } from "lucide-svelte";
   import { MachineStatus } from "$lib/types/models";
-  import { formatDistanceToNowStrict, formatDuration, formatRelative } from "date-fns";
-  import { elasticIn } from "svelte/easing";
+  import { formatDistanceToNowStrict } from "date-fns";
+  import CancelPrintModal from "$lib/components/modals/CancelPrintModal.svelte";
+  import MachineStats from "./MachineStats.svelte";
 
   export let data: PageData;
   const { permissions, routeData, session } = data;
 
-  $: activeJobs = routeData.filter(m => m.status === MachineStatus.WORKING);
+  let cancelPrintModal: CancelPrintModal;
 
-  $: activeJobCount = routeData.filter(m => m.status === MachineStatus.WORKING).length;
-  $: activeFaultCount = routeData.filter(m => m.status === MachineStatus.FAULT).length;
-  $: activeIdleCount = routeData.filter(m => m.status === MachineStatus.IDLE).length;
+  $: activeJobs = routeData.filter(m => m.status === MachineStatus.WORKING);
 </script>
 
 <svelte:head>
@@ -94,34 +92,8 @@
       </div>
     </div>
 
-    <div class="col-span-1 dark:bg-slate-400/10 backdrop-blur-xl rounded-lg ring-1 ring-white/10 flex flex-col gap-4 p-4">
-      <div class="text-xl font-thin flex flex-row items-center gap-4 px-2"><span><Layers strokeWidth={1.5} size={'20pt'} /></span>Printer Status</div>
-      <div class="w-full h-[1px] bg-white/10" />
-      <div class="flex justify-around items-center h-full">
-
-        <div class="flex flex-col gap-2 justify-start items-center">
-          <div class="text-4xl font-thin">{ activeJobCount }</div>
-          <div class="flex justify-center items-center gap-2 py-2 w-full">
-            <div class="text-xs font-light opacity-50">ACTIVE</div>
-          </div>
-        </div>
-
-        <div class="relative flex flex-col gap-2 justify-start items-center">
-          <div class="text-4xl font-thin">{ activeIdleCount }</div>
-          <div class="flex justify-center items-center gap-2 py-2 w-full">
-            <div class="shrink text-xs font-light opacity-50">IDLE</div>
-          </div>
-        </div>
-
-        <div class="relative flex flex-col gap-2 justify-start items-center">
-          <div class="text-4xl font-thin text-red-600">{ activeFaultCount }</div>
-          <div class="flex justify-center items-center gap-2 py-2 w-full">
-            <div class="shrink text-xs font-light opacity-50">FAULT</div>
-          </div>
-        </div>
-        
-      </div>
-    </div>
+    <!-- Overall machine stats -->
+    <MachineStats routeData={routeData} />
 
     <!-- My Jobs -->
     <div class="col-span-4 relative dark:bg-slate-400/10 backdrop-blur-xl rounded-lg ring-1 ring-white/10 flex flex-col gap-4 p-4">
@@ -143,7 +115,9 @@
             </div>
             <img src="/{job.model}.png" class="max-h-28" />
             
-            <button class="btn btn-ghost btn-sm ring-1 ring-error/10 hover:bg-error/25 px-2">
+            <button class="btn btn-ghost btn-sm ring-1 ring-error/10 hover:bg-error/25 px-2"
+              on:click={() => cancelPrintModal.launchModal(job)}
+            >
               <div class="flex justify-center items-center gap-1">
                 <Ban size={16} />
                 <div class="text-xs font-normal">Cancel</div>
@@ -169,3 +143,5 @@
   <PrintLogTier routeData={routeData.filter(m => m.tier === 3)} tier={3} userLevel={permissions} /> -->
 </div>
 {/if}
+
+<CancelPrintModal bind:this={cancelPrintModal} />

@@ -16,5 +16,5 @@ module.exports = {
     ],
     logs: false
   },
-  darkMode: ['class', '[data-theme="night"]'],
+  darkMode: ['class', '[data-theme="dark"]'],
 }

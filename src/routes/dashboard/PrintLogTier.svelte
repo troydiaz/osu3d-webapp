@@ -2,7 +2,7 @@
   import {
     machineStatusToText,
     MachineStatus,
-    type UserLevel,
+    type Permissions,
     getMachineStatusColor,
     type DashboardMachine,
 
@@ -15,7 +15,7 @@
   import { PermFlag, hasPermission } from '$lib/helpers';
   import { onMount } from 'svelte';
 
-  export let userLevel: UserLevel;
+  export let userLevel: Permissions;
   export let routeData: DashboardMachine[];
   export let tier: number;
 
