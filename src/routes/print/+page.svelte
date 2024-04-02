@@ -128,7 +128,9 @@
                   <div class="text-xl p-4 whitespace-nowrap overflow-hidden text-ellipsis max-w-full {getStatusStyles(machine)}">{machine.nickname}</div>
     
                 </div>
-                <div class="aspect-square flex flex-col justify-center {machine.status === MachineStatus.FAULT ? 'opacity-25' : ''}"><img src="/{machine.model}.png" class="max-h-24 md:max-h-48 w-fit" /></div>
+                <div class="aspect-square flex flex-col justify-center {machine.status === MachineStatus.FAULT ? 'opacity-25' : ''}">
+                  <img src="/{machine.model}.png" class="h-36 w-36 md:h-48 md:w-48" />
+                </div>
               </div>
               <!-- Buttons -->
               <div class="relative join join-horizontal rounded-t-none w-full md:border-t border-black/10 dark:border-white/10">
