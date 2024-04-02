@@ -4,13 +4,13 @@
   import CancelPrintModal from "$lib/components/modals/CancelPrintModal.svelte";
   import NewPrintModal from "$lib/components/modals/NewPrintModal.svelte";
   import NewIssueModal from "$lib/components/modals/NewIssueModal.svelte";
-  import { fade, fly, scale, blur } from "svelte/transition";
+  import { fade, fly } from "svelte/transition";
   import { isTierCertified } from "$lib/helpers";
-  import { ClipboardPen, Octagon, Tag, Activity, CircleAlert, Rocket, Tally1, Tally2, Tally3, ArrowDown01, ArrowUp01 } from "lucide-svelte";
+  import { ClipboardPen, Octagon, Tag, Activity, CircleAlert, Rocket, ArrowDown01, ArrowUp01, Asterisk } from "lucide-svelte";
   import PageHeader from "$lib/components/PageHeader.svelte";
   
   export let data: PageData;
-  const { permissions, routeData, session } = data;
+  const { permissions, routeData } = data;
 
   let status: MachineStatus | null = MachineStatus.IDLE;
   let sort: 'ascending' | 'descending' = 'ascending';
@@ -19,13 +19,7 @@
   let newPrintModal: NewPrintModal;
   let newIssueModal: NewIssueModal;
 
-  const priorityOrder = [
-    MachineStatus.IDLE,
-    MachineStatus.WORKING,
-    MachineStatus.FAULT
-  ];
-
-  $: certifiedMachines = routeData.filter(m =>  m.status === status)
+  $: certifiedMachines = routeData.filter(m =>  m.status === status || status === null)
     .sort((a, b) => {
       return sort === 'ascending' ? a.tier - b.tier : b.tier - a.tier;
     });
@@ -74,7 +68,7 @@
   <div class="flex md:flex-row flex-col justify-between items-stretch md:items-center gap-8">
     <PageHeader name="Print" />
 
-    <div class="flex gap-8 md:flex-row flex-col">
+    <div class="flex gap-8 sm:flex-row flex-col">
       <!-- Buttons -->
       <div class="join join-horizontal rounded-lg w-full h-fit">
         <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-none {sort === 'ascending' ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => sort = 'ascending'}>
@@ -90,19 +84,24 @@
       </div>
       <!-- Buttons -->
       <div class="join join-horizontal rounded-lg w-full h-fit">
-        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-none {status === MachineStatus.IDLE ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.IDLE}>
+        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-none {status === MachineStatus.IDLE ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.IDLE}>
           <div class="my-2 gap-2 items-center justify-center flex flex-col">
             <Rocket /><div>Ready</div>
           </div>
         </button>
-        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {status === MachineStatus.WORKING ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.WORKING}>
+        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {status === MachineStatus.WORKING ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.WORKING}>
           <div class="my-2 gap-2 items-center justify-center flex flex-col">
             <Activity /><div>Busy</div>
           </div>
         </button>
-        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {status === MachineStatus.FAULT ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.FAULT}>
+        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {status === MachineStatus.FAULT ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.FAULT}>
           <div class="my-2 gap-2 items-center justify-center flex flex-col">
             <CircleAlert /><div>Issue</div>
+          </div>
+        </button>
+        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {status === null ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = null}>
+          <div class="my-2 gap-2 items-center justify-center flex flex-col">
+            <Asterisk /><div>All</div>
           </div>
         </button>
       </div>
