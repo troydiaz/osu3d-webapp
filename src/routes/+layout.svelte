@@ -6,18 +6,13 @@
   import { Toaster } from 'svelte-french-toast';
   // Images
   import DrawerSidebar from "./DrawerSidebar.svelte";
-  import { fade, fly } from "svelte/transition";
-      
-  let showAlerts = false;
+        
   
   export let data;
   let { supabase, permissions, session } = data
   $: ({ supabase, permissions, session } = data)
 
   onMount(() => {
-    // Theme swap button
-    // themeChange(false);
-
     const { data } = supabase.auth.onAuthStateChange((event, _session) => {
       if (_session?.expires_at !== session?.expires_at)
         invalidate('supabase:auth')
@@ -69,5 +64,5 @@
 <!-- Background -->
 <div class="fixed inset-0 -z-10 pointer-events-none select-none ">
   <!-- <img src="/bgdark3.png" class="h-full w-full blur-xl hidden md:block" /> -->
-  <div class="h-full w-full bg-black" />
+  <div class="h-full w-full dark:from-black dark:to-slate-900 bg-gradient-to-t to-white from-white" />
 </div>

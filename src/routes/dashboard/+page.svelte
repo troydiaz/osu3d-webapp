@@ -39,7 +39,7 @@
         {/if}
       </div>
 
-      <div class="w-full h-[1px] bg-white/10" />
+      <div class="w-full h-[1px] bg-black/10 dark:bg-white/10" />
       <div class="flex flex-col gap-8 font-normal pb-2">
         {#each announcements || [] as announce}
           <div class="relative p-4 rounded border border-base-content/50 border-b-0">
@@ -62,7 +62,7 @@
         <span><Bot strokeWidth={1.5} class="h-8" /></span>
         <span>Josef the Discord Bot</span>
       </div>
-      <div class="w-full h-[1px] bg-white/10" />
+      <div class="w-full h-[1px] bg-black/10 dark:bg-white/10" />
       <div class="flex flex-col gap-2 text-sm font-extralight">
         {#if !data.profileData?.discord}
           <p>
@@ -86,7 +86,7 @@
           <span>My Jobs</span>
         </div>
 
-        <div class="w-full h-[1px] bg-white/10" />
+        <div class="w-full h-[1px] bg-black/10 dark:bg-white/10" />
         <div class="flex gap-8 md:flex-row flex-col">
           {#each activeJobs as job}
             <div class="flex md:flex-col flex-row justify-around md:justify-center items-center gap-4">
@@ -118,7 +118,7 @@
         <span><Locate strokeWidth={1.5} class="h-8" /></span>
         <div>Quickstart</div>
       </div>
-      <div class="w-full h-[1px] bg-white/10" />
+      <div class="w-full h-[1px] bg-black/10 dark:bg-white/10" />
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <a href="/print" class="btn btn-ghost ring-1 ring-white/10 h-fit p-4 bg-white/10">
           <div class="flex flex-col justify-center items-center gap-4">
@@ -126,12 +126,12 @@
             <div>Start Print</div>
           </div>
         </a>
-        <a href="/" class="btn btn-ghost btn-disabled ring-1 ring-white/10 h-fit p-4 bg-white/10">
+        <!-- <a href="/" class="btn btn-ghost btn-disabled ring-1 ring-white/10 h-fit p-4 bg-white/10">
           <div class="flex flex-col justify-center items-center gap-4">
             <BarChart3 strokeWidth={1.5} class="h-8" />
             <div>My Stats</div>
           </div>
-        </a>
+        </a> -->
         <a href="https://canvas.oregonstate.edu/courses/1877606" target="_blank" class="btn btn-ghost ring-1 ring-white/10 h-fit p-4 bg-white/10">
           <div class="flex flex-col justify-center items-center gap-4">
             <GraduationCap strokeWidth={1.5} class="h-8" />

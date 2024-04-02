@@ -77,17 +77,17 @@
 
     <!-- Buttons -->
     <div class="join join-horizontal rounded-lg w-full md:w-72">
-      <button class="basis-1/3 grow h-fit btn px-2 join-item !ml-0 border-none btn-neutral {status === MachineStatus.IDLE ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.IDLE}>
+      <button class="basis-1/3 grow h-fit btn px-2 join-item !ml-0 border-none {status === MachineStatus.IDLE ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.IDLE}>
         <div class="my-2 gap-2 items-center justify-center flex flex-col">
           <Rocket /><div>Ready</div>
         </div>
       </button>
-      <button class="basis-1/3 grow h-fit btn px-2 join-item !ml-0 border-0 btn-neutral {status === MachineStatus.WORKING ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.WORKING}>
+      <button class="basis-1/3 grow h-fit btn px-2 join-item !ml-0 border-0 {status === MachineStatus.WORKING ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.WORKING}>
         <div class="my-2 gap-2 items-center justify-center flex flex-col">
           <Activity /><div>Busy</div>
         </div>
       </button>
-      <button class="basis-1/3 grow h-fit btn px-2 join-item !ml-0 border-0 btn-neutral {status === MachineStatus.FAULT ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.FAULT}>
+      <button class="basis-1/3 grow h-fit btn px-2 join-item !ml-0 border-0 {status === MachineStatus.FAULT ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.FAULT}>
         <div class="my-2 gap-2 items-center justify-center flex flex-col">
           <CircleAlert /><div>Issue</div>
         </div>
@@ -121,17 +121,17 @@
               </div>
               <!-- Buttons -->
               <div class="relative join join-horizontal rounded-t-none w-full md:border-t border-white/10">
-                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-none btn-neutral bg-info/25 hover:bg-info/50" disabled={machine.status !== MachineStatus.IDLE || !isTierCertified(permissions, machine.tier)} on:click={() => newPrintModal.launchModal(machine)}>
+                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-none bg-info/25 hover:bg-info/50" disabled={machine.status !== MachineStatus.IDLE || !isTierCertified(permissions, machine.tier)} on:click={() => newPrintModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <ClipboardPen /><div>Log</div>
                   </div>
                 </button>
-                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 btn-neutral text-warning bg-warning/25 hover:bg-warning/50" disabled={machine.status !== MachineStatus.WORKING || !isTierCertified(permissions, machine.tier)} on:click={() => cancelPrintModal.launchModal(machine)}>
+                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 bg-warning/25 hover:bg-warning/50" disabled={machine.status !== MachineStatus.WORKING || !isTierCertified(permissions, machine.tier)} on:click={() => cancelPrintModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <Octagon /><div>Stop</div>
                   </div>
                 </button>
-                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 btn-neutral text-error bg-error/25 hover:bg-error/50" disabled={machine.status === MachineStatus.FAULT || !isTierCertified(permissions, machine.tier)} on:click={() => newIssueModal.launchModal(machine)}>
+                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 bg-error/25 hover:bg-error/50" disabled={machine.status === MachineStatus.FAULT || !isTierCertified(permissions, machine.tier)} on:click={() => newIssueModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <Tag /><div>Issue</div>
                   </div>

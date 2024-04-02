@@ -19,7 +19,7 @@
 
 <div class="z-20 drawer-side">
   <label for="drawer-id" class="drawer-overlay"></label>
-  <ul class="overflow-y-auto menu h-full px-4 w-52 dark:bg-slate-400/10 backdrop-blur-xl ring-1 ring-white/10">
+  <ul class="overflow-y-auto menu h-full px-4 w-52 dark:bg-slate-400/10 bg-white/75 backdrop-blur-xl border-r border-black/10 dark:border-white/10">
     <div class="flex flex-col h-full justify-stretch items-stretch gap-4">
       <!-- <div class="w-12">
         <img src="/osu3d.svg" alt="Club logo" class="m-auto opacity-75">
@@ -33,9 +33,9 @@
           </div>
 
           <div class="flex justify-center items-center gap-2 py-2">
-            <div class="grow h-[1px] w-full bg-white/10"></div>
+            <div class="grow h-[1px] w-full dark:bg-white/10 bg-black/10"></div>
             <div class="text-xs font-light opacity-50 whitespace-nowrap">OSU 3D</div>
-            <div class="grow h-[1px] w-full bg-white/10"></div>
+            <div class="grow h-[1px] w-full dark:bg-white/10 bg-black/10"></div>
           </div>
 
           <!-- Dashboard -->
@@ -53,9 +53,9 @@
 
           {#if hasPermission(permissions?.level, PermCategory.MACHINES, PermFlag.FIRST) || hasPermission(permissions?.level, PermCategory.INVENTORY, PermFlag.FIRST) || hasPermission(permissions?.level, PermCategory.MAINTENANCE, PermFlag.FIRST) && dev}
             <div class="flex justify-center items-center gap-2 py-2">
-              <div class="grow h-[1px] w-full bg-white/10"></div>
+              <div class="grow h-[1px] w-full dark:bg-white/10 bg-black/10"></div>
               <div class="text-xs font-light opacity-50 whitespace-nowrap">Club Duties</div>
-              <div class="grow h-[1px] w-full bg-white/10"></div>
+              <div class="grow h-[1px] w-full dark:bg-white/10 bg-black/10"></div>
             </div>
           {/if}
 
@@ -84,9 +84,9 @@
 
           {#if hasPermission(permissions?.level, PermCategory.USERS, PermFlag.FIRST)}
             <div class="flex justify-center items-center gap-2 py-2">
-              <div class="grow h-[1px] w-full bg-white/10"></div>
+              <div class="grow h-[1px] w-full dark:bg-white/10 bg-black/10"></div>
               <div class="text-xs font-light opacity-50">Management</div>
-              <div class="grow h-[1px] w-full bg-white/10"></div>
+              <div class="grow h-[1px] w-full dark:bg-white/10 bg-black/10"></div>
             </div>
           {/if}
   

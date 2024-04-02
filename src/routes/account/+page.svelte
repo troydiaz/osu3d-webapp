@@ -2,9 +2,10 @@
   import { applyAction, enhance } from '$app/forms';
   import type { PageData, ActionData } from "./$types.js";
 	import { goto } from '$app/navigation';
-	import gear from '$lib/images/gear.png';
 	import PageHeader from '$lib/components/PageHeader.svelte';
   import toast from 'svelte-french-toast';
+  import { onMount } from 'svelte';
+  import { themeChange } from 'theme-change';
 	
   export let data: PageData;
   export let form: ActionData;
@@ -30,6 +31,11 @@
     pingDisabled = false;
     // setTimeout(() => pingDisabled = false, 5000);
   }
+
+  onMount(() => {
+    // Theme swap button
+    themeChange(false);
+  });
 </script>
 
 <svelte:head>
@@ -38,6 +44,19 @@
 
 <div class="page">
   <PageHeader name="Account Settings" />
+
+  <div class="flex flex-col gap-4">
+    <div class="font-thin text-xl md:text-2xl px-4 md:px-0">Theme</div>
+    <!-- Account Settings -->
+    <div class="window !flex-row">
+      <button type="button" class="btn btn-neutral w-20" data-set-theme="light" data-act-class="btn-info">
+        Light
+      </button>
+      <button type="button" class="btn btn-neutral w-20" data-set-theme="dark" data-act-class="btn-info">
+        Dark
+      </button>
+    </div>
+  </div>
 
   <div class="flex flex-col gap-4">
     <div class="font-thin text-xl md:text-2xl px-4 md:px-0">General</div>
