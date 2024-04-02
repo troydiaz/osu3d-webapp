@@ -5,10 +5,13 @@
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
 		<script>
-			if (localStorage.getItem('theme') === 'dark')
-				document.getElementsByTagName('html')[0].setAttribute('data-theme', 'dark');
-			else
-				document.getElementsByTagName('html')[0].setAttribute('data-theme', 'light')
+			// if (localStorage.getItem('theme') === 'dark')
+			// 	document.getElementsByTagName('html')[0].setAttribute('data-theme', 'dark');
+			// else
+			// 	document.getElementsByTagName('html')[0].setAttribute('data-theme', 'light')
+			
+			// Default to dark mode for now
+			document.getElementsByTagName('html')[0].setAttribute('data-theme', 'dark');
 		</script>
 		%sveltekit.head%
 	</head>
