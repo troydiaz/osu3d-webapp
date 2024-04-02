@@ -1,6 +1,6 @@
 import { differenceInDays } from "date-fns";
 import type { Machine } from "./types/models";
-import type { Permissions } from "./types/models";
+import type { UserPermissions } from "./types/models";
 
 export function getDateAndTime(dateString: string | null, includeTime: boolean) {
   if (!dateString) return '—';
@@ -103,7 +103,7 @@ export function createTree<T>(flatList: T[], idKey: IItemKey, parentKey: IItemKe
   return tree;
 }
 
-export function isTierCertified(permissions: Permissions | null, tier: number) {
+export function isTierCertified(permissions: UserPermissions | null, tier: number) {
   if (!permissions) return false;
   // Special tier flags
   // Tier 99 is tier 1.5 (BambuLabs)

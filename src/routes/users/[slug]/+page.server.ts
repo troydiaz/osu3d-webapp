@@ -1,4 +1,4 @@
-import type { User, Permissions } from "$lib/types/models";
+import type { User, UserPermissions } from "$lib/types/models";
 import { error, redirect, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { hasPermission, PermCategory, PermFlag } from "$lib/helpers";
@@ -14,7 +14,7 @@ export const load = (async ({ params, locals: { supabase, getSession, getPermiss
     .from('user_levels')
     .select('*')
     .eq('user_id', params.slug)
-    .returns<Permissions[]>()
+    .returns<UserPermissions[]>()
     .maybeSingle();
 
   if (!user)

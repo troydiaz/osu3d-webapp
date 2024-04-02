@@ -3,7 +3,7 @@ import type { Database } from '$lib/types/supabase.js';
 import type { Handle } from '@sveltejs/kit';
 import { createServerClient } from '@supabase/ssr';
 import { dev } from '$app/environment';
-import type { Permissions } from '$lib/types/models';
+import type { UserPermissions } from '$lib/types/models';
 
 export const handle: Handle = async ({ event, resolve }) => {
   event.locals.supabase = createServerClient<Database>(
@@ -35,7 +35,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     const { data: userLevel } = await event.locals.supabase.from('user_levels')
       .select('*')
       .eq('user_id', session.user.id)
-      .maybeSingle<Permissions>();
+      .maybeSingle<UserPermissions>();
 
     return userLevel;
   }

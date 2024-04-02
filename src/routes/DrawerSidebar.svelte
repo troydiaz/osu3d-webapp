@@ -3,12 +3,12 @@
   import { goto } from "$app/navigation";
   import SidebarButton from "$lib/components/SidebarButton.svelte";
   import { hasPermission, PermCategory, PermFlag } from "$lib/helpers";
-  import type { Permissions } from "$lib/types/models";
-  import type { SupabaseClient } from "@supabase/supabase-js";
+  import type { UserPermissions } from "$lib/types/models";
   import type { Database } from '$lib/types/supabase';
+  import type { SupabaseClient } from "@supabase/supabase-js";
   import { Box, PieChart, LogOut, UserCircle, Home, Cog, Play, Users, Wrench, Database as DBLucide } from "lucide-svelte";
 
-  export let permissions: Permissions | null;
+  export let permissions: UserPermissions | null;
   export let supabase: SupabaseClient<Database>;
 
   async function signOut() {

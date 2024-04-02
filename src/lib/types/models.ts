@@ -31,7 +31,7 @@ export type Announcement = Tables<'announcements'> & {
     created_by: Tables<'profiles'>
 }
 
-export type Permissions = Tables<'user_levels'>;
+export type UserPermissions = Tables<'user_levels'>;
 
 export type InventoryItem = Tables<'inv_items'> & {
     changes: InventoryChange[]

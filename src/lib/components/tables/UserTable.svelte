@@ -1,11 +1,11 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { PermCategory, PermFlag, getDateAndTime, hasPermission } from "$lib/helpers";
-  import type { Permissions } from "$lib/types/models";
+  import type { UserPermissions } from "$lib/types/models";
   import Paginate from "$lib/utilities/Paginate.svelte";
   import { ChevronDown } from "svelte-heros-v2";
   
-  export let userLevels: (Permissions & { checked: boolean, previousLevel: number })[];
+  export let userLevels: (UserPermissions & { checked: boolean, previousLevel: number })[];
   
   let filterText = '';
   $: filteredUsers = filterText.trim() !== '' ? userLevels.filter(u => u.full_name?.toLowerCase().includes(filterText.toLowerCase().trim()) || u.email?.toLowerCase().includes(filterText.toLowerCase().trim())) : userLevels;
