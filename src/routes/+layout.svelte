@@ -69,5 +69,5 @@
 <!-- Background -->
 <div class="fixed inset-0 -z-10 pointer-events-none select-none ">
   <!-- <img src="/bgdark3.png" class="h-full w-full blur-xl hidden md:block" /> -->
-  <div class="h-full w-full bg-gradient-to-t to-slate-950 from-indigo-950" />
+  <div class="h-full w-full bg-black" />
 </div>

@@ -20,7 +20,7 @@
   <PageHeader name="Edit Printer" backUrl="/machines" />
   
   <!-- Title -->
-  <div class="window justify-start !gap-8 !p-8 overflow-hidden">
+  <div class="window justify-between !flex-row !gap-8 !p-8 overflow-hidden">
     <div class="flex flex-col justify-between items-start gap-4 md:gap-12 z-10">
       <div class="flex flex-col space-y-2">
         <span class="text-3xl font-thin">{machine.nickname}</span>
