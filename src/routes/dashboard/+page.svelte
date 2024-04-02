@@ -42,14 +42,14 @@
       
       <div class="content flex flex-col gap-8 font-normal pb-2">
         {#each announcements || [] as announce}
-          <div class="relative p-4 rounded border border-base-content/50 border-b-0">
+          <div class="relative p-4 rounded border border-base-content/50 border-b-0 border-dashed">
             <p class="text-sm italic">
               {announce.body}
             </p>
             <div class="absolute left-0 bottom-0 w-full text-end whitespace-nowrap flex">
-              <div class="grow rounded-l border-b border-base-content/50"></div>
+              <div class="grow rounded-l border-b border-base-content/50 border-dashed"></div>
               <div class="translate-y-1/2 px-2 font-extralight text-sm">{announce.created_by.full_name}, {formatDistanceToNow(new Date(announce.created_at), { addSuffix: true })}</div>
-              <div class="w-4 rounded-r border-b border-base-content/50"></div>
+              <div class="w-4 rounded-r border-b border-base-content/50 border-dashed"></div>
             </div>
           </div>
         {/each}
