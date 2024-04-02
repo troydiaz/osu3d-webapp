@@ -16,11 +16,11 @@
 </svelte:head>
 
 {#if machine}
-<div class="flex flex-col gap-12 w-full">
-  <PageHeader name="Edit Printer" backUrl="/machines" image={printer} />
+<div class="page">
+  <PageHeader name="Edit Printer" backUrl="/machines" />
   
   <!-- Title -->
-  <div class="window relative flex flex-row justify-between !p-12 overflow-hidden">
+  <div class="window justify-start !gap-8 !p-8 overflow-hidden">
     <div class="flex flex-col justify-between items-start gap-4 md:gap-12 z-10">
       <div class="flex flex-col space-y-2">
         <span class="text-3xl font-thin">{machine.nickname}</span>
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class="hidden md:flex flex-col space-y-12">
+    <div class="hidden md:flex flex-col space-y-8">
       <div class="stats bg-base-200 z-10">
         <div class="stat">
           <div class="stat-title">Total Jobs</div>
@@ -63,7 +63,7 @@
         </div>
       </div>
     </div>
-    <img alt="Printer" src="/{machine.machine_def.model}.png" class="w-3/4 absolute -top-1/4 -right-8 opacity-25 select-none blur-sm">
+    <img alt="Printer" src="/{machine.machine_def.model}.png" class="w-3/4 aspect-square max-w-lg absolute -top-1/4 -right-8 opacity-25 select-none blur-sm">
   </div>
   <FaultTable faults={machine.events.map(e => { return {...e, checked: false} } )} />
   <PrintLogTable prints={machine.prints || []} />

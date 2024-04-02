@@ -13,7 +13,7 @@
 </svelte:head>
 
 <div class="flex flex-col gap-12 w-full">
-    <PageHeader name="Printers" image={printer} />
+    <PageHeader name="Printers" />
     
     {#if machines}
     <MachineTable machines={machines.filter(m => m.tier === 1)} tier={1} />

@@ -34,7 +34,7 @@
     
     <div class="drawer lg:drawer-open">
       <input id="drawer-id" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-content">
+      <div class="drawer-content overflow-x-auto">
 
         <!-- Navbar for smaller screens -->
         <div class="lg:hidden z-20 bg-base-100 navbar fixed bottom-0 justify-between space-x-4 shadow border-t border-base-content/10">
