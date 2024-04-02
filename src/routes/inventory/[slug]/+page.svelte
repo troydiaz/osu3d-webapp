@@ -19,9 +19,9 @@
   <title>Inventory | OSU 3D</title>
 </svelte:head>
 
-<div class="flex flex-col gap-12 w-full">
-  <PageHeader name="Edit Inventory" image={box} backUrl="/inventory" />
-  <div class="window flex flex-row justify-between !p-12">
+<div class="page">
+  <PageHeader name="Edit Inventory" backUrl="/inventory" />
+  <div class="window flex !flex-col md:!flex-row justify-between md:!p-8">
     <div class="flex flex-col justify-between items-start space-y-12 z-10">
       <div class="flex flex-col space-y-2">
         <span class="text-3xl font-thin">{singleItem.name}</span>

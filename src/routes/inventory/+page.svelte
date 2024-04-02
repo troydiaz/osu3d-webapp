@@ -16,8 +16,8 @@
   <title>Inventory | OSU 3D</title>
 </svelte:head>
 
-<div class="flex flex-col gap-12 w-full">
-  <PageHeader name="Inventory" image={box} />
+<div class="page">
+  <PageHeader name="Inventory" />
   <div class="flex flex-row justify-end items-center gap-4">
     <a href="/inventory/tree" class="btn btn-secondary btn-sm"><PencilSquare /> Locations</a>
     <NewItemMenu categories={categories}><button class="btn btn-primary btn-sm"><Plus /> Item</button></NewItemMenu>
