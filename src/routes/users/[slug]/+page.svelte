@@ -19,8 +19,8 @@
     <title>Members | OSU 3D</title>
 </svelte:head>
 
-<div class="flex flex-col gap-12 w-full">
-  <PageHeader name="Edit Member" backUrl="/users" image={ledger} />
+<div class="page">
+  <PageHeader name="Members" backUrl="/users" />
 
   <div class="flex flex-col gap-4">
     <div class="font-thin text-xl md:text-2xl window-header">Flags</div>

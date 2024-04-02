@@ -14,8 +14,8 @@
   <title>Members | OSU 3D</title>
 </svelte:head>
 
-<div class="flex flex-col gap-12 w-full">
-  <PageHeader name="Members" image={ledger} />
+<div class="page">
+  <PageHeader name="Members" />
   {#if userLevels}
     <UserTable
       userLevels={userLevels.map((u) => {

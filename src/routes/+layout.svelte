@@ -47,7 +47,7 @@
         <div class="container lg:px-16 mx-auto lg:mx-0">
           <!-- Main app -->
           {#key data.pathname}
-            <div class="flex flex-col items-start justify-start w-full h-full pb-32 md:pt-12 lg:pb-12" in:fly={{ y: 10, delay: 500 }} out:fade={{ duration: 250 }}>
+            <div class="flex flex-col items-start justify-start w-full h-full pb-32 md:pt-12 lg:pb-12">
               <slot />
             </div>
           {/key}

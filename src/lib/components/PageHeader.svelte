@@ -6,17 +6,17 @@
   export let backUrl: string | null = null;
 </script>
 
-<div class="md:h-24 relative overflow-hidden flex md:flex-row items-center gap-4 p-4">
+<div class="h-24 relative overflow-hidden flex md:flex-row items-center gap-4 p-4">
   {#if backUrl}
     <a href={backUrl} class="btn btn-ghost btn-square uppercase text-xl font-light">
-      <span class="md:hidden"><ArrowLeft size={'36px'} strokeWidth={'1px'} /></span>
+      <span class="md:hidden"><ArrowLeft size={'32px'} strokeWidth={'1px'} /></span>
       <span class="hidden md:inline"><ArrowLeft size={'36px'} strokeWidth={'1px'} /></span>
   </a>
   {/if}
 
-  <div class="flex w-full">
+  <div class="flex w-full h-full">
     <div class="grow hidden md:inline w-fit text-3xl md:font-thin z-10">{ name }</div>
-    <div class="grow md:hidden text-xl z-10 flex items-center w-full gap-2">
+    <div class="grow md:hidden text-xl z-10 flex items-center w-full h-full gap-2">
     
     
       <img src="/osu3d.svg" alt="Club logo" class="h-10 w-10 opacity-75" />
