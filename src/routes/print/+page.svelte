@@ -116,7 +116,7 @@
       {/if}
     
       {#each certifiedMachines as machine}
-        <div class="col-span-1 window !p-0 dark:bg-slate-400/10 outline {getBackgroundStyles(machine)}">
+        <div class="col-span-1 window !p-0 dark:bg-slate-400/10 bg-slate-400/10 {getBackgroundStyles(machine)}">
             <div class="flex flex-col gap-8 h-full w-full">
               <div class="flex flex-col grow gap-8 justify-start items-center">
                 <div class="flex justify-between w-full border-b border-black/10 dark:border-white/10 box-border">
