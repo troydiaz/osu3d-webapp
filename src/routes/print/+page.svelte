@@ -6,13 +6,14 @@
   import NewIssueModal from "$lib/components/modals/NewIssueModal.svelte";
   import { fade, fly, scale, blur } from "svelte/transition";
   import { isTierCertified } from "$lib/helpers";
-  import { ClipboardPen, Octagon, Tag, Activity, CircleAlert, Rocket } from "lucide-svelte";
+  import { ClipboardPen, Octagon, Tag, Activity, CircleAlert, Rocket, Tally1, Tally2, Tally3, ArrowDown01, ArrowUp01 } from "lucide-svelte";
   import PageHeader from "$lib/components/PageHeader.svelte";
   
   export let data: PageData;
   const { permissions, routeData, session } = data;
 
-  let status: MachineStatus = MachineStatus.IDLE;
+  let status: MachineStatus | null = MachineStatus.IDLE;
+  let sort: 'ascending' | 'descending' = 'ascending';
 
   let cancelPrintModal: CancelPrintModal;
   let newPrintModal: NewPrintModal;
@@ -26,9 +27,7 @@
 
   $: certifiedMachines = routeData.filter(m =>  m.status === status)
     .sort((a, b) => {
-      const aIndex = priorityOrder.indexOf(a.status);
-      const bIndex = priorityOrder.indexOf(b.status);
-      return aIndex - bIndex;
+      return sort === 'ascending' ? a.tier - b.tier : b.tier - a.tier;
     });
 
   function getBackgroundStyles(machine: DashboardMachine) {
@@ -72,26 +71,41 @@
 {#if routeData && permissions}
 <div class="page">
 
-  <div class="flex md:flex-row flex-col justify-between align-center gap-8">
+  <div class="flex md:flex-row flex-col justify-between items-stretch md:items-center gap-8">
     <PageHeader name="Print" />
 
-    <!-- Buttons -->
-    <div class="join join-horizontal rounded-lg w-full md:w-72">
-      <button class="basis-1/3 grow h-fit btn px-2 join-item !ml-0 border-none {status === MachineStatus.IDLE ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.IDLE}>
-        <div class="my-2 gap-2 items-center justify-center flex flex-col">
-          <Rocket /><div>Ready</div>
-        </div>
-      </button>
-      <button class="basis-1/3 grow h-fit btn px-2 join-item !ml-0 border-0 {status === MachineStatus.WORKING ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.WORKING}>
-        <div class="my-2 gap-2 items-center justify-center flex flex-col">
-          <Activity /><div>Busy</div>
-        </div>
-      </button>
-      <button class="basis-1/3 grow h-fit btn px-2 join-item !ml-0 border-0 {status === MachineStatus.FAULT ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.FAULT}>
-        <div class="my-2 gap-2 items-center justify-center flex flex-col">
-          <CircleAlert /><div>Issue</div>
-        </div>
-      </button>
+    <div class="flex gap-8">
+      <!-- Buttons -->
+      <div class="join join-horizontal rounded-lg w-full h-fit">
+        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-none {sort === 'ascending' ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => sort = 'ascending'}>
+          <div class="my-2 gap-2 items-center justify-center flex flex-col">
+            <ArrowDown01 /><div>Asc.</div>
+          </div>
+        </button>
+        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {sort === 'descending' ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => sort = 'descending'}>
+          <div class="my-2 gap-2 items-center justify-center flex flex-col">
+            <ArrowUp01 /><div>Desc.</div>
+          </div>
+        </button>
+      </div>
+      <!-- Buttons -->
+      <div class="join join-horizontal rounded-lg w-full h-fit">
+        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-none {status === MachineStatus.IDLE ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.IDLE}>
+          <div class="my-2 gap-2 items-center justify-center flex flex-col">
+            <Rocket /><div>Ready</div>
+          </div>
+        </button>
+        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {status === MachineStatus.WORKING ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.WORKING}>
+          <div class="my-2 gap-2 items-center justify-center flex flex-col">
+            <Activity /><div>Busy</div>
+          </div>
+        </button>
+        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {status === MachineStatus.FAULT ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.FAULT}>
+          <div class="my-2 gap-2 items-center justify-center flex flex-col">
+            <CircleAlert /><div>Issue</div>
+          </div>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -105,10 +119,10 @@
       {/if}
     
       {#each certifiedMachines as machine}
-        <div class="col-span-1 window !p-0 dark:bg-slate-400/10 {getBackgroundStyles(machine)}">
+        <div class="col-span-1 window !p-0 dark:bg-slate-400/10 outline {getBackgroundStyles(machine)}">
             <div class="flex flex-col gap-8 h-full w-full">
               <div class="flex flex-col grow gap-8 justify-start items-center">
-                <div class="flex justify-between w-full border-b border-white/10 box-border">
+                <div class="flex justify-between w-full border-b border-black/10 dark:border-white/10 box-border">
                   <div class="p-4 flex items-center">
                     <div class="rounded-full flex flex-col justify-center">
                       <span class="text-xl text-center font-semibold {getStatusStyles(machine)}">{getStatus(machine)}</span>
@@ -120,7 +134,7 @@
                 <div class="aspect-square flex flex-col justify-center {machine.status === MachineStatus.FAULT ? 'opacity-25' : ''}"><img src="/{machine.model}.png" class="max-h-24 md:max-h-48 w-fit" /></div>
               </div>
               <!-- Buttons -->
-              <div class="relative join join-horizontal rounded-t-none w-full md:border-t border-white/10">
+              <div class="relative join join-horizontal rounded-t-none w-full md:border-t border-black/10 dark:border-white/10">
                 <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-none bg-info/25 hover:bg-info/50" disabled={machine.status !== MachineStatus.IDLE || !isTierCertified(permissions, machine.tier)} on:click={() => newPrintModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <ClipboardPen /><div>Log</div>
