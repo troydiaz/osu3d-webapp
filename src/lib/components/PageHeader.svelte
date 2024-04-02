@@ -6,7 +6,7 @@
   export let backUrl: string | null = null;
 </script>
 
-<div class="h-24 relative overflow-hidden flex md:flex-row items-center gap-4 p-4">
+<div class="h-24 relative overflow-hidden flex md:flex-row items-center gap-4">
   {#if backUrl}
     <a href={backUrl} class="btn btn-ghost btn-square uppercase text-xl font-light">
       <span class="md:hidden"><ArrowLeft size={'32px'} strokeWidth={'1px'} /></span>

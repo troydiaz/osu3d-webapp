@@ -137,8 +137,8 @@
                   </div>
                 </button>
                 {#if !isTierCertified(permissions, machine.tier)}
-                  <div class="absolute inset-0 flex justify-center items-center left-[1px] bg-gradient-to-t from-warning/50 to-warning/20">
-                    <div class="text-white text-2xl font-thin">Tier Certification Required</div>
+                  <div class="absolute inset-0 flex justify-center items-center left-[1px] bg-gradient-to-t dark:from-warning/50 dark:to-warning/20 from-warning/75 to-warning/50">
+                    <div class="dark:text-white text-2xl font-thin">Tier Certification Required</div>
                   </div>
                 {/if}
               </div>

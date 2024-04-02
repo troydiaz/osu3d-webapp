@@ -53,14 +53,8 @@
               {#if hasPermission(user.level, PermCategory.TIER_3, PermFlag.FIRST)}
                 <span class="px-1 py-1 font-mono bg-error text-white rounded-sm text-xs">TR 3</span>
               {/if}
-              {#if hasPermission(user.level, PermCategory.TIER_2, PermFlag.SECOND)}
-                <span class="px-1 py-1 font-mono bg-warning text-white rounded-sm text-xs">TR 2.5</span>
-              {/if}
               {#if hasPermission(user.level, PermCategory.TIER_2, PermFlag.FIRST)}
                 <span class="px-1 py-1 font-mono bg-warning text-white rounded-sm text-xs">TR 2</span>
-              {/if}
-              {#if hasPermission(user.level, PermCategory.TIER_1, PermFlag.SECOND)}
-                <span class="px-1 py-1 font-mono bg-info text-white rounded-sm text-xs">TR 1.5</span>
               {/if}
               {#if hasPermission(user.level, PermCategory.TIER_1, PermFlag.FIRST)}
                 <span class="px-1 py-1 font-mono bg-info text-white rounded-sm text-xs">TR 1</span>
@@ -82,7 +76,7 @@
             <td>{user.email}</td>
             <td class="hidden md:block">{getDateAndTime(user.created_at, true)}</td>
             <td>
-              <button class="btn btn-sm btn-primary" on:click={() => goto(`/users/${user.user_id}`)} disabled={hasPermission(user.level, PermCategory.SPECIAL, PermFlag.FIRST)}>Edit Flags</button>
+              <button class="btn btn-sm btn-primary" on:click={() => goto(`/users/${user.user_id}`)} disabled={hasPermission(user.level, PermCategory.SPECIAL, PermFlag.FIRST)}>Edit</button>
             </td>
           </tr>
           {/each}
