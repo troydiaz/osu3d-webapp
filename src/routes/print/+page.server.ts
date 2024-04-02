@@ -38,7 +38,9 @@ export const actions = {
         machine_id,
         description,
         print_id: print_id || null
-      });
+      }).select();
+
+    console.log(result);
 
     if (result.error)
       throw error(result.status, result.error.message);

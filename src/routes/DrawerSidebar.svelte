@@ -17,14 +17,14 @@
   }
 </script>
 
-<div class="z-20 drawer-side overflow-visible">
+<div class="z-20 drawer-side">
   <label for="drawer-id" class="drawer-overlay"></label>
-  <ul class="menu h-full w-52 px-4 dark:bg-slate-400/10 backdrop-blur-xl ring-1 ring-white/10">
-    <div class="flex flex-col h-full justify-start items-stretch gap-4 py-4">
+  <ul class="overflow-y-auto menu h-full px-4 w-52 dark:bg-slate-400/10 backdrop-blur-xl ring-1 ring-white/10">
+    <div class="flex flex-col h-full justify-stretch items-stretch gap-4">
       <!-- <div class="w-12">
         <img src="/osu3d.svg" alt="Club logo" class="m-auto opacity-75">
       </div> -->
-      <div class="flex flex-col h-full justify-between items-stretch">
+      <div class="flex flex-col h-full justify-between items-stretch gap-8 pt-4">
         <div class="flex flex-col justify-start md:gap-2 gap-2">
 
           <div class="flex flex-col justify-center items-center gap-2 py-4">
@@ -51,11 +51,13 @@
             <span slot="icon"><Cog /></span>
           </SidebarButton>
 
-          <div class="flex justify-center items-center gap-2 py-2">
-            <div class="grow h-[1px] w-full bg-white/10"></div>
-            <div class="text-xs font-light opacity-50 whitespace-nowrap">Club Duties</div>
-            <div class="grow h-[1px] w-full bg-white/10"></div>
-          </div>
+          {#if hasPermission(permissions?.level, PermCategory.MACHINES, PermFlag.FIRST) || hasPermission(permissions?.level, PermCategory.INVENTORY, PermFlag.FIRST) || hasPermission(permissions?.level, PermCategory.MAINTENANCE, PermFlag.FIRST) && dev}
+            <div class="flex justify-center items-center gap-2 py-2">
+              <div class="grow h-[1px] w-full bg-white/10"></div>
+              <div class="text-xs font-light opacity-50 whitespace-nowrap">Club Duties</div>
+              <div class="grow h-[1px] w-full bg-white/10"></div>
+            </div>
+          {/if}
 
           <!-- Printers -->
           {#if hasPermission(permissions?.level, PermCategory.MACHINES, PermFlag.FIRST)}
@@ -78,11 +80,15 @@
           </SidebarButton>
           {/if}
 
-          <div class="flex justify-center items-center gap-2 py-2">
-            <div class="grow h-[1px] w-full bg-white/10"></div>
-            <div class="text-xs font-light opacity-50">Management</div>
-            <div class="grow h-[1px] w-full bg-white/10"></div>
-          </div>
+          
+
+          {#if hasPermission(permissions?.level, PermCategory.USERS, PermFlag.FIRST)}
+            <div class="flex justify-center items-center gap-2 py-2">
+              <div class="grow h-[1px] w-full bg-white/10"></div>
+              <div class="text-xs font-light opacity-50">Management</div>
+              <div class="grow h-[1px] w-full bg-white/10"></div>
+            </div>
+          {/if}
   
           <!-- Members -->
           {#if hasPermission(permissions?.level, PermCategory.USERS, PermFlag.FIRST)}
@@ -92,7 +98,7 @@
           {/if}
 
           <!-- Reports -->
-          {#if hasPermission(permissions?.level, PermCategory.USERS, PermFlag.FIRST)}
+          {#if hasPermission(permissions?.level, PermCategory.SPECIAL, PermFlag.FIRST)}
           <SidebarButton name="Reports" url="/reports">
             <span slot="icon"><PieChart /></span>
           </SidebarButton>
@@ -100,14 +106,14 @@
   
         </div>
 
-        <div class="grow"></div>
-
         <!-- Logout button -->
-        <div class="relative rounded-lg group transition hover:bg-base-content/10">
-          <button on:click={() => signOut()} class="w-full h-full flex flex-row justify-start items-center transition gap-4 p-3 opacity-30 group-hover:opacity-100">
-            <LogOut />
-            <div class="font-semibold">Logout</div>
-          </button>
+        <div class="pb-4">
+          <div class="rounded-lg group transition hover:bg-base-content/10">
+            <button on:click={() => signOut()} class="w-full h-full flex flex-row justify-start items-center transition text-error/75 gap-4 p-3 bg-opacity-50 group-hover:bg-opacity-100">
+              <LogOut />
+              <div class="font-semibold">Logout</div>
+            </button>
+          </div>
         </div>
         
       </div>

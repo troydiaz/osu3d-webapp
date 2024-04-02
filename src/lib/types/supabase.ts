@@ -34,6 +34,35 @@ export interface Database {
   }
   public: {
     Tables: {
+      announcements: {
+        Row: {
+          body: string
+          created_at: string
+          created_by_user_id: string
+          id: number
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          created_by_user_id: string
+          id?: number
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          created_by_user_id?: string
+          id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "announcements_created_by_user_id_fkey"
+            columns: ["created_by_user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       inv_categories: {
         Row: {
           created_at: string
@@ -298,6 +327,13 @@ export interface Database {
             foreignKeyName: "machine_events_machine_id_fkey"
             columns: ["machine_id"]
             isOneToOne: false
+            referencedRelation: "dashboard_view"
+            referencedColumns: ["machine_id"]
+          },
+          {
+            foreignKeyName: "machine_events_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
             referencedRelation: "machines"
             referencedColumns: ["id"]
           },
@@ -307,6 +343,13 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "machines_view"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "machine_events_print_id_fkey"
+            columns: ["print_id"]
+            isOneToOne: false
+            referencedRelation: "dashboard_view"
+            referencedColumns: ["print_id"]
           },
           {
             foreignKeyName: "machine_events_print_id_fkey"
@@ -400,6 +443,13 @@ export interface Database {
             foreignKeyName: "prints_machine_id_fkey"
             columns: ["machine_id"]
             isOneToOne: false
+            referencedRelation: "dashboard_view"
+            referencedColumns: ["machine_id"]
+          },
+          {
+            foreignKeyName: "prints_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
             referencedRelation: "machines"
             referencedColumns: ["id"]
           },
@@ -418,6 +468,7 @@ export interface Database {
           discord: string | null
           email: string | null
           full_name: string | null
+          last_visit_at: string | null
           updated_at: string
           user_id: string
         }
@@ -426,6 +477,7 @@ export interface Database {
           discord?: string | null
           email?: string | null
           full_name?: string | null
+          last_visit_at?: string | null
           updated_at?: string
           user_id: string
         }
@@ -434,6 +486,7 @@ export interface Database {
           discord?: string | null
           email?: string | null
           full_name?: string | null
+          last_visit_at?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -484,6 +537,29 @@ export interface Database {
       }
     }
     Views: {
+      dashboard_view: {
+        Row: {
+          done_at: string | null
+          full_name: string | null
+          machine_id: string | null
+          make: string | null
+          model: string | null
+          nickname: string | null
+          print_id: string | null
+          print_user_id: string | null
+          status: Database["public"]["Enums"]["machine_status"] | null
+          tier: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prints_created_by_user_id_fkey"
+            columns: ["print_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          }
+        ]
+      }
       inv_changes_view: {
         Row: {
           amount: number | null
@@ -639,6 +715,13 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "machines"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prints_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
+            referencedRelation: "dashboard_view"
+            referencedColumns: ["machine_id"]
           },
           {
             foreignKeyName: "prints_machine_id_fkey"

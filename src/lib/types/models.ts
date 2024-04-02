@@ -27,6 +27,10 @@ export type User = Tables<'profiles'> & {
     perms: Tables<'user_levels'>
 }
 
+export type Announcement = Tables<'announcements'> & {
+    created_by: Tables<'profiles'>
+}
+
 export type Permissions = Tables<'user_levels'>;
 
 export type InventoryItem = Tables<'inv_items'> & {
@@ -58,7 +62,8 @@ export type DashboardMachine = {
     model: string
     nickname: string
     status: MachineStatus
-    print_id: string
+    print_id: string | null
+    print_user_id: string | null,
     done_at: string | null
     full_name: string | null
 }

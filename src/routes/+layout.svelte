@@ -7,6 +7,7 @@
 	import { Toaster } from 'svelte-french-toast';
   // Images
   import DrawerSidebar from "./DrawerSidebar.svelte";
+  import { fade, fly } from "svelte/transition";
       
   let showAlerts = false;
   
@@ -34,7 +35,7 @@
     
     <div class="drawer lg:drawer-open">
       <input id="drawer-id" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-content overflow-x-auto">
+      <div class="drawer-content">
 
         <!-- Navbar for smaller screens -->
         <div class="lg:hidden z-20 bg-base-100 navbar fixed bottom-0 justify-between space-x-4 shadow border-t border-base-content/10">
@@ -44,11 +45,13 @@
           </a>
         </div>
         
-        <div class="container lg:px-16">
+        <div class="container lg:px-16 mx-auto lg:mx-0">
           <!-- Main app -->
-          <div class="flex flex-col items-start justify-start w-full h-full pb-32 md:pt-12 lg:pb-12">
-            <slot />
-          </div>
+          {#key data.pathname}
+            <div class="flex flex-col items-start justify-start w-full h-full pb-32 md:pt-12 lg:pb-12" in:fly={{ y: 10, delay: 500 }} out:fade={{ duration: 250 }}>
+              <slot />
+            </div>
+          {/key}
         </div>
       </div> 
 
@@ -65,6 +68,7 @@
 <Toaster position="top-right" />
 
 <!-- Background -->
-<div class="fixed inset-0 -z-10 pointer-events-none select-none">
-  <img src="/bgdark.jpg" class="h-full w-full blur-xl" />
+<div class="fixed inset-0 -z-10 pointer-events-none select-none ">
+  <!-- <img src="/bgdark3.png" class="h-full w-full blur-xl hidden md:block" /> -->
+  <div class="h-full w-full bg-gradient-to-t to-slate-950 from-indigo-950" />
 </div>

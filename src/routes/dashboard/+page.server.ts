@@ -1,6 +1,7 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { fetchDashboardRouteData } from '$lib/server/machine';
+import type { Announcement } from '$lib/types/models';
 
 export const load = (async ({ locals: { supabase, getSession, getPermissions } }) => {
   const session = await getSession();
@@ -8,13 +9,35 @@ export const load = (async ({ locals: { supabase, getSession, getPermissions } }
 
   const routeData = await fetchDashboardRouteData(supabase);
 
+  // Get last visit date
+  const { data: profileData } = await supabase.from('profiles')
+    .select('last_visit_at, discord')
+    .eq('user_id', session.user.id)
+    .maybeSingle();
+
+  const { data: announcements } = await supabase.from('announcements')
+    .select(`
+      *,
+      created_by: profiles(*)
+    `)
+    .order('created_at', { ascending: false })
+    .limit(2)
+    .returns<Announcement[]>();
+
+  // Update last visit date
+  await supabase.from('profiles')
+    .update({
+      last_visit_at: new Date().toISOString()
+    })
+    .eq('user_id', session.user.id);
+
   const { data: profile } = await supabase
 		.from('profiles')
 		.select(`email, full_name, discord`)
 		.eq('user_id', session.user.id)
 		.maybeSingle();
 
-  return { session, routeData, profile };
+  return { session, routeData, profile, announcements, profileData };
 }) satisfies PageServerLoad;
 
 export const actions = {

@@ -9,8 +9,11 @@
   $: activeIdleCount = routeData.filter(m => m.status === MachineStatus.IDLE).length;
 </script>
 
-<div class="col-span-1 dark:bg-slate-400/10 backdrop-blur-xl rounded-lg ring-1 ring-white/10 flex flex-col gap-4 p-4">
-  <div class="text-xl font-thin flex flex-row items-center gap-4 px-2"><span><Layers strokeWidth={1.5} size={'20pt'} /></span>Printer Status</div>
+<div class="col-span-1 window">
+  <div class="header">
+    <span><Layers strokeWidth={1.5} class="h-8" /></span>
+    <span>Printer Status</span>
+  </div>
   <div class="w-full h-[1px] bg-white/10" />
   <div class="flex justify-around items-center h-full">
 

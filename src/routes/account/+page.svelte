@@ -36,8 +36,8 @@
   <title>Settings | OSU 3D</title>
 </svelte:head>
 
-<div class="flex flex-col gap-12 w-full">
-  <PageHeader name="Account Settings" image={gear} />
+<div class="page">
+  <PageHeader name="Account Settings" />
 
   <div class="flex flex-col gap-4">
     <div class="font-thin text-xl md:text-2xl px-4 md:px-0">General</div>

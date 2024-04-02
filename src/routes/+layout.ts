@@ -4,7 +4,7 @@ import { dev } from '$app/environment';
 import { createBrowserClient, isBrowser, parse } from '@supabase/ssr';
 import type { Database } from '$lib/types/supabase';
 
-export const load: LayoutLoad = async ({ fetch, data, depends }) => {
+export const load: LayoutLoad = async ({ fetch, data, depends, url }) => {
   depends('supabase:auth');
   
   const supabase = createBrowserClient<Database>(
@@ -28,10 +28,11 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
   const {
     data: { session }
   } = await supabase.auth.getSession();
-  
+
   return {
     supabase,
     session,
-    permissions: data.permissions
+    permissions: data.permissions,
+    pathname: url.pathname
   };
 }
