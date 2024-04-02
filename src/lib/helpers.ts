@@ -1,5 +1,6 @@
 import { differenceInDays } from "date-fns";
 import type { Machine } from "./types/models";
+import type { Permissions } from "./types/models";
 
 export function getDateAndTime(dateString: string | null, includeTime: boolean) {
   if (!dateString) return '—';
@@ -100,4 +101,16 @@ export function createTree<T>(flatList: T[], idKey: IItemKey, parentKey: IItemKe
   });
 
   return tree;
+}
+
+export function isTierCertified(permissions: Permissions | null, tier: number) {
+  if (!permissions) return false;
+  // Special tier flags
+  // Tier 99 is tier 1.5 (BambuLabs)
+  if (tier === 99) return hasPermission(permissions.level, 0, PermFlag.SECOND);
+  // Tier 98 is tier 2.5 (Snapmaker)
+  if (tier === 98) return hasPermission(permissions.level, 1, PermFlag.SECOND);
+
+  // Normal tier perms
+  return hasPermission(permissions.level, tier - 1, PermFlag.FIRST);
 }

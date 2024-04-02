@@ -11,7 +11,7 @@
 
   $: if (form) form.success ? toast.success('Saved', { className: ''}) : toast.error('Something went wrong :(');
 
-  let { session, profile } = data;
+  let { session, profile, supabase } = data;
   let loading = false;
 
   let full_name: string | null = profile?.full_name ?? form?.full_name ?? null;
@@ -20,19 +20,15 @@
   $: unsavedChanges = (discord !== profile?.discord && discord !== form?.discord) ||
     (full_name !== profile?.full_name && full_name !== form?.full_name);
 
-  const pingChannel = data.supabase.channel('discord-ping-channel').subscribe();
   let pingDisabled = false;
 
-  function ping() {
+  async function ping() {
     pingDisabled = true;
-
-    pingChannel.send({
-      type: 'broadcast',
-      event: 'discord-ping',
-      payload: { discord }
+    await supabase.functions.invoke('discord-pm', {
+      body: { username: discord, message: '[OSU3D] Ping! If you can read this, your username is correct.' }
     });
-
-    setTimeout(() => pingDisabled = false, 5000);
+    pingDisabled = false;
+    // setTimeout(() => pingDisabled = false, 5000);
   }
 </script>
 

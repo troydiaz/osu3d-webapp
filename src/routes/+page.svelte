@@ -24,7 +24,7 @@
     <title>OSU 3D</title>
 </svelte:head>
 
-<div class="min-h-screen w-screen">
+<div class="min-h-screen w-full">
     <div class="flex flex-col justify-center items-center gap-8 p-12 md:gap-12 w-full h-full md:max-w-screen-sm mx-auto">
       <img src="osu3d.svg" class="w-32 h-32">
       <div class="text-base-content">

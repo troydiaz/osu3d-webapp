@@ -66,5 +66,5 @@
 
 <!-- Background -->
 <div class="fixed inset-0 -z-10 pointer-events-none select-none">
-  <img src="/bgdark4.png" class="h-full w-full" />
+  <img src="/bgdark.jpg" class="h-full w-full blur-xl" />
 </div>
