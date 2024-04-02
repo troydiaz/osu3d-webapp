@@ -3,8 +3,7 @@
   import { invalidate } from "$app/navigation";
   import { onMount } from "svelte";
   import { Bars3 } from "svelte-heros-v2";
-  import { themeChange } from 'theme-change';
-	import { Toaster } from 'svelte-french-toast';
+  import { Toaster } from 'svelte-french-toast';
   // Images
   import DrawerSidebar from "./DrawerSidebar.svelte";
   import { fade, fly } from "svelte/transition";
@@ -17,7 +16,7 @@
 
   onMount(() => {
     // Theme swap button
-    themeChange(false);
+    // themeChange(false);
 
     const { data } = supabase.auth.onAuthStateChange((event, _session) => {
       if (_session?.expires_at !== session?.expires_at)
