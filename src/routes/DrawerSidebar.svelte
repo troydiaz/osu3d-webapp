@@ -10,6 +10,7 @@
 
   export let permissions: UserPermissions | null;
   export let supabase: SupabaseClient<Database>;
+  export let name: string | null = null;
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -29,7 +30,9 @@
 
           <div class="flex flex-col justify-center items-center gap-2 py-4">
             <UserCircle size={48} strokeWidth={1.5} />
-            <div class="text-sm font-thin">Stephen Fike</div>
+            {#if name}
+              <div class="text-sm font-thin">{ name }</div>
+            {/if}
           </div>
 
           <div class="flex justify-center items-center gap-2 py-2">

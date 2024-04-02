@@ -17,7 +17,7 @@
       if (_session?.expires_at !== session?.expires_at)
         invalidate('supabase:auth')
     });
-    
+    console.log(session);
     return () => data.subscription.unsubscribe();
   });
 </script>
@@ -39,7 +39,7 @@
           </a>
         </div>
         
-        <div class="container lg:px-16 mx-auto lg:mx-0">
+        <div class="container xl:max-w-screen-xl lg:px-16 mx-auto lg:mx-0">
           <!-- Main app -->
           {#key data.pathname}
             <div class="flex flex-col items-start justify-start w-full h-full pb-32 md:pt-12 lg:pb-12">
@@ -51,7 +51,7 @@
 
 
       <!-- Drawer sidebar that is visible on larger screen -->
-      <DrawerSidebar permissions={permissions} supabase={supabase} />
+      <DrawerSidebar name={session.user.user_metadata.full_name} permissions={permissions} supabase={supabase} />
     </div>
   {:else}
     <slot />

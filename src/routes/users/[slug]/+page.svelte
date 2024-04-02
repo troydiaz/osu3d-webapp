@@ -22,11 +22,9 @@
 <div class="page">
   <PageHeader name="Members" backUrl="/users" />
 
-  <div class="flex flex-col gap-4">
-    <div class="font-thin text-xl md:text-2xl window-header">Flags</div>
-    <!-- Account Settings -->
-    <div class="window">
-
+  <div class="window">
+    <div class="header">Flags</div>
+    <div class="content">
       <div class="flex flex-col">
 
         <div class="flex flex-col lg:flex-row justify-between">
@@ -76,12 +74,9 @@
           </form>
 
         </div>
-          
-
         <div class="divider"></div>
-        <div class="flex"><button type="submit" form="perm-form" class="btn">Save Changes</button></div>
+        <div class="flex"><button type="submit" form="perm-form" class="btn btn-neutral">Save Changes</button></div>
       </div>
-
     </div>
   </div>
 </div>

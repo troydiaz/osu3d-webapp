@@ -6,21 +6,21 @@
   import NewIssueModal from "$lib/components/modals/NewIssueModal.svelte";
   import { fade, fly } from "svelte/transition";
   import { isTierCertified } from "$lib/helpers";
-  import { ClipboardPen, Octagon, Tag, Activity, CircleAlert, Rocket, ArrowDown01, ArrowUp01, Asterisk } from "lucide-svelte";
+  import { ClipboardPen, Octagon, Tag, Brackets } from "lucide-svelte";
   import PageHeader from "$lib/components/PageHeader.svelte";
   
   export let data: PageData;
   const { permissions, routeData } = data;
 
-  let filter: { status: MachineStatus | null, sort: 'ascending' | 'descending' } = { status: MachineStatus.IDLE, sort: 'ascending' };
+  let filter: { status: MachineStatus | null, tier: number | null } = { status: MachineStatus.IDLE, tier: null };
 
   let cancelPrintModal: CancelPrintModal;
   let newPrintModal: NewPrintModal;
   let newIssueModal: NewIssueModal;
 
-  $: certifiedMachines = routeData.filter(m =>  m.status === filter.status || filter.status === null)
+  $: certifiedMachines = routeData.filter(m =>  (m.status === filter.status || filter.status === null) && (m.tier === filter.tier || filter.tier === null))
     .sort((a, b) => {
-      return filter.sort === 'ascending' ? a.tier - b.tier : b.tier - a.tier;
+      return a.tier - b.tier;
     });
 
   function getBackgroundStyles(machine: DashboardMachine) {
@@ -63,55 +63,76 @@
 
 {#if routeData && permissions}
 <div class="page">
+  <PageHeader name="Print" />
 
-  <div class="flex md:flex-row flex-col justify-between items-stretch md:items-center gap-8">
-    <PageHeader name="Print" />
+    
+  <div class="flex lg:flex-row flex-col flex-wrap gap-8">
 
-    <div class="flex gap-8 sm:flex-row flex-col">
+
+    <div class="flex flex-col gap-2">
+      <div>Filter by tier</div>
       <!-- Buttons -->
       <div class="join join-horizontal rounded-lg w-full h-fit">
-        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-none {filter.sort === 'ascending' ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => filter.sort = 'ascending'}>
+        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-none {filter.tier === 1 ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.tier = 1}>
           <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <ArrowDown01 /><div>Asc.</div>
+            <div>Tier 1</div>
           </div>
         </button>
-        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {filter.sort === 'descending' ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => filter.sort = 'descending'}>
+        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-0 {filter.tier === 2 ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.tier = 2}>
           <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <ArrowUp01 /><div>Desc.</div>
+            <div>Tier 2</div>
           </div>
         </button>
-      </div>
-      <!-- Buttons -->
-      <div class="join join-horizontal rounded-lg w-full h-fit">
-        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-none {filter.status === MachineStatus.IDLE ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => filter.status = MachineStatus.IDLE}>
+        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-0 {filter.tier === 3 ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.tier = 3}>
           <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <Rocket /><div>Ready</div>
+            <div>Tier 3</div>
           </div>
         </button>
-        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {filter.status === MachineStatus.WORKING ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => filter.status = MachineStatus.WORKING}>
+        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-0 {filter.tier === null ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.tier = null}>
           <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <Activity /><div>Busy</div>
-          </div>
-        </button>
-        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {filter.status === MachineStatus.FAULT ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => filter.status = MachineStatus.FAULT}>
-          <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <CircleAlert /><div>Issue</div>
-          </div>
-        </button>
-        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {filter.status === null ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => filter.status = null}>
-          <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <Asterisk /><div>All</div>
+            <div>All</div>
           </div>
         </button>
       </div>
     </div>
+
+
+    <div class="flex flex-col gap-2">
+      <div>Filter by status</div>
+      <!-- Buttons -->
+      <div class="join join-horizontal w-full h-fit">
+        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-none {filter.status === MachineStatus.IDLE ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.status = MachineStatus.IDLE}>
+          <div class="my-2 gap-2 items-center justify-center flex flex-col">
+            <div>Ready</div>
+          </div>
+        </button>
+        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-0 {filter.status === MachineStatus.WORKING ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.status = MachineStatus.WORKING}>
+          <div class="my-2 gap-2 items-center justify-center flex flex-col">
+            <div>Busy</div>
+          </div>
+        </button>
+        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-0 {filter.status === MachineStatus.FAULT ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.status = MachineStatus.FAULT}>
+          <div class="my-2 gap-2 items-center justify-center flex flex-col">
+            <div>Down</div>
+          </div>
+        </button>
+        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-0 {filter.status === null ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.status = null}>
+          <div class="my-2 gap-2 items-center justify-center flex flex-col">
+            <div>All</div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+
   </div>
 
-  {#key filter}
+  {#key certifiedMachines}
     <div class="static grid grid-col-1 lg:grid-cols-2 xl:grid-cols-3 md:gap-12" in:fly={{ y: 10, delay: 500 }} out:fade={{ duration: 250 }}>
       {#if certifiedMachines.length === 0}
-        <div class="col-span-1 lg:col-span-2 xl:col-span-3 flex justify-center items-center pt-8">
-          <div class="text-2xl font-thin">No results...</div>
+        <div class="col-span-2 flex flex-col justify-start items-center pt-8 gap-8 opacity-25 dark:opacity-50 animate-pulse">
+          <Brackets class="w-32 h-32 stroke-1" />
+          <div class="text-3xl font-mono">No results</div>
         </div>
       {/if}
     

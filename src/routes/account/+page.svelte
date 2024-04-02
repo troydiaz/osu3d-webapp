@@ -45,23 +45,22 @@
 <div class="page">
   <PageHeader name="Account Settings" />
 
-  <div class="flex flex-col gap-4">
-    <div class="font-thin text-xl md:text-2xl px-4 md:px-0">Theme</div>
-    <!-- Account Settings -->
-    <div class="window !flex-row">
-      <button type="button" class="btn btn-neutral w-20" data-set-theme="light" data-act-class="btn-info">
-        Light
-      </button>
-      <button type="button" class="btn btn-neutral w-20" data-set-theme="dark" data-act-class="btn-info">
-        Dark
-      </button>
-    </div>
+  <div class="window">
+      <div class="header">Theme</div>
+      <!-- Account Settings -->
+      <div class="content flex gap-4">
+        <button type="button" class="btn btn-neutral w-20" data-set-theme="light" data-act-class="btn-info">
+          Light
+        </button>
+        <button type="button" class="btn btn-neutral w-20" data-set-theme="dark" data-act-class="btn-info">
+          Dark
+        </button>
+      </div>
   </div>
 
-  <div class="flex flex-col gap-4">
-    <div class="font-thin text-xl md:text-2xl px-4 md:px-0">General</div>
-    <!-- Account Settings -->
-    <div class="window">
+  <div class="window">
+    <div class="header">General</div>
+    <div class="content">
       <form
         method="post"
         action="?/update"
@@ -117,4 +116,5 @@
       </form>
     </div>
   </div>
+
 </div>
