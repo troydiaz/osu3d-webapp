@@ -98,6 +98,11 @@
 
   {#key status}
     <div class="static grid grid-col-1 lg:grid-cols-2 xl:grid-cols-3 md:gap-12" in:fly={{ y: 10, delay: 500 }} out:fade={{ duration: 250 }}>
+      {#if certifiedMachines.length === 0}
+        <div class="col-span-1 lg:col-span-2 xl:col-span-3 flex justify-center items-center pt-8">
+          <div class="text-2xl font-thin">No results...</div>
+        </div>
+      {/if}
     
       {#each certifiedMachines as machine}
         <div class="col-span-1 window !p-0 dark:bg-slate-400/10 {getBackgroundStyles(machine)}">
