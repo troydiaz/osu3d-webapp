@@ -14,7 +14,7 @@
   </a>
   {/if}
 
-  <div class="flex w-full h-full">
+  <div class="flex w-full items-center">
     <div class="grow hidden md:inline w-fit text-3xl md:font-thin z-10">{ name }</div>
     <div class="grow md:hidden text-xl z-10 flex items-center w-full h-full gap-2">
     
