@@ -74,7 +74,7 @@
   <div class="flex md:flex-row flex-col justify-between items-stretch md:items-center gap-8">
     <PageHeader name="Print" />
 
-    <div class="flex gap-8">
+    <div class="flex gap-8 md:flex-row flex-col">
       <!-- Buttons -->
       <div class="join join-horizontal rounded-lg w-full h-fit">
         <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-none {sort === 'ascending' ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => sort = 'ascending'}>
