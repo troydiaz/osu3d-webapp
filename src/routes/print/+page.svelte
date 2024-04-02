@@ -12,16 +12,15 @@
   export let data: PageData;
   const { permissions, routeData } = data;
 
-  let status: MachineStatus | null = MachineStatus.IDLE;
-  let sort: 'ascending' | 'descending' = 'ascending';
+  let filter: { status: MachineStatus | null, sort: 'ascending' | 'descending' } = { status: MachineStatus.IDLE, sort: 'ascending' };
 
   let cancelPrintModal: CancelPrintModal;
   let newPrintModal: NewPrintModal;
   let newIssueModal: NewIssueModal;
 
-  $: certifiedMachines = routeData.filter(m =>  m.status === status || status === null)
+  $: certifiedMachines = routeData.filter(m =>  m.status === filter.status || filter.status === null)
     .sort((a, b) => {
-      return sort === 'ascending' ? a.tier - b.tier : b.tier - a.tier;
+      return filter.sort === 'ascending' ? a.tier - b.tier : b.tier - a.tier;
     });
 
   function getBackgroundStyles(machine: DashboardMachine) {
@@ -71,12 +70,12 @@
     <div class="flex gap-8 sm:flex-row flex-col">
       <!-- Buttons -->
       <div class="join join-horizontal rounded-lg w-full h-fit">
-        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-none {sort === 'ascending' ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => sort = 'ascending'}>
+        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-none {filter.sort === 'ascending' ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => filter.sort = 'ascending'}>
           <div class="my-2 gap-2 items-center justify-center flex flex-col">
             <ArrowDown01 /><div>Asc.</div>
           </div>
         </button>
-        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {sort === 'descending' ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => sort = 'descending'}>
+        <button class="basis-1/3 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {filter.sort === 'descending' ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => filter.sort = 'descending'}>
           <div class="my-2 gap-2 items-center justify-center flex flex-col">
             <ArrowUp01 /><div>Desc.</div>
           </div>
@@ -84,22 +83,22 @@
       </div>
       <!-- Buttons -->
       <div class="join join-horizontal rounded-lg w-full h-fit">
-        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-none {status === MachineStatus.IDLE ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.IDLE}>
+        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-none {filter.status === MachineStatus.IDLE ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => filter.status = MachineStatus.IDLE}>
           <div class="my-2 gap-2 items-center justify-center flex flex-col">
             <Rocket /><div>Ready</div>
           </div>
         </button>
-        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {status === MachineStatus.WORKING ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.WORKING}>
+        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {filter.status === MachineStatus.WORKING ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => filter.status = MachineStatus.WORKING}>
           <div class="my-2 gap-2 items-center justify-center flex flex-col">
             <Activity /><div>Busy</div>
           </div>
         </button>
-        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {status === MachineStatus.FAULT ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = MachineStatus.FAULT}>
+        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {filter.status === MachineStatus.FAULT ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => filter.status = MachineStatus.FAULT}>
           <div class="my-2 gap-2 items-center justify-center flex flex-col">
             <CircleAlert /><div>Issue</div>
           </div>
         </button>
-        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {status === null ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => status = null}>
+        <button class="basis-1/4 w-24 grow h-fit btn px-2 join-item !ml-0 border-0 {filter.status === null ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25'}" on:click={() => filter.status = null}>
           <div class="my-2 gap-2 items-center justify-center flex flex-col">
             <Asterisk /><div>All</div>
           </div>
@@ -108,8 +107,7 @@
     </div>
   </div>
 
-
-  {#key status}
+  {#key filter}
     <div class="static grid grid-col-1 lg:grid-cols-2 xl:grid-cols-3 md:gap-12" in:fly={{ y: 10, delay: 500 }} out:fade={{ duration: 250 }}>
       {#if certifiedMachines.length === 0}
         <div class="col-span-1 lg:col-span-2 xl:col-span-3 flex justify-center items-center pt-8">
