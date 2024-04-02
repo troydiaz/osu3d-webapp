@@ -21,17 +21,17 @@
 <div class="z-20 drawer-side">
   <label for="drawer-id" class="drawer-overlay"></label>
   <ul class="overflow-y-auto menu h-full px-4 w-52 dark:bg-slate-400/10 bg-white/75 backdrop-blur-xl border-r border-black/10 dark:border-white/10">
-    <div class="flex flex-col h-full justify-stretch items-stretch gap-4">
+    <div class="flex flex-col h-full w-full justify-stretch items-stretch gap-4">
       <!-- <div class="w-12">
         <img src="/osu3d.svg" alt="Club logo" class="m-auto opacity-75">
       </div> -->
-      <div class="flex flex-col h-full justify-between items-stretch gap-8 pt-4">
+      <div class="flex flex-col h-full w-full justify-between items-stretch gap-8 pt-4">
         <div class="flex flex-col justify-start md:gap-2 gap-2">
 
-          <div class="flex flex-col justify-center items-center gap-2 py-4">
-            <UserCircle size={48} strokeWidth={1.5} />
+          <div class="flex flex-col w-full justify-center items-center gap-2 py-4">
+            <UserCircle class="stroke-1 w-12 h-12" />
             {#if name}
-              <div class="text-sm font-thin">{ name }</div>
+              <span class="text-sm font-thin text-ellipsis whitespace-nowrap overflow-hidden w-full text-center">{ name }</span>
             {/if}
           </div>
 
