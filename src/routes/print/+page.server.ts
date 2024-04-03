@@ -45,7 +45,7 @@ export const actions = {
     if (result.error)
       throw error(result.status, result.error.message);
   },
-  addPrintLog: async ({ request, locals: { supabase, getSession } }) => {
+  addPrintLog: async ({ request, locals: { supabase, getSession }, url }) => {
     const formData = await request.formData();
     const session = await getSession();
 

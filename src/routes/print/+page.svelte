@@ -8,17 +8,28 @@
   import { isTierCertified } from "$lib/helpers";
   import { ClipboardPen, Octagon, Tag, Brackets } from "lucide-svelte";
   import PageHeader from "$lib/components/PageHeader.svelte";
-  
+  import { printFilter } from "$lib/state";
+  import { browser } from "$app/environment";
+    
   export let data: PageData;
   const { permissions, routeData } = data;
 
-  let filter: { status: MachineStatus | null, tier: number | null } = { status: MachineStatus.IDLE, tier: null };
+  let filter: { status?: MachineStatus | null, tier?: number | null } = { status: null, tier: null };
+
+  if (browser) {
+    filter = $printFilter;
+  }
+
+  function setFilter(newFilter: { status?: MachineStatus | null, tier?: number | null }) {
+    filter = { ... filter, ...newFilter };
+    $printFilter = filter;
+  }
 
   let cancelPrintModal: CancelPrintModal;
   let newPrintModal: NewPrintModal;
   let newIssueModal: NewIssueModal;
 
-  $: certifiedMachines = routeData.filter(m =>  (m.status === filter.status || filter.status === null) && (m.tier === filter.tier || filter.tier === null))
+  $: certifiedMachines = routeData.filter(m => (m.status === filter.status || filter.status === null) && (m.tier === filter.tier || filter.tier === null))
     .sort((a, b) => {
       return a.tier - b.tier;
     });
@@ -68,31 +79,14 @@
     
   <div class="flex lg:flex-row flex-col flex-wrap gap-8">
 
-
     <div class="flex flex-col gap-2">
       <div>Filter by tier</div>
       <!-- Buttons -->
-      <div class="join join-horizontal rounded-lg w-full h-fit">
-        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-none {filter.tier === 1 ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.tier = 1}>
-          <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <div>Tier 1</div>
-          </div>
-        </button>
-        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-0 {filter.tier === 2 ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.tier = 2}>
-          <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <div>Tier 2</div>
-          </div>
-        </button>
-        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-0 {filter.tier === 3 ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.tier = 3}>
-          <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <div>Tier 3</div>
-          </div>
-        </button>
-        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-0 {filter.tier === null ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.tier = null}>
-          <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <div>All</div>
-          </div>
-        </button>
+      <div class="join join-horizontal">
+        <input data-sveltekit-reload type="radio" name="options" aria-label="Tier 1" class="btn join-item" checked={filter.tier === 1} on:click={() => setFilter({ tier: 1 })} />
+        <input data-sveltekit-reload type="radio" name="options" aria-label="Tier 2" class="btn join-item" checked={filter.tier === 2} on:click={() => setFilter({ tier: 2 })} />
+        <input data-sveltekit-reload type="radio" name="options" aria-label="Tier 3" class="btn join-item" checked={filter.tier === 3} on:click={() => setFilter({ tier: 3 })} />
+        <input data-sveltekit-reload type="radio" name="options" aria-label="All" class="btn join-item" checked={filter.tier === null} on:click={() => setFilter({ tier: null })} />
       </div>
     </div>
 
@@ -100,34 +94,17 @@
     <div class="flex flex-col gap-2">
       <div>Filter by status</div>
       <!-- Buttons -->
-      <div class="join join-horizontal w-full h-fit">
-        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-none {filter.status === MachineStatus.IDLE ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.status = MachineStatus.IDLE}>
-          <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <div>Ready</div>
-          </div>
-        </button>
-        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-0 {filter.status === MachineStatus.WORKING ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.status = MachineStatus.WORKING}>
-          <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <div>Busy</div>
-          </div>
-        </button>
-        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-0 {filter.status === MachineStatus.FAULT ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.status = MachineStatus.FAULT}>
-          <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <div>Down</div>
-          </div>
-        </button>
-        <button class="w-24 h-fit btn px-2 join-item !ml-0 border-0 {filter.status === null ? 'hover:bg-info/50 bg-info/50' : 'hover:bg-info/25 bg-info/10'}" on:click={() => filter.status = null}>
-          <div class="my-2 gap-2 items-center justify-center flex flex-col">
-            <div>All</div>
-          </div>
-        </button>
+      <div class="join join-horizontal">
+        <input type="radio" name="options2" aria-label="Ready" class="btn join-item" checked={filter.status === MachineStatus.IDLE} on:click={() => setFilter({ status: MachineStatus.IDLE })} />
+        <input type="radio" name="options2" aria-label="Busy" class="btn join-item" checked={filter.status === MachineStatus.WORKING} on:click={() => setFilter({ status: MachineStatus.WORKING })} />
+        <input type="radio" name="options2" aria-label="Down" class="btn join-item" checked={filter.status === MachineStatus.FAULT} on:click={() => setFilter({ status: MachineStatus.FAULT })} />
+        <input type="radio" name="options2" aria-label="All" class="btn join-item" checked={filter.status === null} on:click={() => setFilter({ status: null })} />
       </div>
     </div>
 
-
   </div>
 
-  {#key certifiedMachines}
+  {#key filter}
     <div class="static grid grid-col-1 lg:grid-cols-2 xl:grid-cols-3 md:gap-12" in:fly={{ y: 10, delay: 500 }} out:fade={{ duration: 250 }}>
       {#if certifiedMachines.length === 0}
         <div class="col-span-2 flex flex-col justify-start items-center pt-8 gap-8 opacity-25 dark:opacity-50 animate-pulse">

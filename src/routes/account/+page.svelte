@@ -49,11 +49,26 @@
       <div class="header">Theme</div>
       <!-- Account Settings -->
       <div class="content flex gap-4">
-        <button type="button" class="btn btn-neutral w-20" data-set-theme="light" data-act-class="btn-info">
-          Light
+        <button data-theme="light" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="light" data-act-class="outline">
+          <span>Light</span>
         </button>
-        <button type="button" class="btn btn-neutral w-20" data-set-theme="dark" data-act-class="btn-info">
-          Dark
+        <button data-theme="lofi" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="lofi" data-act-class="outline">
+          Lofi
+        </button>
+        <button data-theme="black" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="black" data-act-class="outline">
+          Black
+        </button>
+        <button data-theme="fantasy" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="fantasy" data-act-class="outline">
+          Fantasy
+        </button>
+        <button data-theme="sunset" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="sunset" data-act-class="outline">
+          Sunset
+        </button>
+        <button data-theme="dim" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="dim" data-act-class="outline">
+          Dim
+        </button>
+        <button data-theme="winter" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="winter" data-act-class="outline">
+          Winter
         </button>
       </div>
   </div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
 	import type { DashboardMachine, Machine } from "$lib/types/models";
 
   let machineToLog: DashboardMachine | null = null;

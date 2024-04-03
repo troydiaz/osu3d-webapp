@@ -10,11 +10,14 @@ module.exports = {
   ],
   daisyui: {
     themes: [
-      'dark',
       'light',
-      'night'
+      'lofi',
+      'black',
+      'fantasy',
+      'sunset',
+      'dim',
+      'winter'
     ],
-    logs: false
-  },
-  darkMode: ['class', '[data-theme="dark"]'],
+    logs: false,
+  }
 }

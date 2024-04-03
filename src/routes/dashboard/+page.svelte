@@ -122,7 +122,7 @@
         <div>Quickstart</div>
       </div>
       <div class="content flex flex-col md:flex-row gap-4">
-        <a href="/print" class="btn btn-neutral h-fit">
+        <a href="/print" class="btn dark:btn-neutral h-fit">
           <div class="flex flex-col justify-center items-center gap-2 p-2">
             <Play strokeWidth={1.5} class="h-6 w-6" />
             <div>Start Print</div>
@@ -134,13 +134,13 @@
             <div>My Stats</div>
           </div>
         </a> -->
-        <a href="https://canvas.oregonstate.edu/courses/1877606" target="_blank" class="btn btn-neutral h-fit p-2">
+        <a href="https://canvas.oregonstate.edu/courses/1877606" target="_blank" class="btn dark:btn-neutral h-fit p-2">
           <div class="flex flex-col justify-center items-center gap-2">
             <GraduationCap strokeWidth={1.5} class="h-6 w-6" />
             <div>Club Canvas</div>
           </div>
         </a>
-        <a href="https://discord.gg/CUrEfbWPHy" target="_blank" class="btn btn-neutral h-fit p-2">
+        <a href="https://discord.gg/CUrEfbWPHy" target="_blank" class="btn dark:btn-neutral h-fit p-2">
           <div class="flex flex-col justify-center items-center gap-2">
             <MessageCircle strokeWidth={1.5} class="h-6 w-6" />
             <div>Club Discord</div>

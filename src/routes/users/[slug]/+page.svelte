@@ -75,7 +75,7 @@
 
         </div>
         <div class="divider"></div>
-        <div class="flex"><button type="submit" form="perm-form" class="btn btn-neutral">Save Changes</button></div>
+        <div class="flex"><button type="submit" form="perm-form" class="btn btn-primary">Save Changes</button></div>
       </div>
     </div>
   </div>
