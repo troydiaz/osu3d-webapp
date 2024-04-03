@@ -74,52 +74,51 @@
 
 {#if routeData && permissions}
 <div class="page">
-  <PageHeader name="Print" />
+  
 
     
-  <div class="flex lg:flex-row flex-col flex-wrap gap-8">
-
-    <div class="flex flex-col gap-2">
-      <div>Filter by tier</div>
-      <!-- Buttons -->
-      <div class="join join-horizontal">
-        <input data-sveltekit-reload type="radio" name="options" aria-label="Tier 1" class="btn join-item" checked={filter.tier === 1} on:click={() => setFilter({ tier: 1 })} />
-        <input data-sveltekit-reload type="radio" name="options" aria-label="Tier 2" class="btn join-item" checked={filter.tier === 2} on:click={() => setFilter({ tier: 2 })} />
-        <input data-sveltekit-reload type="radio" name="options" aria-label="Tier 3" class="btn join-item" checked={filter.tier === 3} on:click={() => setFilter({ tier: 3 })} />
-        <input data-sveltekit-reload type="radio" name="options" aria-label="All" class="btn join-item" checked={filter.tier === null} on:click={() => setFilter({ tier: null })} />
+  <div class="flex md:flex-row md:justify-between flex-col flex-wrap md:gap-12">
+    <PageHeader name="Print" />
+    <div class="flex md:gap-12 gap-4 flex-wrap">
+      <div class="flex flex-col gap-2">
+        <div>Filter by tier</div>
+        <!-- Buttons -->
+        <div class="join join-horizontal">
+          <input data-sveltekit-reload type="radio" name="options" aria-label="Tier 1" class="btn join-item" checked={filter.tier === 1} on:click={() => setFilter({ tier: 1 })} />
+          <input data-sveltekit-reload type="radio" name="options" aria-label="Tier 2" class="btn join-item" checked={filter.tier === 2} on:click={() => setFilter({ tier: 2 })} />
+          <input data-sveltekit-reload type="radio" name="options" aria-label="Tier 3" class="btn join-item" checked={filter.tier === 3} on:click={() => setFilter({ tier: 3 })} />
+          <input data-sveltekit-reload type="radio" name="options" aria-label="Any" class="btn join-item" checked={filter.tier === null} on:click={() => setFilter({ tier: null })} />
+        </div>
+      </div>
+      <div class="flex flex-col gap-2">
+        <div>Filter by status</div>
+        <!-- Buttons -->
+        <div class="join join-horizontal">
+          <input type="radio" name="options2" aria-label="Ready" class="btn join-item" checked={filter.status === MachineStatus.IDLE} on:click={() => setFilter({ status: MachineStatus.IDLE })} />
+          <input type="radio" name="options2" aria-label="Busy" class="btn join-item" checked={filter.status === MachineStatus.WORKING} on:click={() => setFilter({ status: MachineStatus.WORKING })} />
+          <input type="radio" name="options2" aria-label="Down" class="btn join-item" checked={filter.status === MachineStatus.FAULT} on:click={() => setFilter({ status: MachineStatus.FAULT })} />
+          <input type="radio" name="options2" aria-label="Any" class="btn join-item" checked={filter.status === null} on:click={() => setFilter({ status: null })} />
+        </div>
       </div>
     </div>
-
-
-    <div class="flex flex-col gap-2">
-      <div>Filter by status</div>
-      <!-- Buttons -->
-      <div class="join join-horizontal">
-        <input type="radio" name="options2" aria-label="Ready" class="btn join-item" checked={filter.status === MachineStatus.IDLE} on:click={() => setFilter({ status: MachineStatus.IDLE })} />
-        <input type="radio" name="options2" aria-label="Busy" class="btn join-item" checked={filter.status === MachineStatus.WORKING} on:click={() => setFilter({ status: MachineStatus.WORKING })} />
-        <input type="radio" name="options2" aria-label="Down" class="btn join-item" checked={filter.status === MachineStatus.FAULT} on:click={() => setFilter({ status: MachineStatus.FAULT })} />
-        <input type="radio" name="options2" aria-label="All" class="btn join-item" checked={filter.status === null} on:click={() => setFilter({ status: null })} />
-      </div>
-    </div>
-
   </div>
 
   {#key filter}
     <div class="static grid grid-col-1 lg:grid-cols-2 xl:grid-cols-3 md:gap-12" in:fly={{ y: 10, delay: 500 }} out:fade={{ duration: 250 }}>
       {#if certifiedMachines.length === 0}
-        <div class="col-span-2 flex flex-col justify-start items-center pt-8 gap-8 opacity-25 dark:opacity-50 animate-pulse">
-          <Brackets class="w-32 h-32 stroke-1" />
+        <div class="col-span-4 flex flex-col justify-start items-center pt-16 gap-8 opacity-25">
+          <Brackets class="w-24 h-24 stroke-1 animate-bounce" />
           <div class="text-3xl font-mono">No results</div>
         </div>
       {/if}
     
       {#each certifiedMachines as machine}
-        <div class="col-span-1 window !p-0 dark:bg-slate-400/10 bg-slate-400/10 {getBackgroundStyles(machine)}">
+        <div class="col-span-1 window !p-0 {getBackgroundStyles(machine)}">
             <div class="flex flex-col gap-8 h-full w-full">
               <div class="flex flex-col grow gap-8 justify-start items-center">
                 <div class="flex justify-between w-full border-b border-black/10 dark:border-white/10 box-border">
                   <div class="p-4 flex items-center">
-                    <div class="rounded-full flex flex-col justify-center">
+                    <div class="flex flex-col justify-center">
                       <span class="text-xl text-center font-semibold {getStatusStyles(machine)}">{getStatus(machine)}</span>
                     </div>
                   </div>
@@ -131,7 +130,7 @@
                 </div>
               </div>
               <!-- Buttons -->
-              <div class="relative join join-horizontal rounded-t-none w-full md:border-t border-black/10 dark:border-white/10">
+              <div class="relative join join-horizontal rounded-t-none rounded-box w-full border-t border-base-content/25 overflow-hidden">
                 <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-none bg-info/25 hover:bg-info/50" disabled={machine.status !== MachineStatus.IDLE || !isTierCertified(permissions, machine.tier)} on:click={() => newPrintModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <ClipboardPen /><div>Log</div>
@@ -148,8 +147,8 @@
                   </div>
                 </button>
                 {#if !isTierCertified(permissions, machine.tier)}
-                  <div class="absolute inset-0 flex justify-center items-center left-[1px] bg-gradient-to-t dark:from-warning/50 dark:to-warning/20 from-warning/75 to-warning/50">
-                    <div class="dark:text-white text-2xl font-thin">Tier Certification Required</div>
+                  <div class="absolute inset-0 flex justify-center items-center left-[1px] bg-gradient-to-t from-warning/75 to-warning/50 rounded-b-box">
+                    <div class="text-warning-content text-xl">Certification Required</div>
                   </div>
                 {/if}
               </div>

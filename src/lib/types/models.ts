@@ -23,9 +23,7 @@ export type Machine = Tables<'machines'> & {
     events: MachineEvent[]
 }
 
-export type User = Tables<'profiles'> & {
-    perms: Tables<'user_levels'>
-}
+export type UserProfile = Tables<'profiles'>;
 
 export type Announcement = Tables<'announcements'> & {
     created_by: Tables<'profiles'>

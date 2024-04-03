@@ -1,6 +1,6 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
-import type { UserPermissions } from '$lib/types/models';
+import type { UserPermissions, UserProfile } from '$lib/types/models';
 import type { Database } from '$lib/types/supabase';
 import { SupabaseClient, Session } from '@supabase/supabase-js';
 declare global {
@@ -9,6 +9,7 @@ declare global {
 			supabase: SupabaseClient<Database>;
 			getSession(): Promise<Session | null>;
 			getPermissions(): Promise<UserPermissions | null>;
+			getUserProfile(): Promise<UserProfile | null>;
 		}
 		interface PageData {
 			session: Session | null;

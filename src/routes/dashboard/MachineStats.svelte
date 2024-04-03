@@ -10,11 +10,11 @@
 </script>
 
 <div class="col-span-1 window">
-  <div class="header">
+  <div class="window-header">
     <Layers />
     <span>Printer Status</span>
   </div>
-  <div class="content flex justify-around items-center h-full">
+  <div class="window-content flex justify-around items-center h-full">
 
     <div class="flex flex-col gap-2 justify-start items-center">
       <div class="text-4xl font-thin">{ activeJobCount }</div>

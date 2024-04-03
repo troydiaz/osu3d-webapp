@@ -54,23 +54,23 @@ svg:focus {
   }
 }
 
-.stats,
+/* .stats,
 .input {
   @apply border border-base-content/10;
-}
+} */
 
-.stats {
+/* .stats {
   @apply bg-base-100;
-}
+} */
 
 .page {
   @apply flex flex-col gap-4 md:gap-12 w-full p-4;
 }
 
 .window {
-  @apply bg-base-100 text-base-content backdrop-blur-xl rounded-box ring-1 ring-base-content/10 flex flex-col gap-4 my-4 md:my-0 shadow;
+  @apply bg-base-100 text-base-content backdrop-blur-xl rounded-box ring-1 ring-base-content/25 flex flex-col gap-4 my-4 md:my-0 shadow;
 
-  & > .header {
+  & > .window-header {
     @apply md:text-xl flex flex-row items-center gap-4 relative p-4 pb-0;
 
     & svg {
@@ -78,17 +78,21 @@ svg:focus {
     }
 
     &::after {
-      @apply content-[''] absolute left-0 right-0 h-[1px] bg-base-content/10 -bottom-4;
+      @apply content-[''] absolute left-0 right-0 h-[1px] bg-base-content/25 -bottom-4;
     }
   }
 
-  & > .content {
+  & > .window-footer {
+    @apply md:text-xl flex flex-row items-center gap-4 relative p-4 pt-0;
+
+    &::before {
+      @apply content-[''] absolute left-0 right-0 h-[1px] bg-base-content/25 -top-4;
+    }
+  }
+
+  & > .window-content {
     @apply p-4;
   }
-}
-
-.window-header {
- @apply px-4 lg:px-0;
 }
 
 .disable-focus:focus {

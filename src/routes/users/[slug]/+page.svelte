@@ -23,8 +23,8 @@
   <PageHeader name="Members" backUrl="/users" />
 
   <div class="window">
-    <div class="header">Flags</div>
-    <div class="content">
+    <div class="window-header">Flags</div>
+    <div class="window-content">
       <div class="flex flex-col">
 
         <div class="flex flex-col lg:flex-row justify-between">

@@ -16,7 +16,16 @@ module.exports = {
       'fantasy',
       'sunset',
       'dim',
-      'winter'
+      'winter',
+      'cmyk',
+      'wireframe',
+      'cyberpunk',
+      'coffee',
+      'aqua',
+      'dark',
+      'night',
+      'dracula',
+      'synthwave'
     ],
     logs: false,
   }

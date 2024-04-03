@@ -58,8 +58,8 @@ export interface Database {
             foreignKeyName: "announcements_created_by_user_id_fkey"
             columns: ["created_by_user_id"]
             isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
           }
         ]
       }
@@ -464,6 +464,7 @@ export interface Database {
       }
       profiles: {
         Row: {
+          avatar_url: string | null
           created_at: string
           discord: string | null
           email: string | null
@@ -473,6 +474,7 @@ export interface Database {
           user_id: string
         }
         Insert: {
+          avatar_url?: string | null
           created_at?: string
           discord?: string | null
           email?: string | null
@@ -482,6 +484,7 @@ export interface Database {
           user_id: string
         }
         Update: {
+          avatar_url?: string | null
           created_at?: string
           discord?: string | null
           email?: string | null

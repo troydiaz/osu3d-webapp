@@ -32,6 +32,7 @@ export const load: LayoutLoad = async ({ fetch, data, depends, url }) => {
   return {
     supabase,
     session,
+    profile: data.profile,
     permissions: data.permissions,
     pathname: url.pathname
   };

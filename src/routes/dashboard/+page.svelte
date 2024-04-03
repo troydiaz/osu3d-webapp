@@ -31,7 +31,7 @@
     <!-- Announcements -->
     <div class="lg:col-span-2 window { newAnnouncements ? 'ring-1 ring-yellow-500/75' : ''}">
 
-      <div class="header">
+      <div class="window-header">
         <Megaphone />
         <span>Announcements</span>
         {#if newAnnouncements}
@@ -40,7 +40,7 @@
       </div>
 
       
-      <div class="content flex flex-col gap-8 font-normal pb-2">
+      <div class="window-content flex flex-col gap-8 font-normal pb-2">
         {#each announcements || [] as announce}
           <div class="relative p-4 rounded border border-base-content/50 border-b-0 border-dashed">
             <p class="text-sm italic">
@@ -63,11 +63,11 @@
 
     <!-- Josef -->
     <div class="lg:col-span-2 window">
-      <div class="header">
+      <div class="window-header">
         <Bot />
         <span>Josef the Discord Bot</span>
       </div>
-      <div class="content flex flex-col gap-2 text-sm">
+      <div class="window-content flex flex-col gap-2 text-sm">
         {#if !data.profileData?.discord}
           <p>
             You haven't added your Discord username yet. Consider adding it in the <a href="/account" class="link link-warning">Settings page</a>. You will get notifications
@@ -85,12 +85,12 @@
     {#if activeJobs.length > 0}
       <div class="lg:col-span-4 relative window">
 
-        <div class="header">
+        <div class="window-header">
           <Star />
           <span>My Jobs</span>
         </div>
 
-        <div class="content flex gap-8 md:flex-row flex-col">
+        <div class="window-content flex gap-8 md:flex-row flex-col">
           {#each activeJobs as job}
             <div class="flex md:flex-col flex-row justify-around md:justify-center items-center gap-4">
               <div class="flex flex-col items-center">
@@ -117,11 +117,11 @@
     
 
     <div class="lg:col-span-3 window">
-      <div class="header">
+      <div class="window-header">
         <Locate />
         <div>Quickstart</div>
       </div>
-      <div class="content flex flex-col md:flex-row gap-4">
+      <div class="window-content flex flex-col md:flex-row gap-4">
         <a href="/print" class="btn dark:btn-neutral h-fit">
           <div class="flex flex-col justify-center items-center gap-2 p-2">
             <Play strokeWidth={1.5} class="h-6 w-6" />

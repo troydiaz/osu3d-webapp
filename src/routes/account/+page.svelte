@@ -6,9 +6,13 @@
   import toast from 'svelte-french-toast';
   import { onMount } from 'svelte';
   import { themeChange } from 'theme-change';
+  import ThemePreview from './ThemePreview.svelte';
+  import UploadAvatar from './UploadAvatar.svelte';
 	
   export let data: PageData;
   export let form: ActionData;
+
+  let profileForm: HTMLFormElement;
 
   $: if (form) form.success ? toast.success('Saved', { className: ''}) : toast.error('Something went wrong :(');
 
@@ -17,9 +21,11 @@
 
   let full_name: string | null = profile?.full_name ?? form?.full_name ?? null;
   let discord: string | null = profile?.discord ?? form?.discord ?? null;
+  let avatar_url: string | null = profile?.avatar_url ?? form?.avatar_url ?? null;
 
   $: unsavedChanges = (discord !== profile?.discord && discord !== form?.discord) ||
-    (full_name !== profile?.full_name && full_name !== form?.full_name);
+    (full_name !== profile?.full_name && full_name !== form?.full_name) ||
+    (avatar_url !== profile?.avatar_url && avatar_url !== form?.avatar_url);
 
   let pingDisabled = false;
 
@@ -43,93 +49,106 @@
 </svelte:head>
 
 <div class="page">
-  <PageHeader name="Account Settings" />
+  <PageHeader name="Settings" />
 
   <div class="window">
-      <div class="header">Theme</div>
-      <!-- Account Settings -->
-      <div class="content flex gap-4">
-        <button data-theme="light" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="light" data-act-class="outline">
-          <span>Light</span>
-        </button>
-        <button data-theme="lofi" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="lofi" data-act-class="outline">
-          Lofi
-        </button>
-        <button data-theme="black" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="black" data-act-class="outline">
-          Black
-        </button>
-        <button data-theme="fantasy" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="fantasy" data-act-class="outline">
-          Fantasy
-        </button>
-        <button data-theme="sunset" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="sunset" data-act-class="outline">
-          Sunset
-        </button>
-        <button data-theme="dim" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="dim" data-act-class="outline">
-          Dim
-        </button>
-        <button data-theme="winter" type="button" class="btn btn-primary w-20 outline-base-content outline-offset-2 outline-2" data-set-theme="winter" data-act-class="outline">
-          Winter
-        </button>
+      <div class="window-header">Theme</div>
+      <div class="window-content flex flex-col gap-4">
+
+         <!-- Account Settings -->
+         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 columns-auto gap-4">
+          <ThemePreview theme="light" />
+          <ThemePreview theme="dark" />
+          <ThemePreview theme="lofi" />
+          <ThemePreview theme="black" />
+          <ThemePreview theme="fantasy" />
+          <ThemePreview theme="sunset" />
+          <ThemePreview theme="dim" />
+          <ThemePreview theme="winter" />
+          <ThemePreview theme="cmyk" />
+          <ThemePreview theme="wireframe" />
+          <ThemePreview theme="night" />
+          <ThemePreview theme="cyberpunk" />
+          <ThemePreview theme="coffee" />
+          <ThemePreview theme="aqua" />
+          <ThemePreview theme="dracula" />
+          <ThemePreview theme="synthwave" />
+        </div>
       </div>
   </div>
 
-  <div class="window">
-    <div class="header">General</div>
-    <div class="content">
-      <form
-        method="post"
-        action="?/update"
-        use:enhance={() => {
-          loading = true;
-          return async ({ result }) => {
-            loading = false;
-            if (result.type === 'redirect')
-              goto(result.location);
-            else
-              await applyAction(result);
-          }
-        }}
-        class="flex flex-col gap-4"
-      >
-        <div class="form-control w-full max-w-xs">
-          <label for="email" class="label">
-            <span class="label-text">Email</span>
-          </label>
-          <input id="email" type="text" class="input w-full max-w-xs input-bordered" value={session.user.email} disabled />
-        </div>
-    
-        <div class="form-control w-full max-w-xs">
-          <label for="email" class="label">
-            <span class="label-text">Name</span>
-          </label>
-          <input autocomplete="off" bind:value={full_name} id="full_name" name="full_name" type="text" class="input input-bordered w-full max-w-xs" />
-        </div>
-    
-        <div class="form-control w-full max-w-xs">
-          <label for="email" class="label">
-            <span class="label-text">Discord username</span>
-          </label>
-          <div class="flex gap-4">
-              <input autocomplete="off" bind:value={discord} id="discord" name="discord" type="text" class="input input-bordered w-full max-w-xs" />
-              <button type="button" class="btn btn-primary w-20" disabled={!discord || discord === '' || pingDisabled} on:click={() => ping()}>
-                {#if pingDisabled}
-                <span class="loading loading-spinner loading-md"></span>
-                {:else}
-                <span>Test</span>
-                {/if}
-              </button>
-          </div>
-        </div>
-    
-        <div class="mt-2 flex gap-8 items-center">
-          <button
-            type="submit"
-            class="btn btn-primary"
-            disabled={!unsavedChanges || loading}
-          >Save Changes</button>
-        </div>
-      </form>
-    </div>
-  </div>
+  <form
+    method="post"
+    action="?/update"
+    bind:this={profileForm}
+    use:enhance={() => {
+      loading = true;
+      return async ({ result }) => {
+        loading = false;
+        if (result.type === 'redirect')
+          goto(result.location);
+        else
+          await applyAction(result);
+      }
+    }}
+  >
+    <div class="window">
+      <div class="window-header">General</div>
 
+      <div class="window-content flex flex-col md:flex-row justify-start md:items-start gap-4 flex-wrap">
+
+        <div class="h-fit px-8">
+          <UploadAvatar
+              {supabase}
+              bind:url={avatar_url}
+              on:upload={() => {
+                profileForm.requestSubmit();
+              }}
+            />
+        </div>
+        
+
+        <div class="flex flex-col gap-4">
+          <div class="form-control">
+            <label for="email" class="label">
+              <span class="label-text">Email</span>
+            </label>
+            <input id="email" type="text" class="input input-bordered w-full" value={session.user.email} disabled />
+          </div>
+          <div class="form-control">
+            <label for="email" class="label">
+              <span class="label-text">Name</span>
+            </label>
+            <input autocomplete="off" bind:value={full_name} id="full_name" name="full_name" type="text" class="input input-bordered" />
+          </div>
+          <div class="form-control">
+            <label for="email" class="label">
+              <span class="label-text">Discord username</span>
+            </label>
+            <div class="flex gap-4">
+                <input autocomplete="off" bind:value={discord} id="discord" name="discord" type="text" class="input input-bordered grow" />
+                <button type="button" class="btn btn-secondary w-20" disabled={!discord || discord === '' || pingDisabled} on:click={() => ping()}>
+                  {#if pingDisabled}
+                  <span class="loading loading-spinner loading-md"></span>
+                  {:else}
+                  <span>Test</span>
+                  {/if}
+                </button>
+            </div>
+          </div>
+        </div> 
+        
+      </div>
+
+      <div class="window-footer">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          disabled={!unsavedChanges || loading}
+        >
+          <div>Save Changes</div>
+        </button>
+      </div>
+    </div>
+  </form>
 </div>

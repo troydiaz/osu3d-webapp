@@ -40,6 +40,18 @@ export const handle: Handle = async ({ event, resolve }) => {
     return userLevel;
   }
 
+  event.locals.getUserProfile = async () => {
+    const session = await event.locals.getSession();
+    if (!session?.user.id) return null;
+
+    const { data: profile } = await event.locals.supabase.from('profiles')
+      .select('*')
+      .eq('user_id', session.user.id)
+      .maybeSingle();
+
+    return profile;
+  }
+
   return resolve(event, {
     filterSerializedResponseHeaders(name) {
       return name === 'content-range';

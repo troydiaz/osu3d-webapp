@@ -4,13 +4,11 @@
   import { onMount } from "svelte";
   import { Bars3 } from "svelte-heros-v2";
   import { Toaster } from 'svelte-french-toast';
-  // Images
   import DrawerSidebar from "./DrawerSidebar.svelte";
-        
   
   export let data;
-  let { supabase, permissions, session } = data
-  $: ({ supabase, permissions, session } = data)
+  let { supabase, permissions, session, profile } = data
+  $: ({ supabase, permissions, session, profile } = data)
 
   onMount(() => {
     const { data } = supabase.auth.onAuthStateChange((event, _session) => {
@@ -51,7 +49,7 @@
 
 
       <!-- Drawer sidebar that is visible on larger screen -->
-      <DrawerSidebar name={session.user.user_metadata.full_name} permissions={permissions} supabase={supabase} />
+      <DrawerSidebar {profile} permissions={permissions} supabase={supabase} />
     </div>
   {:else}
     <slot />
