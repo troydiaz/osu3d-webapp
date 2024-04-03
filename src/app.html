@@ -5,7 +5,10 @@
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
 		<script>
-			document.getElementsByTagName('html')[0].setAttribute('data-theme', localStorage.getItem('theme'));
+			// Grab the theme from storage
+			const theme = localStorage.getItem('theme') || 'light';
+			// Apply it to the html element
+			document.getElementsByTagName('html')[0].setAttribute('data-theme', theme);
 		</script>
 		%sveltekit.head%
 	</head>
