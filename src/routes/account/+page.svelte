@@ -95,7 +95,7 @@
     <div class="window">
       <div class="window-header">Personal</div>
 
-      <div class="window-content flex flex-col md:flex-row justify-start items-start gap-4 flex-wrap">
+      <div class="window-content flex flex-col-reverse md:flex-row justify-start md:items-center gap-4 flex-wrap">
 
         <div class="flex flex-col gap-4">
           <div class="form-control">
