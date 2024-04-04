@@ -98,3 +98,8 @@ svg:focus {
 .disable-focus:focus {
   background-color: unset !important;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.drawer-side::-webkit-scrollbar {
+  display: none;
+}

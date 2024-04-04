@@ -77,7 +77,7 @@
   
 
     
-  <div class="flex md:flex-row md:justify-between flex-col flex-wrap md:gap-12">
+  <div class="flex lg:flex-row lg:justify-between flex-col flex-wrap md:gap-12">
     <PageHeader name="Print" />
     <div class="flex md:gap-12 gap-4 flex-wrap">
       <div class="flex flex-col gap-2">

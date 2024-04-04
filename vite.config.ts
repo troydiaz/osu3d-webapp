@@ -9,9 +9,9 @@ const json = readFileSync(file, 'utf8');
 const pkg = JSON.parse(json);
 
 export default defineConfig({
-	plugins: [sveltekit()],
-	define: {
-		'__NAME__': JSON.stringify(pkg.name),
-		'__VERSION__': JSON.stringify(pkg.version)
-	}
+  plugins: [sveltekit()],
+  define: {
+    '__APP_NAME__': JSON.stringify(pkg.name),
+    '__APP_VERSION__': JSON.stringify(pkg.version)
+  }
 });

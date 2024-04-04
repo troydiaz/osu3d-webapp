@@ -4,11 +4,8 @@
   export let data: PageData;
   $: ({ supabase } = data);
 
-  // @ts-ignore
-  const appName = __NAME__;
-
-  // @ts-ignore
-  const appVersion = __VERSION__;
+  const appName = __APP_NAME__;
+  const appVersion = __APP_VERSION__;
 
   async function signIn() {
     await supabase.auth.signInWithOAuth({
