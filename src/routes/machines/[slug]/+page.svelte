@@ -17,7 +17,7 @@
 
 {#if machine}
 <div class="page">
-  <PageHeader name="Edit Printer" backUrl="/machines" />
+  <PageHeader name="Printers" backUrl="/machines" />
   
   <!-- Title -->
   <div class="window justify-between relative !flex-row !gap-8 !p-8 overflow-hidden">

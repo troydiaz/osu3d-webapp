@@ -16,7 +16,7 @@
 </svelte:head>
 
 <div class="page">
-  <PageHeader name="Edit Tree" backUrl="/inventory" />
+  <PageHeader name="Inventory" backUrl="/inventory" />
 
   <div class="flex gap-12">
     <ul class="basis-1/2 menu bg-base-100 rounded-lg shadow-lg">

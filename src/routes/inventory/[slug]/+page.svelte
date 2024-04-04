@@ -20,7 +20,8 @@
 </svelte:head>
 
 <div class="page">
-  <PageHeader name="Edit Inventory" backUrl="/inventory" />
+  <PageHeader name="Inventory" backUrl="/inventory" />
+  
   <div class="window flex !flex-col md:!flex-row justify-between md:!p-8">
     <div class="flex flex-col justify-between items-start space-y-12 z-10">
       <div class="flex flex-col space-y-2">
