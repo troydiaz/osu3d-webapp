@@ -20,13 +20,13 @@
   <PageHeader name="Edit Printer" backUrl="/machines" />
   
   <!-- Title -->
-  <div class="window justify-between !flex-row !gap-8 !p-8 overflow-hidden">
+  <div class="window justify-between relative !flex-row !gap-8 !p-8 overflow-hidden">
     <div class="flex flex-col justify-between items-start gap-4 md:gap-12 z-10">
       <div class="flex flex-col space-y-2">
         <span class="text-3xl font-thin">{machine.nickname}</span>
         <span class="hidden md:inline text-base sm:text-2xl font-thin">{machine.machine_def.make} {machine.machine_def.model}</span>
       </div>
-      <div class="stats bg-base-100 z-10">
+      <div class="stats bg-base-200 z-10">
         <div class="stat">
           <div class="stat-title">Current Status</div>
           <div class="stat-value font-mono text-2xl">{machineStatusToText(getMachineStatus(machine))}</div>
