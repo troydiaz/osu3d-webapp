@@ -103,7 +103,7 @@
 
           <!-- Reports -->
           {#if hasPermission(permissions?.level, PermCategory.SPECIAL, PermFlag.FIRST)}
-          <div class="tooltip" data-tip="Coming Soon">
+          <div class="tooltip tooltip-bottom" data-tip="Coming Soon">
             <SidebarButton name="Reports" url="/reports" disabled>
               <span slot="icon"><PieChart /></span>
             </SidebarButton>
@@ -114,10 +114,10 @@
 
         <!-- Logout button -->
         <div class="pb-4">
-          <div class="rounded-btn group transition hover:bg-base-content/10">
-            <button on:click={() => signOut()} class="w-full h-full flex flex-row justify-start items-center transition gap-4 p-3 opacity-80 group-hover:opacity-100">
+          <div class="group transition">
+            <button on:click={() => signOut()} class="w-full btn btn-ghost flex justify-start items-center gap-4 p-3">
               <LogOut />
-              <div class="font-semibold">Logout</div>
+              <div>Logout</div>
             </button>
           </div>
         </div>

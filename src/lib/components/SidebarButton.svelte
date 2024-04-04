@@ -9,6 +9,6 @@
 <div class="relative group transition">
   <a href={url} class="btn btn-ghost { disabled ? 'btn-disabled' : '' } flex justify-start items-center gap-4 p-3 {$page.url.pathname.startsWith(url) ? 'btn-active' : ''}">
     <slot name="icon" />
-    <div class="font-semibold">{ name }</div>
+    <div>{ name }</div>
   </a>
 </div>
