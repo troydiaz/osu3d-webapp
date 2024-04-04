@@ -7,7 +7,7 @@
   import type { UserPermissions, UserProfile } from "$lib/types/models";
   import type { Database } from '$lib/types/supabase';
   import type { SupabaseClient } from "@supabase/supabase-js";
-  import { Box, PieChart, LogOut, UserCircle, Home, Cog, Play, Users, Wrench, Database as DBLucide } from "lucide-svelte";
+  import { Box, PieChart, LogOut, Home, Cog, Play, Users, Wrench, Database as DBLucide } from "lucide-svelte";
 
   export let permissions: UserPermissions | null;
   export let supabase: SupabaseClient<Database>;
@@ -26,7 +26,7 @@
     <!-- <div class="w-12">
       <img src="/osu3d.svg" alt="Club logo" class="m-auto opacity-75">
     </div> -->
-    <div class="min-h-screen px-4 bg-base-100 border-r border-base-content/25 flex flex-col justify-between py-4 gap-8">
+    <div class="min-h-screen px-4 w-52 bg-base-100 border-r border-base-content/25 flex flex-col justify-between py-4 gap-8">
       <div class="flex flex-col justify-start md:gap-2 gap-2">
 
         <div class="flex flex-col w-full justify-center items-center gap-4 py-4 select-none pointer-events-none">

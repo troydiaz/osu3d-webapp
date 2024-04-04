@@ -10,9 +10,6 @@ module.exports = {
   ],
   daisyui: {
     themes: [
-      {
-        "beaves": "#"
-      },
       'light',
       'lofi',
       'black',
