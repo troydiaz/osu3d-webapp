@@ -3,6 +3,7 @@
 	import type { SupabaseClient } from '@supabase/supabase-js'
   import { UserCircle } from 'lucide-svelte';
 	import { createEventDispatcher } from 'svelte'
+  import { fade, fly } from 'svelte/transition';
 
 	export let url: string | null
 	export let supabase: SupabaseClient
@@ -29,16 +30,15 @@
 	$: if (url) downloadImage(url)
 </script>
 
-<div class="w-full h-full aspect-square">
+<div class="avatar w-16 h-16">
 	{#if avatarUrl}
-		<div class="w-fit h-full rounded-full overflow-hidden">
+		<div class="w-16 rounded-full ring-2 ring-base-content ring-offset-base-100 ring-offset-2" transition:fly={{ y: 10, duration: 500 }}>
 			<img
 				src={avatarUrl}
 				alt={avatarUrl ? 'Avatar' : 'No image'}
-				class="w-full h-full object-cover"
 			/>
 		</div>
-	{:else}
-		<UserCircle class="stroke-1 w-full h-full opacity-25" />
+	{:else if !url}
+		<UserCircle class="stroke-1 w-16 h-16" />
 	{/if}
 </div>

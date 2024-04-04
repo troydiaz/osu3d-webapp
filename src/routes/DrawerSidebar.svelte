@@ -21,7 +21,7 @@
 
 <div class="z-20 drawer-side">
   <label for="drawer-id" class="drawer-overlay"></label>
-  <ul class="overflow-y-auto menu h-full px-4 w-52 bg-base-100 backdrop-blur-xl border-r border-base-content/25 ">
+  <ul class="menu h-full px-4 w-52 bg-base-100 backdrop-blur-xl border-r border-base-content/25 ">
     <div class="flex flex-col h-full w-full justify-stretch items-stretch gap-4">
       <!-- <div class="w-12">
         <img src="/osu3d.svg" alt="Club logo" class="m-auto opacity-75">
@@ -29,10 +29,8 @@
       <div class="flex flex-col h-full w-full justify-between items-stretch gap-8 pt-4">
         <div class="flex flex-col justify-start md:gap-2 gap-2">
 
-          <div class="flex flex-col w-full justify-center items-center gap-2 py-4">
-            <div class="w-20 h-20 ">
-              <Avatar supabase={supabase} url={profile?.avatar_url ?? null} />
-            </div>
+          <div class="flex flex-col w-full justify-center items-center gap-4 py-4 select-none pointer-events-none">
+            <Avatar supabase={supabase} url={profile?.avatar_url ?? null} />
             {#if profile?.full_name}
               <span class="text-sm font-light text-ellipsis whitespace-nowrap overflow-hidden w-full text-center">{ profile.full_name }</span>
             {/if}
@@ -105,9 +103,11 @@
 
           <!-- Reports -->
           {#if hasPermission(permissions?.level, PermCategory.SPECIAL, PermFlag.FIRST)}
-          <SidebarButton name="Reports" url="/reports">
-            <span slot="icon"><PieChart /></span>
-          </SidebarButton>
+          <div class="tooltip" data-tip="Coming Soon">
+            <SidebarButton name="Reports" url="/reports" disabled>
+              <span slot="icon"><PieChart /></span>
+            </SidebarButton>
+          </div>
           {/if}
   
         </div>

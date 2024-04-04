@@ -27,7 +27,7 @@
     <div class="window-content">
       <div class="flex flex-col">
 
-        <div class="flex flex-col lg:flex-row justify-between">
+        <div class="flex flex-col-reverse justify-start gap-8">
           <div class="flex flex-col gap-2 justify-end">
             <div>Name: { user.full_name }</div>
             <div>Email: { user.email }</div>
@@ -35,7 +35,7 @@
 
 
           <form id="perm-form" method="post" action="?/setPerms">
-            <div class="flex gap-2 justify-end mr-8 mt-32">
+            <div class="flex gap-2 justify-center mr-8 mt-32">
               <!-- <div class="flex flex-col gap-2 mr-4">
                 <span class="uppercase font-mono -rotate-45 absolute -translate-y-24 -translate-x-3 text-left w-40">Admin</span>
                 <input name="admin" checked={hasPermission(user.level, PermCategory.SPECIAL, PermFlag.FIRST)} value={getPermissionBit(PermCategory.SPECIAL, PermFlag.FIRST)} type="checkbox" class="checkbox checkbox-error" />
@@ -74,9 +74,10 @@
           </form>
 
         </div>
-        <div class="divider"></div>
-        <div class="flex"><button type="submit" form="perm-form" class="btn btn-primary">Save Changes</button></div>
+        
       </div>
     </div>
+
+    <div class="window-footer flex justify-end"><button type="submit" form="perm-form" class="btn btn-primary">Save Changes</button></div>
   </div>
 </div>

@@ -68,7 +68,7 @@ svg:focus {
 }
 
 .window {
-  @apply bg-base-100 text-base-content backdrop-blur-xl rounded-box ring-1 ring-base-content/25 flex flex-col gap-4 my-4 md:my-0 shadow;
+  @apply bg-base-100 text-base-content rounded-box ring-1 ring-base-content/25 flex flex-col gap-4 my-4 md:my-0 shadow;
 
   & > .window-header {
     @apply md:text-xl flex flex-row items-center gap-4 relative p-4 pb-0;

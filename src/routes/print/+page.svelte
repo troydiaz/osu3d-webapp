@@ -81,7 +81,7 @@
     <PageHeader name="Print" />
     <div class="flex md:gap-12 gap-4 flex-wrap">
       <div class="flex flex-col gap-2">
-        <div>Filter by tier</div>
+        <div>Tier</div>
         <!-- Buttons -->
         <div class="join join-horizontal">
           <input data-sveltekit-reload type="radio" name="options" aria-label="Tier 1" class="btn join-item" checked={filter.tier === 1} on:click={() => setFilter({ tier: 1 })} />
@@ -91,7 +91,7 @@
         </div>
       </div>
       <div class="flex flex-col gap-2">
-        <div>Filter by status</div>
+        <div>Status</div>
         <!-- Buttons -->
         <div class="join join-horizontal">
           <input type="radio" name="options2" aria-label="Ready" class="btn join-item" checked={filter.status === MachineStatus.IDLE} on:click={() => setFilter({ status: MachineStatus.IDLE })} />
@@ -116,7 +116,7 @@
         <div class="col-span-1 window !p-0 {getBackgroundStyles(machine)}">
             <div class="flex flex-col gap-8 h-full w-full">
               <div class="flex flex-col grow gap-8 justify-start items-center">
-                <div class="flex justify-between w-full border-b border-black/10 dark:border-white/10 box-border">
+                <div class="flex justify-between w-full border-b border-base-content/25">
                   <div class="p-4 flex items-center">
                     <div class="flex flex-col justify-center">
                       <span class="text-xl text-center font-semibold {getStatusStyles(machine)}">{getStatus(machine)}</span>
@@ -131,17 +131,17 @@
               </div>
               <!-- Buttons -->
               <div class="relative join join-horizontal rounded-t-none rounded-box w-full border-t border-base-content/25 overflow-hidden">
-                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-none bg-info/25 hover:bg-info/50" disabled={machine.status !== MachineStatus.IDLE || !isTierCertified(permissions, machine.tier)} on:click={() => newPrintModal.launchModal(machine)}>
+                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-none btn-primary" disabled={machine.status !== MachineStatus.IDLE || !isTierCertified(permissions, machine.tier)} on:click={() => newPrintModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <ClipboardPen /><div>Log</div>
                   </div>
                 </button>
-                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 bg-warning/25 hover:bg-warning/50" disabled={machine.status !== MachineStatus.WORKING || !isTierCertified(permissions, machine.tier)} on:click={() => cancelPrintModal.launchModal(machine)}>
+                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 btn-secondary" disabled={machine.status !== MachineStatus.WORKING || !isTierCertified(permissions, machine.tier)} on:click={() => cancelPrintModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <Octagon /><div>Stop</div>
                   </div>
                 </button>
-                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 bg-error/25 hover:bg-error/50" disabled={machine.status === MachineStatus.FAULT || !isTierCertified(permissions, machine.tier)} on:click={() => newIssueModal.launchModal(machine)}>
+                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 btn-accent" disabled={machine.status === MachineStatus.FAULT || !isTierCertified(permissions, machine.tier)} on:click={() => newIssueModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <Tag /><div>Issue</div>
                   </div>

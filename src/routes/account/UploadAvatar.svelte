@@ -65,26 +65,33 @@
 	$: if (url) downloadImage(url)
 </script>
 
-<div class="flex flex-col gap-4 justify-between items-center w-full h-full">
+<div class="flex flex-col gap-4 justify-between items-center">
 	<label for="avatar_url" class="label">
 		<span class="label-text">Profile Picture</span>
 	</label>
-	<div class="w-fit h-full rounded-full">
+	<div class="w-32 h-32">
 		{#if avatarUrl}
-			<img
-				src={avatarUrl}
-				alt={avatarUrl ? 'Avatar' : 'No image'}
-				class="w-40 h-40 object-cover rounded-full overflow-hidden"
-			/>
-		{:else}
-			<UserCircle class="stroke-1 w-40 h-40" />
+			<div class="avatar select-none pointer-events-none">
+				<div class="w-32 rounded-full">
+					<img
+						src={avatarUrl}
+						alt={avatarUrl ? 'Avatar' : 'No image'}
+					/>
+				</div>
+			</div>
+		{:else if !url}
+			<UserCircle class="stroke-1 w-32 h-32" />
 		{/if}
 	</div>
+
 	<input type="hidden" name="avatar_url" value={url} />
 
 	<div>
-		<label class="btn btn-ghost" for="single">
-			{uploading ? 'Uploading ...' : 'Upload'}
+		<label class="btn btn-ghost spinn" for="single">
+			{#if uploading}
+				<span class="loading loading-spinner loading-sm"></span>
+			{/if}
+			Upload
 		</label>
 		<input
 			hidden

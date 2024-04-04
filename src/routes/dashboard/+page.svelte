@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { PageData } from "./$types";
-  import { BarChart3, Bot, GraduationCap, Locate, Megaphone, MessageCircle, Play, Star, ThumbsUp } from "lucide-svelte";
+  import { Bot, GraduationCap, Locate, Megaphone, MessageCircle, Play, Star } from "lucide-svelte";
   import { MachineStatus } from "$lib/types/models";
   import { formatDistanceToNow, formatDistanceToNowStrict } from "date-fns";
   import CancelPrintModal from "$lib/components/modals/CancelPrintModal.svelte";
@@ -26,10 +26,10 @@
 
   <PageHeader name="Hi { (session.user.user_metadata.full_name).split(' ')[0] }" />
 
-  <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-12">
+  <div class="grid grid-cols-4 md:gap-12">
 
     <!-- Announcements -->
-    <div class="lg:col-span-2 window { newAnnouncements ? 'ring-1 ring-yellow-500/75' : ''}">
+    <div class="col-span-4 lg:col-span-2 window { newAnnouncements ? 'ring-1 ring-yellow-500/75' : '' }">
 
       <div class="window-header">
         <Megaphone />
@@ -62,7 +62,7 @@
     </div>
 
     <!-- Josef -->
-    <div class="lg:col-span-2 window">
+    <div class="col-span-4 lg:col-span-2 window">
       <div class="window-header">
         <Bot />
         <span>Josef the Discord Bot</span>
@@ -83,7 +83,7 @@
 
     <!-- My Jobs -->
     {#if activeJobs.length > 0}
-      <div class="lg:col-span-4 relative window">
+      <div class="col-span-4 lg:col-span-4 window">
 
         <div class="window-header">
           <Star />
@@ -101,7 +101,7 @@
               </div>
               <img src="/{job.model}.png" class="hidden md:block max-h-28" />
               
-              <button class="btn btn-outline btn-warning md:btn-sm ring-1 ring-error/10 hover:bg-error/25 px-2"
+              <button class="btn btn-ghost md:btn-sm"
                 on:click={() => cancelPrintModal.launchModal(job)}
               >
                 <div class="flex justify-center items-center gap-1">
@@ -116,14 +116,14 @@
     {/if}
     
 
-    <div class="lg:col-span-3 window">
+    <div class="col-span-4 lg:col-span-2 window">
       <div class="window-header">
         <Locate />
         <div>Quickstart</div>
       </div>
-      <div class="window-content flex flex-col md:flex-row gap-4">
-        <a href="/print" class="btn dark:btn-neutral h-fit">
-          <div class="flex flex-col justify-center items-center gap-2 p-2">
+      <div class="window-content flex justify-center items-center h-full">
+        <a href="/print" class="btn btn-xs btn-link h-fit">
+          <div class="flex flex-col justify-center items-center gap-2">
             <Play strokeWidth={1.5} class="h-6 w-6" />
             <div>Start Print</div>
           </div>
@@ -134,13 +134,13 @@
             <div>My Stats</div>
           </div>
         </a> -->
-        <a href="https://canvas.oregonstate.edu/courses/1877606" target="_blank" class="btn dark:btn-neutral h-fit p-2">
+        <a href="https://canvas.oregonstate.edu/courses/1877606" target="_blank" class="btn btn-xs btn-link h-fit">
           <div class="flex flex-col justify-center items-center gap-2">
             <GraduationCap strokeWidth={1.5} class="h-6 w-6" />
             <div>Club Canvas</div>
           </div>
         </a>
-        <a href="https://discord.gg/CUrEfbWPHy" target="_blank" class="btn dark:btn-neutral h-fit p-2">
+        <a href="https://discord.gg/CUrEfbWPHy" target="_blank" class="btn btn-xs btn-link h-fit">
           <div class="flex flex-col justify-center items-center gap-2">
             <MessageCircle strokeWidth={1.5} class="h-6 w-6" />
             <div>Club Discord</div>

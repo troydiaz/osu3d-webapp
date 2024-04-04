@@ -15,7 +15,6 @@
       if (_session?.expires_at !== session?.expires_at)
         invalidate('supabase:auth')
     });
-    console.log(session);
     return () => data.subscription.unsubscribe();
   });
 </script>

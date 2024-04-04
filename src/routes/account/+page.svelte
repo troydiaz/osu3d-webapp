@@ -93,20 +93,9 @@
     }}
   >
     <div class="window">
-      <div class="window-header">General</div>
+      <div class="window-header">Personal</div>
 
-      <div class="window-content flex flex-col md:flex-row justify-start md:items-start gap-4 flex-wrap">
-
-        <div class="h-fit px-8">
-          <UploadAvatar
-              {supabase}
-              bind:url={avatar_url}
-              on:upload={() => {
-                profileForm.requestSubmit();
-              }}
-            />
-        </div>
-        
+      <div class="window-content flex flex-col md:flex-row justify-start items-start gap-4 flex-wrap">
 
         <div class="flex flex-col gap-4">
           <div class="form-control">
@@ -137,10 +126,20 @@
             </div>
           </div>
         </div> 
+
+        <div class="px-8">
+          <UploadAvatar
+              {supabase}
+              bind:url={avatar_url}
+              on:upload={() => {
+                profileForm.requestSubmit();
+              }}
+            />
+        </div>
         
       </div>
 
-      <div class="window-footer">
+      <div class="window-footer flex justify-end">
         <button
           type="submit"
           class="btn btn-primary"
