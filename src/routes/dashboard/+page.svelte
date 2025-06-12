@@ -140,7 +140,7 @@
             <div>Club Canvas</div>
           </div>
         </a>
-        <a href="https://discord.gg/CUrEfbWPHy" target="_blank" class="btn btn-xs btn-link h-fit">
+        <a href="https://discord.gg/B2VXatfzAF" target="_blank" class="btn btn-xs btn-link h-fit">
           <div class="flex flex-col justify-center items-center gap-2">
             <MessageCircle strokeWidth={1.5} class="h-6 w-6" />
             <div>Club Discord</div>
