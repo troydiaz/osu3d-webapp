@@ -19,7 +19,7 @@ export const fetchAllMachines = async (supabase: SupabaseClient<Database>) => {
         resolved_by: resolved_by_user_id (*)
       )
     `)
-
+    .eq('active', true)
     .returns<Machine[]>();
 
   if (result.error)
@@ -34,6 +34,7 @@ export const fetchDashboardRouteData = async (supabase: SupabaseClient<Database>
     .select(`
       *
     `)
+    .eq('active',true)
     .returns<DashboardMachine[]>();
 
   if (result.error)
@@ -58,6 +59,7 @@ export const fetchOneMachine = async (supabase: SupabaseClient<Database>, id: st
         resolved_by: resolved_by_user_id (*)
       )
     `)
+    .eq('active', true)
     .eq('id', id)
     .order('created_at', { foreignTable: 'prints_view', ascending: false })
     .order('created_at', { foreignTable: 'machine_events', ascending: false })
