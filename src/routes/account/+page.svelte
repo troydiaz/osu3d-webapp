@@ -9,6 +9,14 @@
   import ThemePreview from './ThemePreview.svelte';
   import UploadAvatar from './UploadAvatar.svelte';
 	
+  const allThemes = [
+    'light','dark','cupcake','bumblebee','emerald','corporate','synthwave',
+    'retro','cyberpunk','valentine','halloween','garden','forest','aqua',
+    'lofi','pastel','fantasy','wireframe','black','luxury','dracula','cmyk',
+    'acid','lemonade','night','coffee','winter','dim','nord','sunset',
+    'caramellatte','abyss','silk'
+  ];
+
   export let data: PageData;
   export let form: ActionData;
 
@@ -56,24 +64,12 @@
       <div class="window-content flex flex-col gap-4">
 
          <!-- Account Settings -->
-         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 columns-auto gap-4">
-          <ThemePreview theme="light" />
-          <ThemePreview theme="dark" />
-          <ThemePreview theme="lofi" />
-          <ThemePreview theme="black" />
-          <ThemePreview theme="fantasy" />
-          <ThemePreview theme="sunset" />
-          <ThemePreview theme="dim" />
-          <ThemePreview theme="winter" />
-          <ThemePreview theme="cmyk" />
-          <ThemePreview theme="wireframe" />
-          <ThemePreview theme="night" />
-          <ThemePreview theme="cyberpunk" />
-          <ThemePreview theme="coffee" />
-          <ThemePreview theme="aqua" />
-          <ThemePreview theme="dracula" />
-          <ThemePreview theme="synthwave" />
+         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
+          {#each allThemes as themeName}
+            <ThemePreview theme={themeName} />
+          {/each}
         </div>
+
       </div>
   </div>
 

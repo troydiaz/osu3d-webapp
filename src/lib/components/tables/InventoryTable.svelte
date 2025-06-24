@@ -91,7 +91,7 @@
                   >
                     {item.name}
                     <Pencil
-                      class="ml-1 opacity-0 hover:opacity-100 transition-opacity"
+                      class="ml-1"
                       style="width:1rem; height:1rem;"
                     />
                 </span>
