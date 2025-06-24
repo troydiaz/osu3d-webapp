@@ -1,14 +1,13 @@
-import type { User, UserPermissions } from "$lib/types/models";
-import { error, redirect, type Actions } from "@sveltejs/kit";
-import type { PageServerLoad } from "./$types";
-import { hasPermission, PermCategory, PermFlag } from "$lib/helpers";
+import type { User, UserPermissions } from '$lib/types/models';
+import { error, redirect, type Actions } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
+import { hasPermission, PermCategory, PermFlag } from '$lib/helpers';
 
 export const load = (async ({ params, locals: { supabase, getSession, getPermissions } }) => {
   const session = await getSession();
   const permissions = await getPermissions();
 
-  if (!session || !hasPermission(permissions?.level, PermCategory.USERS, PermFlag.FIRST))
-      throw redirect(303, '/');
+  if (!session || !hasPermission(permissions?.level, PermCategory.USERS, PermFlag.FIRST)) throw redirect(303, '/');
 
   const { data: user } = await supabase
     .from('user_levels')
@@ -17,14 +16,13 @@ export const load = (async ({ params, locals: { supabase, getSession, getPermiss
     .returns<UserPermissions[]>()
     .maybeSingle();
 
-  if (!user)
-    throw error(404, 'User not found');
+  if (!user) throw error(404, 'User not found');
 
-  return { session, user, slug: params.slug }
+  return { session, user, slug: params.slug };
 }) satisfies PageServerLoad;
 
 export const actions = {
-	setPerms: async ({ request, locals: { supabase, getSession } }) => {
+  setPerms: async ({ request, locals: { supabase, getSession } }) => {
     const formData = await request.formData();
 
     const admin = (formData.get('admin') as number | null) ?? 0;
@@ -37,8 +35,7 @@ export const actions = {
 
     const userId = formData.get('user_id') as string | null;
 
-    if (!userId)
-      throw error(404, 'No user ID');
+    if (!userId) throw error(404, 'No user ID');
 
     const perms = admin | inventory | maintenance | machines | tier3 | tier2 | tier1;
 
@@ -53,7 +50,6 @@ export const actions = {
 
     return {
       success: result.status === 200 || result.status === 204
-    }
-
+    };
   }
 } satisfies Actions;

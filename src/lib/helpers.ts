@@ -1,40 +1,41 @@
-import { differenceInDays } from "date-fns";
-import type { Machine } from "./types/models";
-import type { UserPermissions } from "./types/models";
+import { differenceInDays } from 'date-fns';
+import type { Machine } from './types/models';
+import type { UserPermissions } from './types/models';
 
 export function getDateAndTime(dateString: string | null, includeTime: boolean) {
   if (!dateString) return '—';
   let date = new Date(dateString);
-  return includeTime ? `${date.toLocaleDateString()} ${date.toLocaleTimeString()}` :
-    `${date.toLocaleDateString()}`;
+  return includeTime ? `${date.toLocaleDateString()} ${date.toLocaleTimeString()}` : `${date.toLocaleDateString()}`;
 }
 
 export function getDaysSince(dateString: string | null) {
   if (!dateString) return '—';
   const days = differenceInDays(new Date(), new Date(dateString));
   if (days === 0) return 'Today';
-  return `approx. ${days} ${days === 1 ? 'day': 'days'} ago`;
+  return `approx. ${days} ${days === 1 ? 'day' : 'days'} ago`;
 }
 
 export function getTotalHours(machine: Machine) {
   let total = 0;
-  machine.prints.map(p => total += (new Date(p.done_at).getTime() - new Date(p.created_at).getTime()) / 1000 / 60 / 60);
+  machine.prints.map(
+    (p) => (total += (new Date(p.done_at).getTime() - new Date(p.created_at).getTime()) / 1000 / 60 / 60)
+  );
   return total;
 }
 
 export function getAverageJobDuration(machine: Machine) {
-  return (getTotalHours(machine) / machine.prints.length) || 0;
+  return getTotalHours(machine) / machine.prints.length || 0;
 }
 
 export function getTotalExtrudedInKg(machine: Machine) {
   let total = 0;
-  machine.prints.map(p => total += p.filament);
+  machine.prints.map((p) => (total += p.filament));
   // returns kg
   return total / 1000;
 }
 
 export function getSuccessRate(machine: Machine) {
-  return (machine.prints.filter(p => p.status === 'SUCCESS').length || 1) / (machine.prints.length || 1) * 100;
+  return ((machine.prints.filter((p) => p.status === 'SUCCESS').length || 1) / (machine.prints.length || 1)) * 100;
 }
 
 export enum PermCategory {
@@ -61,7 +62,10 @@ export function getPermCategory(perms: number, category: PermCategory) {
 
 export function hasPermission(perms: number | null | undefined, category: PermCategory, flag: PermFlag) {
   if (perms === null || perms === undefined) return false;
-  return ((getPermCategory(perms, category) & (1 << flag)) > 0) || ((getPermCategory(perms, PermCategory.SPECIAL) & (1 << PermFlag.FIRST)) > 0); // if admin bit is set, always return true
+  return (
+    (getPermCategory(perms, category) & (1 << flag)) > 0 ||
+    (getPermCategory(perms, PermCategory.SPECIAL) & (1 << PermFlag.FIRST)) > 0
+  ); // if admin bit is set, always return true
 }
 
 export function getPermissionBit(category: PermCategory, flag: PermFlag) {
@@ -70,7 +74,7 @@ export function getPermissionBit(category: PermCategory, flag: PermFlag) {
 
 // Flat array to tree
 export type ITreeItem<T> = T & {
-  children: ITreeItem<T>[],
+  children: ITreeItem<T>[];
 };
 
 export type IItemKey = string | number;
@@ -81,23 +85,23 @@ export function createTree<T>(flatList: T[], idKey: IItemKey, parentKey: IItemKe
   // hash table.
   const mappedArr = new Map<IItemKey, ITreeItem<T>>();
   flatList.forEach((el: any) => {
-      const elId: IItemKey = el[idKey];
+    const elId: IItemKey = el[idKey];
 
-      mappedArr.set(elId, el);
-      mappedArr.get(elId)!.children = [];
+    mappedArr.set(elId, el);
+    mappedArr.get(elId)!.children = [];
   });
 
   // also you can use Object.values(mappedArr).forEach(...
   // but if you have element which was nested more than one time
   // you should iterate flatList again:
   flatList.forEach((elem: any) => {
-      const mappedElem = mappedArr.get(elem[idKey])!;
+    const mappedElem = mappedArr.get(elem[idKey])!;
 
-      if (elem[parentKey]) {
-          mappedArr.get(elem[parentKey])!.children.push(elem);
-      } else {
-          tree.push(mappedElem);
-      }
+    if (elem[parentKey]) {
+      mappedArr.get(elem[parentKey])!.children.push(elem);
+    } else {
+      tree.push(mappedElem);
+    }
   });
 
   return tree;

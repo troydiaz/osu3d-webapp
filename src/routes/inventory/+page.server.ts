@@ -1,18 +1,18 @@
-import type { InventoryCategory, InventoryItem } from "$lib/types/models";
-import { error, redirect } from "@sveltejs/kit";
-import type { Actions, PageServerLoad } from "./$types";
-import { hasPermission, PermCategory, PermFlag } from "$lib/helpers";
+import type { InventoryCategory, InventoryItem } from '$lib/types/models';
+import { error, redirect } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
+import { hasPermission, PermCategory, PermFlag } from '$lib/helpers';
 
 export const load = (async ({ locals: { supabase, getSession, getPermissions } }) => {
   const session = await getSession();
   const permissions = await getPermissions();
-  
-  if (!session || !hasPermission(permissions?.level, PermCategory.INVENTORY, PermFlag.FIRST))
-    throw redirect(303, '/');
+
+  if (!session || !hasPermission(permissions?.level, PermCategory.INVENTORY, PermFlag.FIRST)) throw redirect(303, '/');
 
   const { data: inventory } = await supabase
     .from('inv_items_view')
-    .select(`
+    .select(
+      `
       *,
       created_by: created_by_user_id (*),
       changes: inv_changes_view (
@@ -20,18 +20,15 @@ export const load = (async ({ locals: { supabase, getSession, getPermissions } }
         created_by: created_by_user_id (*)
       ),
       inv_category: inv_category_id (*)
-    `)
+    `
+    )
     .returns<InventoryItem[]>();
 
-  const { data: categories } = await supabase
-    .from('inv_categories')
-    .select('*')
-    .returns<InventoryCategory[]>();
+  const { data: categories } = await supabase.from('inv_categories').select('*').returns<InventoryCategory[]>();
 
-  if (inventory === null || categories === null)
-    throw error(404, 'Could not fetch resources');
+  if (inventory === null || categories === null) throw error(404, 'Could not fetch resources');
 
-  return { session, inventory, categories }
+  return { session, inventory, categories };
 }) satisfies PageServerLoad;
 
 export const actions = {
@@ -52,9 +49,7 @@ export const actions = {
     const name = form.get('name') as string;
     const session = await event.locals.getSession();
 
-    await event.locals.supabase
-      .from('inv_categories')
-      .insert({ name, created_by_user_id: session!.user.id });
+    await event.locals.supabase.from('inv_categories').insert({ name, created_by_user_id: session!.user.id });
   },
 
   submitNewChange: async (event) => {
@@ -64,13 +59,11 @@ export const actions = {
     const item_id = form.get('item_id') as string;
     const amount = Number(form.get('amount'));
 
-    await event.locals.supabase
-      .from('inv_changes')
-      .insert({
-        inv_item_id: item_id,
-        amount: mode === 'add' ? amount : -amount,
-        created_by_user_id: session!.user.id
-      });
+    await event.locals.supabase.from('inv_changes').insert({
+      inv_item_id: item_id,
+      amount: mode === 'add' ? amount : -amount,
+      created_by_user_id: session!.user.id
+    });
   },
 
   updateName: async (event) => {
@@ -78,10 +71,7 @@ export const actions = {
     const id = form.get('id') as string;
     const name = form.get('name') as string;
 
-    await event.locals.supabase
-      .from('inv_items')
-      .update({ name })
-      .eq('id', id);
+    await event.locals.supabase.from('inv_items').update({ name }).eq('id', id);
   },
 
   toggleHidden: async (event) => {

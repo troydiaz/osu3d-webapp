@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (prefers-color-scheme: dark){
-  :root{
+@media (prefers-color-scheme: dark) {
+  :root {
     --my-color: @apply bg-white;
   }
 }
@@ -12,15 +12,16 @@ html {
   scrollbar-gutter: stable;
 }
 
-html, body {
+html,
+body {
   /* @apply dark:text-base-content; */
   box-sizing: border-box;
 }
 
 .my-auth-container {
   background: radial-gradient(white, theme('colors.slate.300') 200%);
-  [data-theme="dark"] & {
-    background: radial-gradient(theme('colors.base-content / 0.15'), theme('colors.base-content' / 0.05) 200%); 
+  [data-theme='dark'] & {
+    background: radial-gradient(theme('colors.base-content / 0.15'), theme('colors.base-content' / 0.05) 200%);
   }
 }
 
@@ -28,17 +29,19 @@ html, body {
   .auth-button {
     @apply !rounded-lg !px-2;
   }
-  
+
   .table-row-error td {
     @apply !bg-red-300;
   }
-  
+
   .table-row-error:hover td {
     @apply !bg-red-500;
   }
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
@@ -47,8 +50,8 @@ svg:focus {
 }
 
 @layer base {
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }

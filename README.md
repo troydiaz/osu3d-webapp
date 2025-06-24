@@ -5,14 +5,14 @@ other club members & officers.
 
 # Technologies
 
-* [Supabase](https://supabase.com/) full-stack deployment
-    * postgres database
-    * third-party auth
-    * s3 storage
-    * realtime database subscriptions (amazing)
-    * it's hip and cool
-* [SvelteKit](https://kit.svelte.dev/) framework for sweet sweet SSR
-* Tailwindcss (daisyui toolkit)
+- [Supabase](https://supabase.com/) full-stack deployment
+  - postgres database
+  - third-party auth
+  - s3 storage
+  - realtime database subscriptions (amazing)
+  - it's hip and cool
+- [SvelteKit](https://kit.svelte.dev/) framework for sweet sweet SSR
+- Tailwindcss (daisyui toolkit)
 
 # Photos
 

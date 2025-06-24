@@ -9,19 +9,18 @@ await client.login(Deno.env.get('DISCORD_BOT_TOKEN')!);
 
 Deno.serve(async (req) => {
   // Send a response to the OPTION request before you use the req object.
-  if (req.method === 'OPTIONS')
-    return new Response('OK', { headers: corsHeaders, status: 200 });
-  
+  if (req.method === 'OPTIONS') return new Response('OK', { headers: corsHeaders, status: 200 });
+
   const { username, message } = await req.json();
   return await sendMessage(username, message);
 });
 
 const sendMessage = (username: string, message: string): Promise<Response> => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     client.once(Events.ClientReady, async () => {
       const discordGuild = client.guilds.cache.get(Deno.env.get('DISCORD_SERVER')!);
       const allMembers = await discordGuild!.members.fetch();
-      const user = allMembers.find(m => m.user.username === username);
+      const user = allMembers.find((m) => m.user.username === username);
 
       // If member exists, send a message to them
       await user?.send(message);
@@ -29,7 +28,7 @@ const sendMessage = (username: string, message: string): Promise<Response> => {
       resolve(new Response('OK', { status: 200 }));
     });
   });
-}
+};
 
 /* To invoke locally:
 

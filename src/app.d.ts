@@ -4,13 +4,11 @@ import type { UserPermissions, UserProfile } from '$lib/types/models';
 import type { Database } from '$lib/types/supabase';
 import { SupabaseClient, Session } from '@supabase/supabase-js';
 declare global {
-  
   // Populated by Vite
   const __APP_NAME__: string;
   const __APP_VERSION__: string;
 
   namespace App {
-    
     interface Locals {
       supabase: SupabaseClient<Database>;
       getSession(): Promise<Session | null>;

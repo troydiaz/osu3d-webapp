@@ -1,21 +1,19 @@
-import { error, redirect } from "@sveltejs/kit";
-import type { Actions, PageServerLoad } from "./$types";
-import { fetchOneMachine } from "$lib/server/machine";
-import { hasPermission, PermCategory, PermFlag } from "$lib/helpers";
+import { error, redirect } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
+import { fetchOneMachine } from '$lib/server/machine';
+import { hasPermission, PermCategory, PermFlag } from '$lib/helpers';
 
 export const load = (async ({ params, locals: { supabase, getSession, getPermissions } }) => {
   const session = await getSession();
   const permissions = await getPermissions();
-  
-  if (!session || !hasPermission(permissions?.level, PermCategory.MACHINES, PermFlag.FIRST))
-    throw redirect(303, '/');
+
+  if (!session || !hasPermission(permissions?.level, PermCategory.MACHINES, PermFlag.FIRST)) throw redirect(303, '/');
 
   const machine = await fetchOneMachine(supabase, params.slug);
 
-  if (machine === null)
-    throw error(404, 'Machine not found');
+  if (machine === null) throw error(404, 'Machine not found');
 
-  return { session, machine, slug: params.slug }
+  return { session, machine, slug: params.slug };
 }) satisfies PageServerLoad;
 
 export const actions = {
@@ -25,17 +23,16 @@ export const actions = {
 
     const resolved_by_id = session?.user.id;
     if (!resolved_by_id) return { success: false };
-    let resolveList: { id: string, success: boolean }[] = JSON.parse(formData.get('id-array') as string).map((id: string) => { return { id, success: false } });
+    let resolveList: { id: string; success: boolean }[] = JSON.parse(formData.get('id-array') as string).map(
+      (id: string) => {
+        return { id, success: false };
+      }
+    );
 
     for (let job of resolveList) {
-      const check = await supabase
-        .from('faults')
-        .select('*')
-        .eq('id', job.id)
-        .maybeSingle();
+      const check = await supabase.from('faults').select('*').eq('id', job.id).maybeSingle();
 
-      if (check.data?.resolved)
-        continue;
+      if (check.data?.resolved) continue;
 
       const update = await supabase
         .from('machine_events')
@@ -51,7 +48,7 @@ export const actions = {
     }
 
     return {
-      success: resolveList.filter(j => !j.success).length === 0
-    }
+      success: resolveList.filter((j) => !j.success).length === 0
+    };
   }
 } satisfies Actions;

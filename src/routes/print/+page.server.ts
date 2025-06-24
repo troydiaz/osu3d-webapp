@@ -9,10 +9,10 @@ export const load = (async ({ locals: { supabase, getSession, getPermissions } }
   const routeData = await fetchDashboardRouteData(supabase);
 
   const { data: profile } = await supabase
-		.from('profiles')
-		.select(`email, full_name, discord`)
-		.eq('user_id', session.user.id)
-		.maybeSingle();
+    .from('profiles')
+    .select(`email, full_name, discord`)
+    .eq('user_id', session.user.id)
+    .maybeSingle();
 
   return { session, routeData, profile };
 }) satisfies PageServerLoad;
@@ -38,12 +38,12 @@ export const actions = {
         machine_id,
         description,
         print_id: print_id || null
-      }).select();
+      })
+      .select();
 
     console.log(result);
 
-    if (result.error)
-      throw error(result.status, result.error.message);
+    if (result.error) throw error(result.status, result.error.message);
   },
   addPrintLog: async ({ request, locals: { supabase, getSession }, url }) => {
     const formData = await request.formData();
@@ -81,14 +81,12 @@ export const actions = {
 
     if (safetyCheck?.status === 'CANCELED') return;
 
-    await supabase
-      .from('machine_events')
-      .insert({
-        event_type: 'STOP',
-        created_by_user_id,
-        resolved: true,
-        machine_id,
-        print_id
-      });
+    await supabase.from('machine_events').insert({
+      event_type: 'STOP',
+      created_by_user_id,
+      resolved: true,
+      machine_id,
+      print_id
+    });
   }
 } satisfies Actions;
