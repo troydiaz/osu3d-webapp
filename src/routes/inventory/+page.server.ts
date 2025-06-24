@@ -35,52 +35,63 @@ export const load = (async ({ locals: { supabase, getSession, getPermissions } }
 }) satisfies PageServerLoad;
 
 export const actions = {
-  submitNewItem: async ({ request, locals: { supabase, getSession } }) => {
-    const formData = await request.formData();
-    const session = await getSession();
+  submitNewItem: async (event) => {
+    const form = await event.request.formData();
+    const name = form.get('name') as string;
+    const minimum = Number(form.get('minimum'));
+    const inv_category_id = form.get('inv_category_id') as string;
+    const session = await event.locals.getSession();
 
-    const name = formData.get('name') as string;
-    const minimum = Number(formData.get('minimum'));
-    const inv_category_id = formData.get('inv_category_id') as string;
-
-    console.log(name, minimum, inv_category_id);
-
-    let result = await supabase
+    await event.locals.supabase
       .from('inv_items')
-      .insert({
-        name,
-        minimum,
-        created_by_user_id: session!.user.id,
-        inv_category_id
-      });
+      .insert({ name, minimum, created_by_user_id: session!.user.id, inv_category_id });
   },
-  submitNewCategory: async ({ request, locals: { supabase, getSession } }) => {
-    const formData = await request.formData();
-    const session = await getSession();
 
-    const name = formData.get('name') as string;
+  submitNewCategory: async (event) => {
+    const form = await event.request.formData();
+    const name = form.get('name') as string;
+    const session = await event.locals.getSession();
 
-    const result = await supabase
+    await event.locals.supabase
       .from('inv_categories')
-      .insert({
-        name,
-        created_by_user_id: session!.user.id
-      });
+      .insert({ name, created_by_user_id: session!.user.id });
   },
-  submitNewChange: async ({ request, locals: { supabase, getSession } }) => {
-    const formData = await request.formData();
-    const session = await getSession();
 
-    const mode = formData.get('mode') as 'add' | 'subtract';
-    const item_id = formData.get('item_id') as string;
-    const amount = Number(formData.get('amount'));
+  submitNewChange: async (event) => {
+    const form = await event.request.formData();
+    const session = await event.locals.getSession();
+    const mode = form.get('mode') as 'add' | 'subtract';
+    const item_id = form.get('item_id') as string;
+    const amount = Number(form.get('amount'));
 
-    let result = await supabase
+    await event.locals.supabase
       .from('inv_changes')
       .insert({
         inv_item_id: item_id,
         amount: mode === 'add' ? amount : -amount,
         created_by_user_id: session!.user.id
       });
+  },
+
+  updateName: async (event) => {
+    const form = await event.request.formData();
+    const id = form.get('id') as string;
+    const name = form.get('name') as string;
+
+    await event.locals.supabase
+      .from('inv_items')
+      .update({ name })
+      .eq('id', id);
+  },
+
+  toggleHidden: async (event) => {
+    const form = await event.request.formData();
+    const id = form.get('id') as string;
+    const hidden = form.get('hidden') === 'true';
+
+    await event.locals.supabase
+      .from('inv_items')
+      .update({ hidden } as any)
+      .eq('id', id);
   }
 } satisfies Actions;

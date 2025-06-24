@@ -3,11 +3,15 @@
 	import { totalAllChanges, type InventoryItem, getMostRecentChangeDateName, type InventoryCategory } from "$lib/types/models";
 	import Paginate from "$lib/utilities/Paginate.svelte";
 	import { Minus, Plus } from "svelte-heros-v2";
+  import { Pencil }    from "svelte-heros-v2";
 	import NewChangeMenu from "../menu/NewChangeMenu.svelte";
+  import { Trash } from "svelte-heros-v2";
 
   export let inventory: InventoryItem[] = [];
   export let title: string = 'Untitled';
 
+  let editingId: string | null = null;
+  let editedName = "";
   let filterText = '';
 
   export let allowSearch = false;
@@ -53,9 +57,46 @@
         <tbody>
             {#each inventory || [] as item}
             <tr>
-                <td>
+              <td class="relative">
+                {#if editingId === item.id}
+                  <!-- edit mode -->
+                  <form method="POST" action="?/updateName" class="flex items-center">
+                    <input type="hidden" name="id" value={item.id} />
+                    <input
+                      name="name"
+                      class="input input-sm"
+                      bind:value={editedName}
+                      on:keydown={(e) => e.key === 'Enter' && e.currentTarget.form?.submit()}
+                      on:blur={(e) => e.currentTarget.form?.submit()}
+                      autofocus
+                    />
+                  </form>
+                {:else}
+                  <!-- display mode -->
+                  <span
+                    class="cursor-pointer flex items-center"
+                    role="button"
+                    tabindex="0"
+                    on:click={() => {
+                      editingId = item.id;
+                      editedName = item.name;
+                    }}
+                    on:keydown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        editingId = item.id;
+                        editedName = item.name;
+                        e.preventDefault();
+                      }
+                    }}
+                  >
                     {item.name}
-                </td>
+                    <Pencil
+                      class="ml-1 opacity-0 hover:opacity-100 transition-opacity"
+                      style="width:1rem; height:1rem;"
+                    />
+                </span>
+                {/if}
+              </td>              
                 <td>{item.current_stock}</td>
                 <td>
                   {item.minimum}
@@ -72,6 +113,13 @@
                   <div class="divider divider-horizontal m-0"></div>
                   <!-- <button class="btn btn-sm btn-primary" on:click={() => goto(`/inventory/${item.id}`)}>Inv</button> -->
                   <button class="btn btn-sm btn-primary" on:click={() => goto(`/inventory/${item.id}`)}>View</button>
+                  <form method="POST" action="?/toggleHidden" class="inline">
+                    <input type="hidden" name="id" value={item.id} />
+                    <input type="hidden" name="hidden" value="true" />
+                    <button type="submit" class="btn btn-sm btn-warning" title="Hide this item">
+                      <Trash style="width:1rem; height:1rem;" />
+                    </button>
+                  </form>
                 </td>
             </tr>
             {/each}

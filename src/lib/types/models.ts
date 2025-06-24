@@ -36,6 +36,7 @@ export type InventoryItem = Tables<'inv_items'> & {
     created_by: Tables<'profiles'>
     inv_category: Tables<'inv_categories'>
     current_stock: number
+    hidden: boolean
 }
 
 export type InventoryChange = Tables<'inv_changes'> & {
