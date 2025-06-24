@@ -113,7 +113,15 @@
                   <div class="divider divider-horizontal m-0"></div>
                   <!-- <button class="btn btn-sm btn-primary" on:click={() => goto(`/inventory/${item.id}`)}>Inv</button> -->
                   <button class="btn btn-sm btn-primary" on:click={() => goto(`/inventory/${item.id}`)}>View</button>
-                  <form method="POST" action="?/toggleHidden" class="inline">
+                  <form
+                    method="POST"
+                    action="?/toggleHidden"
+                    class="inline"
+                    on:submit|preventDefault={(e) => {
+                      const confirmed = confirm("Are you sure you want to delete this item? It can be recovered from the database.");
+                      if (confirmed) e.currentTarget.submit();
+                    }}
+                  >
                     <input type="hidden" name="id" value={item.id} />
                     <input type="hidden" name="hidden" value="true" />
                     <button type="submit" class="btn btn-sm btn-warning" title="Hide this item">
