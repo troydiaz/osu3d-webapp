@@ -64,6 +64,8 @@ export type DashboardMachine = {
     print_user_id: string | null,
     done_at: string | null
     full_name: string | null
+    print_created_at: string | null
+    print_done_at: string | null
 }
 
 export function prettyDate(input: string) {

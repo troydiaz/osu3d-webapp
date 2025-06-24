@@ -10,6 +10,7 @@
   import PageHeader from "$lib/components/PageHeader.svelte";
   import { printFilter } from "$lib/state";
   import { browser } from "$app/environment";
+  import { onMount } from 'svelte';
     
   export let data: PageData;
   const { permissions, routeData } = data;
@@ -65,6 +66,34 @@
       default:
         return '';
     }
+  }
+
+  let now = Date.now();
+
+  onMount(() => {
+    const iv = setInterval(() => (now = Date.now()), 1000);
+    return () => clearInterval(iv);
+  });
+
+  /** percent complete between start and end */
+  function getProgress(m: DashboardMachine): number {
+    if (!m.print_created_at || !m.print_done_at) return 0;
+    const start = new Date(m.print_created_at).getTime();
+    const end = new Date(m.print_done_at).getTime();
+    return Math.max(0, Math.min(100, ((now - start) / (end - start)) * 100));
+  }
+
+  function secsLeft(m: DashboardMachine): number {
+    if (!m.print_done_at) return 0;
+    const seconds = Math.max(0, Math.ceil((new Date(m.print_done_at).getTime() - now) / 1000));
+    return seconds;
+  }
+
+  function formatMinutes(seconds: number): string {
+    const minutes = Math.ceil(seconds / 60); // round up to the next full minute
+    const hrs = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hrs}h ${mins}m`;
   }
 </script>
 
@@ -128,6 +157,22 @@
                 <div class="aspect-square flex flex-col justify-center {machine.status === MachineStatus.FAULT ? 'opacity-25' : ''}">
                   <img src="/{machine.model}.png" class="h-36 w-36 md:h-48 md:w-48" />
                 </div>
+
+                {#if machine.status === MachineStatus.WORKING && machine.print_id && machine.print_created_at && machine.print_done_at}
+                  <!-- Progress bar track -->
+                  <div class="mt-2 w-full bg-base-300 h-2 rounded overflow-hidden">
+                    <!-- Progress fill -->
+                    <div
+                      class="h-2 bg-info"
+                      style="width: {getProgress(machine)}%;"
+                    ></div>
+                  </div>
+                  <!-- Time-left label -->
+                  <div class="text-sm text-right">
+                    {formatMinutes(secsLeft(machine))} remaining
+                  </div>
+                {/if}
+
               </div>
               <!-- Buttons -->
               <div class="relative join join-horizontal rounded-t-none rounded-box w-full border-t border-base-content/25 overflow-hidden">
