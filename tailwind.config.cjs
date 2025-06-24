@@ -9,24 +9,7 @@ module.exports = {
     require("daisyui")
   ],
   daisyui: {
-    themes: [
-      'light',
-      'lofi',
-      'black',
-      'fantasy',
-      'sunset',
-      'dim',
-      'winter',
-      'cmyk',
-      'wireframe',
-      'cyberpunk',
-      'coffee',
-      'aqua',
-      'dark',
-      'night',
-      'dracula',
-      'synthwave'
-    ],
+    themes: all,
     logs: false,
-  }
+  },
 }
