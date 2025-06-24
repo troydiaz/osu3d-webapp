@@ -75,6 +75,22 @@
     return () => clearInterval(iv);
   });
 
+  function isWorking(machine: DashboardMachine): boolean {
+    return (
+      machine.status === MachineStatus.WORKING &&
+      !!machine.print_done_at &&
+      now < new Date(machine.print_done_at).getTime()
+    );
+  }
+
+
+  function displayStatus(machine: DashboardMachine): MachineStatus {
+    if (machine.status === MachineStatus.FAULT) return MachineStatus.FAULT;
+    return isWorking(machine)
+      ? MachineStatus.WORKING
+      : MachineStatus.IDLE;
+  }
+
   /** percent complete between start and end */
   function getProgress(m: DashboardMachine): number {
     if (!m.print_created_at || !m.print_done_at) return 0;
@@ -142,23 +158,31 @@
       {/if}
     
       {#each certifiedMachines as machine}
-        <div class="col-span-1 window !p-0 {getBackgroundStyles(machine)}">
+      <div class="col-span-1 window !p-0 {getBackgroundStyles({ ...machine, status: displayStatus(machine) })}">
             <div class="flex flex-col gap-8 h-full w-full">
               <div class="flex flex-col grow gap-8 justify-start items-center">
                 <div class="flex justify-between w-full border-b border-base-content/25">
                   <div class="p-4 flex items-center">
                     <div class="flex flex-col justify-center">
-                      <span class="text-xl text-center font-semibold {getStatusStyles(machine)}">{getStatus(machine)}</span>
+                      <span 
+                        class="text-xl text-center font-semibold {getStatusStyles({ ...machine, status: displayStatus(machine) })}"
+                      >
+                        {getStatus({ ...machine, status: displayStatus(machine) })}
+                      </span>
                     </div>
                   </div>
-                  <div class="text-xl p-4 whitespace-nowrap overflow-hidden text-ellipsis max-w-full {getStatusStyles(machine)}">{machine.nickname}</div>
-    
+                  <div class="text-xl p-4 whitespace-nowrap overflow-hidden text-ellipsis max-w-full {getStatusStyles({ ...machine, status: displayStatus(machine) })}">
+                    {machine.nickname}
+                  </div>
                 </div>
-                <div class="aspect-square flex flex-col justify-center {machine.status === MachineStatus.FAULT ? 'opacity-25' : ''}">
-                  <img src="/{machine.model}.png" class="h-36 w-36 md:h-48 md:w-48" />
+                <div class="aspect-square flex flex-col justify-center {displayStatus(machine) === MachineStatus.FAULT ? 'opacity-25' : ''}">
+                  <img
+                    src="/{machine.model}.png"
+                    alt="{machine.nickname} printer"
+                    class="h-36 w-36 md:h-48 md:w-48"
+                  />
                 </div>
-
-                {#if machine.status === MachineStatus.WORKING && machine.print_id && machine.print_created_at && machine.print_done_at}
+                {#if isWorking(machine) && machine.print_id && machine.print_created_at && machine.print_done_at}
                   <!-- Progress bar track -->
                   <div class="mt-2 w-full bg-base-300 h-2 rounded overflow-hidden">
                     <!-- Progress fill -->
@@ -176,17 +200,17 @@
               </div>
               <!-- Buttons -->
               <div class="relative join join-horizontal rounded-t-none rounded-box w-full border-t border-base-content/25 overflow-hidden">
-                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-none btn-primary" disabled={machine.status !== MachineStatus.IDLE || !isTierCertified(permissions, machine.tier)} on:click={() => newPrintModal.launchModal(machine)}>
+                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-none btn-primary" disabled={displayStatus(machine) !== MachineStatus.IDLE || !isTierCertified(permissions, machine.tier)} on:click={() => newPrintModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <ClipboardPen /><div>Log</div>
                   </div>
                 </button>
-                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 btn-secondary" disabled={machine.status !== MachineStatus.WORKING || !isTierCertified(permissions, machine.tier)} on:click={() => cancelPrintModal.launchModal(machine)}>
+                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 btn-secondary" disabled={!isWorking(machine) || !isTierCertified(permissions, machine.tier)} on:click={() => cancelPrintModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <Octagon /><div>Stop</div>
                   </div>
                 </button>
-                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 btn-accent" disabled={machine.status === MachineStatus.FAULT || !isTierCertified(permissions, machine.tier)} on:click={() => newIssueModal.launchModal(machine)}>
+                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 btn-accent" disabled={displayStatus(machine) === MachineStatus.FAULT || !isTierCertified(permissions, machine.tier)} on:click={() => newIssueModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <Tag /><div>Issue</div>
                   </div>
