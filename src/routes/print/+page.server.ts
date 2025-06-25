@@ -88,5 +88,22 @@ export const actions = {
       machine_id,
       print_id
     });
+  },
+
+  completePrintLog: async ({ request, locals: { supabase, getSession } }) => {
+    const session = await getSession();
+    const form = await request.formData();
+    const print_id = form.get('print_id') as string | null;
+    if (!print_id) return;
+
+    const now = new Date().toISOString();
+    const response = await supabase
+      .from('prints')
+      .update({ done_at: now })
+      .eq('id', print_id);
+
+    if (response.error) {
+      throw error(response.status, response.error.message);
+    }
   }
 } satisfies Actions;

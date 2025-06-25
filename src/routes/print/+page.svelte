@@ -11,10 +11,13 @@
   import { printFilter } from "$lib/state";
   import { browser } from "$app/environment";
   import { onMount } from 'svelte';
+  import PrintDoneModal from '$lib/components/modals/PrintDoneModal.svelte';
+  import { CheckCircle } from 'lucide-svelte';
     
   export let data: PageData;
   const { permissions, routeData } = data;
 
+  let printDoneModal: PrintDoneModal;
   let filter: { status?: MachineStatus | null, tier?: number | null } = { status: null, tier: null };
 
   if (browser) {
@@ -210,6 +213,15 @@
                     <Octagon /><div>Stop</div>
                   </div>
                 </button>
+                  <button
+                  class="basis-1/4 grow h-full btn px-2 join-item !ml-0 border-none btn-success"
+                    disabled={!isWorking(machine) || !isTierCertified(permissions, machine.tier)}
+                    on:click={() => printDoneModal.launchModal(machine)}
+                  >
+                    <div class="my-2 flex flex-col items-center gap-2">
+                      <CheckCircle /><div>Done</div>
+                    </div>
+                </button>
                 <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 btn-accent" disabled={displayStatus(machine) === MachineStatus.FAULT || !isTierCertified(permissions, machine.tier)} on:click={() => newIssueModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <Tag /><div>Issue</div>
@@ -233,4 +245,5 @@
 
 <CancelPrintModal bind:this={cancelPrintModal} />
 <NewPrintModal bind:this={newPrintModal} />
+<PrintDoneModal   bind:this={printDoneModal} />
 <NewIssueModal bind:this={newIssueModal} />
