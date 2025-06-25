@@ -186,20 +186,26 @@
                   />
                 </div>
                 {#if isWorking(machine) && machine.print_id && machine.print_created_at && machine.print_done_at}
-                  <!-- Progress bar track -->
-                  <div class="mt-2 w-full bg-base-300 h-2 rounded overflow-hidden">
-                    <!-- Progress fill -->
+                <div class="w-full px-4">
+                  <!-- labels row -->
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm font-medium text-base-content/80">
+                      {formatMinutes(secsLeft(machine))} remaining
+                    </span>
+                    <span class="text-sm font-medium text-base-content/80">
+                      {getProgress(machine).toFixed(0)}% complete
+                    </span>
+                  </div>
+                  <!-- bar track -->
+                  <div class="h-1.5 bg-base-300 rounded-full overflow-hidden">
+                    <!-- bar fill -->
                     <div
-                      class="h-2 bg-info"
+                      class="h-full bg-info transition-all duration-200"
                       style="width: {getProgress(machine)}%;"
                     ></div>
                   </div>
-                  <!-- Time-left label -->
-                  <div class="text-sm text-right">
-                    {formatMinutes(secsLeft(machine))} remaining
-                  </div>
-                {/if}
-
+                </div>
+              {/if}
               </div>
               <!-- Buttons -->
               <div class="relative join join-horizontal rounded-t-none rounded-box w-full border-t border-base-content/25">
