@@ -202,13 +202,13 @@
 
               </div>
               <!-- Buttons -->
-              <div class="relative join join-horizontal rounded-t-none rounded-box w-full border-t border-base-content/25 overflow-hidden">
-                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-none btn-primary" disabled={displayStatus(machine) !== MachineStatus.IDLE || !isTierCertified(permissions, machine.tier)} on:click={() => newPrintModal.launchModal(machine)}>
+              <div class="relative join join-horizontal rounded-t-none rounded-box w-full border-t border-base-content/25">
+                <button class="basis-1/4 grow h-full btn px-2 join-item !ml-0 border-none btn-primary" disabled={displayStatus(machine) !== MachineStatus.IDLE || !isTierCertified(permissions, machine.tier)} on:click={() => newPrintModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <ClipboardPen /><div>Log</div>
                   </div>
                 </button>
-                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 btn-secondary" disabled={!isWorking(machine) || !isTierCertified(permissions, machine.tier)} on:click={() => cancelPrintModal.launchModal(machine)}>
+                <button class="basis-1/4 grow h-full btn px-2 join-item !ml-0 border-0 btn-secondary" disabled={!isWorking(machine) || !isTierCertified(permissions, machine.tier)} on:click={() => cancelPrintModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <Octagon /><div>Stop</div>
                   </div>
@@ -222,7 +222,7 @@
                       <CheckCircle /><div>Done</div>
                     </div>
                 </button>
-                <button class="basis-1/3 grow h-full btn px-2 join-item !ml-0 border-0 btn-accent" disabled={displayStatus(machine) === MachineStatus.FAULT || !isTierCertified(permissions, machine.tier)} on:click={() => newIssueModal.launchModal(machine)}>
+                <button class="basis-1/4 grow h-full btn px-2 join-item !ml-0 border-0 btn-accent" disabled={displayStatus(machine) === MachineStatus.FAULT || !isTierCertified(permissions, machine.tier)} on:click={() => newIssueModal.launchModal(machine)}>
                   <div class="my-2 gap-2 items-center justify-center flex flex-col">
                     <Tag /><div>Issue</div>
                   </div>
