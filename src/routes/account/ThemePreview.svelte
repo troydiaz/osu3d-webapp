@@ -13,10 +13,12 @@
   >
     <div class="bg-base-100 text-base-content w-full cursor-pointer font-sans">
       <div class="grid grid-cols-5 grid-rows-3">
-        <div class="bg-base-200 col-start-1 row-span-2 row-start-1"></div> 
-        <div class="bg-base-300 col-start-1 row-start-3"></div> 
-        <div class="bg-base-100 col-span-4 col-start-2 row-span-3 row-start-1
-                    flex flex-col gap-1 p-2">
+        <div class="bg-base-200 col-start-1 row-span-2 row-start-1"></div>
+        <div class="bg-base-300 col-start-1 row-start-3"></div>
+        <div
+          class="bg-base-100 col-span-4 col-start-2 row-span-3 row-start-1
+                    flex flex-col gap-1 p-2"
+        >
           <div class="font-bold capitalize">{theme}</div>
           <div class="flex flex-wrap gap-1">
             <div class="bg-primary flex aspect-square w-5 items-center justify-center rounded lg:w-6">

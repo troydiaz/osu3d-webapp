@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { afterNavigate } from "$app/navigation";
-	import { base } from "$app/paths";
-  import { page } from "$app/stores";
+  import { afterNavigate } from '$app/navigation';
+  import { base } from '$app/paths';
+  import { page } from '$app/stores';
 
   let previousPath: string = base;
   afterNavigate(({ from }) => {

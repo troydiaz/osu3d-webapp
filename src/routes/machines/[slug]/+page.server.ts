@@ -30,7 +30,7 @@ export const actions = {
     );
 
     for (let job of resolveList) {
-      const check = await supabase.from('faults').select('*').eq('id', job.id).maybeSingle();
+      const check = await supabase.from('machine_events').select('*').eq('id', job.id).maybeSingle();
 
       if (check.data?.resolved) continue;
 

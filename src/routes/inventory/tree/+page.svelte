@@ -1,15 +1,14 @@
 <script lang="ts">
   import box from '$lib/images/package.png';
-  import PageHeader from "$lib/components/PageHeader.svelte";
+  import PageHeader from '$lib/components/PageHeader.svelte';
   import TreeNode from './TreeNode.svelte';
 
   export let data;
-  let { tree } = data
-  $: ({ tree } = data)
+  let { tree } = data;
+  $: ({ tree } = data);
 
   $: console.log(tree);
 </script>
-
 
 <svelte:head>
   <title>Location Tree | OSU 3D</title>
@@ -30,5 +29,4 @@
       {/each}
     </ul>
   </div>
-  
 </div>

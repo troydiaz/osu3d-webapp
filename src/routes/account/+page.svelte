@@ -1,20 +1,48 @@
 <script lang="ts">
   import { applyAction, enhance } from '$app/forms';
-  import type { PageData, ActionData } from "./$types.js";
-	import { goto } from '$app/navigation';
-	import PageHeader from '$lib/components/PageHeader.svelte';
+  import type { PageData, ActionData } from './$types.js';
+  import { goto } from '$app/navigation';
+  import PageHeader from '$lib/components/PageHeader.svelte';
   import toast from 'svelte-french-toast';
   import { onMount } from 'svelte';
   import { themeChange } from 'theme-change';
   import ThemePreview from './ThemePreview.svelte';
   import UploadAvatar from './UploadAvatar.svelte';
-	
+
   const allThemes = [
-    'light','dark','cupcake','bumblebee','emerald','corporate','synthwave',
-    'retro','cyberpunk','valentine','halloween','garden','forest','aqua',
-    'lofi','pastel','fantasy','wireframe','black','luxury','dracula','cmyk',
-    'acid','lemonade','night','coffee','winter','dim','nord','sunset',
-    'caramellatte','abyss','silk'
+    'light',
+    'dark',
+    'cupcake',
+    'bumblebee',
+    'emerald',
+    'corporate',
+    'synthwave',
+    'retro',
+    'cyberpunk',
+    'valentine',
+    'halloween',
+    'garden',
+    'forest',
+    'aqua',
+    'lofi',
+    'pastel',
+    'fantasy',
+    'wireframe',
+    'black',
+    'luxury',
+    'dracula',
+    'cmyk',
+    'acid',
+    'lemonade',
+    'night',
+    'coffee',
+    'winter',
+    'dim',
+    'nord',
+    'sunset',
+    'caramellatte',
+    'abyss',
+    'silk'
   ];
 
   export let data: PageData;
@@ -22,7 +50,7 @@
 
   let profileForm: HTMLFormElement;
 
-  $: if (form) form.success ? toast.success('Saved', { className: ''}) : toast.error('Something went wrong :(');
+  $: if (form) form.success ? toast.success('Saved', { className: '' }) : toast.error('Something went wrong :(');
 
   let { session, profile, supabase } = data;
   let loading = false;
@@ -31,7 +59,8 @@
   let discord: string | null = profile?.discord ?? form?.discord ?? null;
   let avatar_url: string | null = profile?.avatar_url ?? form?.avatar_url ?? null;
 
-  $: unsavedChanges = (discord !== profile?.discord && discord !== form?.discord) ||
+  $: unsavedChanges =
+    (discord !== profile?.discord && discord !== form?.discord) ||
     (full_name !== profile?.full_name && full_name !== form?.full_name) ||
     (avatar_url !== profile?.avatar_url && avatar_url !== form?.avatar_url);
 
@@ -60,17 +89,15 @@
   <PageHeader name="Settings" />
 
   <div class="window">
-      <div class="window-header">Theme</div>
-      <div class="window-content flex flex-col gap-4">
-
-         <!-- Account Settings -->
-         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
-          {#each allThemes as themeName}
-            <ThemePreview theme={themeName} />
-          {/each}
-        </div>
-
+    <div class="window-header">Theme</div>
+    <div class="window-content flex flex-col gap-4">
+      <!-- Account Settings -->
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
+        {#each allThemes as themeName}
+          <ThemePreview theme={themeName} />
+        {/each}
       </div>
+    </div>
   </div>
 
   <form
@@ -81,18 +108,15 @@
       loading = true;
       return async ({ result }) => {
         loading = false;
-        if (result.type === 'redirect')
-          goto(result.location);
-        else
-          await applyAction(result);
-      }
+        if (result.type === 'redirect') goto(result.location);
+        else await applyAction(result);
+      };
     }}
   >
     <div class="window">
       <div class="window-header">Personal</div>
 
       <div class="window-content flex flex-col-reverse md:flex-row justify-start md:items-center gap-4 flex-wrap">
-
         <div class="flex flex-col gap-4">
           <div class="form-control">
             <label for="email" class="label">
@@ -104,43 +128,57 @@
             <label for="email" class="label">
               <span class="label-text">Name</span>
             </label>
-            <input autocomplete="off" bind:value={full_name} id="full_name" name="full_name" type="text" class="input input-bordered" />
+            <input
+              autocomplete="off"
+              bind:value={full_name}
+              id="full_name"
+              name="full_name"
+              type="text"
+              class="input input-bordered"
+            />
           </div>
           <div class="form-control">
             <label for="email" class="label">
               <span class="label-text">Discord username</span>
             </label>
             <div class="flex gap-4">
-                <input autocomplete="off" bind:value={discord} id="discord" name="discord" type="text" class="input input-bordered grow" />
-                <button type="button" class="btn btn-secondary w-20" disabled={!discord || discord === '' || pingDisabled} on:click={() => ping()}>
-                  {#if pingDisabled}
+              <input
+                autocomplete="off"
+                bind:value={discord}
+                id="discord"
+                name="discord"
+                type="text"
+                class="input input-bordered grow"
+              />
+              <button
+                type="button"
+                class="btn btn-secondary w-20"
+                disabled={!discord || discord === '' || pingDisabled}
+                on:click={() => ping()}
+              >
+                {#if pingDisabled}
                   <span class="loading loading-spinner loading-md"></span>
-                  {:else}
+                {:else}
                   <span>Test</span>
-                  {/if}
-                </button>
+                {/if}
+              </button>
             </div>
           </div>
-        </div> 
+        </div>
 
         <div class="px-8">
           <UploadAvatar
-              {supabase}
-              bind:url={avatar_url}
-              on:upload={() => {
-                profileForm.requestSubmit();
-              }}
-            />
+            {supabase}
+            bind:url={avatar_url}
+            on:upload={() => {
+              profileForm.requestSubmit();
+            }}
+          />
         </div>
-        
       </div>
 
       <div class="window-footer flex justify-end">
-        <button
-          type="submit"
-          class="btn btn-primary"
-          disabled={!unsavedChanges || loading}
-        >
+        <button type="submit" class="btn btn-primary" disabled={!unsavedChanges || loading}>
           <div>Save Changes</div>
         </button>
       </div>

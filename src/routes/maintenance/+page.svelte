@@ -1,8 +1,7 @@
 <script lang="ts">
-	import CalendarEvents from "$lib/components/CalendarEvents.svelte";
-	import PageHeader from "$lib/components/PageHeader.svelte";
-	import schedule from '$lib/images/schedule.png';
-
+  import CalendarEvents from '$lib/components/CalendarEvents.svelte';
+  import PageHeader from '$lib/components/PageHeader.svelte';
+  import schedule from '$lib/images/schedule.png';
 </script>
 
 <svelte:head>
