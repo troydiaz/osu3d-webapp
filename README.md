@@ -1,9 +1,8 @@
 # OSU 3D Club Frontend
 
-Web app that drives the management of all club activities. Currently under development. Developed and designed with input from other club members & officers.
+Originally developed by **Steph Fikes** and now maintained (June 2025) by **Troy Diaz**, this web app centralizes management of all club activities. Developed, designed, and maintained in collaboration with club officers and members.
 
 # Technologies
-
 - [Supabase](https://supabase.com/) full-stack deployment
   - postgres database
   - third-party auth
