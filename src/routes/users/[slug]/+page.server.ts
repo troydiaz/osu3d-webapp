@@ -1,4 +1,4 @@
-import type { User, UserPermissions } from '$lib/types/models';
+import type { UserPermissions } from '$lib/types/models';
 import { error, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { hasPermission, PermCategory, PermFlag } from '$lib/helpers';

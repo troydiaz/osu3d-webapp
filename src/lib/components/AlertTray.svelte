@@ -29,5 +29,5 @@
 </div> 
 
 {#if showAlerts}
-  <div class="fixed w-full h-full z-20 left-0 top-0 bg-gray-800/50" on:click={() => showAlerts = false} transition:fade={{ duration: 150 }}></div>
+  <div role="button" tabindex="0" class="fixed w-full h-full z-20 left-0 top-0 bg-gray-800/50" on:click={() => showAlerts = false} on:keydown={e => (e.key === 'Enter' || e.key === ' ') && (showAlerts = false)} transition:fade={{ duration: 150 }}></div>
 {/if}

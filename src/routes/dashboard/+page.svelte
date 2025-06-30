@@ -99,8 +99,7 @@
                   <div class="text-xs font-light opacity-50">{formatDistanceToNowStrict(new Date(job.done_at))} remain</div>
                 {/if}
               </div>
-              <img src="/{job.model}.png" class="hidden md:block max-h-28" />
-              
+              <img src="/{job.model}.png" alt="{job.model} printer" class="hidden md:block max-h-28" />              
               <button class="btn btn-ghost md:btn-sm"
                 on:click={() => cancelPrintModal.launchModal(job)}
               >

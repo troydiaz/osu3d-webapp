@@ -32,7 +32,7 @@
     <button class="btn btn-sm btn-ghost disabled:bg-transparent" on:click={() => changePage(currentPage - 1)} disabled={lowerIndex === 0}>
         <ArrowLeft class="outline-none" />
     </button>
-    <label class="w-20 md:w-36 text-center"><span class="hidden md:inline">Entries</span> {upperIndex === 0 ? 0 : lowerIndex + 1} — {upperIndex}</label>
+    <span class="w-20 md:w-36 text-center"><span class="hidden md:inline">Entries</span> {upperIndex === 0 ? 0 : lowerIndex + 1} — {upperIndex}</span>
     <button class="btn btn-sm btn-ghost disabled:bg-transparent" on:click={() => changePage(currentPage + 1)} disabled={upperIndex === totalRows}>
         <ArrowRight class="outline-none" />
     </button>

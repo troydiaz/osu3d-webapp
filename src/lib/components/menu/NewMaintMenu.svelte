@@ -36,9 +36,7 @@
   });
 </script>
 
-<div role="menu" tabindex="-1" use:floatingRef on:click={() => showTooltip = !showTooltip} class="{showTooltip ? 'z-20' : ''}">
-  <slot />
-</div>
+<div role="menu" tabindex="0" use:floatingRef on:click={() => showTooltip = !showTooltip} on:keydown={e => (e.key === 'Enter' || e.key === ' ') && (showTooltip = !showTooltip)} class="{showTooltip ? 'z-20' : ''}"><slot /></div>
 
 {#if showTooltip && event && eventStyles}
 <div class="absolute w-52 z-20" use:floatingContent>

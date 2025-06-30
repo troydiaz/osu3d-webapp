@@ -5,7 +5,6 @@
   import ledger from '$lib/images/orange_book.png';
 
   export let data: PageData;
-  export let form: ActionData;
 
   let { userLevels } = data;
 </script>

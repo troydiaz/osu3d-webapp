@@ -1,4 +1,4 @@
-import type { Fault, Machine, User, UserPermissions } from '$lib/types/models';
+import type { Machine, UserPermissions } from '$lib/types/models';
 import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 

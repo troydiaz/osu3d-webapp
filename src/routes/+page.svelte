@@ -23,7 +23,7 @@
 
 <div class="min-h-screen w-full">
     <div class="flex flex-col justify-center items-center gap-8 p-12 md:gap-12 w-full h-full md:max-w-screen-sm mx-auto">
-      <img src="osu3d.svg" class="w-32 h-32">
+      <img src="osu3d.svg" alt="OSU 3D logo" class="w-32 h-32" />
       <div class="text-base-content">
           <div class="font-thin text-xl md:text-3xl text-center">3D Printing and<br>Additive Manufacturing Club</div>
           <div class="divider w-full max-w-sm mx-auto my-2 md:my-4"></div>
