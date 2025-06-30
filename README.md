@@ -17,7 +17,7 @@ Web app that drives the management of all club activities. Currently under devel
 
 ## Dashboard
 
-![Dashboard] (<img width="1512" alt="Screenshot 2025-06-29 at 5 00 32 PM" src="https://github.com/user-attachments/assets/8da0aa44-8422-4a82-9f08-9ad5bf1ed745" />)
+![Dashboard](<img width="1512" alt="Screenshot 2025-06-29 at 5 00 32 PM" src="https://github.com/user-attachments/assets/8da0aa44-8422-4a82-9f08-9ad5bf1ed745" />)
 
 ## Printers
 
