@@ -22,17 +22,17 @@ Originally developed by **Stephen Fike** and now maintained (June 2025) by **Tro
 
 ![Prints page](https://github.com/user-attachments/assets/039525ec-fc7e-4602-a044-2c9a4e14b1b3)
 
-## Machine management
+## Machine Management
 
 ![Machine page](https://github.com/user-attachments/assets/3a716570-bc3f-4f3b-861e-ba84919bd090)  
 ![Machine single view](https://github.com/user-attachments/assets/16890c7f-6815-433d-bdeb-e1d98b1a6ca8)
 
-## Inventory system
+## Inventory System
 
 ![Inventory main page](https://github.com/user-attachments/assets/82b6336d-56c0-4f5d-8162-d3c7fe1e3e4c)  
 ![Inventory item page](https://github.com/user-attachments/assets/63b19776-6820-4b50-acdc-618d3148fdbc)
 
-## Themes Page
+## Settings
 
 ![Themes](https://github.com/user-attachments/assets/b2f479c7-59ec-46ef-81c1-8b3e4e0a63c3)
 
