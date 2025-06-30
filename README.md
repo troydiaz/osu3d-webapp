@@ -1,4 +1,4 @@
-<img width="1512" alt="Screenshot 2025-06-29 at 5 01 56 PM" src="https://github.com/user-attachments/assets/006388a4-f93e-4de5-83e7-fde277c695c0" /># OSU 3D Club Frontend
+# OSU 3D Club Frontend
 
 Web app that drives the management of all club activities. Currently under development. Developed and designed with input from other club members & officers.
 
