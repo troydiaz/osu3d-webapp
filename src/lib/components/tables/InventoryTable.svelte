@@ -57,7 +57,7 @@
           <th>In Stock</th>
           <th>Lower Threshold</th>
           <th>Spool (g)</th>
-          <th>Total (g)</th>
+          <!-- <th>Total (g)</th> -->
           <th>Last Updated</th>
           <th>Last Updated By</th>
           <th class="text-end">Actions</th>
@@ -122,7 +122,7 @@
                 />
               </form>
             </td>
-            <td>{item.total_grams_on_hand ?? '—'}</td>            
+            <!-- <td>{item.total_grams_on_hand ?? '—'}</td>             -->
             <td>
               {getMostRecentChangeDateName(item.changes).date}
             </td>
