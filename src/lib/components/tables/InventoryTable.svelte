@@ -114,8 +114,8 @@
                   type="number"
                   name="spool_grams"
                   class="input input-sm w-24"
-                  min="1"
-                  max="5000"
+                  min="0"
+                  
                   placeholder="—"
                   value={item.spool_grams ?? ''}
                   on:change={(e) => e.currentTarget.form?.requestSubmit()}

@@ -102,7 +102,7 @@ export const actions = {
       payload = { spool_grams: null };
     } else {
       const n = Number(raw);
-      if (!Number.isInteger(n) || n < 1 || n > 5000) {
+      if (!Number.isInteger(n) || n < 0) {
         return fail(400, { id, field: 'spool_grams', message: 'Enter an integer (or leave blank).' });
       }
       payload = { spool_grams: n };
