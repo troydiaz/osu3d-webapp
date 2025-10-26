@@ -1,5 +1,5 @@
 import type { InventoryCategory, InventoryItem } from '$lib/types/models';
-import { error, redirect } from '@sveltejs/kit';
+import { error, redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { hasPermission, PermCategory, PermFlag } from '$lib/helpers';
 
@@ -83,5 +83,56 @@ export const actions = {
       .from('inv_items')
       .update({ hidden } as any)
       .eq('id', id);
+  },
+
+  updateSpoolGrams: async (event) => {
+    const session = await event.locals.getSession();
+    const perms = await event.locals.getPermissions();
+    if (!session || !hasPermission(perms?.level, PermCategory.INVENTORY, PermFlag.FIRST)) {
+      throw redirect(303, '/');
+    }
+
+    const form = await event.request.formData();
+    const id = String(form.get('id') ?? '');
+    const raw = String(form.get('spool_grams') ?? '').trim();
+
+    let payload: { spool_grams: number | null };
+
+    if (raw === '') {
+      payload = { spool_grams: null };
+    } else {
+      const n = Number(raw);
+      if (!Number.isInteger(n) || n < 1 || n > 5000) {
+        return fail(400, { id, field: 'spool_grams', message: 'Enter an integer (or leave blank).' });
+      }
+      payload = { spool_grams: n };
+    }
+
+    const { error: err } = await event.locals.supabase
+      .from('inv_items')
+      .update(payload as any) // remove `as any` after regenerating Supabase types
+      .eq('id', id);
+
+    if (err) return fail(500, { id, field: 'spool_grams', message: err.message });
+    return { ok: true };
+  },
+
+  updateMinimum: async (event) => {
+    const session = await event.locals.getSession();
+    const perms = await event.locals.getPermissions();
+    if (!session || !hasPermission(perms?.level, PermCategory.INVENTORY, PermFlag.FIRST)) {
+      throw redirect(303, '/');
+    }
+
+    const form = await event.request.formData();
+    const id = String(form.get('id') ?? '');
+    const raw = String(form.get('minimum') ?? '').trim();
+    if (!/^\d+$/.test(raw)) return fail(400, { id, field: 'minimum', message: 'Enter a non-negative integer.' });
+    const minimum = Number(raw);
+
+    const { error: err } = await event.locals.supabase.from('inv_items').update({ minimum }).eq('id', id);
+
+    if (err) return fail(500, { id, field: 'minimum', message: err.message });
+    return { ok: true };
   }
 } satisfies Actions;

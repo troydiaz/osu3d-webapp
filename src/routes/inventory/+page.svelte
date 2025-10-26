@@ -22,6 +22,13 @@
     <NewItemMenu {categories}><button class="btn btn-primary btn-sm"><Plus /> Item</button></NewItemMenu>
     <NewCategoryMenu><button class="btn btn-primary btn-sm"><Plus /> Category</button></NewCategoryMenu>
   </div>
+  <InventoryTable
+    title="Filament"
+    inventory={inventory.filter((i) =>
+      /\b(pla\+?|pla|petg|tpu|abs|asa|nylon)\b/i.test(i.name.trim())
+    )}
+    allowSearch={true}
+  />
   <InventoryTable title={'All Items'} inventory={inventory || []} allowSearch={true} />
   {#each categories || [] as category}
     <InventoryTable title={category.name} inventory={inventory.filter((i) => i.inv_category_id === category.id)} />

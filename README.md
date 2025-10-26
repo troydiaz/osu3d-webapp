@@ -3,6 +3,7 @@
 Originally developed by **Stephen Fike** and now maintained (June 2025) by **Troy Diaz**, this web app centralizes management of all club activities. Developed, designed, and maintained in collaboration with club officers and members.
 
 # Technologies
+
 - [Supabase](https://supabase.com/) full-stack deployment
   - postgres database
   - third-party auth
@@ -37,7 +38,3 @@ Originally developed by **Stephen Fike** and now maintained (June 2025) by **Tro
 ![Themes](https://github.com/user-attachments/assets/b2f479c7-59ec-46ef-81c1-8b3e4e0a63c3)
 
 ## Reports (WIP)
-
-
-
-

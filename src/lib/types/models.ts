@@ -31,12 +31,21 @@ export type Announcement = Tables<'announcements'> & {
 
 export type UserPermissions = Tables<'user_levels'>;
 
+export const isFilament = (name: string) => /\b(pla\+?|pla|petg|tpu|abs|asa|nylon)\b/i.test(name.trim());
+
+export const formatGrams = (g: number | null) => (g == null ? '—' : `${g} g`);
+
 export type InventoryItem = Tables<'inv_items'> & {
   changes: InventoryChange[];
   created_by: Tables<'profiles'>;
   inv_category: Tables<'inv_categories'>;
+
+  // from inv_items_view
   current_stock: number;
-  hidden: boolean;
+  spool_grams: number | null; // NEW
+  total_grams_on_hand: number | null; // NEW
+
+  hidden?: boolean; // optional when coming from the view
 };
 
 export type InventoryChange = Tables<'inv_changes'> & {
@@ -87,8 +96,8 @@ export function totalAllChanges(changes: InventoryChange[] | undefined) {
 }
 
 export function getMostRecentChangeDateName(changes: InventoryChange[] | undefined) {
-  if (changes === undefined || changes.length === 0) return { name: '-', date: '-' };
-  const recent = changes.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())[0];
+  if (!changes || changes.length === 0) return { name: '-', date: '-' };
+  const recent = changes.reduce((best, c) => (new Date(c.created_at) > new Date(best.created_at) ? c : best));
   return { name: recent.created_by.full_name, date: new Date(recent.created_at).toLocaleDateString() };
 }
 
