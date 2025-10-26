@@ -56,6 +56,8 @@
           <th>Name</th>
           <th>In Stock</th>
           <th>Lower Threshold</th>
+          <th>Spool (g)</th>
+          <th>Total (g)</th>
           <th>Last Updated</th>
           <th>Last Updated By</th>
           <th class="text-end">Actions</th>
@@ -105,6 +107,22 @@
             <td>
               {item.minimum}
             </td>
+            <td>
+              <form method="POST" action="?/updateSpoolGrams">
+                <input type="hidden" name="id" value={item.id} />
+                <input
+                  type="number"
+                  name="spool_grams"
+                  class="input input-sm w-24"
+                  min="1"
+                  max="5000"
+                  placeholder="—"
+                  value={item.spool_grams ?? ''}
+                  on:change={(e) => e.currentTarget.form?.requestSubmit()}
+                />
+              </form>
+            </td>
+            <td>{item.total_grams_on_hand ?? '—'}</td>            
             <td>
               {getMostRecentChangeDateName(item.changes).date}
             </td>
