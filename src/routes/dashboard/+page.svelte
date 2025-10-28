@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageData } from './$types';
-  import { Bot, GraduationCap, Locate, Megaphone, MessageCircle, Play, Star } from 'lucide-svelte';
-  import { MachineStatus } from '$lib/types/models';
+  import { Bot, GraduationCap, Locate, Megaphone, MessageCircle, Play, Star, ChevronLeft, ChevronRight } from 'lucide-svelte';
+  import { MachineStatus, Announcement } from '$lib/types/models';
   import { formatDistanceToNow, formatDistanceToNowStrict } from 'date-fns';
   import CancelPrintModal from '$lib/components/modals/CancelPrintModal.svelte';
   import MachineStats from './MachineStats.svelte';
@@ -11,9 +11,38 @@
   const { permissions, routeData, session } = data;
   $: newAnnouncements =
     announcements?.some((a) => new Date(a.created_at) > new Date(data.profileData?.last_visit_at ?? 0)) ?? false;
+
+  const DEFAULT_ANNOUNCEMENT: Announcement = {
+    id: 0,
+    body: '',
+    created_at: new Date().toISOString(),
+    created_by_user_id: '',
+    created_by: {
+      avatar_url: null,
+      created_at: new Date().toISOString(),
+      discord: null,
+      email: null,
+      full_name: '',
+      last_visit_at: null,
+      updated_at: new Date().toISOString(),
+      user_id: ''
+    }
+  };
+
+  let annIdx = 0;
   $: announcements = data.announcements?.sort(
     (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-  );
+  ) ?? [];
+
+  $: annTotal = announcements.length;
+  $: if (annIdx >= annTotal) annIdx = 0;
+
+  // type Announcement = typeof announcements[number];
+  let currentAnn: Announcement = DEFAULT_ANNOUNCEMENT;
+  $: currentAnn = annTotal > 0 ? announcements[annIdx] : DEFAULT_ANNOUNCEMENT;
+
+  function prevAnn() { if (!annTotal) return; annIdx = (annIdx - 1 + annTotal) % annTotal; }
+  function nextAnn() { if (!annTotal) return; annIdx = (annIdx + 1) % annTotal; }
 
   let cancelPrintModal: CancelPrintModal;
 
@@ -37,31 +66,40 @@
           {#if newAnnouncements}
             <span class="text-yellow-500 w-full text-end font-medium">NEW</span>
           {/if}
+      
+          <!-- pager controls -->
+          <div class="ml-auto flex items-center gap-1">
+            <div class="text-xs opacity-60 tabular-nums">{annTotal ? annIdx + 1 : 0}/{annTotal}</div>
+            <button class="btn btn-ghost btn-xs" on:click={prevAnn} disabled={annTotal <= 1} aria-label="Previous">
+              <ChevronLeft class="h-4 w-4" />
+            </button>
+            <button class="btn btn-ghost btn-xs" on:click={nextAnn} disabled={annTotal <= 1} aria-label="Next">
+              <ChevronRight class="h-4 w-4" />
+            </button>
+          </div>
         </div>
-
+      
         <div class="window-content flex flex-col gap-8 font-normal pb-2">
-          {#each announcements || [] as announce}
-            <div class="relative p-4 rounded border border-base-content/50 border-b-0 border-dashed">
-              <p class="text-sm italic">
-                {announce.body}
-              </p>
-              <div class="absolute left-0 bottom-0 w-full text-end whitespace-nowrap flex">
-                <div class="grow rounded-l border-b border-base-content/50 border-dashed"></div>
-                <div class="translate-y-1/2 px-2 font-extralight text-sm">
-                  {announce.created_by.full_name}, {formatDistanceToNow(new Date(announce.created_at), {
-                    addSuffix: true
-                  })}
+          {#if annTotal > 0}
+            {#key currentAnn?.id}
+              <div class="relative p-4 rounded border border-base-content/50 border-b-0 border-dashed">
+                <p class="text-sm italic">{currentAnn.body}</p>
+                <div class="absolute left-0 bottom-0 w-full text-end whitespace-nowrap flex">
+                  <div class="grow rounded-l border-b border-base-content/50 border-dashed"></div>
+                  <div class="translate-y-1/2 px-2 font-extralight text-sm">
+                    {currentAnn.created_by.full_name},
+                    {formatDistanceToNow(new Date(currentAnn.created_at), { addSuffix: true })}
+                  </div>
+                  <div class="w-4 rounded-r border-b border-base-content/50 border-dashed"></div>
                 </div>
-                <div class="w-4 rounded-r border-b border-base-content/50 border-dashed"></div>
               </div>
-            </div>
-          {/each}
-          {#if !announcements?.length}
+            {/key}
+          {:else}
             <p class="text-sm italic">No announcements. Check back later.</p>
           {/if}
         </div>
       </div>
-
+    
       <!-- Josef -->
       <div class="col-span-4 lg:col-span-2 window">
         <div class="window-header">
