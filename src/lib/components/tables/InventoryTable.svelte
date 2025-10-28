@@ -17,6 +17,8 @@
   export let inventory: InventoryItem[] = [];
   export let title: string = 'Untitled';
 
+  $: isFilamentView = title?.trim().toLowerCase() === 'filament';
+
   let editingId: string | null = null;
   let editedName = '';
   let filterText = '';
@@ -73,10 +75,11 @@
           <tr>
             <td class="relative">
               <span class="flex items-center gap-1">
-                {#if (item.current_stock === 0) || (item.spool_grams === 0)}
+                {#if ((item.current_stock ?? 0) === 0)
+                   || (isFilamentView && (item.spool_grams ?? 0) === 0)}
                   <ExclamationTriangle class="text-warning w-4 h-4" title="Out of stock or empty spool" />
                 {/if}
-                <!-- existing name edit logic -->
+            
                 {#if editingId === item.id}
                   <form method="POST" action="?/updateName" class="flex items-center">
                     <input type="hidden" name="id" value={item.id} />
@@ -117,43 +120,48 @@
               {item.minimum}
             </td>          
             <td class="relative">
-              {#if editingSpoolId === item.id}
-                <!-- edit mode -->
-                <form method="POST" action="?/updateSpoolGrams" class="flex items-center">
-                  <input type="hidden" name="id" value={item.id} />
-                  <input
-                    type="number"
-                    name="spool_grams"
-                    class="input input-sm w-24"
-                    min="0"
-                    placeholder="—"
-                    bind:value={editedSpool}
-                    on:keydown={(e) => e.key === 'Enter' && e.currentTarget.form?.submit()}
-                    on:blur={(e) => e.currentTarget.form?.submit()}
-                    autofocus
-                  />
-                </form>
-              {:else}
-                <!-- display mode -->
-                <span
-                  class="cursor-pointer inline-flex items-center"
-                  role="button"
-                  tabindex="0"
-                  on:click={() => {
-                    editingSpoolId = item.id;
-                    editedSpool = item.spool_grams?.toString() ?? '';
-                  }}
-                  on:keydown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
+              {#if isFilamentView}
+                {#if editingSpoolId === item.id}
+                  <!-- edit mode -->
+                  <form method="POST" action="?/updateSpoolGrams" class="flex items-center">
+                    <input type="hidden" name="id" value={item.id} />
+                    <input
+                      type="number"
+                      name="spool_grams"
+                      class="input input-sm w-24"
+                      min="0"
+                      placeholder="—"
+                      bind:value={editedSpool}
+                      on:keydown={(e) => e.key === 'Enter' && e.currentTarget.form?.submit()}
+                      on:blur={(e) => e.currentTarget.form?.submit()}
+                      autofocus
+                    />
+                  </form>
+                {:else}
+                  <!-- display mode with pencil (Filament only) -->
+                  <span
+                    class="cursor-pointer inline-flex items-center"
+                    role="button"
+                    tabindex="0"
+                    on:click={() => {
                       editingSpoolId = item.id;
                       editedSpool = item.spool_grams?.toString() ?? '';
-                      e.preventDefault();
-                    }
-                  }}
-                >
-                  {item.spool_grams ?? '—'}
-                  <Pencil class="ml-1" style="width:1rem; height:1rem;" />
-                </span>
+                    }}
+                    on:keydown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        editingSpoolId = item.id;
+                        editedSpool = item.spool_grams?.toString() ?? '';
+                        e.preventDefault();
+                      }
+                    }}
+                  >
+                    {item.spool_grams ?? '—'}
+                    <Pencil class="ml-1" style="width:1rem; height:1rem;" />
+                  </span>
+                {/if}
+              {:else}
+                <!-- Non-filament: plain dash, no pencil, no click -->
+                <span class="text-base-content/60">—</span>
               {/if}
             </td>            
             <td>
