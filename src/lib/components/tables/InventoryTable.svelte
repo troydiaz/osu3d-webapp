@@ -7,10 +7,12 @@
     type InventoryCategory
   } from '$lib/types/models';
   import Paginate from '$lib/utilities/Paginate.svelte';
-  import { Minus, Plus } from 'svelte-heros-v2';
+  import { Minus, Plus, ExclamationTriangle } from 'svelte-heros-v2';
   import { Pencil } from 'svelte-heros-v2';
   import NewChangeMenu from '../menu/NewChangeMenu.svelte';
   import { Trash } from 'svelte-heros-v2';
+
+
 
   export let inventory: InventoryItem[] = [];
   export let title: string = 'Untitled';
@@ -23,6 +25,9 @@
 
   let lowerIndex: number = 0;
   let upperIndex: number = 0;
+
+  let editingSpoolId: string | null = null;
+  let editedSpool = '';
 </script>
 
 <!-- Inventory table -->
@@ -67,14 +72,62 @@
         {#each inventory || [] as item}
           <tr>
             <td class="relative">
-              {#if editingId === item.id}
+              <span class="flex items-center gap-1">
+                {#if (item.current_stock === 0) || (item.spool_grams === 0)}
+                  <ExclamationTriangle class="text-warning w-4 h-4" title="Out of stock or empty spool" />
+                {/if}
+                <!-- existing name edit logic -->
+                {#if editingId === item.id}
+                  <form method="POST" action="?/updateName" class="flex items-center">
+                    <input type="hidden" name="id" value={item.id} />
+                    <input
+                      name="name"
+                      class="input input-sm"
+                      bind:value={editedName}
+                      on:keydown={(e) => e.key === 'Enter' && e.currentTarget.form?.submit()}
+                      on:blur={(e) => e.currentTarget.form?.submit()}
+                      autofocus
+                    />
+                  </form>
+                {:else}
+                  <span
+                    class="cursor-pointer flex items-center"
+                    role="button"
+                    tabindex="0"
+                    on:click={() => {
+                      editingId = item.id;
+                      editedName = item.name;
+                    }}
+                    on:keydown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        editingId = item.id;
+                        editedName = item.name;
+                        e.preventDefault();
+                      }
+                    }}
+                  >
+                    {item.name}
+                    <Pencil class="ml-1" style="width:1rem; height:1rem;" />
+                  </span>
+                {/if}
+              </span>
+            </td>            
+            <td>{item.current_stock}</td>
+            <td>
+              {item.minimum}
+            </td>          
+            <td class="relative">
+              {#if editingSpoolId === item.id}
                 <!-- edit mode -->
-                <form method="POST" action="?/updateName" class="flex items-center">
+                <form method="POST" action="?/updateSpoolGrams" class="flex items-center">
                   <input type="hidden" name="id" value={item.id} />
                   <input
-                    name="name"
-                    class="input input-sm"
-                    bind:value={editedName}
+                    type="number"
+                    name="spool_grams"
+                    class="input input-sm w-24"
+                    min="0"
+                    placeholder="—"
+                    bind:value={editedSpool}
                     on:keydown={(e) => e.key === 'Enter' && e.currentTarget.form?.submit()}
                     on:blur={(e) => e.currentTarget.form?.submit()}
                     autofocus
@@ -83,46 +136,26 @@
               {:else}
                 <!-- display mode -->
                 <span
-                  class="cursor-pointer flex items-center"
+                  class="cursor-pointer inline-flex items-center"
                   role="button"
                   tabindex="0"
                   on:click={() => {
-                    editingId = item.id;
-                    editedName = item.name;
+                    editingSpoolId = item.id;
+                    editedSpool = item.spool_grams?.toString() ?? '';
                   }}
                   on:keydown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
-                      editingId = item.id;
-                      editedName = item.name;
+                      editingSpoolId = item.id;
+                      editedSpool = item.spool_grams?.toString() ?? '';
                       e.preventDefault();
                     }
                   }}
                 >
-                  {item.name}
+                  {item.spool_grams ?? '—'}
                   <Pencil class="ml-1" style="width:1rem; height:1rem;" />
                 </span>
               {/if}
-            </td>
-            <td>{item.current_stock}</td>
-            <td>
-              {item.minimum}
-            </td>
-            <td>
-              <form method="POST" action="?/updateSpoolGrams">
-                <input type="hidden" name="id" value={item.id} />
-                <input
-                  type="number"
-                  name="spool_grams"
-                  class="input input-sm w-24"
-                  min="0"
-                  
-                  placeholder="—"
-                  value={item.spool_grams ?? ''}
-                  on:change={(e) => e.currentTarget.form?.requestSubmit()}
-                />
-              </form>
-            </td>
-            <!-- <td>{item.total_grams_on_hand ?? '—'}</td>             -->
+            </td>            
             <td>
               {getMostRecentChangeDateName(item.changes).date}
             </td>
