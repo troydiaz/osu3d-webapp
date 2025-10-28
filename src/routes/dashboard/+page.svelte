@@ -1,6 +1,16 @@
 <script lang="ts">
   import type { PageData } from './$types';
-  import { Bot, GraduationCap, Locate, Megaphone, MessageCircle, Play, Star, ChevronLeft, ChevronRight } from 'lucide-svelte';
+  import {
+    Bot,
+    GraduationCap,
+    Locate,
+    Megaphone,
+    MessageCircle,
+    Play,
+    Star,
+    ChevronLeft,
+    ChevronRight
+  } from 'lucide-svelte';
   import { MachineStatus, Announcement } from '$lib/types/models';
   import { formatDistanceToNow, formatDistanceToNowStrict } from 'date-fns';
   import CancelPrintModal from '$lib/components/modals/CancelPrintModal.svelte';
@@ -30,9 +40,8 @@
   };
 
   let annIdx = 0;
-  $: announcements = data.announcements?.sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-  ) ?? [];
+  $: announcements =
+    data.announcements?.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) ?? [];
 
   $: annTotal = announcements.length;
   $: if (annIdx >= annTotal) annIdx = 0;
@@ -41,8 +50,14 @@
   let currentAnn: Announcement = DEFAULT_ANNOUNCEMENT;
   $: currentAnn = annTotal > 0 ? announcements[annIdx] : DEFAULT_ANNOUNCEMENT;
 
-  function prevAnn() { if (!annTotal) return; annIdx = (annIdx - 1 + annTotal) % annTotal; }
-  function nextAnn() { if (!annTotal) return; annIdx = (annIdx + 1) % annTotal; }
+  function prevAnn() {
+    if (!annTotal) return;
+    annIdx = (annIdx - 1 + annTotal) % annTotal;
+  }
+  function nextAnn() {
+    if (!annTotal) return;
+    annIdx = (annIdx + 1) % annTotal;
+  }
 
   let cancelPrintModal: CancelPrintModal;
 
@@ -66,7 +81,7 @@
           {#if newAnnouncements}
             <span class="text-yellow-500 w-full text-end font-medium">NEW</span>
           {/if}
-      
+
           <!-- pager controls -->
           <div class="ml-auto flex items-center gap-1">
             <div class="text-xs opacity-60 tabular-nums">{annTotal ? annIdx + 1 : 0}/{annTotal}</div>
@@ -78,7 +93,7 @@
             </button>
           </div>
         </div>
-      
+
         <div class="window-content flex flex-col gap-8 font-normal pb-2">
           {#if annTotal > 0}
             {#key currentAnn?.id}
@@ -99,7 +114,7 @@
           {/if}
         </div>
       </div>
-    
+
       <!-- Josef -->
       <div class="col-span-4 lg:col-span-2 window">
         <div class="window-header">
