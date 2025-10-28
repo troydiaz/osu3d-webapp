@@ -24,9 +24,7 @@
   </div>
   <InventoryTable
     title="Filament"
-    inventory={inventory.filter((i) =>
-      /\b(pla\+?|pla|petg|tpu|abs|asa|nylon)\b/i.test(i.name.trim())
-    )}
+    inventory={inventory.filter((i) => /\b(pla\+?|pla|petg|tpu|abs|asa|nylon)\b/i.test(i.name.trim()))}
     allowSearch={true}
   />
   <InventoryTable title={'All Items'} inventory={inventory || []} allowSearch={true} />

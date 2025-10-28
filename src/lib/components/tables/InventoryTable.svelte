@@ -12,8 +12,6 @@
   import NewChangeMenu from '../menu/NewChangeMenu.svelte';
   import { Trash } from 'svelte-heros-v2';
 
-
-
   export let inventory: InventoryItem[] = [];
   export let title: string = 'Untitled';
 
@@ -75,11 +73,10 @@
           <tr>
             <td class="relative">
               <span class="flex items-center gap-1">
-                {#if ((item.current_stock ?? 0) === 0)
-                   || (isFilamentView && (item.spool_grams ?? 0) === 0)}
+                {#if (item.current_stock ?? 0) === 0 || (isFilamentView && (item.spool_grams ?? 0) === 0)}
                   <ExclamationTriangle class="text-warning w-4 h-4" title="Out of stock or empty spool" />
                 {/if}
-            
+
                 {#if editingId === item.id}
                   <form method="POST" action="?/updateName" class="flex items-center">
                     <input type="hidden" name="id" value={item.id} />
@@ -114,11 +111,11 @@
                   </span>
                 {/if}
               </span>
-            </td>            
+            </td>
             <td>{item.current_stock}</td>
             <td>
               {item.minimum}
-            </td>          
+            </td>
             <td class="relative">
               {#if isFilamentView}
                 {#if editingSpoolId === item.id}
@@ -163,7 +160,7 @@
                 <!-- Non-filament: plain dash, no pencil, no click -->
                 <span class="text-base-content/60">—</span>
               {/if}
-            </td>            
+            </td>
             <td>
               {getMostRecentChangeDateName(item.changes).date}
             </td>
