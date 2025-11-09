@@ -2,13 +2,7 @@ import { error, redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { fetchDashboardRouteData } from '$lib/server/machine';
 
-// Strong typing for filament rows
-type FilamentRow = {
-  inv_item_id: string;
-  name: string;
-  spool_grams: number | null;
-  grams_left: number;
-};
+type FilamentRow = { id: string; name: string; spool_grams: number | null };
 
 export const load = (async ({ locals: { supabase, getSession, getPermissions } }) => {
   const session = await getSession();
@@ -22,10 +16,11 @@ export const load = (async ({ locals: { supabase, getSession, getPermissions } }
     .eq('user_id', session.user.id)
     .maybeSingle();
 
-  // Typed fetch for filament options
-  const { data: filaments, error: filErr } = (await (supabase as any)
-    .from('filament_grams_view')
-    .select('inv_item_id,name,spool_grams,grams_left')
+  // Filaments from inv_items_view (or inv_items) with non-null spool_grams
+  const { data: filaments, error: filErr } = (await supabase
+    .from('inv_items_view') // or 'inv_items'
+    .select('id,name,spool_grams')
+    .not('spool_grams', 'is', null) // only filament rows
     .order('name', { ascending: true })) as { data: FilamentRow[]; error: any };
 
   if (filErr) throw error(500, filErr.message);
@@ -37,9 +32,6 @@ export const actions = {
   reportFault: async ({ request, locals: { supabase, getSession } }) => {
     const formData = await request.formData();
     const session = await getSession();
-
-    // const using_personal = formData.get('using_personal') === 'true';
-    // const filament_item_id = (formData.get('filament_item_id') as string) || null;
 
     const description = formData.get('description') as string;
     const machine_id = formData.get('machine_id') as string;
@@ -59,8 +51,6 @@ export const actions = {
         print_id: print_id || null
       })
       .select();
-
-    console.log(result);
 
     if (result.error) throw error(result.status, result.error.message);
   },
@@ -95,12 +85,14 @@ export const actions = {
       using_personal,
       filament_item_id: using_personal ? null : filament_item_id
     });
+
     if (insErr) throw error(insErr.code === '23503' ? 400 : 500, insErr.message);
 
+    // subtract spool grams (club filament only)
     if (!using_personal && filament_item_id && printLogGrams > 0) {
       const { error: rpcErr } = await supabase.rpc('decrement_spool_grams', {
         p_item_id: filament_item_id,
-        p_used: Math.trunc(printLogGrams) 
+        p_used: Math.trunc(printLogGrams)
       });
       if (rpcErr) throw error(500, rpcErr.message);
     }
@@ -117,7 +109,7 @@ export const actions = {
 
     if (!print_id || !machine_id || !created_by_user_id) return;
 
-    // Prevent someone from canceling if it's already been canceled
+    // Prevent cancel if already canceled
     const { data: safetyCheck } = await supabase.from('prints_view').select('*').eq('id', print_id).maybeSingle();
 
     if (safetyCheck?.status === 'CANCELED') return;

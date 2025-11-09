@@ -339,6 +339,6 @@
 {/if}
 
 <CancelPrintModal bind:this={cancelPrintModal} />
-<NewPrintModal bind:this={newPrintModal} />
+<NewPrintModal bind:this={newPrintModal} filaments={data.filaments} />
 <PrintDoneModal bind:this={printDoneModal} />
 <NewIssueModal bind:this={newIssueModal} />

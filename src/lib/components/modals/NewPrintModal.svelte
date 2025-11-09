@@ -3,12 +3,11 @@
   import type { DashboardMachine } from '$lib/types/models';
 
   // Provided by +page.server.ts load()
-  export let filaments: { inv_item_id: string; name: string; spool_grams: number | null; grams_left: number }[] = [];
+  export let filaments: { id: string; name: string }[] = [];
 
   let machineToLog: DashboardMachine | null = null;
   let modalVisible = false;
 
-  // New fields for personal filament + selected filament
   let using_personal = false;
   let filament_item_id: string | null = null;
 
@@ -18,7 +17,6 @@
     modalVisible = true;
   }
 
-  // If using personal filament, clear the selected filament id
   $: if (using_personal) filament_item_id = null;
 </script>
 
@@ -27,10 +25,8 @@
   <div class="modal">
     <div class="modal-box w-screen md:max-w-lg max-w-full h-screen md:h-fit max-h-screen rounded-none md:rounded-xl">
       <form method="POST" action="?/addPrintLog" use:enhance>
-        <!-- Modal Title -->
         <h3 class="font-bold text-lg">Start a print on {machineToLog?.nickname}</h3>
 
-        <!-- Machine ID -->
         <input name="machine_id" type="hidden" value={machineToLog.machine_id} />
 
         <!-- Hours -->
@@ -70,27 +66,29 @@
 
         <!-- Filament type -->
         <div class="form-control">
-          <label class="label" for="filament_item_id">
-            <span class="label-text">Which filament type?</span>
-          </label>
+          <label class="label" for="filament_item_id"><span class="label-text">Which filament type?</span></label>
           <select
             id="filament_item_id"
             name="filament_item_id"
-            bind:value={filament_item_id}
             disabled={using_personal}
+            bind:value={filament_item_id}
             class="select select-bordered w-full"
           >
             <option value="" disabled selected>Select filament</option>
             {#each filaments as f}
-              <option value={f.inv_item_id}>{f.name}</option>
+              <option value={f.id}>{f.name}</option>
             {/each}
           </select>
+
+          {#if filaments.length === 0}
+            <p class="text-sm opacity-60 mt-1">No filament found.</p>
+          {/if}
+
           {#if using_personal}
             <p class="text-sm opacity-60 mt-1">Grayed out — personal filament selected.</p>
           {/if}
         </div>
 
-        <!-- Modal Actions -->
         <div class="modal-action">
           <button type="button" class="btn" on:click={() => (modalVisible = false)}>Cancel</button>
           <input type="submit" class="btn btn-warning" value="Submit" />
