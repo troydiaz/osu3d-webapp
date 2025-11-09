@@ -21,7 +21,6 @@
   }
 </script>
 
-<!-- Fault table -->
 <div class="flex flex-col space-y-4">
   <div class="flex flex-row justify-start items-center window-header">
     <div class="font-thin text-xl md:text-2xl">Print Log</div>
@@ -29,6 +28,7 @@
     <div class="grow"><span class="hidden md:inline">{prints.length} Entries</span></div>
     <Paginate totalRows={prints.length} bind:lowerIndex bind:upperIndex />
   </div>
+
   {#if lowerIndex !== undefined && upperIndex !== undefined}
     <div class="window !p-0">
       <table class="table">
@@ -39,33 +39,46 @@
             <th class="hidden md:table-cell">Created By</th>
             <th>Hours</th>
             <th>Consumed</th>
+
+            <!-- Personal column header -->
+            <th class="whitespace-nowrap">Personal?</th>
+
             <th>Status</th>
-            <!-- <th>Canceled By</th>
-                  <th>Canceled At</th> -->
           </tr>
         </thead>
         <tbody>
           {#each prints.slice(lowerIndex, upperIndex) as print, i}
             <tr>
-              <td><input type="checkbox" class="checkbox checkbox-accent disabled:bg-opacity-25" disabled /></td>
-              <td
-                ><span class="hidden md:inline">{getDateAndTime(print.created_at, true)}</span><span class="md:hidden"
-                  >{getDateAndTime(print.created_at, false)}</span
-                ></td
-              >
-              <td class="hidden md:table-cell">{print.created_by.full_name}</td>
               <td>
-                {((new Date(print.done_at).getTime() - new Date(print.created_at).getTime()) / 1000 / 60 / 60).toFixed(
-                  2
-                )}
+                <input type="checkbox" class="checkbox checkbox-accent disabled:bg-opacity-25" disabled />
               </td>
+
+              <td>
+                <span class="hidden md:inline">{getDateAndTime(print.created_at, true)}</span>
+                <span class="md:hidden">{getDateAndTime(print.created_at, false)}</span>
+              </td>
+
+              <td class="hidden md:table-cell">{print.created_by.full_name}</td>
+
+              <td>
+                {((new Date(print.done_at).getTime() - new Date(print.created_at).getTime()) / 3600000).toFixed(2)}
+              </td>
+
               <td>{print.filament}g</td>
-              <td
-                ><code class="p-1 rounded-lg min-w-full uppercase {getStatusColor(print.status)}">{print.status}</code
-                ></td
-              >
-              <!-- <td>{print.full_name ?? '—'}</td> -->
-              <!-- <td>{getDateAndTime(print.canceled_at, true)}</td> -->
+
+              <!-- Personal? row cell -->
+              <td class="whitespace-nowrap">
+                <span class={`badge ${print.using_personal ? 'badge-success' : 'badge-ghost'}`}>
+                  {print.using_personal ? 'TRUE' : 'FALSE'}
+                </span>
+              </td>
+
+              <!-- Status pill -->
+              <td>
+                <code class={`p-1 rounded-lg min-w-full uppercase ${getStatusColor(print.status)}`}>
+                  {print.status}
+                </code>
+              </td>
             </tr>
           {/each}
         </tbody>

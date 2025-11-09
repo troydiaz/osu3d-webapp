@@ -5,6 +5,7 @@ export type Tables<T extends keyof Database['public']['Tables']> = Database['pub
 export type Enums<T extends keyof Database['public']['Enums']> = Database['public']['Enums'][T];
 
 export type Print = Tables<'prints'> & {
+  using_personal: boolean;
   created_by: Tables<'profiles'>;
   status: Enums<'print_status'>;
 };
