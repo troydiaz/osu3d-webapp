@@ -1,6 +1,14 @@
-import { error, redirect } from '@sveltejs/kit';
+import { error, redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { fetchDashboardRouteData } from '$lib/server/machine';
+
+// Strong typing for filament rows
+type FilamentRow = {
+  inv_item_id: string;
+  name: string;
+  spool_grams: number | null;
+  grams_left: number;
+};
 
 export const load = (async ({ locals: { supabase, getSession, getPermissions } }) => {
   const session = await getSession();
@@ -14,13 +22,24 @@ export const load = (async ({ locals: { supabase, getSession, getPermissions } }
     .eq('user_id', session.user.id)
     .maybeSingle();
 
-  return { session, routeData, profile };
+  // Typed fetch for filament options
+  const { data: filaments, error: filErr } = (await (supabase as any)
+    .from('filament_grams_view')
+    .select('inv_item_id,name,spool_grams,grams_left')
+    .order('name', { ascending: true })) as { data: FilamentRow[]; error: any };
+
+  if (filErr) throw error(500, filErr.message);
+
+  return { session, routeData, profile, filaments };
 }) satisfies PageServerLoad;
 
 export const actions = {
   reportFault: async ({ request, locals: { supabase, getSession } }) => {
     const formData = await request.formData();
     const session = await getSession();
+
+    // const using_personal = formData.get('using_personal') === 'true';
+    // const filament_item_id = (formData.get('filament_item_id') as string) || null;
 
     const description = formData.get('description') as string;
     const machine_id = formData.get('machine_id') as string;
@@ -45,26 +64,48 @@ export const actions = {
 
     if (result.error) throw error(result.status, result.error.message);
   },
-  addPrintLog: async ({ request, locals: { supabase, getSession }, url }) => {
+
+  addPrintLog: async ({ request, locals: { supabase, getSession } }) => {
     const formData = await request.formData();
     const session = await getSession();
-
-    const machine_id = formData.get('machine_id') as string;
-    const printLogHours = Number(formData.get('hours') as string);
-    const printLogGrams = Number(formData.get('grams') as string);
     const created_by_user_id = session?.user.id;
+    if (!created_by_user_id) return;
 
-    if (printLogHours === 0 || printLogGrams === 0 || !created_by_user_id) return;
+    const machine_id = String(formData.get('machine_id') ?? '');
+    const printLogHours = Number(formData.get('hours') ?? 0);
+    const printLogGrams = Number(formData.get('grams') ?? 0);
+    const using_personal = String(formData.get('using_personal') ?? 'false') === 'true';
+    const filament_item_id = (formData.get('filament_item_id') as string) || null;
 
-    const finishedDate = new Date(Date.now() + 1000 * 60 * 60 * printLogHours);
+    if (printLogHours === 0 || printLogGrams === 0) return;
 
-    await supabase.from('prints').insert({
+    // Business rule: if not personal, filament_item_id must be present
+    if (!using_personal && !filament_item_id) {
+      return fail(400, { message: 'Choose a filament type or mark as personal.' });
+    }
+
+    const finishedDate = new Date(Date.now() + 1000 * 60 * 60 * printLogHours).toISOString();
+
+    // Insert print
+    const { error: insErr } = await supabase.from('prints').insert({
       created_by_user_id,
-      machine_id: machine_id,
-      done_at: finishedDate.toISOString(),
-      filament: printLogGrams
+      machine_id,
+      done_at: finishedDate,
+      filament: printLogGrams,
+      using_personal,
+      filament_item_id: using_personal ? null : filament_item_id
     });
+    if (insErr) throw error(insErr.code === '23503' ? 400 : 500, insErr.message);
+
+    if (!using_personal && filament_item_id && printLogGrams > 0) {
+      const { error: rpcErr } = await supabase.rpc('decrement_spool_grams', {
+        p_item_id: filament_item_id,
+        p_used: Math.trunc(printLogGrams) 
+      });
+      if (rpcErr) throw error(500, rpcErr.message);
+    }
   },
+
   cancelPrintLog: async ({ request, locals: { supabase, getSession } }) => {
     const session = await getSession();
     const formData = await request.formData();
