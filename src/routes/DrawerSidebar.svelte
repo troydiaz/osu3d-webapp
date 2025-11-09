@@ -7,8 +7,8 @@
   import type { UserPermissions, UserProfile } from '$lib/types/models';
   import type { Database } from '$lib/types/supabase';
   import type { SupabaseClient } from '@supabase/supabase-js';
-  import { Box, PieChart, LogOut, Home, Cog, Play, Users, Wrench, Database as DBLucide } from 'lucide-svelte';
-
+  // import { Box, PieChart, LogOut, Home, Cog, Play, Users, Wrench, Database as DBLucide } from 'lucide-svelte';
+  import { Box, LogOut, Home, Cog, Play, Users, Wrench, Database as DBLucide } from 'lucide-svelte';
   export let permissions: UserPermissions | null;
   export let supabase: SupabaseClient<Database>;
   export let profile: UserProfile | null = null;
@@ -103,13 +103,13 @@
       {/if}
 
       <!-- Reports -->
-      {#if hasPermission(permissions?.level, PermCategory.SPECIAL, PermFlag.FIRST)}
+      <!-- {#if hasPermission(permissions?.level, PermCategory.SPECIAL, PermFlag.FIRST)}
         <div class="tooltip tooltip-bottom" data-tip="Coming Soon">
           <SidebarButton name="Reports" url="/reports" disabled>
             <span slot="icon"><PieChart /></span>
           </SidebarButton>
         </div>
-      {/if}
+      {/if} -->
     </div>
 
     <!-- Logout button -->
