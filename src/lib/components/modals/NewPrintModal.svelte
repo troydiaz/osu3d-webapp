@@ -1,5 +1,6 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
+  import type { SubmitFunction } from '@sveltejs/kit';
   import type { DashboardMachine } from '$lib/types/models';
 
   export let filaments: { id: string; name: string }[] = [];
@@ -17,20 +18,31 @@
   }
 
   $: if (using_personal) filament_item_id = null;
+
+  // close modal + reset state after successful submit
+  const handleSubmit: SubmitFunction = ({ form }) => {
+    return async ({ result, update }) => {
+      if (result.type === 'success') {
+        modalVisible = false;
+        using_personal = false;
+        filament_item_id = null;
+        form.reset();
+      }
+      await update();
+    };
+  };
 </script>
 
 <input type="checkbox" id="print-log-modal" class="modal-toggle" bind:checked={modalVisible} />
 {#if machineToLog}
   <div class="modal">
     <div class="modal-box w-screen md:max-w-lg max-w-full h-screen md:h-fit max-h-screen rounded-none md:rounded-xl">
-      <!-- NEW FORM BLOCK -->
-      <form method="POST" action="?/addPrintLog" use:enhance class="space-y-4">
+      <form method="POST" action="?/addPrintLog" use:enhance={handleSubmit} class="space-y-4">
         <input name="machine_id" type="hidden" value={machineToLog.machine_id} />
 
-        <!-- Title -->
         <h3 class="font-bold text-lg mb-2">Start a print on {machineToLog?.nickname}</h3>
 
-        <!-- Print Hours -->
+        <!-- Hours -->
         <div class="form-control space-y-1">
           <label for="hours" class="label-text text-base">How long is the print? (hours)</label>
           <input
@@ -45,7 +57,7 @@
           />
         </div>
 
-        <!-- Print Grams -->
+        <!-- Grams -->
         <div class="form-control space-y-1">
           <label for="grams" class="label-text text-base">How much filament will be used? (grams)</label>
           <input
@@ -59,7 +71,7 @@
           />
         </div>
 
-        <!-- Personal filament -->
+        <!-- Personal filament toggle -->
         <div class="flex items-center gap-3 text-base">
           <input
             id="using_personal"
@@ -72,7 +84,7 @@
           <label for="using_personal" class="label-text">Are you using personal filament?</label>
         </div>
 
-        <!-- Filament type -->
+        <!-- Filament select -->
         <div class="form-control space-y-1">
           <label for="filament_item_id" class="label-text text-base">Which filament type?</label>
           <select
@@ -90,6 +102,10 @@
 
           {#if filaments.length === 0}
             <p class="text-sm opacity-60 mt-1">No filament found.</p>
+          {/if}
+
+          {#if using_personal}
+            <p class="text-sm opacity-60 mt-1">Grayed out — personal filament selected.</p>
           {/if}
         </div>
 
