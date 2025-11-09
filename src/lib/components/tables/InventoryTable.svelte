@@ -6,7 +6,7 @@
     getMostRecentChangeDateName,
     type InventoryCategory
   } from '$lib/types/models';
-  // import Paginate from '$lib/utilities/Paginate.svelte'; 
+  // import Paginate from '$lib/utilities/Paginate.svelte'; // removed
   import { Minus, Plus, ExclamationTriangle } from 'svelte-heros-v2';
   import { Pencil } from 'svelte-heros-v2';
   import NewChangeMenu from '../menu/NewChangeMenu.svelte';
@@ -23,6 +23,7 @@
 
   export let allowSearch = false;
 
+  // search state + derived filtered list
   let q = '';
   let filtered: InventoryItem[] = [];
   $: q = filterText.trim().toLowerCase();
