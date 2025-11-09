@@ -41,7 +41,7 @@
             <th>Consumed</th>
 
             <!-- Personal column header -->
-            <th class="whitespace-nowrap">Personal?</th>
+            <th class="whitespace-nowrap">Personal</th>
 
             <th>Status</th>
           </tr>
