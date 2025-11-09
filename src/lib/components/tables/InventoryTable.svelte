@@ -6,7 +6,7 @@
     getMostRecentChangeDateName,
     type InventoryCategory
   } from '$lib/types/models';
-  import Paginate from '$lib/utilities/Paginate.svelte';
+  // import Paginate from '$lib/utilities/Paginate.svelte'; 
   import { Minus, Plus, ExclamationTriangle } from 'svelte-heros-v2';
   import { Pencil } from 'svelte-heros-v2';
   import NewChangeMenu from '../menu/NewChangeMenu.svelte';
@@ -23,8 +23,12 @@
 
   export let allowSearch = false;
 
-  let lowerIndex: number = 0;
-  let upperIndex: number = 0;
+  let q = '';
+  let filtered: InventoryItem[] = [];
+  $: q = filterText.trim().toLowerCase();
+  $: filtered = q
+    ? (inventory ?? []).filter((i) => (i.name ?? '').toLowerCase().includes(q))
+    : (inventory ?? []);
 
   let editingSpoolId: string | null = null;
   let editedSpool = '';
@@ -37,21 +41,28 @@
     <div class="divider divider-horizontal"></div>
 
     {#if allowSearch}
-      <div>{inventory.length} Entries</div>
+      <div>{filtered.length} Entries</div>
       <div class="divider divider-horizontal"></div>
       <div class="grow relative">
-        <input class="input input-sm w-full" type="text" placeholder="Filter by name..." bind:value={filterText} />
+        <input
+          class="input input-sm w-full"
+          type="text"
+          placeholder="Filter by name..."
+          bind:value={filterText}
+        />
         <button
           class="btn btn-sm btn-ghost hover:bg-transparent absolute right-0 opacity-50"
-          on:click={() => (filterText = '')}>Clear</button
+          on:click={() => (filterText = '')}
         >
+          Clear
+        </button>
       </div>
       <div class="divider divider-horizontal"></div>
     {:else}
-      <div class="grow">{inventory.length} Entries</div>
+      <div class="grow">{filtered.length} Entries</div>
     {/if}
 
-    <Paginate totalRows={inventory.length} bind:lowerIndex bind:upperIndex />
+    <!-- pagination removed -->
   </div>
 
   <div class="window !p-0">
@@ -69,12 +80,15 @@
         </tr>
       </thead>
       <tbody>
-        {#each inventory || [] as item}
+        {#each filtered || [] as item}
           <tr>
             <td class="relative">
               <span class="flex items-center gap-1">
                 {#if (item.current_stock ?? 0) === 0 || (isFilamentView && (item.spool_grams ?? 0) === 0)}
-                  <ExclamationTriangle class="text-warning w-4 h-4" title="Out of stock or empty spool" />
+                  <ExclamationTriangle
+                    class="text-warning w-4 h-4"
+                    title="Out of stock or empty spool"
+                  />
                 {/if}
 
                 {#if editingId === item.id}
@@ -84,7 +98,9 @@
                       name="name"
                       class="input input-sm"
                       bind:value={editedName}
-                      on:keydown={(e) => e.key === 'Enter' && e.currentTarget.form?.submit()}
+                      on:keydown={(e) =>
+                        e.key === 'Enter' && e.currentTarget.form?.submit()
+                      }
                       on:blur={(e) => e.currentTarget.form?.submit()}
                       autofocus
                     />
@@ -113,9 +129,7 @@
               </span>
             </td>
             <td>{item.current_stock}</td>
-            <td>
-              {item.minimum}
-            </td>
+            <td>{item.minimum}</td>
             <td class="relative">
               {#if isFilamentView}
                 {#if editingSpoolId === item.id}
@@ -129,7 +143,9 @@
                       min="0"
                       placeholder="—"
                       bind:value={editedSpool}
-                      on:keydown={(e) => e.key === 'Enter' && e.currentTarget.form?.submit()}
+                      on:keydown={(e) =>
+                        e.key === 'Enter' && e.currentTarget.form?.submit()
+                      }
                       on:blur={(e) => e.currentTarget.form?.submit()}
                       autofocus
                     />
@@ -161,22 +177,26 @@
                 <span class="text-base-content/60">—</span>
               {/if}
             </td>
-            <td>
-              {getMostRecentChangeDateName(item.changes).date}
-            </td>
-            <td>
-              {getMostRecentChangeDateName(item.changes).name}
-            </td>
+            <td>{getMostRecentChangeDateName(item.changes).date}</td>
+            <td>{getMostRecentChangeDateName(item.changes).name}</td>
             <td class="flex flex-row justify-end gap-2">
-              <NewChangeMenu mode={'add'} itemId={item.id}
-                ><button class="btn btn-sm btn-success"><Plus /></button></NewChangeMenu
-              >
-              <NewChangeMenu mode={'subtract'} itemId={item.id}
-                ><button class="btn btn-sm btn-error"><Minus /></button></NewChangeMenu
-              >
+              <NewChangeMenu mode={'add'} itemId={item.id}>
+                <button class="btn btn-sm btn-success">
+                  <Plus />
+                </button>
+              </NewChangeMenu>
+              <NewChangeMenu mode={'subtract'} itemId={item.id}>
+                <button class="btn btn-sm btn-error">
+                  <Minus />
+                </button>
+              </NewChangeMenu>
               <div class="divider divider-horizontal m-0"></div>
-              <!-- <button class="btn btn-sm btn-primary" on:click={() => goto(`/inventory/${item.id}`)}>Inv</button> -->
-              <button class="btn btn-sm btn-primary" on:click={() => goto(`/inventory/${item.id}`)}>View</button>
+              <button
+                class="btn btn-sm btn-primary"
+                on:click={() => goto(`/inventory/${item.id}`)}
+              >
+                View
+              </button>
               <form
                 method="POST"
                 action="?/toggleHidden"
@@ -190,7 +210,11 @@
               >
                 <input type="hidden" name="id" value={item.id} />
                 <input type="hidden" name="hidden" value="true" />
-                <button type="submit" class="btn btn-sm btn-warning" title="Hide this item">
+                <button
+                  type="submit"
+                  class="btn btn-sm btn-warning"
+                  title="Hide this item"
+                >
                   <Trash style="width:1rem; height:1rem;" />
                 </button>
               </form>
