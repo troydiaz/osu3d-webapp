@@ -133,7 +133,7 @@
           {/if}
 
           {#if showOptionNudge}
-            <p class="text-base mt-1 text-base-content">
+            <p class="label-text text-base text-base-content mt-1">
               Choose <b>personal filament</b> or select a <b>club filament</b> to submit.
             </p>
           {/if}
