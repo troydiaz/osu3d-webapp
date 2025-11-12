@@ -9,7 +9,10 @@
   let modalVisible = false;
 
   let using_personal = false;
-  let filament_item_id: string | null = null;
+  let filament_item_id: string = '';
+
+  // Submit is allowed only if either personal is checked OR a filament is chosen
+  $: canSubmit = using_personal || (!!filament_item_id && filament_item_id !== '');
 
   export function launchModal(machine: DashboardMachine | null) {
     if (!machine) return;
@@ -17,7 +20,8 @@
     modalVisible = true;
   }
 
-  $: if (using_personal) filament_item_id = null;
+  // If switching to personal, clear any selected filament
+  $: if (using_personal) filament_item_id = '';
 
   // close modal + reset state after successful submit
   const handleSubmit: SubmitFunction = ({ form }) => {
@@ -25,7 +29,7 @@
       if (result.type === 'success') {
         modalVisible = false;
         using_personal = false;
-        filament_item_id = null;
+        filament_item_id = '';
         form.reset();
       }
       await update();
@@ -93,8 +97,9 @@
             class="select select-bordered w-full text-base"
             disabled={using_personal}
             bind:value={filament_item_id}
+            required={!using_personal}
           >
-            <option value="" disabled selected>Select filament</option>
+            <option value="" disabled>Select filament</option>
             {#each filaments as f}
               <option value={f.id}>{f.name}</option>
             {/each}
@@ -107,12 +112,16 @@
           {#if using_personal}
             <p class="text-sm opacity-60 mt-1">Grayed out — personal filament selected.</p>
           {/if}
+
+          {#if !canSubmit}
+            <p class="text-sm opacity-60 mt-1">Select “personal filament” or choose a filament to continue.</p>
+          {/if}
         </div>
 
         <!-- Actions -->
         <div class="modal-action mt-4">
           <button type="button" class="btn" on:click={() => (modalVisible = false)}>Cancel</button>
-          <input type="submit" class="btn btn-warning" value="Submit" />
+          <input type="submit" class="btn btn-warning" value="Submit" disabled={!canSubmit} />
         </div>
       </form>
     </div>

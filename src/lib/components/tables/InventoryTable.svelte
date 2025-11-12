@@ -27,9 +27,7 @@
   let q = '';
   let filtered: InventoryItem[] = [];
   $: q = filterText.trim().toLowerCase();
-  $: filtered = q
-    ? (inventory ?? []).filter((i) => (i.name ?? '').toLowerCase().includes(q))
-    : (inventory ?? []);
+  $: filtered = q ? (inventory ?? []).filter((i) => (i.name ?? '').toLowerCase().includes(q)) : (inventory ?? []);
 
   let editingSpoolId: string | null = null;
   let editedSpool = '';
@@ -45,12 +43,7 @@
       <div>{filtered.length} Entries</div>
       <div class="divider divider-horizontal"></div>
       <div class="grow relative">
-        <input
-          class="input input-sm w-full"
-          type="text"
-          placeholder="Filter by name..."
-          bind:value={filterText}
-        />
+        <input class="input input-sm w-full" type="text" placeholder="Filter by name..." bind:value={filterText} />
         <button
           class="btn btn-sm btn-ghost hover:bg-transparent absolute right-0 opacity-50"
           on:click={() => (filterText = '')}
@@ -86,10 +79,7 @@
             <td class="relative">
               <span class="flex items-center gap-1">
                 {#if (item.current_stock ?? 0) === 0 || (isFilamentView && (item.spool_grams ?? 0) === 0)}
-                  <ExclamationTriangle
-                    class="text-warning w-4 h-4"
-                    title="Out of stock or empty spool"
-                  />
+                  <ExclamationTriangle class="text-warning w-4 h-4" title="Out of stock or empty spool" />
                 {/if}
 
                 {#if editingId === item.id}
@@ -99,9 +89,7 @@
                       name="name"
                       class="input input-sm"
                       bind:value={editedName}
-                      on:keydown={(e) =>
-                        e.key === 'Enter' && e.currentTarget.form?.submit()
-                      }
+                      on:keydown={(e) => e.key === 'Enter' && e.currentTarget.form?.submit()}
                       on:blur={(e) => e.currentTarget.form?.submit()}
                       autofocus
                     />
@@ -144,9 +132,7 @@
                       min="0"
                       placeholder="—"
                       bind:value={editedSpool}
-                      on:keydown={(e) =>
-                        e.key === 'Enter' && e.currentTarget.form?.submit()
-                      }
+                      on:keydown={(e) => e.key === 'Enter' && e.currentTarget.form?.submit()}
                       on:blur={(e) => e.currentTarget.form?.submit()}
                       autofocus
                     />
@@ -192,12 +178,7 @@
                 </button>
               </NewChangeMenu>
               <div class="divider divider-horizontal m-0"></div>
-              <button
-                class="btn btn-sm btn-primary"
-                on:click={() => goto(`/inventory/${item.id}`)}
-              >
-                View
-              </button>
+              <button class="btn btn-sm btn-primary" on:click={() => goto(`/inventory/${item.id}`)}> View </button>
               <form
                 method="POST"
                 action="?/toggleHidden"
@@ -211,11 +192,7 @@
               >
                 <input type="hidden" name="id" value={item.id} />
                 <input type="hidden" name="hidden" value="true" />
-                <button
-                  type="submit"
-                  class="btn btn-sm btn-warning"
-                  title="Hide this item"
-                >
+                <button type="submit" class="btn btn-sm btn-warning" title="Hide this item">
                   <Trash style="width:1rem; height:1rem;" />
                 </button>
               </form>
