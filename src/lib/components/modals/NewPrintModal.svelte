@@ -21,7 +21,7 @@
   // Submit enabled only if everything required is valid
   $: canSubmit = hoursValid && gramsValid && optionsValid;
 
-  // Show “choose filament or personal” prompt once hours & grams are valid but options aren’t
+  // Show message once hours & grams are valid but filament choice isn’t
   $: showOptionNudge = hoursValid && gramsValid && !optionsValid;
 
   export function launchModal(machine: DashboardMachine | null) {
@@ -30,10 +30,10 @@
     modalVisible = true;
   }
 
-  // If switching to personal, clear any selected filament
+  // Clear selection when switching to personal
   $: if (using_personal) filament_item_id = '';
 
-  // Close modal + reset state after successful submit
+  // Reset after successful submit
   const handleSubmit: SubmitFunction = ({ form }) => {
     return async ({ result, update }) => {
       if (result.type === 'success') {
@@ -72,10 +72,9 @@
             max="168"
             step="0.01"
             placeholder="0"
-            class="input input-bordered w-full text-base {hours !== '' && !hoursValid ? 'input-error' : ''}"
+            class="input input-bordered w-full text-base"
             bind:value={hours}
             required
-            aria-invalid={hours !== '' && !hoursValid}
           />
         </div>
 
@@ -89,19 +88,14 @@
             min="1"
             step="1"
             placeholder="0"
-            class="input input-bordered w-full text-base {grams !== '' && !gramsValid ? 'input-error' : ''}"
+            class="input input-bordered w-full text-base"
             bind:value={grams}
             required
-            aria-invalid={grams !== '' && !gramsValid}
           />
         </div>
 
         <!-- Personal filament toggle -->
-        <div
-          class="flex items-center gap-3 text-base {showOptionNudge
-            ? 'ring ring-offset-1 ring-red-500 rounded-md p-2 transition-all'
-            : ''}"
-        >
+        <div class="flex items-center gap-3 text-base">
           <input
             id="using_personal"
             type="checkbox"
@@ -109,7 +103,6 @@
             value="true"
             class="checkbox"
             bind:checked={using_personal}
-            aria-describedby="filament-choice-hint"
           />
           <label for="using_personal" class="label-text"> Are you using personal filament? </label>
         </div>
@@ -117,23 +110,19 @@
         <!-- Filament select -->
         <div class="form-control space-y-1">
           <label for="filament_item_id" class="label-text text-base">Which filament type?</label>
-          <div class={showOptionNudge ? 'ring-2 ring-offset-2 ring-red-500 rounded-md p-1 transition-all' : ''}>
-            <select
-              id="filament_item_id"
-              name="filament_item_id"
-              class="select select-bordered w-full text-base"
-              disabled={using_personal}
-              bind:value={filament_item_id}
-              required={!using_personal}
-              aria-invalid={!using_personal && showOptionNudge}
-              aria-describedby="filament-choice-hint"
-            >
-              <option value="" disabled>Select filament</option>
-              {#each filaments as f}
-                <option value={f.id}>{f.name}</option>
-              {/each}
-            </select>
-          </div>
+          <select
+            id="filament_item_id"
+            name="filament_item_id"
+            class="select select-bordered w-full text-base"
+            disabled={using_personal}
+            bind:value={filament_item_id}
+            required={!using_personal}
+          >
+            <option value="" disabled>Select filament</option>
+            {#each filaments as f}
+              <option value={f.id}>{f.name}</option>
+            {/each}
+          </select>
 
           {#if filaments.length === 0}
             <p class="text-sm opacity-60 mt-1">No filament found.</p>
@@ -144,8 +133,8 @@
           {/if}
 
           {#if showOptionNudge}
-            <p id="filament-choice-hint" class="text-sm mt-1 text-red-500">
-              Choose <b>personal filament</b> or select a <b>club filament</b> to continue.
+            <p class="text-base mt-1 text-base-content">
+              Choose <b>personal filament</b> or select a <b>club filament</b> to submit.
             </p>
           {/if}
         </div>
