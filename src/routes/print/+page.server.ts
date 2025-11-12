@@ -90,7 +90,7 @@ export const actions = {
 
     // subtract spool grams (club filament only)
     if (!using_personal && filament_item_id && printLogGrams > 0) {
-      const { error: rpcErr } = await supabase.rpc('decrement_spool_grams', {
+      const { error: rpcErr } = await supabase.rpc('decrement_spool_grams_v2', {
         p_item_id: filament_item_id,
         p_used: Math.trunc(printLogGrams)
       });
