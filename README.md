@@ -36,5 +36,3 @@ Originally developed by **Stephen Fike** and now maintained (June 2025) by **Tro
 ## Settings
 
 ![Themes](https://github.com/user-attachments/assets/b2f479c7-59ec-46ef-81c1-8b3e4e0a63c3)
-
-## Reports (WIP)
